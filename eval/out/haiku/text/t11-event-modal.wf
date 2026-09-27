@@ -1,0 +1,16 @@
+```wireframe
+board "Calendar with Event Modal"
+  screen desktop "Calendar"
+    navbar "New Event" leading=close
+    stack column padding=20 gap=20
+      input label="Event title" placeholder="Title"
+      stack row gap=12
+        select label="Date" value="Today"
+        select label="Start time" value="10:00 AM"
+        select label="End time" value="11:00 AM"
+      input label="Description" multiline=4
+      stack row gap=12 justify=end
+        button label="Cancel" variant=secondary
+        button label="Save" variant=primary
+    modal "New Event" width=500 scrim=true
+```

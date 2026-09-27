@@ -1,0 +1,143 @@
+{
+  "type": "Board",
+  "props": {
+    "title": "Settings"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Settings",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Settings",
+            "leading": "back"
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "gap": 8
+          },
+          "children": [
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "justify": "between",
+                "align": "center",
+                "padding": 16
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Notifications"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Toggle",
+                  "props": {
+                    "on": true
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Divider",
+              "props": {},
+              "children": []
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "justify": "between",
+                "align": "center",
+                "padding": 16
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Dark mode"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Toggle",
+                  "props": {
+                    "on": false
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Heading",
+          "props": {
+            "text": "Account",
+            "level": 2
+          },
+          "children": []
+        },
+        {
+          "type": "List",
+          "props": {
+            "dividers": true
+          },
+          "children": [
+            {
+              "type": "ListItem",
+              "props": {
+                "title": "Profile",
+                "trailing": "chevron"
+              },
+              "children": []
+            },
+            {
+              "type": "ListItem",
+              "props": {
+                "title": "Security",
+                "trailing": "chevron"
+              },
+              "children": []
+            },
+            {
+              "type": "ListItem",
+              "props": {
+                "title": "Privacy",
+                "trailing": "chevron"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Spacer",
+          "props": {},
+          "children": []
+        },
+        {
+          "type": "Button",
+          "props": {
+            "label": "Sign out",
+            "fullWidth": true,
+            "variant": "secondary"
+          },
+          "children": []
+        }
+      ]
+    }
+  ]
+}

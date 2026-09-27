@@ -1,0 +1,132 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Checkout" },
+      "children": ["cart", "shipping", "confirmation"]
+    },
+    "cart": {
+      "type": "Screen",
+      "props": { "name": "1. Cart", "device": "phone", "gap": 12 },
+      "children": ["c-nav", "c-item-1", "c-item-2", "c-item-3", "c-divider", "c-total", "c-next"]
+    },
+    "c-nav": {
+      "type": "NavBar",
+      "props": { "title": "Your cart", "leading": "back" },
+      "children": []
+    },
+    "c-item-1": {
+      "type": "ListItem",
+      "props": { "title": "Item one", "subtitle": "Qty 1", "leading": "image", "trailing": "text", "trailingText": "$20.00" },
+      "children": []
+    },
+    "c-item-2": {
+      "type": "ListItem",
+      "props": { "title": "Item two", "subtitle": "Qty 2", "leading": "image", "trailing": "text", "trailingText": "$40.00" },
+      "children": []
+    },
+    "c-item-3": {
+      "type": "ListItem",
+      "props": { "leading": "image", "trailing": "text", "trailingText": "$15.00" },
+      "children": []
+    },
+    "c-divider": {
+      "type": "Divider",
+      "props": {},
+      "children": []
+    },
+    "c-total": {
+      "type": "Stack",
+      "props": { "direction": "row", "justify": "between" },
+      "children": ["c-total-label", "c-total-value"]
+    },
+    "c-total-label": {
+      "type": "Text",
+      "props": { "text": "Total", "bold": true },
+      "children": []
+    },
+    "c-total-value": {
+      "type": "Text",
+      "props": { "text": "$75.00", "bold": true },
+      "children": []
+    },
+    "c-next": {
+      "type": "Button",
+      "props": { "label": "Continue to shipping", "variant": "primary", "fullWidth": true },
+      "children": []
+    },
+    "shipping": {
+      "type": "Screen",
+      "props": { "name": "2. Shipping", "device": "phone", "gap": 12 },
+      "children": ["s-nav", "s-name", "s-address", "s-city", "s-zip", "s-next"]
+    },
+    "s-nav": {
+      "type": "NavBar",
+      "props": { "title": "Shipping details", "leading": "back" },
+      "children": []
+    },
+    "s-name": {
+      "type": "Input",
+      "props": { "label": "Full name", "placeholder": "Jane Doe" },
+      "children": []
+    },
+    "s-address": {
+      "type": "Input",
+      "props": { "label": "Address", "placeholder": "Street address" },
+      "children": []
+    },
+    "s-city": {
+      "type": "Input",
+      "props": { "label": "City", "placeholder": "City" },
+      "children": []
+    },
+    "s-zip": {
+      "type": "Input",
+      "props": { "label": "ZIP code", "placeholder": "ZIP" },
+      "children": []
+    },
+    "s-next": {
+      "type": "Button",
+      "props": { "label": "Continue to payment", "variant": "primary", "fullWidth": true },
+      "children": []
+    },
+    "confirmation": {
+      "type": "Screen",
+      "props": { "name": "3. Confirmation", "device": "phone" },
+      "children": ["conf-nav", "conf-body", "conf-modal"]
+    },
+    "conf-nav": {
+      "type": "NavBar",
+      "props": { "title": "Checkout" },
+      "children": []
+    },
+    "conf-body": {
+      "type": "Text",
+      "props": { "lines": 4 },
+      "children": []
+    },
+    "conf-modal": {
+      "type": "Modal",
+      "props": { "title": "Order placed", "width": 280 },
+      "children": ["conf-icon", "conf-text", "conf-btn"]
+    },
+    "conf-icon": {
+      "type": "Icon",
+      "props": { "name": "check-circle", "size": 40 },
+      "children": []
+    },
+    "conf-text": {
+      "type": "Text",
+      "props": { "text": "Your order has been placed successfully.", "align": "center" },
+      "children": []
+    },
+    "conf-btn": {
+      "type": "Button",
+      "props": { "label": "Done", "variant": "primary", "fullWidth": true },
+      "children": []
+    }
+  }
+}
+```

@@ -1,0 +1,280 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Pricing page"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Pricing",
+        "device": "desktop"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Pricing"
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "gap": 16,
+            "justify": "center",
+            "padding": 24
+          },
+          "children": [
+            {
+              "type": "Button",
+              "props": {
+                "label": "Monthly",
+                "variant": "primary"
+              },
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Yearly",
+                "variant": "secondary"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "gap": 20,
+            "justify": "center",
+            "padding": 24
+          },
+          "children": [
+            {
+              "type": "Card",
+              "props": {
+                "title": "Starter",
+                "padding": 20,
+                "width": 280
+              },
+              "children": [
+                {
+                  "type": "Heading",
+                  "props": {
+                    "text": "$29",
+                    "level": 2,
+                    "align": "center"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "per month",
+                    "align": "center",
+                    "muted": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Divider",
+                  "props": {},
+                  "children": []
+                },
+                {
+                  "type": "Stack",
+                  "props": {
+                    "direction": "column",
+                    "gap": 8
+                  },
+                  "children": [
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "10 projects"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "5 GB storage"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Email support"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "type": "Button",
+                  "props": {
+                    "label": "Get started",
+                    "variant": "primary",
+                    "fullWidth": true
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Card",
+              "props": {
+                "title": "Pro",
+                "padding": 20,
+                "width": 280
+              },
+              "children": [
+                {
+                  "type": "Heading",
+                  "props": {
+                    "text": "$99",
+                    "level": 2,
+                    "align": "center"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "per month",
+                    "align": "center",
+                    "muted": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Divider",
+                  "props": {},
+                  "children": []
+                },
+                {
+                  "type": "Stack",
+                  "props": {
+                    "direction": "column",
+                    "gap": 8
+                  },
+                  "children": [
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Unlimited projects"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "100 GB storage"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Priority support"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "type": "Button",
+                  "props": {
+                    "label": "Get started",
+                    "variant": "primary",
+                    "fullWidth": true
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Card",
+              "props": {
+                "title": "Enterprise",
+                "padding": 20,
+                "width": 280
+              },
+              "children": [
+                {
+                  "type": "Heading",
+                  "props": {
+                    "text": "Custom",
+                    "level": 2,
+                    "align": "center"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "contact us",
+                    "align": "center",
+                    "muted": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Divider",
+                  "props": {},
+                  "children": []
+                },
+                {
+                  "type": "Stack",
+                  "props": {
+                    "direction": "column",
+                    "gap": 8
+                  },
+                  "children": [
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Everything in Pro"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Unlimited storage"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Dedicated support"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "type": "Button",
+                  "props": {
+                    "label": "Contact sales",
+                    "variant": "secondary",
+                    "fullWidth": true
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

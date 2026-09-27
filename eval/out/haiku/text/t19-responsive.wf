@@ -1,0 +1,22 @@
+```wireframe
+board "Responsive Notes" layout=row gap=24
+  screen phone "Notes"
+    navbar "Notes" leading=menu actions=[bell]
+    stack column padding=12 gap=12
+      input search placeholder="Search notes"
+      listitem title="First note" subtitle="Today" leading=icon icon=file-text trailing=chevron
+      listitem title="Second note" subtitle="Yesterday" leading=icon icon=file-text trailing=chevron
+      listitem title="Third note" subtitle="2 days ago" leading=icon icon=file-text trailing=chevron
+    tabbar items=[{label=Notes icon=file-text}, {label=Archive icon=archive}, {label=Settings icon=settings}] active=0
+  screen desktop "Notes"
+    navbar "Notes" leading=menu actions=[bell]
+    stack row gap=0
+      stack column padding=16 gap=12 width=280 border=right
+        input search placeholder="Search notes"
+        listitem title="First note" subtitle="Today" leading=icon icon=file-text trailing=chevron
+        listitem title="Second note" subtitle="Yesterday" leading=icon icon=file-text trailing=chevron
+        listitem title="Third note" subtitle="2 days ago" leading=icon icon=file-text trailing=chevron
+      stack column padding=24 gap=16 grow
+        text "Select a note to view" muted align=center
+  note color=yellow width=180 "On mobile: full screen list with tabs. On desktop: split view with sidebar."
+```

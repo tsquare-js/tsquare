@@ -1,0 +1,82 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Notes - states" },
+      "children": ["screen1", "screen2"]
+    },
+    "screen1": {
+      "type": "Screen",
+      "props": { "name": "Empty state", "device": "phone" },
+      "children": ["nav1", "empty"]
+    },
+    "nav1": {
+      "type": "NavBar",
+      "props": { "title": "Notes" },
+      "children": []
+    },
+    "empty": {
+      "type": "Stack",
+      "props": { "direction": "column", "align": "center", "justify": "center", "gap": 12, "grow": true, "padding": 24 },
+      "children": ["empty-img", "empty-heading", "empty-sub", "empty-btn"]
+    },
+    "empty-img": {
+      "type": "Image",
+      "props": { "height": 140, "label": "Illustration" },
+      "children": []
+    },
+    "empty-heading": {
+      "type": "Heading",
+      "props": { "text": "No notes yet", "level": 2, "align": "center" },
+      "children": []
+    },
+    "empty-sub": {
+      "type": "Text",
+      "props": { "text": "Create your first note to get started", "muted": true, "align": "center" },
+      "children": []
+    },
+    "empty-btn": {
+      "type": "Button",
+      "props": { "label": "Create note", "variant": "primary" },
+      "children": []
+    },
+    "screen2": {
+      "type": "Screen",
+      "props": { "name": "Error state", "device": "phone" },
+      "children": ["nav2", "error"]
+    },
+    "nav2": {
+      "type": "NavBar",
+      "props": { "title": "Notes" },
+      "children": []
+    },
+    "error": {
+      "type": "Stack",
+      "props": { "direction": "column", "align": "center", "justify": "center", "gap": 12, "grow": true, "padding": 24 },
+      "children": ["error-icon", "error-heading", "error-sub", "error-btn"]
+    },
+    "error-icon": {
+      "type": "Icon",
+      "props": { "name": "alert-triangle", "size": 48 },
+      "children": []
+    },
+    "error-heading": {
+      "type": "Heading",
+      "props": { "text": "Something went wrong", "level": 2, "align": "center" },
+      "children": []
+    },
+    "error-sub": {
+      "type": "Text",
+      "props": { "text": "We couldn't load your notes.", "muted": true, "align": "center" },
+      "children": []
+    },
+    "error-btn": {
+      "type": "Button",
+      "props": { "label": "Retry", "variant": "primary" },
+      "children": []
+    }
+  }
+}
+```

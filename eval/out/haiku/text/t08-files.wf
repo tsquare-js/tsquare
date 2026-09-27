@@ -1,0 +1,25 @@
+```wireframe
+board "Files"
+  screen desktop "File Manager"
+    navbar "Files" leading=menu actions=[search, upload, settings]
+    stack row
+      stack direction=column grow padding=16 gap=12
+        heading "Documents" level=2
+        table columns=["Name", "Type", "Size", "Modified"] rows=6
+      drawer right "Details" size=280
+        heading "Document.pdf" level=2
+        text sm muted "PDF Document"
+        divider
+        text bold "Size:"
+        text "2.4 MB"
+        divider
+        text bold "Modified:"
+        text "Sep 20, 2024"
+        divider
+        text bold "Shared with:"
+        text "3 people"
+        divider
+        stack direction=column gap=8
+          button secondary "Download" fullWidth
+          button ghost "Delete" fullWidth
+```

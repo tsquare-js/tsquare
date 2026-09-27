@@ -1,0 +1,30 @@
+```wireframe
+board "Food delivery home"
+  screen phone "Home"
+    navbar "Deliver to Home" leading=menu actions=[bell]
+    input search placeholder="Search restaurants or dishes"
+    stack row gap=8 wrap
+      badge outline "Pizza"
+      badge outline "Burgers"
+      badge outline "Sushi"
+      badge outline "Salads"
+      badge outline "Dessert"
+    grid columns=2 gap=12
+      card padding=10
+        image height=100
+        text "Restaurant name" bold
+        text sm "4.5 · 20-30 min" muted
+      card padding=10
+        image height=100
+        text "Restaurant name" bold
+        text sm "4.7 · 15-25 min" muted
+      card padding=10
+        image height=100
+        text "Restaurant name" bold
+        text sm "4.3 · 25-35 min" muted
+      card padding=10
+        image height=100
+        text "Restaurant name" bold
+        text sm "4.8 · 10-20 min" muted
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Orders icon=receipt}, {label=Profile icon=user}] active=0
+```

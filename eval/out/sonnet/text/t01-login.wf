@@ -1,0 +1,11 @@
+```wireframe
+board "Login"
+  screen phone "Login"
+    spacer size=40
+    heading "Sign in" level=1
+    input label="Email" type=email placeholder="Email"
+    input label="Password" type=password placeholder="Password"
+    checkbox "Remember me"
+    button ghost "Forgot password?"
+    button primary "Sign in" fullWidth
+```

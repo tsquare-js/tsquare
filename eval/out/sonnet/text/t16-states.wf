@@ -1,0 +1,21 @@
+```wireframe
+board "Notes list states"
+  screen phone "Empty state"
+    navbar "Notes" actions=[plus]
+    spacer
+    stack align=center gap=12 padding=24
+      image height=140 label="Illustration"
+      heading "No notes yet" level=2 align=center
+      text "Create your first note to get started." align=center muted
+      button primary "Create note"
+    spacer
+  screen phone "Error state"
+    navbar "Notes" actions=[plus]
+    spacer
+    stack align=center gap=12 padding=24
+      image height=140 label="Illustration"
+      heading "Something went wrong" level=2 align=center
+      text "We couldn't load your notes. Please try again." align=center muted
+      button primary "Retry"
+    spacer
+```

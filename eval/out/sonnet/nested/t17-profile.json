@@ -1,0 +1,207 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Profile"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Profile",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "leading": "back",
+            "actions": [
+              "settings"
+            ]
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "align": "center",
+            "gap": 8,
+            "padding": 16
+          },
+          "children": [
+            {
+              "type": "Avatar",
+              "props": {
+                "initials": "JC",
+                "size": 88
+              },
+              "children": []
+            },
+            {
+              "type": "Heading",
+              "props": {
+                "text": "Jamie Chen",
+                "level": 2,
+                "align": "center"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "justify": "around",
+            "padding": 16
+          },
+          "children": [
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "align": "center"
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "128",
+                    "bold": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Posts",
+                    "size": "sm",
+                    "muted": true
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "align": "center"
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "4.2k",
+                    "bold": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Followers",
+                    "size": "sm",
+                    "muted": true
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "align": "center"
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "312",
+                    "bold": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Following",
+                    "size": "sm",
+                    "muted": true
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Tabs",
+          "props": {
+            "items": [
+              "Posts",
+              "Likes"
+            ],
+            "active": 0
+          },
+          "children": []
+        },
+        {
+          "type": "Grid",
+          "props": {
+            "columns": 3,
+            "gap": 4
+          },
+          "children": [
+            {
+              "type": "Image",
+              "props": {
+                "height": 100
+              },
+              "children": []
+            },
+            {
+              "type": "Image",
+              "props": {
+                "height": 100
+              },
+              "children": []
+            },
+            {
+              "type": "Image",
+              "props": {
+                "height": 100
+              },
+              "children": []
+            },
+            {
+              "type": "Image",
+              "props": {
+                "height": 100
+              },
+              "children": []
+            },
+            {
+              "type": "Image",
+              "props": {
+                "height": 100
+              },
+              "children": []
+            },
+            {
+              "type": "Image",
+              "props": {
+                "height": 100
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

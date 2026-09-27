@@ -1,0 +1,38 @@
+```json
+{
+  "type": "Board",
+  "props": { "title": "Onboarding" },
+  "children": [
+    {
+      "type": "Screen",
+      "props": { "name": "Step 1", "device": "phone" },
+      "children": [
+        { "type": "Image", "props": { "height": 300, "label": "Illustration" }, "children": [] },
+        { "type": "Heading", "props": { "text": "Heading", "level": 1, "align": "center" }, "children": [] },
+        { "type": "Text", "props": { "lines": 2, "align": "center" }, "children": [] },
+        { "type": "Button", "props": { "label": "Continue", "variant": "primary", "fullWidth": true }, "children": [] }
+      ]
+    },
+    {
+      "type": "Screen",
+      "props": { "name": "Step 2", "device": "phone" },
+      "children": [
+        { "type": "Image", "props": { "height": 300, "label": "Illustration" }, "children": [] },
+        { "type": "Heading", "props": { "text": "Heading", "level": 1, "align": "center" }, "children": [] },
+        { "type": "Text", "props": { "lines": 2, "align": "center" }, "children": [] },
+        { "type": "Button", "props": { "label": "Continue", "variant": "primary", "fullWidth": true }, "children": [] }
+      ]
+    },
+    {
+      "type": "Screen",
+      "props": { "name": "Step 3", "device": "phone" },
+      "children": [
+        { "type": "Image", "props": { "height": 300, "label": "Illustration" }, "children": [] },
+        { "type": "Heading", "props": { "text": "Heading", "level": 1, "align": "center" }, "children": [] },
+        { "type": "Text", "props": { "lines": 2, "align": "center" }, "children": [] },
+        { "type": "Button", "props": { "label": "Get started", "variant": "primary", "fullWidth": true }, "children": [] }
+      ]
+    }
+  ]
+}
+```

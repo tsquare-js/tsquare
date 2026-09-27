@@ -1,0 +1,17 @@
+```wireframe
+board "Settings"
+  screen phone "Settings"
+    navbar "Settings" leading=back
+    stack padding=16 gap=16
+      heading "Preferences" level=2
+      toggle "Notifications" on
+      toggle "Dark mode"
+      spacer size=20
+      heading "Account" level=2
+      list dividers
+        listitem "Profile" trailing=chevron
+        listitem "Security" trailing=chevron
+        listitem "Privacy" trailing=chevron
+      spacer
+      button secondary "Sign out" fullWidth
+```

@@ -1,0 +1,33 @@
+```wireframe
+board "Calendar - New event"
+  screen desktop "Calendar"
+    navbar "Calendar" leading=logo actions=[bell, user]
+    stack row gap=12 padding=16
+      button primary "New event" icon=plus
+      spacer
+      button secondary "Today"
+    grid columns=7 gap=4
+      card padding=8
+        text sm muted "1"
+      card padding=8
+        text sm muted "2"
+      card padding=8
+        text sm muted "3"
+      card padding=8
+        text sm muted "4"
+      card padding=8
+        text sm muted "5"
+      card padding=8
+        text sm muted "6"
+      card padding=8
+        text sm muted "7"
+    modal "New event" width=480
+      input label="Title" placeholder="Add title"
+      stack row gap=12
+        select label="Date" value="Sep 26, 2026"
+        select label="Time" value="10:00 AM"
+      input label="Description" multiline=4 placeholder="Add description"
+      stack row gap=8 justify=end
+        button secondary "Cancel"
+        button primary "Save"
+```

@@ -1,0 +1,31 @@
+```json
+{
+  "type": "Board",
+  "props": { "title": "Product page" },
+  "children": [
+    {
+      "type": "Screen",
+      "props": { "name": "Product", "device": "phone" },
+      "children": [
+        { "type": "NavBar", "props": { "leading": "back", "actions": ["heart", "share"] }, "children": [] },
+        { "type": "Image", "props": { "height": 260, "label": "Product photo" }, "children": [] },
+        { "type": "Heading", "props": { "text": "Product name", "level": 1 }, "children": [] },
+        { "type": "Text", "props": { "text": "$0.00", "bold": true }, "children": [] },
+        { "type": "Select", "props": { "label": "Size", "placeholder": "Select size" }, "children": [] },
+        { "type": "Button", "props": { "label": "Add to cart", "variant": "primary", "fullWidth": true }, "children": [] },
+        { "type": "Divider", "props": {}, "children": [] },
+        { "type": "Heading", "props": { "text": "Reviews", "level": 3 }, "children": [] },
+        {
+          "type": "List",
+          "props": { "dividers": true },
+          "children": [
+            { "type": "ListItem", "props": { "leading": "avatar", "title": "Reviewer name", "subtitle": "Review text" }, "children": [] },
+            { "type": "ListItem", "props": { "leading": "avatar", "title": "Reviewer name", "subtitle": "Review text" }, "children": [] },
+            { "type": "ListItem", "props": { "leading": "avatar", "title": "Reviewer name", "subtitle": "Review text" }, "children": [] }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

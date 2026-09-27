@@ -1,0 +1,151 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Side menu"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Home - Menu open",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Home",
+            "leading": "menu",
+            "actions": [
+              "bell"
+            ]
+          },
+          "children": []
+        },
+        {
+          "type": "Text",
+          "props": {
+            "lines": 6
+          },
+          "children": []
+        },
+        {
+          "type": "Drawer",
+          "props": {
+            "side": "left",
+            "size": 260,
+            "scrim": true
+          },
+          "children": [
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "gap": 12,
+                "align": "center",
+                "padding": 16
+              },
+              "children": [
+                {
+                  "type": "Avatar",
+                  "props": {
+                    "initials": "AK",
+                    "size": 48
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Alex Kim",
+                    "bold": true
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Divider",
+              "props": {},
+              "children": []
+            },
+            {
+              "type": "List",
+              "props": {
+                "dividers": false
+              },
+              "children": [
+                {
+                  "type": "ListItem",
+                  "props": {
+                    "title": "Home",
+                    "leading": "icon",
+                    "icon": "home"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "ListItem",
+                  "props": {
+                    "title": "Orders",
+                    "leading": "icon",
+                    "icon": "receipt"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "ListItem",
+                  "props": {
+                    "title": "Favorites",
+                    "leading": "icon",
+                    "icon": "heart"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "ListItem",
+                  "props": {
+                    "title": "Payment methods",
+                    "leading": "icon",
+                    "icon": "credit-card"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "ListItem",
+                  "props": {
+                    "title": "Settings",
+                    "leading": "icon",
+                    "icon": "settings"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Spacer",
+              "props": {},
+              "children": []
+            },
+            {
+              "type": "Divider",
+              "props": {},
+              "children": []
+            },
+            {
+              "type": "ListItem",
+              "props": {
+                "title": "Log out",
+                "leading": "icon",
+                "icon": "log-out"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

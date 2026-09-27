@@ -1,0 +1,176 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Notes app responsive",
+        "layout": "row",
+        "gap": 20
+      },
+      "children": ["phone", "desktop", "note"]
+    },
+    "phone": {
+      "type": "Screen",
+      "props": {
+        "name": "Phone",
+        "device": "phone"
+      },
+      "children": ["p-nav", "p-search", "p-list"]
+    },
+    "p-nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Notes",
+        "actions": ["plus"]
+      },
+      "children": []
+    },
+    "p-search": {
+      "type": "Input",
+      "props": {
+        "type": "search",
+        "placeholder": "Search notes"
+      },
+      "children": []
+    },
+    "p-list": {
+      "type": "List",
+      "props": {
+        "dividers": true
+      },
+      "children": ["p-item1", "p-item2", "p-item3"]
+    },
+    "p-item1": {
+      "type": "ListItem",
+      "props": {
+        "title": "Meeting notes",
+        "subtitle": "Sep 20"
+      },
+      "children": []
+    },
+    "p-item2": {
+      "type": "ListItem",
+      "props": {
+        "title": "Project ideas",
+        "subtitle": "Sep 18"
+      },
+      "children": []
+    },
+    "p-item3": {
+      "type": "ListItem",
+      "props": {
+        "title": "Todo list",
+        "subtitle": "Sep 15"
+      },
+      "children": []
+    },
+    "desktop": {
+      "type": "Screen",
+      "props": {
+        "name": "Desktop",
+        "device": "desktop"
+      },
+      "children": ["d-nav", "d-layout"]
+    },
+    "d-nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Notes",
+        "actions": ["plus"]
+      },
+      "children": []
+    },
+    "d-layout": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 20,
+        "padding": 20
+      },
+      "children": ["d-sidebar", "d-content"]
+    },
+    "d-sidebar": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 8,
+        "width": 240
+      },
+      "children": ["d-search", "d-list"]
+    },
+    "d-search": {
+      "type": "Input",
+      "props": {
+        "type": "search",
+        "placeholder": "Search notes"
+      },
+      "children": []
+    },
+    "d-list": {
+      "type": "List",
+      "props": {
+        "dividers": true
+      },
+      "children": ["d-item1", "d-item2", "d-item3"]
+    },
+    "d-item1": {
+      "type": "ListItem",
+      "props": {
+        "title": "Meeting notes",
+        "subtitle": "Sep 20"
+      },
+      "children": []
+    },
+    "d-item2": {
+      "type": "ListItem",
+      "props": {
+        "title": "Project ideas",
+        "subtitle": "Sep 18"
+      },
+      "children": []
+    },
+    "d-item3": {
+      "type": "ListItem",
+      "props": {
+        "title": "Todo list",
+        "subtitle": "Sep 15"
+      },
+      "children": []
+    },
+    "d-content": {
+      "type": "Card",
+      "props": {
+        "padding": 20,
+        "gap": 12,
+        "grow": true
+      },
+      "children": ["d-content-title", "d-content-text"]
+    },
+    "d-content-title": {
+      "type": "Heading",
+      "props": {
+        "text": "Meeting notes",
+        "level": 2
+      },
+      "children": []
+    },
+    "d-content-text": {
+      "type": "Text",
+      "props": {
+        "lines": 6
+      },
+      "children": []
+    },
+    "note": {
+      "type": "Note",
+      "props": {
+        "text": "On desktop, the notes list appears in a left sidebar with the selected note shown on the right. On mobile, it's a full-width list that navigates to detail.",
+        "color": "yellow"
+      },
+      "children": []
+    }
+  }
+}
+```

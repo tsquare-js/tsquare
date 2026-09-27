@@ -1,0 +1,106 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Calendar - New event" },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": { "name": "Calendar", "device": "desktop" },
+      "children": ["nav", "cal-body", "modal"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": { "title": "Calendar", "leading": "logo", "actions": ["settings", "user"] },
+      "children": []
+    },
+    "cal-body": {
+      "type": "Stack",
+      "props": { "direction": "column", "gap": 12, "padding": 16, "grow": true },
+      "children": ["cal-header", "cal-grid"]
+    },
+    "cal-header": {
+      "type": "Stack",
+      "props": { "direction": "row", "justify": "between", "align": "center" },
+      "children": ["cal-title", "cal-new-btn"]
+    },
+    "cal-title": {
+      "type": "Heading",
+      "props": { "text": "September 2026", "level": 2 },
+      "children": []
+    },
+    "cal-new-btn": {
+      "type": "Button",
+      "props": { "label": "New event", "variant": "primary", "icon": "plus" },
+      "children": []
+    },
+    "cal-grid": {
+      "type": "Grid",
+      "props": { "columns": 7, "gap": 4 },
+      "children": ["d1", "d2", "d3", "d4", "d5", "d6", "d7"]
+    },
+    "d1": { "type": "Card", "props": { "padding": 6 }, "children": ["d1-t"] },
+    "d1-t": { "type": "Text", "props": { "lines": 1 }, "children": [] },
+    "d2": { "type": "Card", "props": { "padding": 6 }, "children": ["d2-t"] },
+    "d2-t": { "type": "Text", "props": { "lines": 1 }, "children": [] },
+    "d3": { "type": "Card", "props": { "padding": 6 }, "children": ["d3-t"] },
+    "d3-t": { "type": "Text", "props": { "lines": 1 }, "children": [] },
+    "d4": { "type": "Card", "props": { "padding": 6 }, "children": ["d4-t"] },
+    "d4-t": { "type": "Text", "props": { "lines": 1 }, "children": [] },
+    "d5": { "type": "Card", "props": { "padding": 6 }, "children": ["d5-t"] },
+    "d5-t": { "type": "Text", "props": { "lines": 1 }, "children": [] },
+    "d6": { "type": "Card", "props": { "padding": 6 }, "children": ["d6-t"] },
+    "d6-t": { "type": "Text", "props": { "lines": 1 }, "children": [] },
+    "d7": { "type": "Card", "props": { "padding": 6 }, "children": ["d7-t"] },
+    "d7-t": { "type": "Text", "props": { "lines": 1 }, "children": [] },
+    "modal": {
+      "type": "Modal",
+      "props": { "title": "New event", "width": 480 },
+      "children": ["m-title", "m-datetime", "m-desc", "m-actions"]
+    },
+    "m-title": {
+      "type": "Input",
+      "props": { "label": "Title", "placeholder": "Event title" },
+      "children": []
+    },
+    "m-datetime": {
+      "type": "Stack",
+      "props": { "direction": "row", "gap": 12 },
+      "children": ["m-date", "m-time"]
+    },
+    "m-date": {
+      "type": "Select",
+      "props": { "label": "Date", "value": "Sep 26, 2026" },
+      "children": []
+    },
+    "m-time": {
+      "type": "Select",
+      "props": { "label": "Time", "value": "10:00 AM" },
+      "children": []
+    },
+    "m-desc": {
+      "type": "Input",
+      "props": { "label": "Description", "multiline": 4 },
+      "children": []
+    },
+    "m-actions": {
+      "type": "Stack",
+      "props": { "direction": "row", "gap": 8, "justify": "end" },
+      "children": ["m-cancel", "m-save"]
+    },
+    "m-cancel": {
+      "type": "Button",
+      "props": { "label": "Cancel", "variant": "secondary" },
+      "children": []
+    },
+    "m-save": {
+      "type": "Button",
+      "props": { "label": "Save", "variant": "primary" },
+      "children": []
+    }
+  }
+}
+```

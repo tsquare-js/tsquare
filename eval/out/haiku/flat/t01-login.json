@@ -1,0 +1,81 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Login"
+      },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": {
+        "name": "Login",
+        "device": "phone"
+      },
+      "children": ["nav", "content"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Sign in"
+      },
+      "children": []
+    },
+    "content": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "padding": 16,
+        "gap": 16,
+        "grow": true
+      },
+      "children": ["email", "password", "remember", "forgot", "signin"]
+    },
+    "email": {
+      "type": "Input",
+      "props": {
+        "label": "Email",
+        "placeholder": "Enter your email",
+        "type": "email"
+      },
+      "children": []
+    },
+    "password": {
+      "type": "Input",
+      "props": {
+        "label": "Password",
+        "placeholder": "Enter your password",
+        "type": "password"
+      },
+      "children": []
+    },
+    "remember": {
+      "type": "Checkbox",
+      "props": {
+        "label": "Remember me"
+      },
+      "children": []
+    },
+    "forgot": {
+      "type": "Button",
+      "props": {
+        "label": "Forgot password?",
+        "variant": "ghost"
+      },
+      "children": []
+    },
+    "signin": {
+      "type": "Button",
+      "props": {
+        "label": "Sign in",
+        "variant": "primary",
+        "fullWidth": true
+      },
+      "children": []
+    }
+  }
+}
+```

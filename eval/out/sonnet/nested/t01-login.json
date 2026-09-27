@@ -1,0 +1,20 @@
+```json
+{
+  "type": "Board",
+  "props": { "title": "Login" },
+  "children": [
+    {
+      "type": "Screen",
+      "props": { "name": "Sign in", "device": "phone" },
+      "children": [
+        { "type": "Heading", "props": { "text": "Sign in", "level": 1 }, "children": [] },
+        { "type": "Input", "props": { "label": "Email", "type": "email", "placeholder": "Email" }, "children": [] },
+        { "type": "Input", "props": { "label": "Password", "type": "password", "placeholder": "Password" }, "children": [] },
+        { "type": "Checkbox", "props": { "label": "Remember me" }, "children": [] },
+        { "type": "Button", "props": { "label": "Forgot password?", "variant": "ghost" }, "children": [] },
+        { "type": "Button", "props": { "label": "Sign in", "variant": "primary", "fullWidth": true }, "children": [] }
+      ]
+    }
+  ]
+}
+```

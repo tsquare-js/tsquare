@@ -1,0 +1,21 @@
+```wireframe
+board "Side menu"
+  screen phone "Menu open"
+    navbar leading=menu
+    drawer left "Menu" size=260
+      stack row gap=12 padding=16
+        avatar initials="JD" size=56
+        stack gap=2
+          text "Jordan Diaz" bold
+          text sm "jordan.diaz@email.com" muted
+      divider
+      list dividers
+        listitem title="Home" leading=icon icon=home trailing=chevron
+        listitem title="Orders" leading=icon icon=receipt trailing=chevron
+        listitem title="Favorites" leading=icon icon=heart trailing=chevron
+        listitem title="Payment methods" leading=icon icon=credit-card trailing=chevron
+        listitem title="Settings" leading=icon icon=settings trailing=chevron
+      spacer
+      divider
+      listitem title="Log out" leading=icon icon=log-out
+```

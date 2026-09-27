@@ -1,0 +1,37 @@
+```json
+{
+  "type": "Board",
+  "props": { "title": "File manager" },
+  "children": [
+    {
+      "type": "Screen",
+      "props": { "name": "Files", "device": "desktop" },
+      "children": [
+        { "type": "NavBar", "props": { "title": "Files", "actions": ["search", "settings"] }, "children": [] },
+        {
+          "type": "Table",
+          "props": { "columns": ["Name", "Kind", "Size", "Modified"], "rows": 8 },
+          "children": []
+        },
+        {
+          "type": "Drawer",
+          "props": { "side": "right", "title": "Details", "size": 320 },
+          "children": [
+            { "type": "Image", "props": { "height": 120, "label": "Preview" }, "children": [] },
+            { "type": "Text", "props": { "text": "File name", "bold": true }, "children": [] },
+            {
+              "type": "List",
+              "props": {},
+              "children": [
+                { "type": "ListItem", "props": { "title": "Kind", "trailing": "text", "trailingText": "Document" }, "children": [] },
+                { "type": "ListItem", "props": { "title": "Size", "trailing": "text", "trailingText": "0 KB" }, "children": [] },
+                { "type": "ListItem", "props": { "title": "Modified", "trailing": "text", "trailingText": "Today" }, "children": [] }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

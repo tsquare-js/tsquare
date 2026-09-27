@@ -1,0 +1,104 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Ride-hailing"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Choose a ride",
+        "device": "phone",
+        "padding": 0,
+        "gap": 0
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "leading": "back",
+            "actions": [
+              "help-circle"
+            ]
+          },
+          "children": []
+        },
+        {
+          "type": "Image",
+          "props": {
+            "height": 340,
+            "label": "Map"
+          },
+          "children": []
+        },
+        {
+          "type": "Drawer",
+          "props": {
+            "side": "bottom",
+            "title": "Choose a ride",
+            "size": 340,
+            "scrim": false,
+            "handle": true
+          },
+          "children": [
+            {
+              "type": "List",
+              "props": {
+                "dividers": true
+              },
+              "children": [
+                {
+                  "type": "ListItem",
+                  "props": {
+                    "title": "Economy",
+                    "subtitle": "4 min away",
+                    "leading": "icon",
+                    "icon": "car",
+                    "trailing": "text",
+                    "trailingText": "$8.50"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "ListItem",
+                  "props": {
+                    "title": "Comfort",
+                    "subtitle": "6 min away",
+                    "leading": "icon",
+                    "icon": "car",
+                    "trailing": "text",
+                    "trailingText": "$12.00"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "ListItem",
+                  "props": {
+                    "title": "XL",
+                    "subtitle": "9 min away",
+                    "leading": "icon",
+                    "icon": "car",
+                    "trailing": "text",
+                    "trailingText": "$18.75"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Confirm ride",
+                "variant": "primary",
+                "fullWidth": true
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

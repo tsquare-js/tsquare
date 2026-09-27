@@ -1,0 +1,18 @@
+```wireframe
+board "User Management"
+  screen desktop "Users"
+    navbar "Users" leading=menu
+    stack column padding=20 gap=16
+      tabs items=[Active, Invited, Suspended] active=0
+      table columns=["Name", "Email", "Role", "Status"] rows=4
+  screen desktop "Users with Filters"
+    navbar "Users" leading=menu actions=[filter]
+    stack column padding=20 gap=16
+      tabs items=[Active, Invited, Suspended] active=0
+      table columns=["Name", "Email", "Role", "Status"] rows=4
+    drawer right "Filters" size=280
+      checkbox "Show deactivated"
+      select label="Role" value="All"
+      input label="Search" placeholder="Filter users"
+      button label="Apply" variant=primary fullWidth
+```

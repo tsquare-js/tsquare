@@ -1,0 +1,169 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Delete confirmation"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Settings",
+        "device": "desktop"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Project Settings"
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "gap": 24,
+            "padding": 24
+          },
+          "children": [
+            {
+              "type": "Card",
+              "props": {
+                "title": "Project info",
+                "padding": 16
+              },
+              "children": [
+                {
+                  "type": "Stack",
+                  "props": {
+                    "direction": "column",
+                    "gap": 12
+                  },
+                  "children": [
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Project name"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Input",
+                      "props": {
+                        "value": "My Amazing Project"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Card",
+              "props": {
+                "title": "Danger zone",
+                "padding": 16
+              },
+              "children": [
+                {
+                  "type": "Stack",
+                  "props": {
+                    "direction": "column",
+                    "gap": 12
+                  },
+                  "children": [
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Delete this project"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Once you delete a project, there is no going back. Please be certain.",
+                        "size": "sm",
+                        "muted": true
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Button",
+                      "props": {
+                        "label": "Delete project",
+                        "variant": "secondary"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Modal",
+          "props": {
+            "title": "Delete project?",
+            "width": 420
+          },
+          "children": [
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "gap": 16
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Type the project name below to confirm deletion."
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Input",
+                  "props": {
+                    "label": "Project name",
+                    "placeholder": "My Amazing Project"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Stack",
+                  "props": {
+                    "direction": "row",
+                    "gap": 12,
+                    "justify": "end"
+                  },
+                  "children": [
+                    {
+                      "type": "Button",
+                      "props": {
+                        "label": "Cancel",
+                        "variant": "secondary"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Button",
+                      "props": {
+                        "label": "Delete",
+                        "variant": "primary"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

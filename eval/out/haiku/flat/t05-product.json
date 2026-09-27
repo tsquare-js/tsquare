@@ -1,0 +1,139 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Product page"
+      },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": {
+        "name": "Product",
+        "device": "phone"
+      },
+      "children": ["nav", "image", "title", "price", "size", "addtocart", "reviews"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": {
+        "leading": "back",
+        "actions": ["heart", "share"]
+      },
+      "children": []
+    },
+    "image": {
+      "type": "Image",
+      "props": {
+        "height": 300
+      },
+      "children": []
+    },
+    "title": {
+      "type": "Heading",
+      "props": {
+        "text": "Product Name",
+        "level": 1
+      },
+      "children": []
+    },
+    "price": {
+      "type": "Text",
+      "props": {
+        "text": "$99.99",
+        "bold": true,
+        "size": "lg"
+      },
+      "children": []
+    },
+    "size": {
+      "type": "Select",
+      "props": {
+        "label": "Size",
+        "value": "M",
+        "placeholder": "Choose size"
+      },
+      "children": []
+    },
+    "addtocart": {
+      "type": "Button",
+      "props": {
+        "label": "Add to cart",
+        "variant": "primary",
+        "fullWidth": true
+      },
+      "children": []
+    },
+    "reviews": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "padding": 16,
+        "gap": 12
+      },
+      "children": ["reviews-title", "r1", "r2"]
+    },
+    "reviews-title": {
+      "type": "Heading",
+      "props": {
+        "text": "Reviews",
+        "level": 2
+      },
+      "children": []
+    },
+    "r1": {
+      "type": "Card",
+      "props": {
+        "padding": 12
+      },
+      "children": ["r1-author", "r1-text"]
+    },
+    "r1-author": {
+      "type": "Text",
+      "props": {
+        "text": "Great product!",
+        "bold": true,
+        "size": "sm"
+      },
+      "children": []
+    },
+    "r1-text": {
+      "type": "Text",
+      "props": {
+        "text": "Very satisfied with the quality",
+        "size": "sm",
+        "muted": true
+      },
+      "children": []
+    },
+    "r2": {
+      "type": "Card",
+      "props": {
+        "padding": 12
+      },
+      "children": ["r2-author", "r2-text"]
+    },
+    "r2-author": {
+      "type": "Text",
+      "props": {
+        "text": "Highly recommend",
+        "bold": true,
+        "size": "sm"
+      },
+      "children": []
+    },
+    "r2-text": {
+      "type": "Text",
+      "props": {
+        "text": "Exceeded expectations",
+        "size": "sm",
+        "muted": true
+      },
+      "children": []
+    }
+  }
+}
+```

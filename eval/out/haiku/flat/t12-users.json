@@ -1,0 +1,125 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "User management",
+        "layout": "row",
+        "gap": 20
+      },
+      "children": ["screen1", "screen2"]
+    },
+    "screen1": {
+      "type": "Screen",
+      "props": {
+        "name": "Users",
+        "device": "desktop"
+      },
+      "children": ["nav1", "tabs", "table"]
+    },
+    "nav1": {
+      "type": "NavBar",
+      "props": {
+        "title": "Users",
+        "leading": "none",
+        "actions": ["plus"]
+      },
+      "children": []
+    },
+    "tabs": {
+      "type": "Tabs",
+      "props": {
+        "items": ["Active", "Invited", "Suspended"],
+        "active": 0
+      },
+      "children": []
+    },
+    "table": {
+      "type": "Table",
+      "props": {
+        "columns": ["Name", "Email", "Role", "Status"],
+        "data": [
+          ["Alice Johnson", "alice@company.com", "Admin", "Active"],
+          ["Bob Smith", "bob@company.com", "Editor", "Active"],
+          ["Carol Davis", "carol@company.com", "Viewer", "Active"],
+          ["David Lee", "david@company.com", "Editor", "Invited"]
+        ]
+      },
+      "children": []
+    },
+    "screen2": {
+      "type": "Screen",
+      "props": {
+        "name": "Users with filters",
+        "device": "desktop"
+      },
+      "children": ["nav2", "tabs2", "table2", "drawer"]
+    },
+    "nav2": {
+      "type": "NavBar",
+      "props": {
+        "title": "Users",
+        "leading": "none",
+        "actions": ["plus"]
+      },
+      "children": []
+    },
+    "tabs2": {
+      "type": "Tabs",
+      "props": {
+        "items": ["Active", "Invited", "Suspended"],
+        "active": 0
+      },
+      "children": []
+    },
+    "table2": {
+      "type": "Table",
+      "props": {
+        "columns": ["Name", "Email", "Role", "Status"],
+        "data": [
+          ["Alice Johnson", "alice@company.com", "Admin", "Active"],
+          ["Bob Smith", "bob@company.com", "Editor", "Active"],
+          ["Carol Davis", "carol@company.com", "Viewer", "Active"],
+          ["David Lee", "david@company.com", "Editor", "Invited"]
+        ]
+      },
+      "children": []
+    },
+    "drawer": {
+      "type": "Drawer",
+      "props": {
+        "side": "right",
+        "title": "Filters",
+        "size": 280
+      },
+      "children": ["filter1", "filter2", "filter3"]
+    },
+    "filter1": {
+      "type": "Select",
+      "props": {
+        "label": "Role",
+        "value": "All"
+      },
+      "children": []
+    },
+    "filter2": {
+      "type": "Select",
+      "props": {
+        "label": "Status",
+        "value": "All"
+      },
+      "children": []
+    },
+    "filter3": {
+      "type": "Input",
+      "props": {
+        "label": "Search",
+        "placeholder": "Name or email"
+      },
+      "children": []
+    }
+  }
+}
+```

@@ -1,0 +1,238 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Music app" },
+      "children": ["home", "playing", "library"]
+    },
+    "home": {
+      "type": "Screen",
+      "props": { "name": "Home", "device": "phone" },
+      "children": ["h-nav", "h-heading", "h-grid", "h-tabbar"]
+    },
+    "h-nav": {
+      "type": "NavBar",
+      "props": { "title": "Home", "leading": "logo", "actions": ["search"] },
+      "children": []
+    },
+    "h-heading": {
+      "type": "Heading",
+      "props": { "text": "Recently played", "level": 2 },
+      "children": []
+    },
+    "h-grid": {
+      "type": "Grid",
+      "props": { "columns": 2, "gap": 12 },
+      "children": ["h-card-1", "h-card-2", "h-card-3", "h-card-4"]
+    },
+    "h-card-1": {
+      "type": "Card",
+      "props": { "padding": 8 },
+      "children": ["h-c1-img", "h-c1-title"]
+    },
+    "h-c1-img": {
+      "type": "Image",
+      "props": { "height": 100 },
+      "children": []
+    },
+    "h-c1-title": {
+      "type": "Text",
+      "props": { "lines": 1 },
+      "children": []
+    },
+    "h-card-2": {
+      "type": "Card",
+      "props": { "padding": 8 },
+      "children": ["h-c2-img", "h-c2-title"]
+    },
+    "h-c2-img": {
+      "type": "Image",
+      "props": { "height": 100 },
+      "children": []
+    },
+    "h-c2-title": {
+      "type": "Text",
+      "props": { "lines": 1 },
+      "children": []
+    },
+    "h-card-3": {
+      "type": "Card",
+      "props": { "padding": 8 },
+      "children": ["h-c3-img", "h-c3-title"]
+    },
+    "h-c3-img": {
+      "type": "Image",
+      "props": { "height": 100 },
+      "children": []
+    },
+    "h-c3-title": {
+      "type": "Text",
+      "props": { "lines": 1 },
+      "children": []
+    },
+    "h-card-4": {
+      "type": "Card",
+      "props": { "padding": 8 },
+      "children": ["h-c4-img", "h-c4-title"]
+    },
+    "h-c4-img": {
+      "type": "Image",
+      "props": { "height": 100 },
+      "children": []
+    },
+    "h-c4-title": {
+      "type": "Text",
+      "props": { "lines": 1 },
+      "children": []
+    },
+    "h-tabbar": {
+      "type": "TabBar",
+      "props": {
+        "items": [
+          { "label": "Home", "icon": "home" },
+          { "label": "Search", "icon": "search" },
+          { "label": "Library", "icon": "book-open" },
+          { "label": "Profile", "icon": "user" }
+        ],
+        "active": 0
+      },
+      "children": []
+    },
+    "playing": {
+      "type": "Screen",
+      "props": { "name": "Now Playing", "device": "phone" },
+      "children": ["p-nav", "p-img", "p-title", "p-artist", "p-progress", "p-controls", "p-sheet"]
+    },
+    "p-nav": {
+      "type": "NavBar",
+      "props": { "leading": "close", "actions": ["more-horizontal"] },
+      "children": []
+    },
+    "p-img": {
+      "type": "Image",
+      "props": { "height": 260, "label": "Album art" },
+      "children": []
+    },
+    "p-title": {
+      "type": "Heading",
+      "props": { "text": "Song title", "level": 2, "align": "center" },
+      "children": []
+    },
+    "p-artist": {
+      "type": "Text",
+      "props": { "text": "Artist name", "muted": true, "align": "center" },
+      "children": []
+    },
+    "p-progress": {
+      "type": "Divider",
+      "props": {},
+      "children": []
+    },
+    "p-controls": {
+      "type": "Stack",
+      "props": { "direction": "row", "justify": "around", "align": "center", "gap": 16 },
+      "children": ["p-shuffle", "p-prev", "p-play", "p-next", "p-repeat"]
+    },
+    "p-shuffle": {
+      "type": "Icon",
+      "props": { "name": "shuffle" },
+      "children": []
+    },
+    "p-prev": {
+      "type": "Icon",
+      "props": { "name": "skip-back" },
+      "children": []
+    },
+    "p-play": {
+      "type": "Button",
+      "props": { "icon": "play", "variant": "primary", "size": "lg" },
+      "children": []
+    },
+    "p-next": {
+      "type": "Icon",
+      "props": { "name": "skip-forward" },
+      "children": []
+    },
+    "p-repeat": {
+      "type": "Icon",
+      "props": { "name": "repeat" },
+      "children": []
+    },
+    "p-sheet": {
+      "type": "Drawer",
+      "props": { "side": "bottom", "title": "Queue", "size": 280 },
+      "children": ["p-q1", "p-q2", "p-q3"]
+    },
+    "p-q1": {
+      "type": "ListItem",
+      "props": { "title": "Next song", "subtitle": "Artist", "leading": "image" },
+      "children": []
+    },
+    "p-q2": {
+      "type": "ListItem",
+      "props": { "title": "Another song", "subtitle": "Artist", "leading": "image" },
+      "children": []
+    },
+    "p-q3": {
+      "type": "ListItem",
+      "props": { "leading": "image" },
+      "children": []
+    },
+    "library": {
+      "type": "Screen",
+      "props": { "name": "Library", "device": "phone" },
+      "children": ["l-nav", "l-tabs", "l-list", "l-tabbar"]
+    },
+    "l-nav": {
+      "type": "NavBar",
+      "props": { "title": "Library", "actions": ["plus"] },
+      "children": []
+    },
+    "l-tabs": {
+      "type": "Tabs",
+      "props": { "items": ["Playlists", "Artists", "Albums"], "active": 0 },
+      "children": []
+    },
+    "l-list": {
+      "type": "List",
+      "props": { "dividers": true },
+      "children": ["l-item-1", "l-item-2", "l-item-3", "l-item-4"]
+    },
+    "l-item-1": {
+      "type": "ListItem",
+      "props": { "title": "Liked Songs", "subtitle": "128 songs", "leading": "image", "trailing": "chevron" },
+      "children": []
+    },
+    "l-item-2": {
+      "type": "ListItem",
+      "props": { "title": "Chill Vibes", "subtitle": "42 songs", "leading": "image", "trailing": "chevron" },
+      "children": []
+    },
+    "l-item-3": {
+      "type": "ListItem",
+      "props": { "title": "Workout Mix", "subtitle": "30 songs", "leading": "image", "trailing": "chevron" },
+      "children": []
+    },
+    "l-item-4": {
+      "type": "ListItem",
+      "props": { "leading": "image", "trailing": "chevron" },
+      "children": []
+    },
+    "l-tabbar": {
+      "type": "TabBar",
+      "props": {
+        "items": [
+          { "label": "Home", "icon": "home" },
+          { "label": "Search", "icon": "search" },
+          { "label": "Library", "icon": "book-open" },
+          { "label": "Profile", "icon": "user" }
+        ],
+        "active": 2
+      },
+      "children": []
+    }
+  }
+}
+```

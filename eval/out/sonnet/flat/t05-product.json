@@ -1,0 +1,72 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Product page" },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": { "name": "Product", "device": "phone", "gap": 12 },
+      "children": ["nav", "img", "title", "price", "size", "addcart", "divider", "reviews-heading", "review-1", "review-2", "review-3"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": { "leading": "back", "actions": ["heart", "share"] },
+      "children": []
+    },
+    "img": {
+      "type": "Image",
+      "props": { "height": 260, "label": "Product photo" },
+      "children": []
+    },
+    "title": {
+      "type": "Heading",
+      "props": { "text": "Product name", "level": 1 },
+      "children": []
+    },
+    "price": {
+      "type": "Text",
+      "props": { "text": "$49.00", "size": "lg", "bold": true },
+      "children": []
+    },
+    "size": {
+      "type": "Select",
+      "props": { "label": "Size", "placeholder": "Select size" },
+      "children": []
+    },
+    "addcart": {
+      "type": "Button",
+      "props": { "label": "Add to cart", "variant": "primary", "fullWidth": true },
+      "children": []
+    },
+    "divider": {
+      "type": "Divider",
+      "props": {},
+      "children": []
+    },
+    "reviews-heading": {
+      "type": "Heading",
+      "props": { "text": "Reviews", "level": 3 },
+      "children": []
+    },
+    "review-1": {
+      "type": "ListItem",
+      "props": { "title": "Great product", "subtitle": "Really happy with this purchase", "leading": "avatar" },
+      "children": []
+    },
+    "review-2": {
+      "type": "ListItem",
+      "props": { "title": "Good value", "subtitle": "Works as expected", "leading": "avatar" },
+      "children": []
+    },
+    "review-3": {
+      "type": "ListItem",
+      "props": { "leading": "avatar" },
+      "children": []
+    }
+  }
+}
+```

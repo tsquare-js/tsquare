@@ -1,0 +1,102 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "New event dialog"
+      },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": {
+        "name": "Calendar",
+        "device": "desktop"
+      },
+      "children": ["nav", "content", "modal"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Calendar",
+        "leading": "menu"
+      },
+      "children": []
+    },
+    "content": {
+      "type": "Text",
+      "props": {
+        "lines": 8
+      },
+      "children": []
+    },
+    "modal": {
+      "type": "Modal",
+      "props": {
+        "title": "New event",
+        "width": 400
+      },
+      "children": ["title-input", "date-dropdown", "time-dropdown", "desc-input", "buttons"]
+    },
+    "title-input": {
+      "type": "Input",
+      "props": {
+        "label": "Event title",
+        "placeholder": "Event name"
+      },
+      "children": []
+    },
+    "date-dropdown": {
+      "type": "Select",
+      "props": {
+        "label": "Date",
+        "value": "Today"
+      },
+      "children": []
+    },
+    "time-dropdown": {
+      "type": "Select",
+      "props": {
+        "label": "Time",
+        "value": "10:00 AM"
+      },
+      "children": []
+    },
+    "desc-input": {
+      "type": "Input",
+      "props": {
+        "label": "Description",
+        "multiline": 3
+      },
+      "children": []
+    },
+    "buttons": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 8,
+        "justify": "end"
+      },
+      "children": ["cancel-btn", "save-btn"]
+    },
+    "cancel-btn": {
+      "type": "Button",
+      "props": {
+        "label": "Cancel",
+        "variant": "secondary"
+      },
+      "children": []
+    },
+    "save-btn": {
+      "type": "Button",
+      "props": {
+        "label": "Save",
+        "variant": "primary"
+      },
+      "children": []
+    }
+  }
+}
+```

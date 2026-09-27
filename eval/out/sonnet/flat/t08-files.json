@@ -1,0 +1,90 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "File manager" },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": { "name": "Files", "device": "desktop", "gap": 12 },
+      "children": ["toolbar", "table", "details"]
+    },
+    "toolbar": {
+      "type": "Stack",
+      "props": { "direction": "row", "justify": "between", "align": "center" },
+      "children": ["breadcrumb", "toolbar-actions"]
+    },
+    "breadcrumb": {
+      "type": "Text",
+      "props": { "text": "My Drive / Documents", "bold": true },
+      "children": []
+    },
+    "toolbar-actions": {
+      "type": "Stack",
+      "props": { "direction": "row", "gap": 8 },
+      "children": ["btn-upload", "btn-new"]
+    },
+    "btn-upload": {
+      "type": "Button",
+      "props": { "label": "Upload", "variant": "secondary", "icon": "upload" },
+      "children": []
+    },
+    "btn-new": {
+      "type": "Button",
+      "props": { "label": "New folder", "variant": "primary", "icon": "folder-plus" },
+      "children": []
+    },
+    "table": {
+      "type": "Table",
+      "props": {
+        "columns": ["Name", "Owner", "Last modified", "Size"],
+        "rows": 8
+      },
+      "children": []
+    },
+    "details": {
+      "type": "Drawer",
+      "props": { "side": "right", "title": "Details", "size": 320 },
+      "children": ["details-preview", "details-name", "details-info-1", "details-info-2", "details-info-3", "details-divider", "details-share"]
+    },
+    "details-preview": {
+      "type": "Image",
+      "props": { "height": 140, "label": "Preview" },
+      "children": []
+    },
+    "details-name": {
+      "type": "Heading",
+      "props": { "text": "Q3 Report.pdf", "level": 3 },
+      "children": []
+    },
+    "details-info-1": {
+      "type": "Text",
+      "props": { "text": "Owner: Jane Doe", "size": "sm", "muted": true },
+      "children": []
+    },
+    "details-info-2": {
+      "type": "Text",
+      "props": { "text": "Modified: Sep 20, 2026", "size": "sm", "muted": true },
+      "children": []
+    },
+    "details-info-3": {
+      "type": "Text",
+      "props": { "text": "Size: 2.4 MB", "size": "sm", "muted": true },
+      "children": []
+    },
+    "details-divider": {
+      "type": "Divider",
+      "props": {},
+      "children": []
+    },
+    "details-share": {
+      "type": "Button",
+      "props": { "label": "Share", "variant": "secondary", "fullWidth": true },
+      "children": []
+    }
+  }
+}
+```

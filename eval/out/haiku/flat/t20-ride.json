@@ -1,0 +1,307 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Ride hailing app"
+      },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": {
+        "name": "Ride options",
+        "device": "phone"
+      },
+      "children": ["map", "sheet"]
+    },
+    "map": {
+      "type": "Image",
+      "props": {
+        "height": 300,
+        "label": "Map"
+      },
+      "children": []
+    },
+    "sheet": {
+      "type": "Drawer",
+      "props": {
+        "side": "bottom",
+        "size": 340,
+        "handle": true,
+        "scrim": false
+      },
+      "children": ["sheet-header", "options", "confirm-btn"]
+    },
+    "sheet-header": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 4,
+        "padding": 16,
+        "border": "bottom"
+      },
+      "children": ["header-text"]
+    },
+    "header-text": {
+      "type": "Heading",
+      "props": {
+        "text": "Choose a ride",
+        "level": 3
+      },
+      "children": []
+    },
+    "options": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 8,
+        "padding": 12
+      },
+      "children": ["ride1", "ride2", "ride3"]
+    },
+    "ride1": {
+      "type": "Card",
+      "props": {
+        "padding": 12,
+        "gap": 8,
+        "variant": "outline"
+      },
+      "children": ["r1-header", "r1-meta"]
+    },
+    "r1-header": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 12,
+        "align": "center"
+      },
+      "children": ["r1-icon", "r1-title"]
+    },
+    "r1-icon": {
+      "type": "Icon",
+      "props": {
+        "name": "car",
+        "size": 24
+      },
+      "children": []
+    },
+    "r1-title": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 2
+      },
+      "children": ["r1-name", "r1-time"]
+    },
+    "r1-name": {
+      "type": "Text",
+      "props": {
+        "text": "uberX",
+        "bold": true
+      },
+      "children": []
+    },
+    "r1-time": {
+      "type": "Text",
+      "props": {
+        "text": "5 min away",
+        "size": "sm",
+        "muted": true
+      },
+      "children": []
+    },
+    "r1-meta": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 12,
+        "justify": "between",
+        "align": "center"
+      },
+      "children": ["r1-rating", "r1-price"]
+    },
+    "r1-rating": {
+      "type": "Badge",
+      "props": {
+        "label": "4.8",
+        "variant": "solid"
+      },
+      "children": []
+    },
+    "r1-price": {
+      "type": "Text",
+      "props": {
+        "text": "$12",
+        "bold": true
+      },
+      "children": []
+    },
+    "ride2": {
+      "type": "Card",
+      "props": {
+        "padding": 12,
+        "gap": 8,
+        "variant": "outline"
+      },
+      "children": ["r2-header", "r2-meta"]
+    },
+    "r2-header": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 12,
+        "align": "center"
+      },
+      "children": ["r2-icon", "r2-title"]
+    },
+    "r2-icon": {
+      "type": "Icon",
+      "props": {
+        "name": "car",
+        "size": 24
+      },
+      "children": []
+    },
+    "r2-title": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 2
+      },
+      "children": ["r2-name", "r2-time"]
+    },
+    "r2-name": {
+      "type": "Text",
+      "props": {
+        "text": "uberXL",
+        "bold": true
+      },
+      "children": []
+    },
+    "r2-time": {
+      "type": "Text",
+      "props": {
+        "text": "8 min away",
+        "size": "sm",
+        "muted": true
+      },
+      "children": []
+    },
+    "r2-meta": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 12,
+        "justify": "between",
+        "align": "center"
+      },
+      "children": ["r2-rating", "r2-price"]
+    },
+    "r2-rating": {
+      "type": "Badge",
+      "props": {
+        "label": "4.7",
+        "variant": "solid"
+      },
+      "children": []
+    },
+    "r2-price": {
+      "type": "Text",
+      "props": {
+        "text": "$18",
+        "bold": true
+      },
+      "children": []
+    },
+    "ride3": {
+      "type": "Card",
+      "props": {
+        "padding": 12,
+        "gap": 8,
+        "variant": "outline"
+      },
+      "children": ["r3-header", "r3-meta"]
+    },
+    "r3-header": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 12,
+        "align": "center"
+      },
+      "children": ["r3-icon", "r3-title"]
+    },
+    "r3-icon": {
+      "type": "Icon",
+      "props": {
+        "name": "car",
+        "size": 24
+      },
+      "children": []
+    },
+    "r3-title": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 2
+      },
+      "children": ["r3-name", "r3-time"]
+    },
+    "r3-name": {
+      "type": "Text",
+      "props": {
+        "text": "Uber Black",
+        "bold": true
+      },
+      "children": []
+    },
+    "r3-time": {
+      "type": "Text",
+      "props": {
+        "text": "10 min away",
+        "size": "sm",
+        "muted": true
+      },
+      "children": []
+    },
+    "r3-meta": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 12,
+        "justify": "between",
+        "align": "center"
+      },
+      "children": ["r3-rating", "r3-price"]
+    },
+    "r3-rating": {
+      "type": "Badge",
+      "props": {
+        "label": "4.9",
+        "variant": "solid"
+      },
+      "children": []
+    },
+    "r3-price": {
+      "type": "Text",
+      "props": {
+        "text": "$24",
+        "bold": true
+      },
+      "children": []
+    },
+    "confirm-btn": {
+      "type": "Button",
+      "props": {
+        "label": "Confirm ride",
+        "variant": "primary",
+        "fullWidth": true
+      },
+      "children": []
+    }
+  }
+}
+```

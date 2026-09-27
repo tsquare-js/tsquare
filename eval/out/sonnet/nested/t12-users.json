@@ -1,0 +1,240 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "User management"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Users",
+        "device": "desktop"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Users",
+            "leading": "menu",
+            "actions": [
+              "bell",
+              "user"
+            ]
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "padding": 16,
+            "justify": "between",
+            "align": "center"
+          },
+          "children": [
+            {
+              "type": "Tabs",
+              "props": {
+                "items": [
+                  "Active",
+                  "Invited",
+                  "Suspended"
+                ],
+                "active": 0
+              },
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Invite user",
+                "variant": "primary",
+                "icon": "plus"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              "Name",
+              "Email",
+              "Role",
+              "Status"
+            ],
+            "data": [
+              [
+                "John Carter",
+                "john.carter@acme.com",
+                "Admin",
+                "Active"
+              ],
+              [
+                "Maria Gomez",
+                "maria.gomez@acme.com",
+                "Editor",
+                "Active"
+              ],
+              [
+                "David Kim",
+                "david.kim@acme.com",
+                "Viewer",
+                "Active"
+              ],
+              [
+                "Sarah Lee",
+                "sarah.lee@acme.com",
+                "Editor",
+                "Active"
+              ]
+            ]
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Users - Filters",
+        "device": "desktop"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Users",
+            "leading": "menu",
+            "actions": [
+              "bell",
+              "user"
+            ]
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "padding": 16,
+            "justify": "between",
+            "align": "center"
+          },
+          "children": [
+            {
+              "type": "Tabs",
+              "props": {
+                "items": [
+                  "Active",
+                  "Invited",
+                  "Suspended"
+                ],
+                "active": 0
+              },
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Filters",
+                "variant": "secondary",
+                "icon": "sliders"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": [
+              "Name",
+              "Email",
+              "Role",
+              "Status"
+            ],
+            "data": [
+              [
+                "John Carter",
+                "john.carter@acme.com",
+                "Admin",
+                "Active"
+              ],
+              [
+                "Maria Gomez",
+                "maria.gomez@acme.com",
+                "Editor",
+                "Active"
+              ],
+              [
+                "David Kim",
+                "david.kim@acme.com",
+                "Viewer",
+                "Active"
+              ],
+              [
+                "Sarah Lee",
+                "sarah.lee@acme.com",
+                "Editor",
+                "Active"
+              ]
+            ]
+          },
+          "children": []
+        },
+        {
+          "type": "Drawer",
+          "props": {
+            "side": "right",
+            "title": "Filters",
+            "size": 320,
+            "scrim": true
+          },
+          "children": [
+            {
+              "type": "Select",
+              "props": {
+                "label": "Role",
+                "placeholder": "Any role"
+              },
+              "children": []
+            },
+            {
+              "type": "Select",
+              "props": {
+                "label": "Status",
+                "placeholder": "Any status"
+              },
+              "children": []
+            },
+            {
+              "type": "Checkbox",
+              "props": {
+                "label": "Show suspended users"
+              },
+              "children": []
+            },
+            {
+              "type": "Spacer",
+              "props": {},
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Apply filters",
+                "variant": "primary",
+                "fullWidth": true
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

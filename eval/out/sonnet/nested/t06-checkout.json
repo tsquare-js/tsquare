@@ -1,0 +1,61 @@
+```json
+{
+  "type": "Board",
+  "props": { "title": "Checkout" },
+  "children": [
+    {
+      "type": "Screen",
+      "props": { "name": "Cart", "device": "phone" },
+      "children": [
+        { "type": "NavBar", "props": { "title": "Cart", "leading": "back" }, "children": [] },
+        {
+          "type": "List",
+          "props": { "dividers": true },
+          "children": [
+            { "type": "ListItem", "props": { "leading": "image", "title": "Item name", "subtitle": "Qty 1", "trailing": "text", "trailingText": "$0.00" }, "children": [] },
+            { "type": "ListItem", "props": { "leading": "image", "title": "Item name", "subtitle": "Qty 1", "trailing": "text", "trailingText": "$0.00" }, "children": [] }
+          ]
+        },
+        { "type": "Spacer", "props": {}, "children": [] },
+        { "type": "Button", "props": { "label": "Checkout", "variant": "primary", "fullWidth": true }, "children": [] }
+      ]
+    },
+    {
+      "type": "Screen",
+      "props": { "name": "Shipping", "device": "phone" },
+      "children": [
+        { "type": "NavBar", "props": { "title": "Shipping", "leading": "back" }, "children": [] },
+        { "type": "Input", "props": { "label": "Full name" }, "children": [] },
+        { "type": "Input", "props": { "label": "Address" }, "children": [] },
+        { "type": "Input", "props": { "label": "City" }, "children": [] },
+        {
+          "type": "Stack",
+          "props": { "direction": "row", "gap": 8 },
+          "children": [
+            { "type": "Input", "props": { "label": "State" }, "children": [] },
+            { "type": "Input", "props": { "label": "ZIP" }, "children": [] }
+          ]
+        },
+        { "type": "Button", "props": { "label": "Continue", "variant": "primary", "fullWidth": true }, "children": [] }
+      ]
+    },
+    {
+      "type": "Screen",
+      "props": { "name": "Confirmation", "device": "phone" },
+      "children": [
+        { "type": "NavBar", "props": { "title": "Order", "leading": "close" }, "children": [] },
+        { "type": "Text", "props": { "lines": 3 }, "children": [] },
+        {
+          "type": "Modal",
+          "props": { "title": "Order placed", "width": 280 },
+          "children": [
+            { "type": "Icon", "props": { "name": "check-circle", "size": 40 }, "children": [] },
+            { "type": "Text", "props": { "text": "Your order has been placed.", "align": "center" }, "children": [] },
+            { "type": "Button", "props": { "label": "Done", "variant": "primary", "fullWidth": true }, "children": [] }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

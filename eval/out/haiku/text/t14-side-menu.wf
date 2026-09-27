@@ -1,0 +1,22 @@
+```wireframe
+board "Phone with Side Menu"
+  screen phone "Home"
+    navbar "App" leading=menu
+    stack column padding=20 gap=16
+      text "Main content"
+    drawer left "Menu" size=240
+      stack column gap=16 padding=16
+        stack row gap=12 align=center
+          avatar initials="JD" size=48
+          stack column gap=4
+            text bold "John Doe"
+            text sm muted "john@example.com"
+        divider
+        listitem title="Home" leading=icon icon=home
+        listitem title="Explore" leading=icon icon=compass
+        listitem title="Messages" leading=icon icon=mail
+        listitem title="Settings" leading=icon icon=settings
+        listitem title="Help" leading=icon icon=help-circle
+        spacer
+        button label="Log out" variant=ghost fullWidth
+```

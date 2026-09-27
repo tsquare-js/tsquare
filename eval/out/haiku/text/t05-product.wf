@@ -1,0 +1,20 @@
+```wireframe
+board "Product"
+  screen phone "Product"
+    navbar leading=back actions=[heart, share]
+    stack padding=16 gap=16
+      image height=300 rounded
+      heading "Product Name" level=1
+      text "$99.99" bold size=lg
+      stack row gap=8
+        badge outline "In Stock"
+        badge outline "Free shipping"
+      select "Size" placeholder="Select size"
+      button primary "Add to cart" fullWidth
+      divider
+      heading "Reviews" level=2
+      list dividers
+        listitem "Great product!" subtitle="5 stars" leading=avatar icon=star trailing=text trailingText="5⭐"
+        listitem "Very good quality" subtitle="4 stars" leading=avatar icon=star trailing=text trailingText="4⭐"
+        listitem "Exceeded expectations" subtitle="5 stars" leading=avatar icon=star trailing=text trailingText="5⭐"
+```

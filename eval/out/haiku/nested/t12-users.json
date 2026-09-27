@@ -1,0 +1,137 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "User management"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Users",
+        "device": "desktop"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Users",
+            "actions": ["plus"]
+          },
+          "children": []
+        },
+        {
+          "type": "Tabs",
+          "props": {
+            "items": ["Active", "Invited", "Suspended"],
+            "active": 0
+          },
+          "children": []
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": ["Name", "Email", "Role", "Status"],
+            "data": [
+              ["John Smith", "john.smith@example.com", "Admin", "Active"],
+              ["Sarah Johnson", "sarah.j@example.com", "Editor", "Active"],
+              ["Mike Davis", "mike.davis@example.com", "Viewer", "Active"],
+              ["Lisa Chen", "lisa.chen@example.com", "Editor", "Active"]
+            ]
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Users with filters",
+        "device": "desktop"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Users",
+            "actions": ["plus"]
+          },
+          "children": []
+        },
+        {
+          "type": "Tabs",
+          "props": {
+            "items": ["Active", "Invited", "Suspended"],
+            "active": 0
+          },
+          "children": []
+        },
+        {
+          "type": "Table",
+          "props": {
+            "columns": ["Name", "Email", "Role", "Status"],
+            "data": [
+              ["John Smith", "john.smith@example.com", "Admin", "Active"],
+              ["Sarah Johnson", "sarah.j@example.com", "Editor", "Active"],
+              ["Mike Davis", "mike.davis@example.com", "Viewer", "Active"],
+              ["Lisa Chen", "lisa.chen@example.com", "Editor", "Active"]
+            ]
+          },
+          "children": []
+        },
+        {
+          "type": "Drawer",
+          "props": {
+            "side": "right",
+            "title": "Filters",
+            "size": 280
+          },
+          "children": [
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "gap": 16
+              },
+              "children": [
+                {
+                  "type": "Heading",
+                  "props": {
+                    "text": "Role",
+                    "level": 3
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Checkbox",
+                  "props": {
+                    "label": "Admin",
+                    "checked": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Checkbox",
+                  "props": {
+                    "label": "Editor",
+                    "checked": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Checkbox",
+                  "props": {
+                    "label": "Viewer",
+                    "checked": false
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

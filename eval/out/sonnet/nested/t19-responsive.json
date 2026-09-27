@@ -1,0 +1,201 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Notes - phone vs desktop",
+    "layout": "row",
+    "gap": 24
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Notes - phone",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Notes",
+            "leading": "menu",
+            "actions": [
+              "search"
+            ]
+          },
+          "children": []
+        },
+        {
+          "type": "List",
+          "props": {
+            "dividers": true
+          },
+          "children": [
+            {
+              "type": "ListItem",
+              "props": {
+                "title": "Grocery list",
+                "subtitle": "Milk, eggs, bread",
+                "trailing": "chevron"
+              },
+              "children": []
+            },
+            {
+              "type": "ListItem",
+              "props": {
+                "title": "Trip planning",
+                "subtitle": "Flights, hotel, itinerary",
+                "trailing": "chevron"
+              },
+              "children": []
+            },
+            {
+              "type": "ListItem",
+              "props": {
+                "title": "Meeting notes",
+                "subtitle": "Q3 roadmap sync",
+                "trailing": "chevron"
+              },
+              "children": []
+            },
+            {
+              "type": "ListItem",
+              "props": {
+                "leading": "none",
+                "trailing": "chevron"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Notes - desktop",
+        "device": "desktop"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Notes",
+            "leading": "menu",
+            "actions": [
+              "search",
+              "plus"
+            ]
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "grow": true
+          },
+          "children": [
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "width": 220,
+                "border": "right",
+                "padding": 12,
+                "gap": 8
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "All notes",
+                    "bold": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Personal"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Work"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Archived"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "List",
+              "props": {
+                "dividers": true
+              },
+              "children": [
+                {
+                  "type": "ListItem",
+                  "props": {
+                    "title": "Grocery list",
+                    "subtitle": "Milk, eggs, bread",
+                    "trailing": "text",
+                    "trailingText": "2h ago"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "ListItem",
+                  "props": {
+                    "title": "Trip planning",
+                    "subtitle": "Flights, hotel, itinerary",
+                    "trailing": "text",
+                    "trailingText": "1d ago"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "ListItem",
+                  "props": {
+                    "title": "Meeting notes",
+                    "subtitle": "Q3 roadmap sync",
+                    "trailing": "text",
+                    "trailingText": "3d ago"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "ListItem",
+                  "props": {
+                    "leading": "none",
+                    "trailing": "none"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Note",
+      "props": {
+        "text": "On phone, notes are a single scrollable list. On desktop, a folder sidebar appears on the left and each row shows a relative timestamp instead of a chevron.",
+        "color": "yellow",
+        "width": 240
+      },
+      "children": []
+    }
+  ]
+}
+```

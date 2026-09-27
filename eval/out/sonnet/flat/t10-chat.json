@@ -1,0 +1,82 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Chat" },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": { "name": "Conversation", "device": "phone", "padding": 0, "gap": 0 },
+      "children": ["nav", "thread", "input-bar"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": { "title": "Alex Rivera", "leading": "back", "actions": ["phone", "video"] },
+      "children": []
+    },
+    "thread": {
+      "type": "Stack",
+      "props": { "direction": "column", "gap": 10, "padding": 16, "grow": true },
+      "children": ["msg-in-1", "msg-out-1", "msg-in-2", "msg-out-2"]
+    },
+    "msg-in-1": {
+      "type": "Card",
+      "props": { "padding": 10 },
+      "children": ["msg-in-1-text"]
+    },
+    "msg-in-1-text": {
+      "type": "Text",
+      "props": { "text": "Hey, are we still on for tomorrow?" },
+      "children": []
+    },
+    "msg-out-1": {
+      "type": "Card",
+      "props": { "padding": 10, "variant": "filled" },
+      "children": ["msg-out-1-text"]
+    },
+    "msg-out-1-text": {
+      "type": "Text",
+      "props": { "text": "Yes, see you at 10." },
+      "children": []
+    },
+    "msg-in-2": {
+      "type": "Card",
+      "props": { "padding": 10 },
+      "children": ["msg-in-2-text"]
+    },
+    "msg-in-2-text": {
+      "type": "Text",
+      "props": { "lines": 2 },
+      "children": []
+    },
+    "msg-out-2": {
+      "type": "Card",
+      "props": { "padding": 10, "variant": "filled" },
+      "children": ["msg-out-2-text"]
+    },
+    "msg-out-2-text": {
+      "type": "Text",
+      "props": { "lines": 1 },
+      "children": []
+    },
+    "input-bar": {
+      "type": "Stack",
+      "props": { "direction": "row", "gap": 8, "padding": 12, "align": "center", "border": "top" },
+      "children": ["input-field", "send-btn"]
+    },
+    "input-field": {
+      "type": "Input",
+      "props": { "placeholder": "Message", "type": "text" },
+      "children": []
+    },
+    "send-btn": {
+      "type": "Button",
+      "props": { "icon": "send", "variant": "primary" },
+      "children": []
+    }
+  }
+}
+```

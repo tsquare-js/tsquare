@@ -1,0 +1,27 @@
+```wireframe
+board "Project Settings"
+  screen desktop "Settings"
+    navbar "Settings" leading=back
+    stack column padding=32 gap=24
+      stack column gap=16
+        heading "General" level=2
+        input label="Project name" value="My Project"
+        input label="Description" multiline=3
+      stack column gap=16
+        heading "Team" level=2
+        text "3 members"
+        button label="Manage team" variant=secondary
+      divider
+      card variant=outline
+        stack column gap=16
+          heading "Danger zone" level=2
+          text "Deleting this project cannot be undone."
+          button label="Delete project" variant=primary
+    modal "Delete project?" width=400 scrim=true
+      stack column gap=16
+        text "Type the project name to confirm deletion:"
+        input placeholder="My Project"
+        stack row gap=12 justify=end
+          button label="Cancel" variant=secondary
+          button label="Delete" variant=primary
+```

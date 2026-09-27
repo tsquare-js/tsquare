@@ -1,0 +1,18 @@
+```wireframe
+board "Project settings - Delete"
+  screen desktop "Project settings"
+    navbar "Project settings" leading=back actions=[bell, user]
+    stack gap=16 padding=24
+      heading "General" level=2
+      card title="Project name" padding=16
+        input value="Acme Website"
+      card title="Danger zone" padding=16 variant=outline
+        text "Deleting this project is permanent and cannot be undone." muted
+        button primary "Delete project"
+    modal "Delete project" width=420
+      text "This action cannot be undone. Please type the project name to confirm." muted
+      input label="Project name" placeholder="Acme Website"
+      stack row gap=8 justify=end
+        button secondary "Cancel"
+        button primary "Delete"
+```

@@ -1,0 +1,47 @@
+```wireframe
+board "Pricing Page"
+  screen desktop "Pricing"
+    navbar "Pricing Plans" leading=back
+    stack column padding=40 gap=32 align=center
+      stack row gap=12 align=center
+        text "Monthly"
+        toggle label="Yearly" on=false
+        text "Yearly"
+      stack row gap=24 justify=center
+        card padding=24 variant=outline
+          text "Starter" bold size=lg
+          stack row gap=8
+            text "$29" bold size=lg
+            text sm muted "/month"
+          divider
+          stack column gap=12
+            text "Up to 10 users"
+            text "Basic support"
+            text "1 GB storage"
+            text "Core features"
+          button label="Get started" variant=secondary fullWidth
+        card padding=24 variant=filled
+          text "Professional" bold size=lg
+          stack row gap=8
+            text "$99" bold size=lg
+            text sm muted "/month"
+          divider
+          stack column gap=12
+            text "Up to 50 users"
+            text "Priority support"
+            text "100 GB storage"
+            text "Advanced features"
+          button label="Get started" variant=primary fullWidth
+        card padding=24 variant=outline
+          text "Enterprise" bold size=lg
+          stack row gap=8
+            text "Custom" bold size=lg
+            text sm muted "pricing"
+          divider
+          stack column gap=12
+            text "Unlimited users"
+            text "24/7 support"
+            text "Unlimited storage"
+            text "Custom features"
+          button label="Contact us" variant=secondary fullWidth
+```

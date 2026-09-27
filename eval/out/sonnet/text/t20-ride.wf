@@ -1,0 +1,12 @@
+```wireframe
+board "Ride hailing"
+  screen phone "Choose a ride"
+    navbar leading=back actions=[bell]
+    image "Map" height=320
+    drawer bottom "Choose a ride" size=320
+      list dividers
+        listitem title="Economy" subtitle="4 min away · 2 seats" leading=icon icon=car trailing=text trailingText="$8.50"
+        listitem title="Comfort" subtitle="6 min away · 4 seats" leading=icon icon=car trailing=text trailingText="$12.00"
+        listitem title="XL" subtitle="9 min away · 6 seats" leading=icon icon=car trailing=text trailingText="$18.25"
+      button primary "Confirm ride" fullWidth
+```

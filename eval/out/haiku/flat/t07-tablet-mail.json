@@ -1,0 +1,136 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Email client"
+      },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": {
+        "name": "Mail",
+        "device": "tablet"
+      },
+      "children": ["layout"]
+    },
+    "layout": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 0
+      },
+      "children": ["sidebar", "content"]
+    },
+    "sidebar": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "width": 300,
+        "border": "right",
+        "gap": 0
+      },
+      "children": ["inbox-nav", "email-list"]
+    },
+    "inbox-nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Inbox",
+        "actions": ["plus"]
+      },
+      "children": []
+    },
+    "email-list": {
+      "type": "List",
+      "props": {
+        "dividers": true
+      },
+      "children": ["email1", "email2", "email3"]
+    },
+    "email1": {
+      "type": "ListItem",
+      "props": {
+        "title": "John Doe",
+        "subtitle": "Meeting tomorrow",
+        "leading": "avatar",
+        "icon": "person"
+      },
+      "children": []
+    },
+    "email2": {
+      "type": "ListItem",
+      "props": {
+        "title": "Jane Smith",
+        "subtitle": "Project update",
+        "leading": "avatar",
+        "icon": "person"
+      },
+      "children": []
+    },
+    "email3": {
+      "type": "ListItem",
+      "props": {
+        "title": "Admin",
+        "subtitle": "Password reset",
+        "leading": "avatar",
+        "icon": "person"
+      },
+      "children": []
+    },
+    "content": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 0,
+        "grow": true
+      },
+      "children": ["message-nav", "message-body"]
+    },
+    "message-nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Meeting tomorrow",
+        "actions": ["reply", "more-horizontal"]
+      },
+      "children": []
+    },
+    "message-body": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "padding": 16,
+        "gap": 12
+      },
+      "children": ["msg-from", "msg-time", "msg-content"]
+    },
+    "msg-from": {
+      "type": "Text",
+      "props": {
+        "text": "From: John Doe <john@example.com>",
+        "bold": true,
+        "size": "sm"
+      },
+      "children": []
+    },
+    "msg-time": {
+      "type": "Text",
+      "props": {
+        "text": "Today at 2:45 PM",
+        "muted": true,
+        "size": "sm"
+      },
+      "children": []
+    },
+    "msg-content": {
+      "type": "Text",
+      "props": {
+        "lines": 6
+      },
+      "children": []
+    }
+  }
+}
+```

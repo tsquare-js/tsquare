@@ -1,0 +1,216 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Notes list responsive"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Mobile",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Notes",
+            "actions": ["plus"]
+          },
+          "children": []
+        },
+        {
+          "type": "List",
+          "props": {
+            "dividers": true
+          },
+          "children": [
+            {
+              "type": "ListItem",
+              "props": {
+                "title": "Meeting notes",
+                "subtitle": "Today at 2:00 PM",
+                "trailing": "chevron"
+              },
+              "children": []
+            },
+            {
+              "type": "ListItem",
+              "props": {
+                "title": "Project ideas",
+                "subtitle": "Yesterday",
+                "trailing": "chevron"
+              },
+              "children": []
+            },
+            {
+              "type": "ListItem",
+              "props": {
+                "title": "Shopping list",
+                "subtitle": "3 days ago",
+                "trailing": "chevron"
+              },
+              "children": []
+            },
+            {
+              "type": "ListItem",
+              "props": {
+                "title": "Travel plans",
+                "subtitle": "1 week ago",
+                "trailing": "chevron"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "TabBar",
+          "props": {
+            "items": [
+              {"label": "Notes", "icon": "edit"},
+              {"label": "Archive", "icon": "archive"},
+              {"label": "Profile", "icon": "user"}
+            ],
+            "active": 0
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Desktop",
+        "device": "desktop"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Notes",
+            "actions": ["plus"]
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "gap": 20,
+            "padding": 24
+          },
+          "children": [
+            {
+              "type": "Card",
+              "props": {
+                "padding": 16,
+                "width": 300
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Meeting notes",
+                    "bold": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Today at 2:00 PM",
+                    "size": "sm",
+                    "muted": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "lines": 3
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Card",
+              "props": {
+                "padding": 16,
+                "width": 300
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Project ideas",
+                    "bold": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Yesterday",
+                    "size": "sm",
+                    "muted": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "lines": 3
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Card",
+              "props": {
+                "padding": 16,
+                "width": 300
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Shopping list",
+                    "bold": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "3 days ago",
+                    "size": "sm",
+                    "muted": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "lines": 3
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Note",
+      "props": {
+        "text": "Mobile: list view with full-width items and tab bar. Desktop: card grid view without tab bar."
+      },
+      "children": []
+    }
+  ]
+}
+```

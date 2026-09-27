@@ -1,0 +1,162 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Notes list states"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Empty state",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Notes",
+            "actions": ["plus"]
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "gap": 16,
+            "align": "center",
+            "justify": "center",
+            "padding": 24,
+            "grow": true
+          },
+          "children": [
+            {
+              "type": "Image",
+              "props": {
+                "height": 160,
+                "width": 160
+              },
+              "children": []
+            },
+            {
+              "type": "Heading",
+              "props": {
+                "text": "No notes yet",
+                "level": 2,
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Text",
+              "props": {
+                "text": "Create your first note to get started",
+                "align": "center",
+                "muted": true
+              },
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Create note",
+                "variant": "primary"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "TabBar",
+          "props": {
+            "items": [
+              {"label": "Notes", "icon": "edit"},
+              {"label": "Archive", "icon": "archive"},
+              {"label": "Profile", "icon": "user"}
+            ],
+            "active": 0
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Error state",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Notes",
+            "actions": ["plus"]
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "gap": 16,
+            "align": "center",
+            "justify": "center",
+            "padding": 24,
+            "grow": true
+          },
+          "children": [
+            {
+              "type": "Icon",
+              "props": {
+                "name": "alert-circle",
+                "size": 64
+              },
+              "children": []
+            },
+            {
+              "type": "Heading",
+              "props": {
+                "text": "Something went wrong",
+                "level": 2,
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Text",
+              "props": {
+                "text": "Unable to load your notes. Please try again.",
+                "align": "center",
+                "muted": true
+              },
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Retry",
+                "variant": "primary"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "TabBar",
+          "props": {
+            "items": [
+              {"label": "Notes", "icon": "edit"},
+              {"label": "Archive", "icon": "archive"},
+              {"label": "Profile", "icon": "user"}
+            ],
+            "active": 0
+          },
+          "children": []
+        }
+      ]
+    }
+  ]
+}
+```

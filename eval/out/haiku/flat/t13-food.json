@@ -1,0 +1,231 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Food delivery app"
+      },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": {
+        "name": "Home",
+        "device": "phone"
+      },
+      "children": ["nav", "search", "categories", "restaurants", "tabbar"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Deliver to Home",
+        "leading": "none",
+        "actions": ["bell"]
+      },
+      "children": []
+    },
+    "search": {
+      "type": "Input",
+      "props": {
+        "type": "search",
+        "placeholder": "Search restaurants"
+      },
+      "children": []
+    },
+    "categories": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 8,
+        "wrap": true
+      },
+      "children": ["cat1", "cat2", "cat3", "cat4"]
+    },
+    "cat1": {
+      "type": "Badge",
+      "props": {
+        "label": "Pizza",
+        "variant": "outline"
+      },
+      "children": []
+    },
+    "cat2": {
+      "type": "Badge",
+      "props": {
+        "label": "Burgers",
+        "variant": "outline"
+      },
+      "children": []
+    },
+    "cat3": {
+      "type": "Badge",
+      "props": {
+        "label": "Sushi",
+        "variant": "outline"
+      },
+      "children": []
+    },
+    "cat4": {
+      "type": "Badge",
+      "props": {
+        "label": "Thai",
+        "variant": "outline"
+      },
+      "children": []
+    },
+    "restaurants": {
+      "type": "Grid",
+      "props": {
+        "columns": 2,
+        "gap": 12
+      },
+      "children": ["rest1", "rest2", "rest3", "rest4"]
+    },
+    "rest1": {
+      "type": "Card",
+      "props": {
+        "padding": 8,
+        "gap": 6
+      },
+      "children": ["r1img", "r1title", "r1meta"]
+    },
+    "r1img": {
+      "type": "Image",
+      "props": {
+        "height": 110,
+        "rounded": true
+      },
+      "children": []
+    },
+    "r1title": {
+      "type": "Text",
+      "props": {
+        "text": "Mario's Pizza",
+        "bold": true
+      },
+      "children": []
+    },
+    "r1meta": {
+      "type": "Text",
+      "props": {
+        "text": "20-30 min",
+        "size": "sm",
+        "muted": true
+      },
+      "children": []
+    },
+    "rest2": {
+      "type": "Card",
+      "props": {
+        "padding": 8,
+        "gap": 6
+      },
+      "children": ["r2img", "r2title", "r2meta"]
+    },
+    "r2img": {
+      "type": "Image",
+      "props": {
+        "height": 110,
+        "rounded": true
+      },
+      "children": []
+    },
+    "r2title": {
+      "type": "Text",
+      "props": {
+        "text": "Burger House",
+        "bold": true
+      },
+      "children": []
+    },
+    "r2meta": {
+      "type": "Text",
+      "props": {
+        "text": "15-25 min",
+        "size": "sm",
+        "muted": true
+      },
+      "children": []
+    },
+    "rest3": {
+      "type": "Card",
+      "props": {
+        "padding": 8,
+        "gap": 6
+      },
+      "children": ["r3img", "r3title", "r3meta"]
+    },
+    "r3img": {
+      "type": "Image",
+      "props": {
+        "height": 110,
+        "rounded": true
+      },
+      "children": []
+    },
+    "r3title": {
+      "type": "Text",
+      "props": {
+        "lines": 1
+      },
+      "children": []
+    },
+    "r3meta": {
+      "type": "Text",
+      "props": {
+        "text": "25-35 min",
+        "size": "sm",
+        "muted": true
+      },
+      "children": []
+    },
+    "rest4": {
+      "type": "Card",
+      "props": {
+        "padding": 8,
+        "gap": 6
+      },
+      "children": ["r4img", "r4title", "r4meta"]
+    },
+    "r4img": {
+      "type": "Image",
+      "props": {
+        "height": 110,
+        "rounded": true
+      },
+      "children": []
+    },
+    "r4title": {
+      "type": "Text",
+      "props": {
+        "lines": 1
+      },
+      "children": []
+    },
+    "r4meta": {
+      "type": "Text",
+      "props": {
+        "size": "sm",
+        "muted": true,
+        "lines": 1
+      },
+      "children": []
+    },
+    "tabbar": {
+      "type": "TabBar",
+      "props": {
+        "items": [
+          {"label": "Home", "icon": "home"},
+          {"label": "Search", "icon": "search"},
+          {"label": "Orders", "icon": "shopping-bag"},
+          {"label": "Profile", "icon": "user"}
+        ],
+        "active": 0
+      },
+      "children": []
+    }
+  }
+}
+```

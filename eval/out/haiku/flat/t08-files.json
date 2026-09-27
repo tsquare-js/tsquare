@@ -1,0 +1,215 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "File manager"
+      },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": {
+        "name": "Files",
+        "device": "desktop"
+      },
+      "children": ["nav", "layout"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Files",
+        "leading": "menu",
+        "actions": ["search", "more-horizontal"]
+      },
+      "children": []
+    },
+    "layout": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 0,
+        "grow": true
+      },
+      "children": ["main-content", "details-drawer"]
+    },
+    "main-content": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "padding": 16,
+        "gap": 16,
+        "grow": true
+      },
+      "children": ["breadcrumb", "table"]
+    },
+    "breadcrumb": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 8
+      },
+      "children": ["bc1", "bc2"]
+    },
+    "bc1": {
+      "type": "Button",
+      "props": {
+        "label": "Home",
+        "variant": "ghost"
+      },
+      "children": []
+    },
+    "bc2": {
+      "type": "Button",
+      "props": {
+        "label": "Documents",
+        "variant": "ghost"
+      },
+      "children": []
+    },
+    "table": {
+      "type": "Table",
+      "props": {
+        "columns": ["Name", "Type", "Size", "Modified", "Owner"],
+        "rows": 6
+      },
+      "children": []
+    },
+    "details-drawer": {
+      "type": "Drawer",
+      "props": {
+        "side": "right",
+        "title": "Details",
+        "size": 300
+      },
+      "children": ["details-name", "details-size", "details-modified", "details-owner", "details-actions"]
+    },
+    "details-name": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 4
+      },
+      "children": ["dn-label", "dn-value"]
+    },
+    "dn-label": {
+      "type": "Text",
+      "props": {
+        "text": "Name",
+        "muted": true,
+        "size": "sm"
+      },
+      "children": []
+    },
+    "dn-value": {
+      "type": "Text",
+      "props": {
+        "text": "document.pdf",
+        "bold": true
+      },
+      "children": []
+    },
+    "details-size": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 4
+      },
+      "children": ["ds-label", "ds-value"]
+    },
+    "ds-label": {
+      "type": "Text",
+      "props": {
+        "text": "Size",
+        "muted": true,
+        "size": "sm"
+      },
+      "children": []
+    },
+    "ds-value": {
+      "type": "Text",
+      "props": {
+        "text": "2.4 MB"
+      },
+      "children": []
+    },
+    "details-modified": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 4
+      },
+      "children": ["dm-label", "dm-value"]
+    },
+    "dm-label": {
+      "type": "Text",
+      "props": {
+        "text": "Modified",
+        "muted": true,
+        "size": "sm"
+      },
+      "children": []
+    },
+    "dm-value": {
+      "type": "Text",
+      "props": {
+        "text": "Sep 22, 2026"
+      },
+      "children": []
+    },
+    "details-owner": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 4
+      },
+      "children": ["do-label", "do-value"]
+    },
+    "do-label": {
+      "type": "Text",
+      "props": {
+        "text": "Owner",
+        "muted": true,
+        "size": "sm"
+      },
+      "children": []
+    },
+    "do-value": {
+      "type": "Text",
+      "props": {
+        "text": "You"
+      },
+      "children": []
+    },
+    "details-actions": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 8,
+        "padding": 16
+      },
+      "children": ["da-edit", "da-delete"]
+    },
+    "da-edit": {
+      "type": "Button",
+      "props": {
+        "label": "Edit",
+        "variant": "secondary",
+        "fullWidth": true
+      },
+      "children": []
+    },
+    "da-delete": {
+      "type": "Button",
+      "props": {
+        "label": "Delete",
+        "variant": "secondary",
+        "fullWidth": true
+      },
+      "children": []
+    }
+  }
+}
+```

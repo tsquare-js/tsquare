@@ -1,0 +1,34 @@
+```wireframe
+board "Checkout"
+  screen phone "Cart"
+    navbar "Cart" leading=back
+    stack padding=16 gap=16
+      heading "Your Cart" level=2
+      list dividers
+        listitem "Product 1" subtitle="$50 x 2 = $100" trailing=text trailingText=$100
+        listitem "Product 2" subtitle="$49.99 x 1 = $49.99" trailing=text trailingText=$49.99
+      divider
+      stack row justify=between
+        text bold "Total:"
+        text bold "$149.99"
+      button primary "Proceed to Shipping" fullWidth
+  screen phone "Shipping"
+    navbar "Shipping" leading=back
+    stack padding=16 gap=16
+      heading "Shipping Address" level=2
+      input "Full Name" placeholder="John Doe"
+      input "Address" placeholder="123 Main St"
+      input "City" placeholder="San Francisco"
+      input "Zip Code" placeholder="94105"
+      button primary "Proceed to Payment" fullWidth
+  screen phone "Confirmation"
+    stack padding=16 gap=16 align=center justify=center
+      icon "check-circle" size=64
+      heading "Order Placed!" level=1 align=center
+      text "Order #12345" align=center
+      button primary "Continue Shopping" fullWidth
+    modal "Order confirmed"
+      text "Thank you for your purchase!"
+      text "Your order has been placed successfully."
+      button primary "Done" fullWidth
+```

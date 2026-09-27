@@ -1,0 +1,19 @@
+```wireframe
+board "File manager"
+  screen desktop "Files"
+    navbar "Files" leading=none actions=[search, more-horizontal]
+    table columns=[Name, Type, Size, Modified] rows=8
+    drawer right "Details" size=300
+      image "Preview" height=140
+      text "filename.ext" bold
+      divider
+      stack row justify=between
+        text sm "Size" muted
+        text sm "2.4 MB"
+      stack row justify=between
+        text sm "Modified" muted
+        text sm "Sep 20, 2026"
+      stack row justify=between
+        text sm "Type" muted
+        text sm "Document"
+```

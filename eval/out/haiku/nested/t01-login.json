@@ -1,0 +1,99 @@
+{
+  "type": "Board",
+  "props": {
+    "title": "Login"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Sign In",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "Spacer",
+          "props": {
+            "size": 60
+          },
+          "children": []
+        },
+        {
+          "type": "Heading",
+          "props": {
+            "text": "Welcome",
+            "level": 1,
+            "align": "center"
+          },
+          "children": []
+        },
+        {
+          "type": "Spacer",
+          "props": {
+            "size": 40
+          },
+          "children": []
+        },
+        {
+          "type": "Input",
+          "props": {
+            "label": "Email",
+            "placeholder": "you@example.com",
+            "type": "email"
+          },
+          "children": []
+        },
+        {
+          "type": "Input",
+          "props": {
+            "label": "Password",
+            "placeholder": "••••••••",
+            "type": "password"
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "justify": "between",
+            "align": "center"
+          },
+          "children": [
+            {
+              "type": "Checkbox",
+              "props": {
+                "label": "Remember me"
+              },
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Forgot password?",
+                "variant": "ghost"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Spacer",
+          "props": {
+            "size": 20
+          },
+          "children": []
+        },
+        {
+          "type": "Button",
+          "props": {
+            "label": "Sign in",
+            "variant": "primary",
+            "fullWidth": true
+          },
+          "children": []
+        }
+      ]
+    }
+  ]
+}

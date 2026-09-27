@@ -1,0 +1,137 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Side menu"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Menu open",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "Drawer",
+          "props": {
+            "side": "left",
+            "size": 280
+          },
+          "children": [
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "gap": 20,
+                "padding": 16
+              },
+              "children": [
+                {
+                  "type": "Stack",
+                  "props": {
+                    "direction": "row",
+                    "gap": 12,
+                    "align": "center"
+                  },
+                  "children": [
+                    {
+                      "type": "Avatar",
+                      "props": {
+                        "initials": "JD",
+                        "size": 48
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "John Doe",
+                        "bold": true
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "type": "Divider",
+                  "props": {},
+                  "children": []
+                },
+                {
+                  "type": "Stack",
+                  "props": {
+                    "direction": "column",
+                    "gap": 12
+                  },
+                  "children": [
+                    {
+                      "type": "Button",
+                      "props": {
+                        "label": "Home",
+                        "icon": "home",
+                        "variant": "ghost"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Button",
+                      "props": {
+                        "label": "Profile",
+                        "icon": "user",
+                        "variant": "ghost"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Button",
+                      "props": {
+                        "label": "Settings",
+                        "icon": "settings",
+                        "variant": "ghost"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Button",
+                      "props": {
+                        "label": "Help",
+                        "icon": "help-circle",
+                        "variant": "ghost"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Button",
+                      "props": {
+                        "label": "About",
+                        "icon": "info",
+                        "variant": "ghost"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "type": "Spacer",
+                  "props": {},
+                  "children": []
+                },
+                {
+                  "type": "Button",
+                  "props": {
+                    "label": "Log out",
+                    "icon": "log-out",
+                    "variant": "ghost"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

@@ -1,0 +1,82 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Notes - responsive" },
+      "children": ["phone-screen", "desktop-screen", "note"]
+    },
+    "phone-screen": {
+      "type": "Screen",
+      "props": { "name": "Notes (Phone)", "device": "phone" },
+      "children": ["p-nav", "p-list"]
+    },
+    "p-nav": {
+      "type": "NavBar",
+      "props": { "title": "Notes", "actions": ["plus"] },
+      "children": []
+    },
+    "p-list": {
+      "type": "List",
+      "props": { "dividers": true },
+      "children": ["p-item1", "p-item2", "p-item3", "p-item4", "p-item5"]
+    },
+    "p-item1": { "type": "ListItem", "props": { "title": "Grocery list", "subtitle": "Updated 2h ago" }, "children": [] },
+    "p-item2": { "type": "ListItem", "props": { "title": "Meeting notes", "subtitle": "Updated yesterday" }, "children": [] },
+    "p-item3": { "type": "ListItem", "props": { "title": "Trip ideas", "subtitle": "Updated 3d ago" }, "children": [] },
+    "p-item4": { "type": "ListItem", "props": { "title": "Book recommendations", "subtitle": "Updated last week" }, "children": [] },
+    "p-item5": { "type": "ListItem", "props": { "title": "Recipe: pasta", "subtitle": "Updated 2 weeks ago" }, "children": [] },
+    "desktop-screen": {
+      "type": "Screen",
+      "props": { "name": "Notes (Desktop)", "device": "desktop" },
+      "children": ["d-nav", "d-body"]
+    },
+    "d-nav": {
+      "type": "NavBar",
+      "props": { "title": "Notes", "leading": "logo", "actions": ["plus", "search"] },
+      "children": []
+    },
+    "d-body": {
+      "type": "Stack",
+      "props": { "direction": "row", "gap": 16, "padding": 16 },
+      "children": ["sidebar", "list-area"]
+    },
+    "sidebar": {
+      "type": "Stack",
+      "props": { "direction": "column", "width": 220, "border": "right", "padding": 12, "gap": 8 },
+      "children": ["side-heading", "side-list"]
+    },
+    "side-heading": {
+      "type": "Text",
+      "props": { "text": "Folders", "bold": true },
+      "children": []
+    },
+    "side-list": {
+      "type": "List",
+      "props": { "dividers": true },
+      "children": ["side-item1", "side-item2", "side-item3", "side-item4"]
+    },
+    "side-item1": { "type": "ListItem", "props": { "title": "All notes", "leading": "icon", "icon": "file-text" }, "children": [] },
+    "side-item2": { "type": "ListItem", "props": { "title": "Personal", "leading": "icon", "icon": "folder" }, "children": [] },
+    "side-item3": { "type": "ListItem", "props": { "title": "Work", "leading": "icon", "icon": "folder" }, "children": [] },
+    "side-item4": { "type": "ListItem", "props": { "title": "Trash", "leading": "icon", "icon": "trash-2" }, "children": [] },
+    "list-area": {
+      "type": "List",
+      "props": { "dividers": true, "grow": true },
+      "children": ["d-item1", "d-item2", "d-item3", "d-item4", "d-item5", "d-item6"]
+    },
+    "d-item1": { "type": "ListItem", "props": { "title": "Grocery list", "subtitle": "Personal", "trailing": "text", "trailingText": "2h ago" }, "children": [] },
+    "d-item2": { "type": "ListItem", "props": { "title": "Meeting notes", "subtitle": "Work", "trailing": "text", "trailingText": "Yesterday" }, "children": [] },
+    "d-item3": { "type": "ListItem", "props": { "title": "Trip ideas", "subtitle": "Personal", "trailing": "text", "trailingText": "3d ago" }, "children": [] },
+    "d-item4": { "type": "ListItem", "props": { "title": "Book recommendations", "subtitle": "Personal", "trailing": "text", "trailingText": "Last week" }, "children": [] },
+    "d-item5": { "type": "ListItem", "props": { "title": "Recipe: pasta", "subtitle": "Personal", "trailing": "text", "trailingText": "2 weeks ago" }, "children": [] },
+    "d-item6": { "type": "ListItem", "props": { "title": "Q3 planning", "subtitle": "Work", "trailing": "text", "trailingText": "3 weeks ago" }, "children": [] },
+    "note": {
+      "type": "Note",
+      "props": { "text": "On desktop, notes show in a two-pane layout with a folder sidebar; on phone, it's a single scrollable list.", "color": "yellow" },
+      "children": []
+    }
+  }
+}
+```

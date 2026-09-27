@@ -1,0 +1,24 @@
+```wireframe
+board "User management" layout=row gap=24
+  screen desktop "Users"
+    navbar "User management" leading=logo actions=[bell, user]
+    stack row gap=16 padding=16
+      heading "Users" level=2
+      spacer
+      button primary "Invite user" icon=plus
+    tabs items=[Active, Invited, Suspended] active=0
+    table columns=[Name, Email, Role, Status] data=[[Ana Torres, ana.torres@acme.com, Admin, Active], [Miguel Reyes, miguel.reyes@acme.com, Editor, Active], [Priya Nair, priya.nair@acme.com, Viewer, Active], [Sam Okafor, sam.okafor@acme.com, Editor, Active]]
+  screen desktop "Users with filters"
+    navbar "User management" leading=logo actions=[bell, user]
+    stack row gap=16 padding=16
+      heading "Users" level=2
+      spacer
+      button primary "Invite user" icon=plus
+    tabs items=[Active, Invited, Suspended] active=0
+    table columns=[Name, Email, Role, Status] data=[[Ana Torres, ana.torres@acme.com, Admin, Active], [Miguel Reyes, miguel.reyes@acme.com, Editor, Active], [Priya Nair, priya.nair@acme.com, Viewer, Active], [Sam Okafor, sam.okafor@acme.com, Editor, Active]]
+    drawer right "Filters" size=300
+      select label="Role" placeholder="Any role"
+      select label="Status" placeholder="Any status"
+      toggle "Show suspended" off
+      button primary "Apply filters" fullWidth
+```

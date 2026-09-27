@@ -1,0 +1,125 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Analytics dashboard" },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": { "name": "Dashboard", "device": "desktop", "padding": 0, "gap": 0 },
+      "children": ["body"]
+    },
+    "body": {
+      "type": "Stack",
+      "props": { "direction": "row", "grow": true },
+      "children": ["sidebar", "main"]
+    },
+    "sidebar": {
+      "type": "Stack",
+      "props": { "direction": "column", "width": 240, "padding": 16, "gap": 8, "border": "right", "fill": true },
+      "children": ["sb-logo", "sb-nav-1", "sb-nav-2", "sb-nav-3", "sb-nav-4"]
+    },
+    "sb-logo": {
+      "type": "Text",
+      "props": { "text": "Acme Inc", "bold": true },
+      "children": []
+    },
+    "sb-nav-1": {
+      "type": "ListItem",
+      "props": { "title": "Overview", "leading": "icon", "icon": "layout-dashboard" },
+      "children": []
+    },
+    "sb-nav-2": {
+      "type": "ListItem",
+      "props": { "title": "Orders", "leading": "icon", "icon": "shopping-cart" },
+      "children": []
+    },
+    "sb-nav-3": {
+      "type": "ListItem",
+      "props": { "title": "Customers", "leading": "icon", "icon": "users" },
+      "children": []
+    },
+    "sb-nav-4": {
+      "type": "ListItem",
+      "props": { "title": "Settings", "leading": "icon", "icon": "settings" },
+      "children": []
+    },
+    "main": {
+      "type": "Stack",
+      "props": { "direction": "column", "grow": true, "padding": 20, "gap": 16 },
+      "children": ["header", "stats", "table"]
+    },
+    "header": {
+      "type": "Stack",
+      "props": { "direction": "row", "justify": "between", "align": "center" },
+      "children": ["search", "avatar"]
+    },
+    "search": {
+      "type": "Input",
+      "props": { "type": "search", "placeholder": "Search..." },
+      "children": []
+    },
+    "avatar": {
+      "type": "Avatar",
+      "props": { "initials": "JD" },
+      "children": []
+    },
+    "stats": {
+      "type": "Grid",
+      "props": { "columns": 4, "gap": 12 },
+      "children": ["stat-1", "stat-2", "stat-3", "stat-4"]
+    },
+    "stat-1": {
+      "type": "Card",
+      "props": { "title": "Revenue", "padding": 12 },
+      "children": ["stat-1-val"]
+    },
+    "stat-1-val": {
+      "type": "Heading",
+      "props": { "text": "$48,290", "level": 2 },
+      "children": []
+    },
+    "stat-2": {
+      "type": "Card",
+      "props": { "title": "Orders", "padding": 12 },
+      "children": ["stat-2-val"]
+    },
+    "stat-2-val": {
+      "type": "Heading",
+      "props": { "text": "1,204", "level": 2 },
+      "children": []
+    },
+    "stat-3": {
+      "type": "Card",
+      "props": { "title": "Customers", "padding": 12 },
+      "children": ["stat-3-val"]
+    },
+    "stat-3-val": {
+      "type": "Heading",
+      "props": { "text": "382", "level": 2 },
+      "children": []
+    },
+    "stat-4": {
+      "type": "Card",
+      "props": { "title": "Conversion", "padding": 12 },
+      "children": ["stat-4-val"]
+    },
+    "stat-4-val": {
+      "type": "Heading",
+      "props": { "text": "3.2%", "level": 2 },
+      "children": []
+    },
+    "table": {
+      "type": "Table",
+      "props": {
+        "columns": ["Order", "Customer", "Date", "Status", "Total"],
+        "rows": 6
+      },
+      "children": []
+    }
+  }
+}
+```

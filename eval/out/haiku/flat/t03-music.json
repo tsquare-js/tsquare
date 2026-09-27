@@ -1,0 +1,255 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Music app"
+      },
+      "children": ["home", "playing", "library"]
+    },
+    "home": {
+      "type": "Screen",
+      "props": {
+        "name": "Home",
+        "device": "phone"
+      },
+      "children": ["h-nav", "h-content", "h-tabbar"]
+    },
+    "h-nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Music"
+      },
+      "children": []
+    },
+    "h-content": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "padding": 16,
+        "gap": 16
+      },
+      "children": ["h-playlist"]
+    },
+    "h-playlist": {
+      "type": "Card",
+      "props": {
+        "title": "Playlists"
+      },
+      "children": [
+        "h-p1",
+        "h-p2"
+      ]
+    },
+    "h-p1": {
+      "type": "ListItem",
+      "props": {
+        "title": "Workout Mix",
+        "trailing": "chevron"
+      },
+      "children": []
+    },
+    "h-p2": {
+      "type": "ListItem",
+      "props": {
+        "title": "Chill Vibes",
+        "trailing": "chevron"
+      },
+      "children": []
+    },
+    "h-tabbar": {
+      "type": "TabBar",
+      "props": {
+        "items": [
+          {"label": "Home", "icon": "home"},
+          {"label": "Search", "icon": "search"},
+          {"label": "Library", "icon": "music"},
+          {"label": "Profile", "icon": "user"}
+        ],
+        "active": 0
+      },
+      "children": []
+    },
+    "playing": {
+      "type": "Screen",
+      "props": {
+        "name": "Now Playing",
+        "device": "phone"
+      },
+      "children": ["p-nav", "p-content", "p-sheet", "p-tabbar"]
+    },
+    "p-nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Now Playing"
+      },
+      "children": []
+    },
+    "p-content": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "padding": 16,
+        "gap": 16,
+        "align": "center"
+      },
+      "children": ["p-img", "p-title", "p-artist", "p-controls"]
+    },
+    "p-img": {
+      "type": "Image",
+      "props": {
+        "height": 200,
+        "width": 200,
+        "rounded": true
+      },
+      "children": []
+    },
+    "p-title": {
+      "type": "Heading",
+      "props": {
+        "text": "Song Title",
+        "level": 2
+      },
+      "children": []
+    },
+    "p-artist": {
+      "type": "Text",
+      "props": {
+        "text": "Artist Name",
+        "muted": true
+      },
+      "children": []
+    },
+    "p-controls": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 16,
+        "justify": "center"
+      },
+      "children": ["p-prev", "p-play", "p-next"]
+    },
+    "p-prev": {
+      "type": "Button",
+      "props": {
+        "label": "Previous",
+        "variant": "ghost"
+      },
+      "children": []
+    },
+    "p-play": {
+      "type": "Button",
+      "props": {
+        "label": "Play",
+        "variant": "primary"
+      },
+      "children": []
+    },
+    "p-next": {
+      "type": "Button",
+      "props": {
+        "label": "Next",
+        "variant": "ghost"
+      },
+      "children": []
+    },
+    "p-sheet": {
+      "type": "Drawer",
+      "props": {
+        "side": "bottom",
+        "title": "Queue",
+        "size": 240
+      },
+      "children": ["q1", "q2"]
+    },
+    "q1": {
+      "type": "ListItem",
+      "props": {
+        "title": "Next Song"
+      },
+      "children": []
+    },
+    "q2": {
+      "type": "ListItem",
+      "props": {
+        "title": "Another Song"
+      },
+      "children": []
+    },
+    "p-tabbar": {
+      "type": "TabBar",
+      "props": {
+        "items": [
+          {"label": "Home", "icon": "home"},
+          {"label": "Search", "icon": "search"},
+          {"label": "Library", "icon": "music"},
+          {"label": "Profile", "icon": "user"}
+        ],
+        "active": 1
+      },
+      "children": []
+    },
+    "library": {
+      "type": "Screen",
+      "props": {
+        "name": "Library",
+        "device": "phone"
+      },
+      "children": ["l-nav", "l-content", "l-tabbar"]
+    },
+    "l-nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Library"
+      },
+      "children": []
+    },
+    "l-content": {
+      "type": "List",
+      "props": {
+        "dividers": true
+      },
+      "children": ["l1", "l2", "l3"]
+    },
+    "l1": {
+      "type": "ListItem",
+      "props": {
+        "title": "Liked Songs",
+        "trailing": "chevron"
+      },
+      "children": []
+    },
+    "l2": {
+      "type": "ListItem",
+      "props": {
+        "title": "Downloaded",
+        "trailing": "chevron"
+      },
+      "children": []
+    },
+    "l3": {
+      "type": "ListItem",
+      "props": {
+        "title": "Playlists",
+        "trailing": "chevron"
+      },
+      "children": []
+    },
+    "l-tabbar": {
+      "type": "TabBar",
+      "props": {
+        "items": [
+          {"label": "Home", "icon": "home"},
+          {"label": "Search", "icon": "search"},
+          {"label": "Library", "icon": "music"},
+          {"label": "Profile", "icon": "user"}
+        ],
+        "active": 2
+      },
+      "children": []
+    }
+  }
+}
+```

@@ -1,0 +1,15 @@
+```wireframe
+board "Settings"
+  screen phone "Settings"
+    navbar "Settings" leading=back
+    toggle "Notifications" on
+    toggle "Dark mode"
+    divider
+    text "Account" bold
+    list dividers
+      listitem "Profile" trailing=chevron
+      listitem "Privacy" trailing=chevron
+      listitem "Security" trailing=chevron
+    spacer
+    button secondary "Sign out" fullWidth
+```

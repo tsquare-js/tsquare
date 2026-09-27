@@ -1,0 +1,24 @@
+```wireframe
+board "Onboarding"
+  screen phone "Step 1"
+    spacer
+    image "Illustration" height=240
+    heading "Welcome" level=1 align=center
+    text lines=2 align=center
+    button primary "Continue" fullWidth
+    spacer size=24
+  screen phone "Step 2"
+    spacer
+    image "Illustration" height=240
+    heading "Stay organized" level=1 align=center
+    text lines=2 align=center
+    button primary "Continue" fullWidth
+    spacer size=24
+  screen phone "Step 3"
+    spacer
+    image "Illustration" height=240
+    heading "Ready to go" level=1 align=center
+    text lines=2 align=center
+    button primary "Get started" fullWidth
+    spacer size=24
+```

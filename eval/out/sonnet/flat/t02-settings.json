@@ -1,0 +1,67 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Settings" },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": { "name": "Settings", "device": "phone", "gap": 4 },
+      "children": ["nav", "notif-toggle", "dark-toggle", "divider1", "account-heading", "account-1", "account-2", "account-3", "divider2", "signout"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": { "title": "Settings", "leading": "back" },
+      "children": []
+    },
+    "notif-toggle": {
+      "type": "Toggle",
+      "props": { "label": "Notifications", "on": true },
+      "children": []
+    },
+    "dark-toggle": {
+      "type": "Toggle",
+      "props": { "label": "Dark mode", "on": false },
+      "children": []
+    },
+    "divider1": {
+      "type": "Divider",
+      "props": {},
+      "children": []
+    },
+    "account-heading": {
+      "type": "Text",
+      "props": { "text": "Account", "size": "sm", "muted": true, "bold": true },
+      "children": []
+    },
+    "account-1": {
+      "type": "ListItem",
+      "props": { "title": "Profile", "trailing": "chevron" },
+      "children": []
+    },
+    "account-2": {
+      "type": "ListItem",
+      "props": { "title": "Privacy", "trailing": "chevron" },
+      "children": []
+    },
+    "account-3": {
+      "type": "ListItem",
+      "props": { "title": "Security", "trailing": "chevron" },
+      "children": []
+    },
+    "divider2": {
+      "type": "Divider",
+      "props": {},
+      "children": []
+    },
+    "signout": {
+      "type": "Button",
+      "props": { "label": "Sign out", "variant": "secondary", "fullWidth": true },
+      "children": []
+    }
+  }
+}
+```

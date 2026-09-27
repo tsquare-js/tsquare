@@ -1,0 +1,24 @@
+```wireframe
+board "Mail"
+  screen tablet "Mail split view"
+    navbar "Mail" leading=menu actions=[search, settings]
+    stack row
+      stack direction=column width=300 border=right padding=12 gap=8
+        heading "Inbox" level=2
+        list dividers
+          listitem "John Smith" subtitle="Project update" trailing=text trailingText="2m"
+          listitem "Jane Doe" subtitle="Meeting notes" trailing=text trailingText="1h"
+          listitem "Team Lead" subtitle="Feedback on proposal" trailing=text trailingText="3h"
+          listitem "Support" subtitle="Ticket resolved" trailing=text trailingText="1d"
+      stack direction=column grow padding=16 gap=12
+        stack row justify=between align=center
+          heading "Project update" level=1
+          stack row gap=8
+            icon "reply" size=20
+            icon "more-horizontal" size=20
+        text sm muted "From: John Smith <john@example.com>"
+        text sm muted "To: You"
+        divider
+        text lines=8
+        button secondary "Reply"
+```

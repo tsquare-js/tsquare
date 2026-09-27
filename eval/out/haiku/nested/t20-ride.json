@@ -1,0 +1,247 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Ride hailing"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Request ride",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Request a ride",
+            "leading": "menu"
+          },
+          "children": []
+        },
+        {
+          "type": "Image",
+          "props": {
+            "height": 320,
+            "label": "Map"
+          },
+          "children": []
+        },
+        {
+          "type": "Drawer",
+          "props": {
+            "side": "bottom",
+            "title": "Choose a ride",
+            "size": 280,
+            "handle": true
+          },
+          "children": [
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "gap": 12
+              },
+              "children": [
+                {
+                  "type": "Card",
+                  "props": {
+                    "padding": 12
+                  },
+                  "children": [
+                    {
+                      "type": "Stack",
+                      "props": {
+                        "direction": "row",
+                        "gap": 12,
+                        "align": "center"
+                      },
+                      "children": [
+                        {
+                          "type": "Icon",
+                          "props": {
+                            "name": "car",
+                            "size": 32
+                          },
+                          "children": []
+                        },
+                        {
+                          "type": "Stack",
+                          "props": {
+                            "direction": "column",
+                            "gap": 4,
+                            "grow": true
+                          },
+                          "children": [
+                            {
+                              "type": "Text",
+                              "props": {
+                                "text": "Economy",
+                                "bold": true
+                              },
+                              "children": []
+                            },
+                            {
+                              "type": "Text",
+                              "props": {
+                                "text": "2 min away",
+                                "size": "sm",
+                                "muted": true
+                              },
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Text",
+                          "props": {
+                            "text": "$8.50",
+                            "bold": true
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "Card",
+                  "props": {
+                    "padding": 12
+                  },
+                  "children": [
+                    {
+                      "type": "Stack",
+                      "props": {
+                        "direction": "row",
+                        "gap": 12,
+                        "align": "center"
+                      },
+                      "children": [
+                        {
+                          "type": "Icon",
+                          "props": {
+                            "name": "car",
+                            "size": 32
+                          },
+                          "children": []
+                        },
+                        {
+                          "type": "Stack",
+                          "props": {
+                            "direction": "column",
+                            "gap": 4,
+                            "grow": true
+                          },
+                          "children": [
+                            {
+                              "type": "Text",
+                              "props": {
+                                "text": "Premium",
+                                "bold": true
+                              },
+                              "children": []
+                            },
+                            {
+                              "type": "Text",
+                              "props": {
+                                "text": "4 min away",
+                                "size": "sm",
+                                "muted": true
+                              },
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Text",
+                          "props": {
+                            "text": "$15.00",
+                            "bold": true
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "Card",
+                  "props": {
+                    "padding": 12
+                  },
+                  "children": [
+                    {
+                      "type": "Stack",
+                      "props": {
+                        "direction": "row",
+                        "gap": 12,
+                        "align": "center"
+                      },
+                      "children": [
+                        {
+                          "type": "Icon",
+                          "props": {
+                            "name": "users",
+                            "size": 32
+                          },
+                          "children": []
+                        },
+                        {
+                          "type": "Stack",
+                          "props": {
+                            "direction": "column",
+                            "gap": 4,
+                            "grow": true
+                          },
+                          "children": [
+                            {
+                              "type": "Text",
+                              "props": {
+                                "text": "Shared",
+                                "bold": true
+                              },
+                              "children": []
+                            },
+                            {
+                              "type": "Text",
+                              "props": {
+                                "text": "1 min away",
+                                "size": "sm",
+                                "muted": true
+                              },
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Text",
+                          "props": {
+                            "text": "$4.50",
+                            "bold": true
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "Button",
+                  "props": {
+                    "label": "Confirm ride",
+                    "variant": "primary",
+                    "fullWidth": true
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

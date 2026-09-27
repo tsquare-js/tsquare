@@ -1,0 +1,27 @@
+```wireframe
+board "Profile"
+  screen phone "Profile"
+    navbar leading=back actions=[more-horizontal]
+    stack column padding=16 gap=16 align=center
+      avatar initials="JD" size=72
+      text "Jane Doe" bold size=lg
+      stack row gap=20 justify=center
+        stack column gap=4 align=center
+          text "120" bold
+          text sm muted "Posts"
+        stack column gap=4 align=center
+          text "2.3K" bold
+          text sm muted "Followers"
+        stack column gap=4 align=center
+          text "450" bold
+          text sm muted "Following"
+      button label="Edit Profile" variant=secondary fullWidth
+      tabs items=[Posts, Likes] active=0
+      grid columns=3 gap=8
+        image height=100 rounded=true
+        image height=100 rounded=true
+        image height=100 rounded=true
+        image height=100 rounded=true
+        image height=100 rounded=true
+        image height=100 rounded=true
+```

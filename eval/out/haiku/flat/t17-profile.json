@@ -1,0 +1,213 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Profile page"
+      },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": {
+        "name": "Profile",
+        "device": "phone"
+      },
+      "children": ["nav", "header", "stats", "tabs", "grid"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Profile",
+        "actions": ["settings"]
+      },
+      "children": []
+    },
+    "header": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 12,
+        "align": "center",
+        "padding": 20
+      },
+      "children": ["avatar", "name"]
+    },
+    "avatar": {
+      "type": "Avatar",
+      "props": {
+        "initials": "JD",
+        "size": 80
+      },
+      "children": []
+    },
+    "name": {
+      "type": "Heading",
+      "props": {
+        "text": "John Doe",
+        "level": 2,
+        "align": "center"
+      },
+      "children": []
+    },
+    "stats": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 16,
+        "justify": "around",
+        "padding": 16,
+        "border": "top"
+      },
+      "children": ["stat1", "stat2", "stat3"]
+    },
+    "stat1": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 4,
+        "align": "center"
+      },
+      "children": ["stat1-num", "stat1-label"]
+    },
+    "stat1-num": {
+      "type": "Heading",
+      "props": {
+        "text": "243",
+        "level": 2,
+        "align": "center"
+      },
+      "children": []
+    },
+    "stat1-label": {
+      "type": "Text",
+      "props": {
+        "text": "Posts",
+        "size": "sm",
+        "muted": true
+      },
+      "children": []
+    },
+    "stat2": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 4,
+        "align": "center"
+      },
+      "children": ["stat2-num", "stat2-label"]
+    },
+    "stat2-num": {
+      "type": "Heading",
+      "props": {
+        "text": "1.2K",
+        "level": 2,
+        "align": "center"
+      },
+      "children": []
+    },
+    "stat2-label": {
+      "type": "Text",
+      "props": {
+        "text": "Followers",
+        "size": "sm",
+        "muted": true
+      },
+      "children": []
+    },
+    "stat3": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 4,
+        "align": "center"
+      },
+      "children": ["stat3-num", "stat3-label"]
+    },
+    "stat3-num": {
+      "type": "Heading",
+      "props": {
+        "text": "856",
+        "level": 2,
+        "align": "center"
+      },
+      "children": []
+    },
+    "stat3-label": {
+      "type": "Text",
+      "props": {
+        "text": "Following",
+        "size": "sm",
+        "muted": true
+      },
+      "children": []
+    },
+    "tabs": {
+      "type": "Tabs",
+      "props": {
+        "items": ["Posts", "Likes"],
+        "active": 0
+      },
+      "children": []
+    },
+    "grid": {
+      "type": "Grid",
+      "props": {
+        "columns": 3,
+        "gap": 8
+      },
+      "children": ["photo1", "photo2", "photo3", "photo4", "photo5", "photo6"]
+    },
+    "photo1": {
+      "type": "Image",
+      "props": {
+        "height": 120,
+        "rounded": true
+      },
+      "children": []
+    },
+    "photo2": {
+      "type": "Image",
+      "props": {
+        "height": 120,
+        "rounded": true
+      },
+      "children": []
+    },
+    "photo3": {
+      "type": "Image",
+      "props": {
+        "height": 120,
+        "rounded": true
+      },
+      "children": []
+    },
+    "photo4": {
+      "type": "Image",
+      "props": {
+        "height": 120,
+        "rounded": true
+      },
+      "children": []
+    },
+    "photo5": {
+      "type": "Image",
+      "props": {
+        "height": 120,
+        "rounded": true
+      },
+      "children": []
+    },
+    "photo6": {
+      "type": "Image",
+      "props": {
+        "height": 120,
+        "rounded": true
+      },
+      "children": []
+    }
+  }
+}
+```

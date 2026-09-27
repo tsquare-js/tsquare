@@ -1,0 +1,233 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Checkout flow"
+      },
+      "children": ["cart", "shipping", "confirmation"]
+    },
+    "cart": {
+      "type": "Screen",
+      "props": {
+        "name": "Cart",
+        "device": "phone"
+      },
+      "children": ["c-nav", "c-items", "c-total", "c-checkout"]
+    },
+    "c-nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Cart"
+      },
+      "children": []
+    },
+    "c-items": {
+      "type": "List",
+      "props": {
+        "dividers": true
+      },
+      "children": ["item1", "item2"]
+    },
+    "item1": {
+      "type": "ListItem",
+      "props": {
+        "title": "Product 1",
+        "subtitle": "$29.99 x 1",
+        "trailing": "text",
+        "trailingText": "$29.99"
+      },
+      "children": []
+    },
+    "item2": {
+      "type": "ListItem",
+      "props": {
+        "title": "Product 2",
+        "subtitle": "$49.99 x 1",
+        "trailing": "text",
+        "trailingText": "$49.99"
+      },
+      "children": []
+    },
+    "c-total": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "justify": "between",
+        "padding": 16,
+        "gap": 16
+      },
+      "children": ["c-label", "c-amount"]
+    },
+    "c-label": {
+      "type": "Text",
+      "props": {
+        "text": "Total",
+        "bold": true
+      },
+      "children": []
+    },
+    "c-amount": {
+      "type": "Text",
+      "props": {
+        "text": "$79.98",
+        "bold": true,
+        "size": "lg"
+      },
+      "children": []
+    },
+    "c-checkout": {
+      "type": "Button",
+      "props": {
+        "label": "Continue to shipping",
+        "variant": "primary",
+        "fullWidth": true
+      },
+      "children": []
+    },
+    "shipping": {
+      "type": "Screen",
+      "props": {
+        "name": "Shipping",
+        "device": "phone"
+      },
+      "children": ["s-nav", "s-form", "s-continue"]
+    },
+    "s-nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Shipping details",
+        "leading": "back"
+      },
+      "children": []
+    },
+    "s-form": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "padding": 16,
+        "gap": 12
+      },
+      "children": ["s-name", "s-address", "s-city", "s-zip"]
+    },
+    "s-name": {
+      "type": "Input",
+      "props": {
+        "label": "Full name",
+        "placeholder": "Enter your name"
+      },
+      "children": []
+    },
+    "s-address": {
+      "type": "Input",
+      "props": {
+        "label": "Address",
+        "placeholder": "Enter your address"
+      },
+      "children": []
+    },
+    "s-city": {
+      "type": "Input",
+      "props": {
+        "label": "City",
+        "placeholder": "Enter city"
+      },
+      "children": []
+    },
+    "s-zip": {
+      "type": "Input",
+      "props": {
+        "label": "ZIP code",
+        "placeholder": "Enter ZIP code"
+      },
+      "children": []
+    },
+    "s-continue": {
+      "type": "Button",
+      "props": {
+        "label": "Continue to payment",
+        "variant": "primary",
+        "fullWidth": true
+      },
+      "children": []
+    },
+    "confirmation": {
+      "type": "Screen",
+      "props": {
+        "name": "Confirmation",
+        "device": "phone"
+      },
+      "children": ["cf-nav", "cf-content", "cf-modal"]
+    },
+    "cf-nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Order confirmation"
+      },
+      "children": []
+    },
+    "cf-content": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "padding": 16,
+        "gap": 16,
+        "align": "center"
+      },
+      "children": ["cf-summary"]
+    },
+    "cf-summary": {
+      "type": "Card",
+      "props": {
+        "padding": 16
+      },
+      "children": ["cf-orderid", "cf-amount"]
+    },
+    "cf-orderid": {
+      "type": "Text",
+      "props": {
+        "text": "Order #12345",
+        "muted": true
+      },
+      "children": []
+    },
+    "cf-amount": {
+      "type": "Text",
+      "props": {
+        "text": "$79.98",
+        "bold": true,
+        "size": "lg"
+      },
+      "children": []
+    },
+    "cf-modal": {
+      "type": "Modal",
+      "props": {
+        "title": "Order placed",
+        "width": 300,
+        "scrim": true
+      },
+      "children": ["cf-success", "cf-button"]
+    },
+    "cf-success": {
+      "type": "Text",
+      "props": {
+        "text": "Your order has been successfully placed",
+        "align": "center"
+      },
+      "children": []
+    },
+    "cf-button": {
+      "type": "Button",
+      "props": {
+        "label": "Continue shopping",
+        "variant": "primary",
+        "fullWidth": true
+      },
+      "children": []
+    }
+  }
+}
+```

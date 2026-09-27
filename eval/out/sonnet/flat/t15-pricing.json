@@ -1,0 +1,59 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Pricing" },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": { "name": "Pricing", "device": "desktop" },
+      "children": ["header", "toggle", "plans"]
+    },
+    "header": {
+      "type": "Heading",
+      "props": { "text": "Pricing", "level": 1, "align": "center" },
+      "children": []
+    },
+    "toggle": {
+      "type": "Tabs",
+      "props": { "items": ["Monthly", "Yearly"], "active": 0 },
+      "children": []
+    },
+    "plans": {
+      "type": "Stack",
+      "props": { "direction": "row", "gap": 16, "justify": "center" },
+      "children": ["plan1", "plan2", "plan3"]
+    },
+    "plan1": {
+      "type": "Card",
+      "props": { "padding": 16, "gap": 8 },
+      "children": ["p1-name", "p1-price", "p1-features", "p1-btn"]
+    },
+    "p1-name": { "type": "Heading", "props": { "text": "Basic", "level": 2 }, "children": [] },
+    "p1-price": { "type": "Text", "props": { "text": "$9/mo", "bold": true, "size": "lg" }, "children": [] },
+    "p1-features": { "type": "Text", "props": { "lines": 4 }, "children": [] },
+    "p1-btn": { "type": "Button", "props": { "label": "Choose plan", "variant": "secondary", "fullWidth": true }, "children": [] },
+    "plan2": {
+      "type": "Card",
+      "props": { "padding": 16, "gap": 8, "variant": "filled" },
+      "children": ["p2-name", "p2-price", "p2-features", "p2-btn"]
+    },
+    "p2-name": { "type": "Heading", "props": { "text": "Pro", "level": 2 }, "children": [] },
+    "p2-price": { "type": "Text", "props": { "text": "$29/mo", "bold": true, "size": "lg" }, "children": [] },
+    "p2-features": { "type": "Text", "props": { "lines": 4 }, "children": [] },
+    "p2-btn": { "type": "Button", "props": { "label": "Choose plan", "variant": "primary", "fullWidth": true }, "children": [] },
+    "plan3": {
+      "type": "Card",
+      "props": { "padding": 16, "gap": 8 },
+      "children": ["p3-name", "p3-price", "p3-features", "p3-btn"]
+    },
+    "p3-name": { "type": "Heading", "props": { "text": "Enterprise", "level": 2 }, "children": [] },
+    "p3-price": { "type": "Text", "props": { "text": "$99/mo", "bold": true, "size": "lg" }, "children": [] },
+    "p3-features": { "type": "Text", "props": { "lines": 4 }, "children": [] },
+    "p3-btn": { "type": "Button", "props": { "label": "Choose plan", "variant": "secondary", "fullWidth": true }, "children": [] }
+  }
+}
+```

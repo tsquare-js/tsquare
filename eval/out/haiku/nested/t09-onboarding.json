@@ -1,0 +1,182 @@
+{
+  "type": "Board",
+  "props": {
+    "title": "Onboarding"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Welcome",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "padding": 24,
+            "gap": 24,
+            "align": "center"
+          },
+          "children": [
+            {
+              "type": "Image",
+              "props": {
+                "height": 200
+              },
+              "children": []
+            },
+            {
+              "type": "Heading",
+              "props": {
+                "text": "Welcome",
+                "level": 1,
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Text",
+              "props": {
+                "text": "Discover amazing features designed just for you.",
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Spacer",
+              "props": {},
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Continue",
+                "variant": "primary",
+                "fullWidth": true
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Features",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "padding": 24,
+            "gap": 24,
+            "align": "center"
+          },
+          "children": [
+            {
+              "type": "Image",
+              "props": {
+                "height": 200
+              },
+              "children": []
+            },
+            {
+              "type": "Heading",
+              "props": {
+                "text": "Powerful Features",
+                "level": 1,
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Text",
+              "props": {
+                "text": "Everything you need to succeed in one place.",
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Spacer",
+              "props": {},
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Continue",
+                "variant": "primary",
+                "fullWidth": true
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Ready",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "padding": 24,
+            "gap": 24,
+            "align": "center"
+          },
+          "children": [
+            {
+              "type": "Image",
+              "props": {
+                "height": 200
+              },
+              "children": []
+            },
+            {
+              "type": "Heading",
+              "props": {
+                "text": "You're All Set",
+                "level": 1,
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Text",
+              "props": {
+                "text": "Start exploring and make the most of your experience.",
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Spacer",
+              "props": {},
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Get started",
+                "variant": "primary",
+                "fullWidth": true
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

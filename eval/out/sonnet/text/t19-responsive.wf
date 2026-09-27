@@ -1,0 +1,29 @@
+```wireframe
+board "Notes list - responsive" layout=row gap=32
+  screen phone "Notes (phone)"
+    navbar "Notes" actions=[plus]
+    list dividers
+      listitem title="Grocery list" subtitle="Milk, eggs, bread" trailing=chevron
+      listitem title="Meeting notes" subtitle="Q3 planning sync" trailing=chevron
+      listitem title="Trip ideas" subtitle="Japan, Portugal" trailing=chevron
+      listitem title="Book recommendations" subtitle="From Sam" trailing=chevron
+    tabbar items=[{label=Notes icon=file-text}, {label=Search icon=search}, {label=Profile icon=user}] active=0
+  screen desktop "Notes (desktop)"
+    navbar "Notes" leading=logo actions=[bell, user]
+    stack row grow
+      stack width=240 border=right padding=12 gap=8
+        button ghost "All notes" icon=file-text fullWidth
+        button ghost "Favorites" icon=star fullWidth
+        button ghost "Trash" icon=trash fullWidth
+      stack grow padding=16 gap=8
+        stack row gap=12
+          heading "All notes" level=2
+          spacer
+          button primary "New note" icon=plus
+        list dividers
+          listitem title="Grocery list" subtitle="Milk, eggs, bread" trailing=text trailingText="2h ago"
+          listitem title="Meeting notes" subtitle="Q3 planning sync" trailing=text trailingText="Yesterday"
+          listitem title="Trip ideas" subtitle="Japan, Portugal" trailing=text trailingText="2d ago"
+          listitem title="Book recommendations" subtitle="From Sam" trailing=text trailingText="3d ago"
+  note "Phone shows notes as a single scrollable list with a tab bar for navigation. Desktop adds a persistent left sidebar for sections and shows note metadata (timestamps) inline instead of relying on navigation alone." color=yellow width=260
+```

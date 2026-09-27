@@ -1,0 +1,171 @@
+{
+  "type": "Board",
+  "props": {
+    "title": "Chat"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Conversation",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Sarah Johnson",
+            "leading": "back",
+            "actions": ["call", "more-horizontal"]
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "padding": 12,
+            "gap": 8,
+            "grow": true
+          },
+          "children": [
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "justify": "start"
+              },
+              "children": [
+                {
+                  "type": "Card",
+                  "props": {
+                    "padding": 12,
+                    "variant": "outline"
+                  },
+                  "children": [
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Hi! How are you?"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "justify": "end"
+              },
+              "children": [
+                {
+                  "type": "Card",
+                  "props": {
+                    "padding": 12,
+                    "variant": "filled"
+                  },
+                  "children": [
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Great, thanks for asking!"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "justify": "start"
+              },
+              "children": [
+                {
+                  "type": "Card",
+                  "props": {
+                    "padding": 12,
+                    "variant": "outline"
+                  },
+                  "children": [
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Ready to meet?"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "justify": "end"
+              },
+              "children": [
+                {
+                  "type": "Card",
+                  "props": {
+                    "padding": 12,
+                    "variant": "filled"
+                  },
+                  "children": [
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Sure, let's go!"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Spacer",
+              "props": {},
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "gap": 8,
+            "padding": 12,
+            "align": "end"
+          },
+          "children": [
+            {
+              "type": "Input",
+              "props": {
+                "placeholder": "Type a message...",
+                "type": "text"
+              },
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Send",
+                "icon": "send",
+                "variant": "primary",
+                "size": "sm"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

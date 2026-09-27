@@ -1,0 +1,54 @@
+board "Notes app — web"
+  screen desktop "Workspace overview" padding=0 gap=0
+    stack row grow gap=0 align=stretch
+      stack width=240 padding=20 gap=6 border=right fill
+        stack row gap=10
+          image width=32 height=32 rounded
+          text "Notebook" bold
+        spacer size=12
+        list dividers=false
+          listitem "Overview" leading=icon icon=layout-dashboard
+          listitem "All notes" leading=icon icon=notebook-pen trailing=text trailingText="128"
+          listitem "Shared" leading=icon icon=users
+          listitem "Settings" leading=icon icon=settings
+        spacer
+        stack row gap=10
+          avatar "DM" size=32
+          text sm "Dana Moore"
+      stack grow padding=32 gap=24
+        stack row gap=12
+          heading "Overview" level=1
+          spacer
+          stack width=260
+            input search placeholder=Search
+          button "New note" icon=plus
+        grid columns=3 gap=20
+          card "Notes this week"
+            heading "42" level=1
+            text lines=1
+          card "Shared with you"
+            heading "7" level=1
+            text lines=1
+          card filled "Storage"
+            heading "1.2 GB" level=1
+            text lines=1
+        tabs items=[Recent, Pinned, Archived] active=0
+        table columns=[Title, Folder, Owner, Updated] data=[["Grocery list", Personal, Dana, "9:12 AM"], ["Trip ideas", Travel, Dana, Yesterday], ["Q4 planning", Work, Sam, Mon], ["Reading list", Personal, Dana, "Sep 20"]]
+  screen desktop "Filters (right drawer)" padding=32 gap=24
+    stack row gap=12
+      heading "All notes" level=1
+      spacer
+      button secondary "Filters" icon=sliders-horizontal
+    table columns=[Title, Folder, Owner, Updated] rows=9
+    drawer right "Filters" size=340
+      select "Folder" placeholder="Any folder"
+      select "Owner" value=Me
+      divider
+      checkbox "Pinned only" checked
+      checkbox "Has attachments"
+      checkbox "Shared with me"
+      spacer
+      stack row justify=end gap=8
+        button ghost "Reset"
+        button "Apply filters"
+  note "Filters open in a right drawer so the table keeps its width. Open question: persist filters per workspace?" color=yellow

@@ -1,0 +1,19 @@
+```wireframe
+board "Mail"
+  screen tablet "Inbox"
+    navbar "Inbox" leading=menu actions=[search, edit]
+    stack row grow
+      stack width=320 border=right
+        list dividers
+          listitem "Sender" subtitle="Subject line" trailing=text trailingText="9:41"
+          listitem "Sender" subtitle="Subject line" trailing=text trailingText="9:12"
+          listitem "Sender" subtitle="Subject line" trailing=text trailingText="Yesterday"
+          listitem "Sender" subtitle="Subject line" trailing=text trailingText="Yesterday"
+      stack grow padding=16 gap=8
+        heading "Subject line" level=2
+        stack row gap=8 align=center
+          avatar initials="JD"
+          text "Sender name" bold
+        divider
+        text lines=8
+```

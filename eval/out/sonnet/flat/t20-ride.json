@@ -1,0 +1,73 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Ride hailing" },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": { "name": "Choose a ride", "device": "phone" },
+      "children": ["nav", "map", "sheet"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": { "leading": "back", "title": "Choose a ride" },
+      "children": []
+    },
+    "map": {
+      "type": "Image",
+      "props": { "height": 340, "label": "Map" },
+      "children": []
+    },
+    "sheet": {
+      "type": "Drawer",
+      "props": { "side": "bottom", "title": "Choose a ride", "size": 320 },
+      "children": ["opt1", "opt2", "opt3", "confirm"]
+    },
+    "opt1": {
+      "type": "ListItem",
+      "props": {
+        "title": "Economy",
+        "subtitle": "3 seats • 5 min away",
+        "leading": "icon",
+        "icon": "car",
+        "trailing": "text",
+        "trailingText": "$8.50"
+      },
+      "children": []
+    },
+    "opt2": {
+      "type": "ListItem",
+      "props": {
+        "title": "Standard",
+        "subtitle": "4 seats • 3 min away",
+        "leading": "icon",
+        "icon": "car",
+        "trailing": "text",
+        "trailingText": "$12.00"
+      },
+      "children": []
+    },
+    "opt3": {
+      "type": "ListItem",
+      "props": {
+        "title": "XL",
+        "subtitle": "6 seats • 6 min away",
+        "leading": "icon",
+        "icon": "car",
+        "trailing": "text",
+        "trailingText": "$18.00"
+      },
+      "children": []
+    },
+    "confirm": {
+      "type": "Button",
+      "props": { "label": "Confirm ride", "variant": "primary", "fullWidth": true },
+      "children": []
+    }
+  }
+}
+```

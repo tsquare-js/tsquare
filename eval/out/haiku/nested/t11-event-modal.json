@@ -1,0 +1,111 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Event modal"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Calendar",
+        "device": "desktop"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Calendar",
+            "leading": "menu"
+          },
+          "children": []
+        },
+        {
+          "type": "Text",
+          "props": {
+            "lines": 8
+          },
+          "children": []
+        },
+        {
+          "type": "Modal",
+          "props": {
+            "title": "New event",
+            "width": 400
+          },
+          "children": [
+            {
+              "type": "Input",
+              "props": {
+                "label": "Title",
+                "placeholder": "Event title"
+              },
+              "children": []
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "gap": 12
+              },
+              "children": [
+                {
+                  "type": "Select",
+                  "props": {
+                    "label": "Date",
+                    "value": "Today"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Select",
+                  "props": {
+                    "label": "Time",
+                    "value": "10:00 AM"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Input",
+              "props": {
+                "label": "Description",
+                "placeholder": "Add description",
+                "multiline": 3
+              },
+              "children": []
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "gap": 12,
+                "justify": "end"
+              },
+              "children": [
+                {
+                  "type": "Button",
+                  "props": {
+                    "label": "Cancel",
+                    "variant": "secondary"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Button",
+                  "props": {
+                    "label": "Save",
+                    "variant": "primary"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

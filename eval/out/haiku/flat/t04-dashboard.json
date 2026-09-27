@@ -1,0 +1,217 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Analytics Dashboard"
+      },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": {
+        "name": "Dashboard",
+        "device": "desktop"
+      },
+      "children": ["layout"]
+    },
+    "layout": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 0
+      },
+      "children": ["sidebar", "main"]
+    },
+    "sidebar": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "width": 240,
+        "padding": 16,
+        "gap": 16,
+        "border": "right"
+      },
+      "children": ["nav1", "nav2", "nav3"]
+    },
+    "nav1": {
+      "type": "ListItem",
+      "props": {
+        "title": "Dashboard",
+        "trailing": "chevron"
+      },
+      "children": []
+    },
+    "nav2": {
+      "type": "ListItem",
+      "props": {
+        "title": "Reports",
+        "trailing": "chevron"
+      },
+      "children": []
+    },
+    "nav3": {
+      "type": "ListItem",
+      "props": {
+        "title": "Settings",
+        "trailing": "chevron"
+      },
+      "children": []
+    },
+    "main": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 16,
+        "padding": 16,
+        "grow": true
+      },
+      "children": ["header", "stats", "table"]
+    },
+    "header": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "justify": "between",
+        "align": "center",
+        "gap": 16
+      },
+      "children": ["search", "avatar"]
+    },
+    "search": {
+      "type": "Input",
+      "props": {
+        "type": "search",
+        "placeholder": "Search"
+      },
+      "children": []
+    },
+    "avatar": {
+      "type": "Avatar",
+      "props": {
+        "initials": "JD",
+        "size": 40
+      },
+      "children": []
+    },
+    "stats": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 16
+      },
+      "children": ["stat1", "stat2", "stat3", "stat4"]
+    },
+    "stat1": {
+      "type": "Card",
+      "props": {
+        "padding": 16
+      },
+      "children": ["s1-label", "s1-value"]
+    },
+    "s1-label": {
+      "type": "Text",
+      "props": {
+        "text": "Revenue",
+        "muted": true,
+        "size": "sm"
+      },
+      "children": []
+    },
+    "s1-value": {
+      "type": "Text",
+      "props": {
+        "text": "$24,500",
+        "bold": true,
+        "size": "lg"
+      },
+      "children": []
+    },
+    "stat2": {
+      "type": "Card",
+      "props": {
+        "padding": 16
+      },
+      "children": ["s2-label", "s2-value"]
+    },
+    "s2-label": {
+      "type": "Text",
+      "props": {
+        "text": "Orders",
+        "muted": true,
+        "size": "sm"
+      },
+      "children": []
+    },
+    "s2-value": {
+      "type": "Text",
+      "props": {
+        "text": "1,234",
+        "bold": true,
+        "size": "lg"
+      },
+      "children": []
+    },
+    "stat3": {
+      "type": "Card",
+      "props": {
+        "padding": 16
+      },
+      "children": ["s3-label", "s3-value"]
+    },
+    "s3-label": {
+      "type": "Text",
+      "props": {
+        "text": "Users",
+        "muted": true,
+        "size": "sm"
+      },
+      "children": []
+    },
+    "s3-value": {
+      "type": "Text",
+      "props": {
+        "text": "8,920",
+        "bold": true,
+        "size": "lg"
+      },
+      "children": []
+    },
+    "stat4": {
+      "type": "Card",
+      "props": {
+        "padding": 16
+      },
+      "children": ["s4-label", "s4-value"]
+    },
+    "s4-label": {
+      "type": "Text",
+      "props": {
+        "text": "Conversion",
+        "muted": true,
+        "size": "sm"
+      },
+      "children": []
+    },
+    "s4-value": {
+      "type": "Text",
+      "props": {
+        "text": "3.2%",
+        "bold": true,
+        "size": "lg"
+      },
+      "children": []
+    },
+    "table": {
+      "type": "Table",
+      "props": {
+        "columns": ["Order ID", "Customer", "Amount", "Status", "Date"],
+        "rows": 5
+      },
+      "children": []
+    }
+  }
+}
+```

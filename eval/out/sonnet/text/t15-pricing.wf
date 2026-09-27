@@ -1,0 +1,35 @@
+```wireframe
+board "Pricing page"
+  screen desktop "Pricing"
+    navbar "Product" leading=logo actions=[user]
+    stack gap=24 padding=32
+      heading "Simple, transparent pricing" level=1 align=center
+      stack row gap=8 justify=center
+        button secondary "Monthly"
+        button ghost "Yearly"
+      grid columns=3 gap=16
+        card title="Basic" padding=16 gap=8
+          heading "$9/mo" level=2
+          text sm "For individuals getting started" muted
+          divider
+          text "1 project" sm
+          text "5 GB storage" sm
+          text "Email support" sm
+          button secondary "Choose Basic" fullWidth
+        card title="Pro" padding=16 gap=8 variant=filled
+          heading "$29/mo" level=2
+          text sm "For growing teams" muted
+          divider
+          text "Unlimited projects" sm
+          text "50 GB storage" sm
+          text "Priority support" sm
+          button primary "Choose Pro" fullWidth
+        card title="Enterprise" padding=16 gap=8
+          heading "$99/mo" level=2
+          text sm "For large organizations" muted
+          divider
+          text "Unlimited everything" sm
+          text "500 GB storage" sm
+          text "Dedicated support" sm
+          button secondary "Choose Enterprise" fullWidth
+```

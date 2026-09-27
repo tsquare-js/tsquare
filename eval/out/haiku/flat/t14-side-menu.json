@@ -1,0 +1,150 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Side menu"
+      },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": {
+        "name": "Menu open",
+        "device": "phone"
+      },
+      "children": ["nav", "content", "drawer"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Home",
+        "leading": "menu"
+      },
+      "children": []
+    },
+    "content": {
+      "type": "Text",
+      "props": {
+        "lines": 6
+      },
+      "children": []
+    },
+    "drawer": {
+      "type": "Drawer",
+      "props": {
+        "side": "left",
+        "size": 240,
+        "scrim": true
+      },
+      "children": ["user-section", "menu-items", "logout"]
+    },
+    "user-section": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 12,
+        "padding": 16,
+        "align": "center"
+      },
+      "children": ["avatar", "user-info"]
+    },
+    "avatar": {
+      "type": "Avatar",
+      "props": {
+        "initials": "JD",
+        "size": 48
+      },
+      "children": []
+    },
+    "user-info": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 4
+      },
+      "children": ["user-name", "user-email"]
+    },
+    "user-name": {
+      "type": "Text",
+      "props": {
+        "text": "John Doe",
+        "bold": true
+      },
+      "children": []
+    },
+    "user-email": {
+      "type": "Text",
+      "props": {
+        "text": "john@example.com",
+        "size": "sm",
+        "muted": true
+      },
+      "children": []
+    },
+    "menu-items": {
+      "type": "List",
+      "props": {
+        "dividers": true
+      },
+      "children": ["item1", "item2", "item3", "item4", "item5"]
+    },
+    "item1": {
+      "type": "ListItem",
+      "props": {
+        "title": "Home",
+        "leading": "icon",
+        "icon": "home"
+      },
+      "children": []
+    },
+    "item2": {
+      "type": "ListItem",
+      "props": {
+        "title": "Profile",
+        "leading": "icon",
+        "icon": "user"
+      },
+      "children": []
+    },
+    "item3": {
+      "type": "ListItem",
+      "props": {
+        "title": "Settings",
+        "leading": "icon",
+        "icon": "settings"
+      },
+      "children": []
+    },
+    "item4": {
+      "type": "ListItem",
+      "props": {
+        "title": "Help",
+        "leading": "icon",
+        "icon": "help-circle"
+      },
+      "children": []
+    },
+    "item5": {
+      "type": "ListItem",
+      "props": {
+        "title": "About",
+        "leading": "icon",
+        "icon": "info"
+      },
+      "children": []
+    },
+    "logout": {
+      "type": "Button",
+      "props": {
+        "label": "Log out",
+        "variant": "ghost",
+        "fullWidth": true
+      },
+      "children": []
+    }
+  }
+}
+```

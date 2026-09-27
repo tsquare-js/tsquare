@@ -1,0 +1,16 @@
+```wireframe
+board "Product page"
+  screen phone "Product"
+    navbar leading=back actions=[heart, share]
+    image "Product photo" height=280
+    heading "Product name" level=2
+    text "$49.00" bold
+    select "Size" placeholder="Select size"
+    button primary "Add to cart" fullWidth
+    divider
+    text "Reviews" bold
+    list dividers
+      listitem "Review" subtitle="Great product" leading=avatar
+      listitem "Review" subtitle="Would buy again" leading=avatar
+      listitem "Review" subtitle="Good quality" leading=avatar
+```

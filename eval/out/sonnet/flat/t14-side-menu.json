@@ -1,0 +1,82 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Side menu open" },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": { "name": "Home", "device": "phone" },
+      "children": ["nav", "body", "drawer"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": { "leading": "menu", "title": "Home" },
+      "children": []
+    },
+    "body": {
+      "type": "Text",
+      "props": { "lines": 6 },
+      "children": []
+    },
+    "drawer": {
+      "type": "Drawer",
+      "props": { "side": "left", "size": 260 },
+      "children": ["d-header", "d-item1", "d-item2", "d-item3", "d-item4", "d-item5", "d-spacer", "d-logout"]
+    },
+    "d-header": {
+      "type": "Stack",
+      "props": { "direction": "row", "gap": 12, "align": "center", "padding": 12 },
+      "children": ["d-avatar", "d-name"]
+    },
+    "d-avatar": {
+      "type": "Avatar",
+      "props": { "initials": "JD", "size": 48 },
+      "children": []
+    },
+    "d-name": {
+      "type": "Text",
+      "props": { "text": "Jordan Diaz", "bold": true },
+      "children": []
+    },
+    "d-item1": {
+      "type": "ListItem",
+      "props": { "title": "Profile", "leading": "icon", "icon": "user", "trailing": "chevron" },
+      "children": []
+    },
+    "d-item2": {
+      "type": "ListItem",
+      "props": { "title": "Settings", "leading": "icon", "icon": "settings", "trailing": "chevron" },
+      "children": []
+    },
+    "d-item3": {
+      "type": "ListItem",
+      "props": { "title": "Notifications", "leading": "icon", "icon": "bell", "trailing": "chevron" },
+      "children": []
+    },
+    "d-item4": {
+      "type": "ListItem",
+      "props": { "title": "Help & support", "leading": "icon", "icon": "help-circle", "trailing": "chevron" },
+      "children": []
+    },
+    "d-item5": {
+      "type": "ListItem",
+      "props": { "title": "Privacy", "leading": "icon", "icon": "shield", "trailing": "chevron" },
+      "children": []
+    },
+    "d-spacer": {
+      "type": "Spacer",
+      "props": {},
+      "children": []
+    },
+    "d-logout": {
+      "type": "ListItem",
+      "props": { "title": "Log out", "leading": "icon", "icon": "log-out" },
+      "children": []
+    }
+  }
+}
+```

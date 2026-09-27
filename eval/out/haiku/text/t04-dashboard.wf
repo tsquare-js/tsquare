@@ -1,0 +1,32 @@
+```wireframe
+board "Dashboard"
+  screen desktop "Analytics"
+    stack row
+      stack direction=column width=240 border=right padding=16 gap=12
+        heading "Dashboard" level=2
+        list
+          listitem "Overview" trailing=chevron
+          listitem "Analytics" trailing=chevron
+          listitem "Reports" trailing=chevron
+          listitem "Settings" trailing=chevron
+      stack direction=column grow padding=16 gap=16
+        stack row justify=between align=center
+          heading "Overview" level=1
+          stack row gap=12 align=center
+            input search placeholder="Search..." width=200
+            avatar initials=AB size=36
+        grid columns=4 gap=16
+          card padding=16
+            text sm muted "Revenue"
+            heading "$45,230" level=2
+          card padding=16
+            text sm muted "Orders"
+            heading "1,248" level=2
+          card padding=16
+            text sm muted "Customers"
+            heading "523" level=2
+          card padding=16
+            text sm muted "Growth"
+            heading "12.5%" level=2
+        table columns=["Order ID", "Customer", "Amount", "Status", "Date"] rows=5
+```

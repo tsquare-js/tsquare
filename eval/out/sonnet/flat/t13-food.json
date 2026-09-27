@@ -1,0 +1,66 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Food delivery - Home" },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": { "name": "Home", "device": "phone" },
+      "children": ["search", "chips", "grid", "tabbar"]
+    },
+    "search": {
+      "type": "Input",
+      "props": { "type": "search", "placeholder": "Search restaurants and food" },
+      "children": []
+    },
+    "chips": {
+      "type": "Stack",
+      "props": { "direction": "row", "gap": 8, "wrap": true },
+      "children": ["chip1", "chip2", "chip3", "chip4", "chip5"]
+    },
+    "chip1": { "type": "Badge", "props": { "label": "Pizza", "variant": "outline" }, "children": [] },
+    "chip2": { "type": "Badge", "props": { "label": "Sushi", "variant": "outline" }, "children": [] },
+    "chip3": { "type": "Badge", "props": { "label": "Burgers", "variant": "outline" }, "children": [] },
+    "chip4": { "type": "Badge", "props": { "label": "Salads", "variant": "outline" }, "children": [] },
+    "chip5": { "type": "Badge", "props": { "label": "Desserts", "variant": "outline" }, "children": [] },
+    "grid": {
+      "type": "Grid",
+      "props": { "columns": 2, "gap": 12 },
+      "children": ["card1", "card2", "card3", "card4"]
+    },
+    "card1": { "type": "Card", "props": { "padding": 10 }, "children": ["c1-img", "c1-title", "c1-meta"] },
+    "c1-img": { "type": "Image", "props": { "height": 100 }, "children": [] },
+    "c1-title": { "type": "Text", "props": { "text": "Green Bowl Kitchen", "bold": true }, "children": [] },
+    "c1-meta": { "type": "Text", "props": { "text": "25-35 min • $$", "size": "sm", "muted": true }, "children": [] },
+    "card2": { "type": "Card", "props": { "padding": 10 }, "children": ["c2-img", "c2-title", "c2-meta"] },
+    "c2-img": { "type": "Image", "props": { "height": 100 }, "children": [] },
+    "c2-title": { "type": "Text", "props": { "text": "Tokyo Noodle Bar", "bold": true }, "children": [] },
+    "c2-meta": { "type": "Text", "props": { "text": "15-25 min • $$", "size": "sm", "muted": true }, "children": [] },
+    "card3": { "type": "Card", "props": { "padding": 10 }, "children": ["c3-img", "c3-title", "c3-meta"] },
+    "c3-img": { "type": "Image", "props": { "height": 100 }, "children": [] },
+    "c3-title": { "type": "Text", "props": { "text": "Slice House Pizza", "bold": true }, "children": [] },
+    "c3-meta": { "type": "Text", "props": { "text": "30-40 min • $", "size": "sm", "muted": true }, "children": [] },
+    "card4": { "type": "Card", "props": { "padding": 10 }, "children": ["c4-img", "c4-title", "c4-meta"] },
+    "c4-img": { "type": "Image", "props": { "height": 100 }, "children": [] },
+    "c4-title": { "type": "Text", "props": { "text": "Burger Yard", "bold": true }, "children": [] },
+    "c4-meta": { "type": "Text", "props": { "text": "20-30 min • $$$", "size": "sm", "muted": true }, "children": [] },
+    "tabbar": {
+      "type": "TabBar",
+      "props": {
+        "items": [
+          { "label": "Home", "icon": "home" },
+          { "label": "Search", "icon": "search" },
+          { "label": "Orders", "icon": "list" },
+          { "label": "Account", "icon": "user" }
+        ],
+        "active": 0
+      },
+      "children": []
+    }
+  }
+}
+```

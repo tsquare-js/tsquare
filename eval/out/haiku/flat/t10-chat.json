@@ -1,0 +1,125 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Chat"
+      },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": {
+        "name": "Conversation",
+        "device": "phone"
+      },
+      "children": ["nav", "thread", "input"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Sarah Johnson",
+        "leading": "back",
+        "actions": ["phone", "more-horizontal"]
+      },
+      "children": []
+    },
+    "thread": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "padding": 12,
+        "gap": 8,
+        "grow": true
+      },
+      "children": ["msg1", "msg2", "msg3", "msg4"]
+    },
+    "msg1": {
+      "type": "Card",
+      "props": {
+        "padding": 10,
+        "variant": "outline"
+      },
+      "children": ["msg1-text"]
+    },
+    "msg1-text": {
+      "type": "Text",
+      "props": {
+        "text": "Hey! How are you?"
+      },
+      "children": []
+    },
+    "msg2": {
+      "type": "Card",
+      "props": {
+        "padding": 10
+      },
+      "children": ["msg2-text"]
+    },
+    "msg2-text": {
+      "type": "Text",
+      "props": {
+        "text": "Doing great, thanks for asking!"
+      },
+      "children": []
+    },
+    "msg3": {
+      "type": "Card",
+      "props": {
+        "padding": 10,
+        "variant": "outline"
+      },
+      "children": ["msg3-text"]
+    },
+    "msg3-text": {
+      "type": "Text",
+      "props": {
+        "text": "Want to grab coffee tomorrow?"
+      },
+      "children": []
+    },
+    "msg4": {
+      "type": "Card",
+      "props": {
+        "padding": 10
+      },
+      "children": ["msg4-text"]
+    },
+    "msg4-text": {
+      "type": "Text",
+      "props": {
+        "text": "Sounds perfect! What time?"
+      },
+      "children": []
+    },
+    "input": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "padding": 12,
+        "gap": 8,
+        "border": "top"
+      },
+      "children": ["textfield", "send-btn"]
+    },
+    "textfield": {
+      "type": "Input",
+      "props": {
+        "placeholder": "Type a message",
+        "type": "text"
+      },
+      "children": []
+    },
+    "send-btn": {
+      "type": "Button",
+      "props": {
+        "icon": "send",
+        "variant": "primary"
+      },
+      "children": []
+    }
+  }
+}
+```

@@ -1,0 +1,102 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Onboarding" },
+      "children": ["screen-1", "screen-2", "screen-3"]
+    },
+    "screen-1": {
+      "type": "Screen",
+      "props": { "name": "Onboarding 1", "device": "phone", "padding": 24, "gap": 16 },
+      "children": ["s1-img", "s1-heading", "s1-desc", "s1-spacer", "s1-btn"]
+    },
+    "s1-img": {
+      "type": "Image",
+      "props": { "height": 240, "label": "Illustration" },
+      "children": []
+    },
+    "s1-heading": {
+      "type": "Heading",
+      "props": { "text": "Welcome", "level": 1, "align": "center" },
+      "children": []
+    },
+    "s1-desc": {
+      "type": "Text",
+      "props": { "text": "Discover everything the app has to offer.", "align": "center", "muted": true },
+      "children": []
+    },
+    "s1-spacer": {
+      "type": "Spacer",
+      "props": {},
+      "children": []
+    },
+    "s1-btn": {
+      "type": "Button",
+      "props": { "label": "Continue", "variant": "primary", "fullWidth": true },
+      "children": []
+    },
+    "screen-2": {
+      "type": "Screen",
+      "props": { "name": "Onboarding 2", "device": "phone", "padding": 24, "gap": 16 },
+      "children": ["s2-img", "s2-heading", "s2-desc", "s2-spacer", "s2-btn"]
+    },
+    "s2-img": {
+      "type": "Image",
+      "props": { "height": 240, "label": "Illustration" },
+      "children": []
+    },
+    "s2-heading": {
+      "type": "Heading",
+      "props": { "text": "Stay organized", "level": 1, "align": "center" },
+      "children": []
+    },
+    "s2-desc": {
+      "type": "Text",
+      "props": { "text": "Keep track of everything in one place.", "align": "center", "muted": true },
+      "children": []
+    },
+    "s2-spacer": {
+      "type": "Spacer",
+      "props": {},
+      "children": []
+    },
+    "s2-btn": {
+      "type": "Button",
+      "props": { "label": "Continue", "variant": "primary", "fullWidth": true },
+      "children": []
+    },
+    "screen-3": {
+      "type": "Screen",
+      "props": { "name": "Onboarding 3", "device": "phone", "padding": 24, "gap": 16 },
+      "children": ["s3-img", "s3-heading", "s3-desc", "s3-spacer", "s3-btn"]
+    },
+    "s3-img": {
+      "type": "Image",
+      "props": { "height": 240, "label": "Illustration" },
+      "children": []
+    },
+    "s3-heading": {
+      "type": "Heading",
+      "props": { "text": "You're all set", "level": 1, "align": "center" },
+      "children": []
+    },
+    "s3-desc": {
+      "type": "Text",
+      "props": { "text": "Let's get started.", "align": "center", "muted": true },
+      "children": []
+    },
+    "s3-spacer": {
+      "type": "Spacer",
+      "props": {},
+      "children": []
+    },
+    "s3-btn": {
+      "type": "Button",
+      "props": { "label": "Get started", "variant": "primary", "fullWidth": true },
+      "children": []
+    }
+  }
+}
+```

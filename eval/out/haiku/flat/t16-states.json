@@ -1,0 +1,124 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Notes list states",
+        "layout": "row",
+        "gap": 20
+      },
+      "children": ["empty", "error"]
+    },
+    "empty": {
+      "type": "Screen",
+      "props": {
+        "name": "Empty state",
+        "device": "phone"
+      },
+      "children": ["nav1", "content1"]
+    },
+    "nav1": {
+      "type": "NavBar",
+      "props": {
+        "title": "Notes",
+        "actions": ["plus"]
+      },
+      "children": []
+    },
+    "content1": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 20,
+        "align": "center",
+        "justify": "center",
+        "grow": true,
+        "padding": 20
+      },
+      "children": ["empty-img", "empty-text", "empty-btn"]
+    },
+    "empty-img": {
+      "type": "Image",
+      "props": {
+        "height": 120,
+        "width": 120,
+        "label": "Empty"
+      },
+      "children": []
+    },
+    "empty-text": {
+      "type": "Heading",
+      "props": {
+        "text": "No notes yet",
+        "level": 2,
+        "align": "center"
+      },
+      "children": []
+    },
+    "empty-btn": {
+      "type": "Button",
+      "props": {
+        "label": "Create note",
+        "variant": "primary"
+      },
+      "children": []
+    },
+    "error": {
+      "type": "Screen",
+      "props": {
+        "name": "Error state",
+        "device": "phone"
+      },
+      "children": ["nav2", "content2"]
+    },
+    "nav2": {
+      "type": "NavBar",
+      "props": {
+        "title": "Notes",
+        "actions": ["plus"]
+      },
+      "children": []
+    },
+    "content2": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 20,
+        "align": "center",
+        "justify": "center",
+        "grow": true,
+        "padding": 20
+      },
+      "children": ["error-img", "error-text", "error-btn"]
+    },
+    "error-img": {
+      "type": "Image",
+      "props": {
+        "height": 120,
+        "width": 120,
+        "label": "Error"
+      },
+      "children": []
+    },
+    "error-text": {
+      "type": "Heading",
+      "props": {
+        "text": "Something went wrong",
+        "level": 2,
+        "align": "center"
+      },
+      "children": []
+    },
+    "error-btn": {
+      "type": "Button",
+      "props": {
+        "label": "Retry",
+        "variant": "primary"
+      },
+      "children": []
+    }
+  }
+}
+```

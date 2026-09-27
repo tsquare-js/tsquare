@@ -1,0 +1,179 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Onboarding"
+      },
+      "children": ["screen1", "screen2", "screen3"]
+    },
+    "screen1": {
+      "type": "Screen",
+      "props": {
+        "name": "Welcome",
+        "device": "phone"
+      },
+      "children": ["content1"]
+    },
+    "content1": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "padding": 24,
+        "gap": 24,
+        "align": "center",
+        "justify": "center",
+        "grow": true
+      },
+      "children": ["img1", "heading1", "desc1", "btn1"]
+    },
+    "img1": {
+      "type": "Image",
+      "props": {
+        "height": 240,
+        "width": 240
+      },
+      "children": []
+    },
+    "heading1": {
+      "type": "Heading",
+      "props": {
+        "text": "Welcome",
+        "level": 1,
+        "align": "center"
+      },
+      "children": []
+    },
+    "desc1": {
+      "type": "Text",
+      "props": {
+        "text": "Get started with our app in just a few steps",
+        "align": "center",
+        "muted": true
+      },
+      "children": []
+    },
+    "btn1": {
+      "type": "Button",
+      "props": {
+        "label": "Continue",
+        "variant": "primary",
+        "fullWidth": true
+      },
+      "children": []
+    },
+    "screen2": {
+      "type": "Screen",
+      "props": {
+        "name": "Features",
+        "device": "phone"
+      },
+      "children": ["content2"]
+    },
+    "content2": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "padding": 24,
+        "gap": 24,
+        "align": "center",
+        "justify": "center",
+        "grow": true
+      },
+      "children": ["img2", "heading2", "desc2", "btn2"]
+    },
+    "img2": {
+      "type": "Image",
+      "props": {
+        "height": 240,
+        "width": 240
+      },
+      "children": []
+    },
+    "heading2": {
+      "type": "Heading",
+      "props": {
+        "text": "Amazing features",
+        "level": 1,
+        "align": "center"
+      },
+      "children": []
+    },
+    "desc2": {
+      "type": "Text",
+      "props": {
+        "text": "Explore powerful features designed for you",
+        "align": "center",
+        "muted": true
+      },
+      "children": []
+    },
+    "btn2": {
+      "type": "Button",
+      "props": {
+        "label": "Continue",
+        "variant": "primary",
+        "fullWidth": true
+      },
+      "children": []
+    },
+    "screen3": {
+      "type": "Screen",
+      "props": {
+        "name": "Ready",
+        "device": "phone"
+      },
+      "children": ["content3"]
+    },
+    "content3": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "padding": 24,
+        "gap": 24,
+        "align": "center",
+        "justify": "center",
+        "grow": true
+      },
+      "children": ["img3", "heading3", "desc3", "btn3"]
+    },
+    "img3": {
+      "type": "Image",
+      "props": {
+        "height": 240,
+        "width": 240
+      },
+      "children": []
+    },
+    "heading3": {
+      "type": "Heading",
+      "props": {
+        "text": "All set!",
+        "level": 1,
+        "align": "center"
+      },
+      "children": []
+    },
+    "desc3": {
+      "type": "Text",
+      "props": {
+        "text": "You're ready to start using the app",
+        "align": "center",
+        "muted": true
+      },
+      "children": []
+    },
+    "btn3": {
+      "type": "Button",
+      "props": {
+        "label": "Get started",
+        "variant": "primary",
+        "fullWidth": true
+      },
+      "children": []
+    }
+  }
+}
+```

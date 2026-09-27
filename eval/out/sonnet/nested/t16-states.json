@@ -1,0 +1,148 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Notes - empty and error states"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Empty",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Notes",
+            "leading": "menu",
+            "actions": [
+              "search"
+            ]
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "align": "center",
+            "justify": "center",
+            "gap": 16,
+            "grow": true,
+            "padding": 24
+          },
+          "children": [
+            {
+              "type": "Image",
+              "props": {
+                "height": 160,
+                "width": 160,
+                "label": "Illustration"
+              },
+              "children": []
+            },
+            {
+              "type": "Heading",
+              "props": {
+                "text": "No notes yet",
+                "level": 2,
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Text",
+              "props": {
+                "text": "Notes you create will show up here.",
+                "muted": true,
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Create note",
+                "variant": "primary",
+                "icon": "plus"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Error",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Notes",
+            "leading": "menu",
+            "actions": [
+              "search"
+            ]
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "align": "center",
+            "justify": "center",
+            "gap": 16,
+            "grow": true,
+            "padding": 24
+          },
+          "children": [
+            {
+              "type": "Image",
+              "props": {
+                "height": 160,
+                "width": 160,
+                "label": "Illustration"
+              },
+              "children": []
+            },
+            {
+              "type": "Heading",
+              "props": {
+                "text": "Something went wrong",
+                "level": 2,
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Text",
+              "props": {
+                "text": "We couldn't load your notes. Please try again.",
+                "muted": true,
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Retry",
+                "variant": "primary",
+                "icon": "refresh-cw"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

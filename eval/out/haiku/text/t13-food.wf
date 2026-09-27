@@ -1,0 +1,26 @@
+```wireframe
+board "Food Delivery App"
+  screen phone "Home"
+    navbar "Delivery" leading=menu actions=[bell]
+    input search placeholder="Search restaurants"
+    stack row gap=8 padding=12 wrap
+      badge label="Pizza"
+      badge label="Burgers"
+      badge label="Sushi"
+      badge label="Thai"
+    grid columns=2 gap=12 padding=12
+      card padding=10
+        image height=120
+        text "Restaurant" bold
+        text sm "4.5 stars" muted
+      card padding=10
+        image height=120
+        text lines=2
+      card padding=10
+        image height=120
+        text lines=2
+      card padding=10
+        image height=120
+        text lines=2
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Orders icon=package}, {label=Profile icon=user}] active=0
+```

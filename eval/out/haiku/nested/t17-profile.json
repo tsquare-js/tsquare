@@ -1,0 +1,227 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Profile page"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Profile",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Profile",
+            "actions": ["settings"]
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "gap": 12,
+            "align": "center",
+            "padding": 24
+          },
+          "children": [
+            {
+              "type": "Avatar",
+              "props": {
+                "initials": "JD",
+                "size": 72
+              },
+              "children": []
+            },
+            {
+              "type": "Heading",
+              "props": {
+                "text": "Sarah Anderson",
+                "level": 2,
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Text",
+              "props": {
+                "text": "@sarahdesigner",
+                "align": "center",
+                "muted": true,
+                "size": "sm"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "gap": 16,
+            "justify": "around",
+            "padding": 16
+          },
+          "children": [
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "align": "center"
+              },
+              "children": [
+                {
+                  "type": "Heading",
+                  "props": {
+                    "text": "240",
+                    "level": 3
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Posts",
+                    "size": "sm",
+                    "muted": true
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "align": "center"
+              },
+              "children": [
+                {
+                  "type": "Heading",
+                  "props": {
+                    "text": "1.2K",
+                    "level": 3
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Followers",
+                    "size": "sm",
+                    "muted": true
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "align": "center"
+              },
+              "children": [
+                {
+                  "type": "Heading",
+                  "props": {
+                    "text": "856",
+                    "level": 3
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Following",
+                    "size": "sm",
+                    "muted": true
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Tabs",
+          "props": {
+            "items": ["Posts", "Likes"],
+            "active": 0
+          },
+          "children": []
+        },
+        {
+          "type": "Grid",
+          "props": {
+            "columns": 3,
+            "gap": 8
+          },
+          "children": [
+            {
+              "type": "Image",
+              "props": {
+                "height": 110
+              },
+              "children": []
+            },
+            {
+              "type": "Image",
+              "props": {
+                "height": 110
+              },
+              "children": []
+            },
+            {
+              "type": "Image",
+              "props": {
+                "height": 110
+              },
+              "children": []
+            },
+            {
+              "type": "Image",
+              "props": {
+                "height": 110
+              },
+              "children": []
+            },
+            {
+              "type": "Image",
+              "props": {
+                "height": 110
+              },
+              "children": []
+            },
+            {
+              "type": "Image",
+              "props": {
+                "height": 110
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "TabBar",
+          "props": {
+            "items": [
+              {"label": "Home", "icon": "home"},
+              {"label": "Search", "icon": "search"},
+              {"label": "Create", "icon": "plus"},
+              {"label": "Likes", "icon": "heart"},
+              {"label": "Profile", "icon": "user"}
+            ],
+            "active": 4
+          },
+          "children": []
+        }
+      ]
+    }
+  ]
+}
+```

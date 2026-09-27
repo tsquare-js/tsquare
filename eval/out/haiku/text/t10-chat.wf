@@ -1,0 +1,27 @@
+```wireframe
+board "Chat"
+  screen phone "Chat"
+    navbar "John Smith" leading=back actions=[call, info]
+    stack direction=column grow padding=12 gap=8
+      stack row gap=8
+        avatar initials=JS size=32
+        stack
+          text "Hey, how are you?" bold size=sm
+          text sm muted "10:30 AM"
+      stack row gap=8 justify=end
+        stack align=end
+          text "I'm doing great, thanks!" bold size=sm
+          text sm muted "10:32 AM"
+      stack row gap=8
+        avatar initials=JS size=32
+        stack
+          text "How's the project going?" bold size=sm
+          text sm muted "10:35 AM"
+      stack row gap=8 justify=end
+        stack align=end
+          text "Almost done!" bold size=sm
+          text sm muted "10:36 AM"
+    stack row padding=12 gap=8
+      input placeholder="Type a message..." multiline=1 grow
+      button primary icon=send size=sm
+```

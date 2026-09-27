@@ -1,0 +1,54 @@
+```json
+{
+  "type": "Board",
+  "props": { "title": "Mail" },
+  "children": [
+    {
+      "type": "Screen",
+      "props": { "name": "Inbox", "device": "tablet" },
+      "children": [
+        { "type": "NavBar", "props": { "title": "Inbox", "leading": "menu", "actions": ["search", "edit"] }, "children": [] },
+        {
+          "type": "Stack",
+          "props": { "direction": "row", "gap": 0 },
+          "children": [
+            {
+              "type": "Stack",
+              "props": { "direction": "column", "width": 320, "border": "right" },
+              "children": [
+                {
+                  "type": "List",
+                  "props": { "dividers": true },
+                  "children": [
+                    { "type": "ListItem", "props": { "leading": "avatar", "title": "Sender name", "subtitle": "Subject line", "trailing": "text", "trailingText": "9:41 AM" }, "children": [] },
+                    { "type": "ListItem", "props": { "leading": "avatar", "title": "Sender name", "subtitle": "Subject line", "trailing": "text", "trailingText": "Yesterday" }, "children": [] },
+                    { "type": "ListItem", "props": { "leading": "avatar", "title": "Sender name", "subtitle": "Subject line", "trailing": "text", "trailingText": "Mon" }, "children": [] },
+                    { "type": "ListItem", "props": { "leading": "avatar", "title": "Sender name", "subtitle": "Subject line", "trailing": "text", "trailingText": "Sun" }, "children": [] }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": { "direction": "column", "grow": true, "padding": 16, "gap": 12 },
+              "children": [
+                { "type": "Heading", "props": { "text": "Subject line", "level": 2 }, "children": [] },
+                {
+                  "type": "Stack",
+                  "props": { "direction": "row", "gap": 8, "align": "center" },
+                  "children": [
+                    { "type": "Avatar", "props": { "initials": "AB" }, "children": [] },
+                    { "type": "Text", "props": { "text": "Sender name" }, "children": [] }
+                  ]
+                },
+                { "type": "Divider", "props": {}, "children": [] },
+                { "type": "Text", "props": { "lines": 8 }, "children": [] }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

@@ -1,0 +1,255 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Calendar - New event"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Calendar",
+        "device": "desktop"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Calendar",
+            "leading": "menu",
+            "actions": [
+              "search",
+              "settings"
+            ]
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "gap": 8,
+            "padding": 16
+          },
+          "children": [
+            {
+              "type": "Button",
+              "props": {
+                "label": "Today",
+                "variant": "secondary"
+              },
+              "children": []
+            },
+            {
+              "type": "Spacer",
+              "props": {},
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "New event",
+                "variant": "primary",
+                "icon": "plus"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Grid",
+          "props": {
+            "columns": 7,
+            "gap": 4
+          },
+          "children": [
+            {
+              "type": "Card",
+              "props": {
+                "padding": 8
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "lines": 2
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Card",
+              "props": {
+                "padding": 8
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "lines": 2
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Card",
+              "props": {
+                "padding": 8
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "lines": 2
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Card",
+              "props": {
+                "padding": 8
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "lines": 2
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Card",
+              "props": {
+                "padding": 8
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "lines": 2
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Card",
+              "props": {
+                "padding": 8
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "lines": 2
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Card",
+              "props": {
+                "padding": 8
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "lines": 2
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Modal",
+          "props": {
+            "title": "New event",
+            "width": 420,
+            "scrim": true
+          },
+          "children": [
+            {
+              "type": "Input",
+              "props": {
+                "label": "Title",
+                "placeholder": "Add a title"
+              },
+              "children": []
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "gap": 12
+              },
+              "children": [
+                {
+                  "type": "Select",
+                  "props": {
+                    "label": "Date",
+                    "value": "Sep 26, 2026"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Select",
+                  "props": {
+                    "label": "Time",
+                    "value": "10:00 AM"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Input",
+              "props": {
+                "label": "Description",
+                "placeholder": "Add a description",
+                "multiline": 4
+              },
+              "children": []
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "gap": 8,
+                "justify": "end"
+              },
+              "children": [
+                {
+                  "type": "Button",
+                  "props": {
+                    "label": "Cancel",
+                    "variant": "secondary"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Button",
+                  "props": {
+                    "label": "Save",
+                    "variant": "primary"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

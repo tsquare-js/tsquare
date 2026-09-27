@@ -1,0 +1,177 @@
+{
+  "type": "Board",
+  "props": {
+    "title": "Email client"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Mail",
+        "device": "tablet"
+      },
+      "children": [
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "gap": 0
+          },
+          "children": [
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "width": 350,
+                "border": "right",
+                "gap": 0
+              },
+              "children": [
+                {
+                  "type": "NavBar",
+                  "props": {
+                    "title": "Inbox",
+                    "actions": ["plus"]
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Input",
+                  "props": {
+                    "type": "search",
+                    "placeholder": "Search"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "List",
+                  "props": {
+                    "dividers": true
+                  },
+                  "children": [
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "Sarah Johnson",
+                        "subtitle": "Project update",
+                        "leading": "avatar"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "Team Lead",
+                        "subtitle": "Meeting at 3pm",
+                        "leading": "avatar"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "Design Team",
+                        "subtitle": "New mockups ready",
+                        "leading": "avatar"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "grow": true,
+                "gap": 0
+              },
+              "children": [
+                {
+                  "type": "NavBar",
+                  "props": {
+                    "title": "Sarah Johnson",
+                    "leading": "back",
+                    "actions": ["archive", "trash", "more-horizontal"]
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Stack",
+                  "props": {
+                    "direction": "column",
+                    "padding": 24,
+                    "gap": 16
+                  },
+                  "children": [
+                    {
+                      "type": "Stack",
+                      "props": {
+                        "direction": "row",
+                        "justify": "between",
+                        "align": "start"
+                      },
+                      "children": [
+                        {
+                          "type": "Stack",
+                          "props": {
+                            "direction": "column",
+                            "gap": 4
+                          },
+                          "children": [
+                            {
+                              "type": "Text",
+                              "props": {
+                                "text": "Sarah Johnson",
+                                "bold": true
+                              },
+                              "children": []
+                            },
+                            {
+                              "type": "Text",
+                              "props": {
+                                "text": "Project update",
+                                "bold": true,
+                                "size": "lg"
+                              },
+                              "children": []
+                            },
+                            {
+                              "type": "Text",
+                              "props": {
+                                "text": "Sep 26, 2:30 PM",
+                                "muted": true,
+                                "size": "sm"
+                              },
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Button",
+                          "props": {
+                            "label": "Reply",
+                            "variant": "primary"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Text",
+                      "props": {
+                        "lines": 6
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

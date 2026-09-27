@@ -1,0 +1,246 @@
+{
+  "type": "Board",
+  "props": {
+    "title": "File manager"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Files",
+        "device": "desktop"
+      },
+      "children": [
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "gap": 0
+          },
+          "children": [
+            {
+              "type": "NavBar",
+              "props": {
+                "title": "Files",
+                "leading": "menu",
+                "actions": ["search", "more-horizontal"]
+              },
+              "children": []
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "gap": 0,
+                "grow": true
+              },
+              "children": [
+                {
+                  "type": "Stack",
+                  "props": {
+                    "direction": "column",
+                    "grow": true,
+                    "padding": 16,
+                    "gap": 12
+                  },
+                  "children": [
+                    {
+                      "type": "Stack",
+                      "props": {
+                        "direction": "row",
+                        "gap": 8
+                      },
+                      "children": [
+                        {
+                          "type": "Button",
+                          "props": {
+                            "label": "New",
+                            "variant": "primary",
+                            "size": "sm"
+                          },
+                          "children": []
+                        },
+                        {
+                          "type": "Button",
+                          "props": {
+                            "label": "Upload",
+                            "variant": "secondary",
+                            "size": "sm"
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Table",
+                      "props": {
+                        "columns": ["Name", "Type", "Size", "Modified", "Owner"],
+                        "data": [
+                          ["Document.pdf", "PDF", "2.4 MB", "Sep 24", "You"],
+                          ["Presentation.pptx", "PowerPoint", "5.1 MB", "Sep 23", "You"],
+                          ["Budget.xlsx", "Spreadsheet", "1.8 MB", "Sep 22", "You"],
+                          ["Design.sketch", "Design", "12.3 MB", "Sep 21", "Team"],
+                          ["Report.docx", "Document", "890 KB", "Sep 20", "You"]
+                        ]
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "type": "Drawer",
+                  "props": {
+                    "side": "right",
+                    "title": "Details",
+                    "size": 300
+                  },
+                  "children": [
+                    {
+                      "type": "Stack",
+                      "props": {
+                        "direction": "column",
+                        "gap": 12
+                      },
+                      "children": [
+                        {
+                          "type": "Image",
+                          "props": {
+                            "height": 150
+                          },
+                          "children": []
+                        },
+                        {
+                          "type": "Text",
+                          "props": {
+                            "text": "Document.pdf",
+                            "bold": true
+                          },
+                          "children": []
+                        },
+                        {
+                          "type": "Divider",
+                          "props": {},
+                          "children": []
+                        },
+                        {
+                          "type": "Stack",
+                          "props": {
+                            "direction": "column",
+                            "gap": 8
+                          },
+                          "children": [
+                            {
+                              "type": "Stack",
+                              "props": {
+                                "direction": "row",
+                                "justify": "between"
+                              },
+                              "children": [
+                                {
+                                  "type": "Text",
+                                  "props": {
+                                    "text": "Size",
+                                    "muted": true
+                                  },
+                                  "children": []
+                                },
+                                {
+                                  "type": "Text",
+                                  "props": {
+                                    "text": "2.4 MB"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            },
+                            {
+                              "type": "Stack",
+                              "props": {
+                                "direction": "row",
+                                "justify": "between"
+                              },
+                              "children": [
+                                {
+                                  "type": "Text",
+                                  "props": {
+                                    "text": "Modified",
+                                    "muted": true
+                                  },
+                                  "children": []
+                                },
+                                {
+                                  "type": "Text",
+                                  "props": {
+                                    "text": "Sep 24, 3:45 PM"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            },
+                            {
+                              "type": "Stack",
+                              "props": {
+                                "direction": "row",
+                                "justify": "between"
+                              },
+                              "children": [
+                                {
+                                  "type": "Text",
+                                  "props": {
+                                    "text": "Owner",
+                                    "muted": true
+                                  },
+                                  "children": []
+                                },
+                                {
+                                  "type": "Text",
+                                  "props": {
+                                    "text": "You"
+                                  },
+                                  "children": []
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Stack",
+                          "props": {
+                            "direction": "column",
+                            "gap": 8
+                          },
+                          "children": [
+                            {
+                              "type": "Button",
+                              "props": {
+                                "label": "Download",
+                                "variant": "primary",
+                                "fullWidth": true,
+                                "size": "sm"
+                              },
+                              "children": []
+                            },
+                            {
+                              "type": "Button",
+                              "props": {
+                                "label": "Share",
+                                "variant": "secondary",
+                                "fullWidth": true,
+                                "size": "sm"
+                              },
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

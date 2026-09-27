@@ -1,0 +1,97 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "Mail client" },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": { "name": "Inbox", "device": "tablet", "padding": 0, "gap": 0 },
+      "children": ["nav", "body"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": { "title": "Inbox", "leading": "menu", "actions": ["search", "edit"] },
+      "children": []
+    },
+    "body": {
+      "type": "Stack",
+      "props": { "direction": "row", "grow": true },
+      "children": ["list-pane", "message-pane"]
+    },
+    "list-pane": {
+      "type": "Stack",
+      "props": { "direction": "column", "width": 320, "border": "right" },
+      "children": ["email-list"]
+    },
+    "email-list": {
+      "type": "List",
+      "props": { "dividers": true },
+      "children": ["email-1", "email-2", "email-3", "email-4", "email-5"]
+    },
+    "email-1": {
+      "type": "ListItem",
+      "props": { "title": "Sarah Chen", "subtitle": "Re: Project timeline update", "leading": "avatar", "trailing": "text", "trailingText": "9:41 AM" },
+      "children": []
+    },
+    "email-2": {
+      "type": "ListItem",
+      "props": { "title": "Team Standup", "subtitle": "Notes from this morning's meeting", "leading": "avatar", "trailing": "text", "trailingText": "9:02 AM" },
+      "children": []
+    },
+    "email-3": {
+      "type": "ListItem",
+      "props": { "leading": "avatar", "trailing": "text", "trailingText": "Yesterday" },
+      "children": []
+    },
+    "email-4": {
+      "type": "ListItem",
+      "props": { "leading": "avatar", "trailing": "text", "trailingText": "Yesterday" },
+      "children": []
+    },
+    "email-5": {
+      "type": "ListItem",
+      "props": { "leading": "avatar", "trailing": "text", "trailingText": "Mon" },
+      "children": []
+    },
+    "message-pane": {
+      "type": "Stack",
+      "props": { "direction": "column", "grow": true, "padding": 20, "gap": 12 },
+      "children": ["msg-header", "msg-from", "msg-divider", "msg-body"]
+    },
+    "msg-header": {
+      "type": "Heading",
+      "props": { "text": "Re: Project timeline update", "level": 2 },
+      "children": []
+    },
+    "msg-from": {
+      "type": "Stack",
+      "props": { "direction": "row", "gap": 8, "align": "center" },
+      "children": ["msg-avatar", "msg-from-text"]
+    },
+    "msg-avatar": {
+      "type": "Avatar",
+      "props": { "initials": "SC" },
+      "children": []
+    },
+    "msg-from-text": {
+      "type": "Text",
+      "props": { "text": "Sarah Chen", "bold": true },
+      "children": []
+    },
+    "msg-divider": {
+      "type": "Divider",
+      "props": {},
+      "children": []
+    },
+    "msg-body": {
+      "type": "Text",
+      "props": { "lines": 10 },
+      "children": []
+    }
+  }
+}
+```

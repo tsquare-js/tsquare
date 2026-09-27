@@ -1,0 +1,440 @@
+{
+  "type": "Board",
+  "props": {
+    "title": "Checkout"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Cart",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Cart",
+            "leading": "back"
+          },
+          "children": []
+        },
+        {
+          "type": "List",
+          "props": {
+            "dividers": true
+          },
+          "children": [
+            {
+              "type": "ListItem",
+              "props": {
+                "title": "Wireless Headphones",
+                "subtitle": "$299.99 × 1",
+                "leading": "image"
+              },
+              "children": []
+            },
+            {
+              "type": "ListItem",
+              "props": {
+                "title": "Phone Case",
+                "subtitle": "$29.99 × 2",
+                "leading": "image"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "padding": 16,
+            "gap": 8,
+            "border": "top"
+          },
+          "children": [
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "justify": "between"
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Subtotal"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "$359.97"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "justify": "between"
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Shipping"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "$10.00"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "justify": "between"
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Tax",
+                    "bold": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "$29.60",
+                    "bold": true
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "justify": "between",
+                "border": "top",
+                "padding": 8
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Total",
+                    "bold": true,
+                    "size": "lg"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "$399.57",
+                    "bold": true,
+                    "size": "lg"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "padding": 16,
+            "gap": 8
+          },
+          "children": [
+            {
+              "type": "Button",
+              "props": {
+                "label": "Continue to shipping",
+                "variant": "primary",
+                "fullWidth": true
+              },
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Continue shopping",
+                "variant": "secondary",
+                "fullWidth": true
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Shipping",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Shipping details",
+            "leading": "back"
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "padding": 16,
+            "gap": 12
+          },
+          "children": [
+            {
+              "type": "Text",
+              "props": {
+                "text": "Step 2 of 3",
+                "muted": true,
+                "size": "sm"
+              },
+              "children": []
+            },
+            {
+              "type": "Input",
+              "props": {
+                "label": "Full name",
+                "placeholder": "John Doe"
+              },
+              "children": []
+            },
+            {
+              "type": "Input",
+              "props": {
+                "label": "Address",
+                "placeholder": "123 Main St"
+              },
+              "children": []
+            },
+            {
+              "type": "Input",
+              "props": {
+                "label": "City",
+                "placeholder": "New York"
+              },
+              "children": []
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "gap": 12
+              },
+              "children": [
+                {
+                  "type": "Input",
+                  "props": {
+                    "label": "State",
+                    "placeholder": "NY"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Input",
+                  "props": {
+                    "label": "ZIP",
+                    "placeholder": "10001"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Spacer",
+              "props": {
+                "size": 20
+              },
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Continue to payment",
+                "variant": "primary",
+                "fullWidth": true
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Confirmation",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Order confirmation",
+            "leading": "none"
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "padding": 16,
+            "gap": 16,
+            "align": "center"
+          },
+          "children": [
+            {
+              "type": "Icon",
+              "props": {
+                "name": "check-circle",
+                "size": 64
+              },
+              "children": []
+            },
+            {
+              "type": "Heading",
+              "props": {
+                "text": "Order placed!",
+                "level": 1,
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Text",
+              "props": {
+                "text": "Thank you for your purchase. Your order #12345 will ship soon.",
+                "align": "center"
+              },
+              "children": []
+            },
+            {
+              "type": "Card",
+              "props": {
+                "padding": 12
+              },
+              "children": [
+                {
+                  "type": "Stack",
+                  "props": {
+                    "direction": "column",
+                    "gap": 8
+                  },
+                  "children": [
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Order total: $399.57",
+                        "bold": true
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Text",
+                      "props": {
+                        "text": "Estimated delivery: 3-5 business days",
+                        "muted": true,
+                        "size": "sm"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Spacer",
+              "props": {
+                "size": 40
+              },
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "View order",
+                "variant": "primary",
+                "fullWidth": true
+              },
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Continue shopping",
+                "variant": "secondary",
+                "fullWidth": true
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Modal",
+          "props": {
+            "title": "Order placed",
+            "scrim": true
+          },
+          "children": [
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "gap": 16,
+                "align": "center",
+                "padding": 16
+              },
+              "children": [
+                {
+                  "type": "Icon",
+                  "props": {
+                    "name": "check-circle",
+                    "size": 48
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Order #12345 confirmed",
+                    "bold": true,
+                    "align": "center"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

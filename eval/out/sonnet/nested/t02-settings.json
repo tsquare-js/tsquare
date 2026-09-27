@@ -1,0 +1,29 @@
+```json
+{
+  "type": "Board",
+  "props": { "title": "Settings" },
+  "children": [
+    {
+      "type": "Screen",
+      "props": { "name": "Settings", "device": "phone" },
+      "children": [
+        { "type": "NavBar", "props": { "title": "Settings", "leading": "back" }, "children": [] },
+        { "type": "Toggle", "props": { "label": "Notifications", "on": true }, "children": [] },
+        { "type": "Toggle", "props": { "label": "Dark mode", "on": false }, "children": [] },
+        { "type": "Text", "props": { "text": "Account", "bold": true, "size": "sm" }, "children": [] },
+        {
+          "type": "List",
+          "props": { "dividers": true },
+          "children": [
+            { "type": "ListItem", "props": { "title": "Profile", "trailing": "chevron" }, "children": [] },
+            { "type": "ListItem", "props": { "title": "Privacy", "trailing": "chevron" }, "children": [] },
+            { "type": "ListItem", "props": { "title": "Security", "trailing": "chevron" }, "children": [] }
+          ]
+        },
+        { "type": "Spacer", "props": {}, "children": [] },
+        { "type": "Button", "props": { "label": "Sign out", "variant": "secondary", "fullWidth": true }, "children": [] }
+      ]
+    }
+  ]
+}
+```

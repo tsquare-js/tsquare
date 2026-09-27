@@ -1,0 +1,240 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Pricing"
+      },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": {
+        "name": "Pricing",
+        "device": "desktop"
+      },
+      "children": ["nav", "header", "toggle", "cards"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Pricing",
+        "leading": "none"
+      },
+      "children": []
+    },
+    "header": {
+      "type": "Heading",
+      "props": {
+        "text": "Simple, transparent pricing",
+        "level": 1,
+        "align": "center"
+      },
+      "children": []
+    },
+    "toggle": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 12,
+        "justify": "center",
+        "padding": 20
+      },
+      "children": ["monthly-btn", "yearly-btn"]
+    },
+    "monthly-btn": {
+      "type": "Button",
+      "props": {
+        "label": "Monthly",
+        "variant": "primary"
+      },
+      "children": []
+    },
+    "yearly-btn": {
+      "type": "Button",
+      "props": {
+        "label": "Yearly",
+        "variant": "secondary"
+      },
+      "children": []
+    },
+    "cards": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 20,
+        "padding": 20,
+        "justify": "center"
+      },
+      "children": ["card1", "card2", "card3"]
+    },
+    "card1": {
+      "type": "Card",
+      "props": {
+        "title": "Starter",
+        "padding": 20,
+        "gap": 16,
+        "variant": "outline"
+      },
+      "children": ["price1", "features1", "btn1"]
+    },
+    "price1": {
+      "type": "Heading",
+      "props": {
+        "text": "$29/mo",
+        "level": 2
+      },
+      "children": []
+    },
+    "features1": {
+      "type": "List",
+      "props": {
+        "dividers": false
+      },
+      "children": ["f1-1", "f1-2", "f1-3"]
+    },
+    "f1-1": {
+      "type": "ListItem",
+      "props": {
+        "title": "Up to 10 users"
+      },
+      "children": []
+    },
+    "f1-2": {
+      "type": "ListItem",
+      "props": {
+        "title": "5 GB storage"
+      },
+      "children": []
+    },
+    "f1-3": {
+      "type": "ListItem",
+      "props": {
+        "title": "Email support"
+      },
+      "children": []
+    },
+    "btn1": {
+      "type": "Button",
+      "props": {
+        "label": "Get started",
+        "variant": "primary",
+        "fullWidth": true
+      },
+      "children": []
+    },
+    "card2": {
+      "type": "Card",
+      "props": {
+        "title": "Professional",
+        "padding": 20,
+        "gap": 16,
+        "variant": "filled"
+      },
+      "children": ["price2", "features2", "btn2"]
+    },
+    "price2": {
+      "type": "Heading",
+      "props": {
+        "text": "$79/mo",
+        "level": 2
+      },
+      "children": []
+    },
+    "features2": {
+      "type": "List",
+      "props": {
+        "dividers": false
+      },
+      "children": ["f2-1", "f2-2", "f2-3"]
+    },
+    "f2-1": {
+      "type": "ListItem",
+      "props": {
+        "title": "Up to 50 users"
+      },
+      "children": []
+    },
+    "f2-2": {
+      "type": "ListItem",
+      "props": {
+        "title": "50 GB storage"
+      },
+      "children": []
+    },
+    "f2-3": {
+      "type": "ListItem",
+      "props": {
+        "title": "Priority support"
+      },
+      "children": []
+    },
+    "btn2": {
+      "type": "Button",
+      "props": {
+        "label": "Subscribe",
+        "variant": "primary",
+        "fullWidth": true
+      },
+      "children": []
+    },
+    "card3": {
+      "type": "Card",
+      "props": {
+        "title": "Enterprise",
+        "padding": 20,
+        "gap": 16,
+        "variant": "outline"
+      },
+      "children": ["price3", "features3", "btn3"]
+    },
+    "price3": {
+      "type": "Heading",
+      "props": {
+        "text": "Custom",
+        "level": 2
+      },
+      "children": []
+    },
+    "features3": {
+      "type": "List",
+      "props": {
+        "dividers": false
+      },
+      "children": ["f3-1", "f3-2", "f3-3"]
+    },
+    "f3-1": {
+      "type": "ListItem",
+      "props": {
+        "title": "Unlimited users"
+      },
+      "children": []
+    },
+    "f3-2": {
+      "type": "ListItem",
+      "props": {
+        "title": "Unlimited storage"
+      },
+      "children": []
+    },
+    "f3-3": {
+      "type": "ListItem",
+      "props": {
+        "title": "24/7 support"
+      },
+      "children": []
+    },
+    "btn3": {
+      "type": "Button",
+      "props": {
+        "label": "Contact us",
+        "variant": "secondary",
+        "fullWidth": true
+      },
+      "children": []
+    }
+  }
+}
+```

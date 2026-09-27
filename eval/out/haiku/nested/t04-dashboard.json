@@ -1,0 +1,266 @@
+{
+  "type": "Board",
+  "props": {
+    "title": "Analytics dashboard"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Dashboard",
+        "device": "desktop"
+      },
+      "children": [
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "gap": 0
+          },
+          "children": [
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "width": 240,
+                "border": "right",
+                "padding": 16,
+                "gap": 12
+              },
+              "children": [
+                {
+                  "type": "Heading",
+                  "props": {
+                    "text": "Analytics",
+                    "level": 2
+                  },
+                  "children": []
+                },
+                {
+                  "type": "List",
+                  "props": {
+                    "dividers": true
+                  },
+                  "children": [
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "Overview",
+                        "trailing": "chevron"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "Orders",
+                        "trailing": "chevron"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "Customers",
+                        "trailing": "chevron"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "Revenue",
+                        "trailing": "chevron"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "column",
+                "grow": true,
+                "gap": 20,
+                "padding": 20
+              },
+              "children": [
+                {
+                  "type": "Stack",
+                  "props": {
+                    "direction": "row",
+                    "justify": "between",
+                    "align": "center"
+                  },
+                  "children": [
+                    {
+                      "type": "Heading",
+                      "props": {
+                        "text": "Orders",
+                        "level": 1
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "Stack",
+                      "props": {
+                        "direction": "row",
+                        "gap": 12
+                      },
+                      "children": [
+                        {
+                          "type": "Input",
+                          "props": {
+                            "type": "search",
+                            "placeholder": "Search"
+                          },
+                          "children": []
+                        },
+                        {
+                          "type": "Avatar",
+                          "props": {
+                            "initials": "JD",
+                            "size": 40
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "Stack",
+                  "props": {
+                    "direction": "row",
+                    "gap": 12
+                  },
+                  "children": [
+                    {
+                      "type": "Card",
+                      "props": {
+                        "padding": 16
+                      },
+                      "children": [
+                        {
+                          "type": "Text",
+                          "props": {
+                            "text": "Total Revenue",
+                            "muted": true,
+                            "size": "sm"
+                          },
+                          "children": []
+                        },
+                        {
+                          "type": "Heading",
+                          "props": {
+                            "text": "$45,231",
+                            "level": 2
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Card",
+                      "props": {
+                        "padding": 16
+                      },
+                      "children": [
+                        {
+                          "type": "Text",
+                          "props": {
+                            "text": "Orders",
+                            "muted": true,
+                            "size": "sm"
+                          },
+                          "children": []
+                        },
+                        {
+                          "type": "Heading",
+                          "props": {
+                            "text": "382",
+                            "level": 2
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Card",
+                      "props": {
+                        "padding": 16
+                      },
+                      "children": [
+                        {
+                          "type": "Text",
+                          "props": {
+                            "text": "Avg Order Value",
+                            "muted": true,
+                            "size": "sm"
+                          },
+                          "children": []
+                        },
+                        {
+                          "type": "Heading",
+                          "props": {
+                            "text": "$118",
+                            "level": 2
+                          },
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Card",
+                      "props": {
+                        "padding": 16
+                      },
+                      "children": [
+                        {
+                          "type": "Text",
+                          "props": {
+                            "text": "Conversion",
+                            "muted": true,
+                            "size": "sm"
+                          },
+                          "children": []
+                        },
+                        {
+                          "type": "Heading",
+                          "props": {
+                            "text": "3.2%",
+                            "level": 2
+                          },
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "Card",
+                  "props": {
+                    "padding": 16,
+                    "title": "Recent Orders"
+                  },
+                  "children": [
+                    {
+                      "type": "Table",
+                      "props": {
+                        "columns": ["Order ID", "Customer", "Date", "Amount", "Status"],
+                        "rows": 5
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

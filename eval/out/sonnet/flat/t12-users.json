@@ -1,0 +1,93 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": { "title": "User management" },
+      "children": ["screen1", "screen2"]
+    },
+    "screen1": {
+      "type": "Screen",
+      "props": { "name": "Users", "device": "desktop" },
+      "children": ["nav1", "tabs1", "table1"]
+    },
+    "nav1": {
+      "type": "NavBar",
+      "props": { "title": "User management", "leading": "logo", "actions": ["bell", "user"] },
+      "children": []
+    },
+    "tabs1": {
+      "type": "Tabs",
+      "props": { "items": ["Active", "Invited", "Suspended"], "active": 0 },
+      "children": []
+    },
+    "table1": {
+      "type": "Table",
+      "props": {
+        "columns": ["Name", "Email", "Role", "Status"],
+        "data": [
+          ["Alice Chen", "alice.chen@acme.com", "Admin", "Active"],
+          ["Brian Lopez", "brian.lopez@acme.com", "Editor", "Active"],
+          ["Chidi Okafor", "chidi.okafor@acme.com", "Viewer", "Active"],
+          ["Dana Kim", "dana.kim@acme.com", "Editor", "Active"]
+        ]
+      },
+      "children": []
+    },
+    "screen2": {
+      "type": "Screen",
+      "props": { "name": "Users - Filters", "device": "desktop" },
+      "children": ["nav2", "tabs2", "table2", "drawer"]
+    },
+    "nav2": {
+      "type": "NavBar",
+      "props": { "title": "User management", "leading": "logo", "actions": ["bell", "user"] },
+      "children": []
+    },
+    "tabs2": {
+      "type": "Tabs",
+      "props": { "items": ["Active", "Invited", "Suspended"], "active": 0 },
+      "children": []
+    },
+    "table2": {
+      "type": "Table",
+      "props": {
+        "columns": ["Name", "Email", "Role", "Status"],
+        "data": [
+          ["Alice Chen", "alice.chen@acme.com", "Admin", "Active"],
+          ["Brian Lopez", "brian.lopez@acme.com", "Editor", "Active"],
+          ["Chidi Okafor", "chidi.okafor@acme.com", "Viewer", "Active"],
+          ["Dana Kim", "dana.kim@acme.com", "Editor", "Active"]
+        ]
+      },
+      "children": []
+    },
+    "drawer": {
+      "type": "Drawer",
+      "props": { "side": "right", "title": "Filters", "size": 320 },
+      "children": ["f-role", "f-status", "f-active", "f-apply"]
+    },
+    "f-role": {
+      "type": "Select",
+      "props": { "label": "Role", "placeholder": "Any role" },
+      "children": []
+    },
+    "f-status": {
+      "type": "Select",
+      "props": { "label": "Status", "placeholder": "Any status" },
+      "children": []
+    },
+    "f-active": {
+      "type": "Checkbox",
+      "props": { "label": "Active only" },
+      "children": []
+    },
+    "f-apply": {
+      "type": "Button",
+      "props": { "label": "Apply filters", "variant": "primary", "fullWidth": true },
+      "children": []
+    }
+  }
+}
+```

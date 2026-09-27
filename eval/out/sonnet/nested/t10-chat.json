@@ -1,0 +1,50 @@
+```json
+{
+  "type": "Board",
+  "props": { "title": "Chat" },
+  "children": [
+    {
+      "type": "Screen",
+      "props": { "name": "Conversation", "device": "phone" },
+      "children": [
+        { "type": "NavBar", "props": { "title": "Contact name", "leading": "back", "actions": ["phone"] }, "children": [] },
+        {
+          "type": "Stack",
+          "props": { "direction": "column", "gap": 8, "padding": 12, "grow": true },
+          "children": [
+            {
+              "type": "Stack",
+              "props": { "direction": "row", "justify": "start" },
+              "children": [
+                { "type": "Card", "props": { "padding": 8 }, "children": [ { "type": "Text", "props": { "lines": 1 }, "children": [] } ] }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": { "direction": "row", "justify": "end" },
+              "children": [
+                { "type": "Card", "props": { "padding": 8, "variant": "filled" }, "children": [ { "type": "Text", "props": { "lines": 1 }, "children": [] } ] }
+              ]
+            },
+            {
+              "type": "Stack",
+              "props": { "direction": "row", "justify": "start" },
+              "children": [
+                { "type": "Card", "props": { "padding": 8 }, "children": [ { "type": "Text", "props": { "lines": 2 }, "children": [] } ] }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "Stack",
+          "props": { "direction": "row", "gap": 8, "padding": 8, "align": "center", "border": "top" },
+          "children": [
+            { "type": "Input", "props": { "placeholder": "Message" }, "children": [] },
+            { "type": "Button", "props": { "icon": "send", "variant": "primary" }, "children": [] }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

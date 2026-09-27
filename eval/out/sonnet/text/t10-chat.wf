@@ -1,0 +1,15 @@
+```wireframe
+board "Chat"
+  screen phone "Conversation"
+    navbar "Contact name" leading=back actions=[phone]
+    stack grow gap=8 padding=12
+      card padding=10 width=220
+        text lines=2
+      card padding=10 width=220
+        text lines=1
+      card padding=10 width=180
+        text lines=2
+    stack row gap=8 padding=12 border=top
+      input placeholder="Message"
+      button primary icon=send
+```

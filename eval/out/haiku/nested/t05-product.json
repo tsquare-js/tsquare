@@ -1,0 +1,143 @@
+{
+  "type": "Board",
+  "props": {
+    "title": "Product page"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Product",
+        "device": "phone"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "leading": "back",
+            "actions": ["heart", "share"]
+          },
+          "children": []
+        },
+        {
+          "type": "Image",
+          "props": {
+            "height": 250
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "padding": 16,
+            "gap": 12
+          },
+          "children": [
+            {
+              "type": "Heading",
+              "props": {
+                "text": "Premium Headphones",
+                "level": 1
+              },
+              "children": []
+            },
+            {
+              "type": "Stack",
+              "props": {
+                "direction": "row",
+                "gap": 8,
+                "align": "center"
+              },
+              "children": [
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "$299.99",
+                    "bold": true,
+                    "size": "lg"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Badge",
+                  "props": {
+                    "label": "In stock",
+                    "variant": "solid"
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Select",
+              "props": {
+                "label": "Size",
+                "value": "One size"
+              },
+              "children": []
+            },
+            {
+              "type": "Text",
+              "props": {
+                "lines": 3
+              },
+              "children": []
+            },
+            {
+              "type": "Button",
+              "props": {
+                "label": "Add to cart",
+                "variant": "primary",
+                "fullWidth": true
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "column",
+            "padding": 16,
+            "gap": 12
+          },
+          "children": [
+            {
+              "type": "Heading",
+              "props": {
+                "text": "Reviews",
+                "level": 2
+              },
+              "children": []
+            },
+            {
+              "type": "List",
+              "props": {
+                "dividers": true
+              },
+              "children": [
+                {
+                  "type": "ListItem",
+                  "props": {
+                    "title": "Great sound quality",
+                    "subtitle": "★★★★★ • Sarah M."
+                  },
+                  "children": []
+                },
+                {
+                  "type": "ListItem",
+                  "props": {
+                    "title": "Comfortable for long use",
+                    "subtitle": "★★★★☆ • John D."
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+```wireframe
+board "Music app"
+  screen phone "Home"
+    navbar "Home" leading=none
+    heading "Good evening" level=2
+    grid columns=2 gap=12
+      card padding=10
+        image height=100
+        text "Playlist" bold
+      card padding=10
+        image height=100
+        text "Playlist" bold
+      card padding=10
+        image height=100
+        text "Playlist" bold
+      card padding=10
+        image height=100
+        text "Playlist" bold
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Library icon=library}, {label=Profile icon=user}] active=0
+  screen phone "Now Playing"
+    navbar leading=close actions=[more-horizontal]
+    image "Album art" height=280 rounded
+    heading "Song title" level=2
+    text "Artist name" muted
+    stack row justify=between
+      icon "shuffle"
+      icon "skip-back"
+      icon "play"
+      icon "skip-forward"
+      icon "repeat"
+    drawer bottom "Queue" size=280
+      list dividers
+        listitem "Song" subtitle="Artist"
+        listitem "Song" subtitle="Artist"
+        listitem "Song" subtitle="Artist"
+  screen phone "Library"
+    navbar "Library" leading=none actions=[search]
+    tabs items=[Playlists, Artists, Albums] active=0
+    list dividers
+      listitem "Playlist" leading=image trailing=chevron
+      listitem "Playlist" leading=image trailing=chevron
+      listitem "Playlist" leading=image trailing=chevron
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Library icon=library}, {label=Profile icon=user}] active=2
+```

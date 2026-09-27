@@ -1,0 +1,82 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Settings"
+      },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": {
+        "name": "Settings",
+        "device": "phone"
+      },
+      "children": ["nav", "content", "signout"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Settings",
+        "leading": "back"
+      },
+      "children": []
+    },
+    "content": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 0
+      },
+      "children": ["notif-section", "account-section"]
+    },
+    "notif-section": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 12,
+        "padding": 16,
+        "border": "bottom"
+      },
+      "children": ["notif-toggle"]
+    },
+    "notif-toggle": {
+      "type": "Toggle",
+      "props": {
+        "label": "Notifications",
+        "on": true
+      },
+      "children": []
+    },
+    "account-section": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 0,
+        "padding": 16
+      },
+      "children": ["darkmode-toggle"]
+    },
+    "darkmode-toggle": {
+      "type": "Toggle",
+      "props": {
+        "label": "Dark mode",
+        "on": false
+      },
+      "children": []
+    },
+    "signout": {
+      "type": "Button",
+      "props": {
+        "label": "Sign out",
+        "variant": "secondary",
+        "fullWidth": true
+      },
+      "children": []
+    }
+  }
+}
+```

@@ -1,0 +1,290 @@
+```json
+{
+  "type": "Board",
+  "props": {
+    "title": "Pricing"
+  },
+  "children": [
+    {
+      "type": "Screen",
+      "props": {
+        "name": "Pricing",
+        "device": "desktop"
+      },
+      "children": [
+        {
+          "type": "NavBar",
+          "props": {
+            "title": "Pricing",
+            "leading": "logo",
+            "actions": [
+              "user"
+            ]
+          },
+          "children": []
+        },
+        {
+          "type": "Heading",
+          "props": {
+            "text": "Simple, transparent pricing",
+            "level": 1,
+            "align": "center"
+          },
+          "children": []
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "justify": "center",
+            "padding": 16
+          },
+          "children": [
+            {
+              "type": "Tabs",
+              "props": {
+                "items": [
+                  "Monthly",
+                  "Yearly"
+                ],
+                "active": 0
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "type": "Stack",
+          "props": {
+            "direction": "row",
+            "gap": 16,
+            "padding": 16,
+            "justify": "center"
+          },
+          "children": [
+            {
+              "type": "Card",
+              "props": {
+                "padding": 16,
+                "gap": 8,
+                "variant": "outline"
+              },
+              "children": [
+                {
+                  "type": "Heading",
+                  "props": {
+                    "text": "Starter",
+                    "level": 2
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "$9/mo",
+                    "size": "lg",
+                    "bold": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Divider",
+                  "props": {},
+                  "children": []
+                },
+                {
+                  "type": "List",
+                  "props": {},
+                  "children": [
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "1 project"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "Basic support"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "1 GB storage"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "type": "Button",
+                  "props": {
+                    "label": "Choose Starter",
+                    "variant": "secondary",
+                    "fullWidth": true
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Card",
+              "props": {
+                "padding": 16,
+                "gap": 8,
+                "variant": "filled"
+              },
+              "children": [
+                {
+                  "type": "Badge",
+                  "props": {
+                    "label": "Most popular",
+                    "variant": "solid"
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Heading",
+                  "props": {
+                    "text": "Pro",
+                    "level": 2
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "$29/mo",
+                    "size": "lg",
+                    "bold": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Divider",
+                  "props": {},
+                  "children": []
+                },
+                {
+                  "type": "List",
+                  "props": {},
+                  "children": [
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "Unlimited projects"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "Priority support"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "50 GB storage"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "Team collaboration"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "type": "Button",
+                  "props": {
+                    "label": "Choose Pro",
+                    "variant": "primary",
+                    "fullWidth": true
+                  },
+                  "children": []
+                }
+              ]
+            },
+            {
+              "type": "Card",
+              "props": {
+                "padding": 16,
+                "gap": 8,
+                "variant": "outline"
+              },
+              "children": [
+                {
+                  "type": "Heading",
+                  "props": {
+                    "text": "Enterprise",
+                    "level": 2
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Text",
+                  "props": {
+                    "text": "Contact us",
+                    "size": "lg",
+                    "bold": true
+                  },
+                  "children": []
+                },
+                {
+                  "type": "Divider",
+                  "props": {},
+                  "children": []
+                },
+                {
+                  "type": "List",
+                  "props": {},
+                  "children": [
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "Unlimited everything"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "Dedicated support"
+                      },
+                      "children": []
+                    },
+                    {
+                      "type": "ListItem",
+                      "props": {
+                        "title": "Custom storage"
+                      },
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "type": "Button",
+                  "props": {
+                    "label": "Contact sales",
+                    "variant": "secondary",
+                    "fullWidth": true
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

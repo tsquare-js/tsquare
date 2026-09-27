@@ -1,0 +1,27 @@
+```wireframe
+board "Onboarding"
+  screen phone "Welcome"
+    stack padding=20 gap=20 align=center justify=center
+      spacer size=60
+      image height=200 label="Illustration"
+      heading "Welcome" level=1 align=center
+      text "Discover amazing features that make your life easier." align=center
+      spacer
+      button primary "Continue" fullWidth
+  screen phone "Features"
+    stack padding=20 gap=20 align=center justify=center
+      spacer size=60
+      image height=200 label="Illustration"
+      heading "Powerful Tools" level=1 align=center
+      text "Access all the tools you need in one place." align=center
+      spacer
+      button primary "Continue" fullWidth
+  screen phone "Ready"
+    stack padding=20 gap=20 align=center justify=center
+      spacer size=60
+      image height=200 label="Illustration"
+      heading "Let's Get Started" level=1 align=center
+      text "Create your account and start exploring today." align=center
+      spacer
+      button primary "Get started" fullWidth
+```

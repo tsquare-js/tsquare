@@ -1,0 +1,111 @@
+```json
+{
+  "root": "board",
+  "elements": {
+    "board": {
+      "type": "Board",
+      "props": {
+        "title": "Project settings with delete dialog"
+      },
+      "children": ["screen"]
+    },
+    "screen": {
+      "type": "Screen",
+      "props": {
+        "name": "Settings",
+        "device": "desktop"
+      },
+      "children": ["nav", "content", "modal"]
+    },
+    "nav": {
+      "type": "NavBar",
+      "props": {
+        "title": "Project settings",
+        "leading": "back"
+      },
+      "children": []
+    },
+    "content": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 20,
+        "padding": 20
+      },
+      "children": ["danger-card"]
+    },
+    "danger-card": {
+      "type": "Card",
+      "props": {
+        "title": "Danger zone",
+        "padding": 16,
+        "gap": 12,
+        "variant": "outline"
+      },
+      "children": ["danger-text", "danger-btn"]
+    },
+    "danger-text": {
+      "type": "Text",
+      "props": {
+        "text": "Permanently delete this project and all associated data. This action cannot be undone."
+      },
+      "children": []
+    },
+    "danger-btn": {
+      "type": "Button",
+      "props": {
+        "label": "Delete project",
+        "variant": "primary"
+      },
+      "children": []
+    },
+    "modal": {
+      "type": "Modal",
+      "props": {
+        "title": "Delete project?",
+        "width": 400
+      },
+      "children": ["modal-text", "modal-input", "modal-buttons"]
+    },
+    "modal-text": {
+      "type": "Text",
+      "props": {
+        "text": "This action cannot be undone. To confirm, type the project name 'My Project' below."
+      },
+      "children": []
+    },
+    "modal-input": {
+      "type": "Input",
+      "props": {
+        "placeholder": "Project name"
+      },
+      "children": []
+    },
+    "modal-buttons": {
+      "type": "Stack",
+      "props": {
+        "direction": "row",
+        "gap": 8,
+        "justify": "end"
+      },
+      "children": ["modal-cancel", "modal-delete"]
+    },
+    "modal-cancel": {
+      "type": "Button",
+      "props": {
+        "label": "Cancel",
+        "variant": "secondary"
+      },
+      "children": []
+    },
+    "modal-delete": {
+      "type": "Button",
+      "props": {
+        "label": "Delete",
+        "variant": "primary"
+      },
+      "children": []
+    }
+  }
+}
+```

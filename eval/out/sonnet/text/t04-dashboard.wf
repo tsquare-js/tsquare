@@ -1,0 +1,30 @@
+```wireframe
+board "Analytics dashboard"
+  screen desktop "Dashboard"
+    stack row grow
+      stack width=240 border=right padding=16 gap=8
+        text "Logo" bold
+        list dividers
+          listitem "Dashboard" leading=icon icon=home
+          listitem "Orders" leading=icon icon=shopping-cart
+          listitem "Customers" leading=icon icon=users
+          listitem "Settings" leading=icon icon=settings
+      stack grow padding=16 gap=16
+        stack row justify=between align=center
+          input search placeholder="Search"
+          avatar initials="JD"
+        grid columns=4 gap=12
+          card padding=10
+            text sm "Revenue" muted
+            heading "$12,400" level=2
+          card padding=10
+            text sm "Orders" muted
+            heading "384" level=2
+          card padding=10
+            text sm "Customers" muted
+            heading "1,204" level=2
+          card padding=10
+            text sm "Refunds" muted
+            heading "12" level=2
+        table columns=[Order, Customer, Date, Status, Total] rows=6
+```

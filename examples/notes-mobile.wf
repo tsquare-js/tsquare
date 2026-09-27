@@ -1,0 +1,84 @@
+board row "Notes app — mobile"
+  screen phone "1 · Sign in" padding=28 gap=18
+    spacer size=36
+    image width=64 height=64 rounded
+    heading "Welcome back" level=1
+    text "Sign in to sync your notes." muted
+    input email "Email" placeholder="you@example.com"
+    input password "Password" value=hunter22
+    stack row justify=between
+      checkbox "Remember me" checked
+      button ghost sm "Forgot?"
+    button primary lg "Sign in" fullWidth
+    stack row gap=12 align=center
+      stack grow
+        divider
+      text sm "or" muted
+      stack grow
+        divider
+    button secondary lg "Continue with Google" fullWidth icon=globe
+    spacer
+    text sm "New here? Create an account" align=center muted
+  screen phone "2 · Notes"
+    navbar "Notes" leading=menu actions=[bell, more-vertical]
+    input search placeholder="Search notes"
+    tabs items=[All, Pinned, Shared] active=0
+    list
+      listitem "Grocery list" subtitle="Eggs, oat milk, basil…" leading=icon icon=shopping-cart trailing=text trailingText="9:12"
+      listitem "Trip ideas" subtitle="Lisbon in October?" leading=icon icon=map trailing=badge trailingText="2"
+      listitem leading=image trailing=chevron
+      listitem leading=image trailing=chevron
+      listitem leading=image trailing=chevron
+    stack row justify=end grow align=end
+      button primary "New note" icon=plus
+    tabbar items=[{label=Notes icon=notebook-pen}, {label=Search icon=search}, {label=Shared icon=users}, {label=Profile icon=user}] active=0
+  screen phone "3 · Side menu (drawer)"
+    navbar "Notes" leading=menu actions=[bell, more-vertical]
+    list
+      listitem leading=image
+      listitem leading=image
+      listitem leading=image
+      listitem leading=image
+      listitem leading=image
+      listitem leading=image
+    drawer left size=290
+      stack row gap=12
+        avatar "DM" size=44
+        stack gap=2
+          text "Dana Moore" bold
+          text sm "dana@example.com" muted
+      divider
+      list dividers=false
+        listitem "All notes" leading=icon icon=notebook-pen trailing=text trailingText="24"
+        listitem "Folders" leading=icon icon=folder trailing=chevron
+        listitem "Archive" leading=icon icon=archive
+        listitem "Settings" leading=icon icon=settings
+      spacer
+      button secondary "Sign out" icon=log-out fullWidth
+  screen phone "4 · Discard draft (modal)"
+    navbar "New note" leading=close actions=[image, check] align=center
+    heading "Untitled" level=2
+    text lines=7
+    stack row gap=8
+      badge outline "work"
+      badge outline "ideas"
+    modal "Discard this draft?"
+      text "You'll lose what you've written so far." muted
+      stack row justify=end gap=8
+        button ghost "Keep editing"
+        button primary "Discard"
+  screen phone "5 · Note options (bottom sheet)"
+    navbar leading=back actions=[share, more-horizontal]
+    image "Cover image" height=180
+    heading "Trip ideas" level=1
+    text lines=5
+    drawer bottom "Note options" size=400
+      toggle "Pin to top" on
+      toggle "Share with link" on=false
+      select "Folder" value=Travel
+      stack gap=10
+        text sm "Reminder" bold
+        stack row gap=20
+          radio "None" checked
+          radio "Tomorrow"
+          radio "Pick date"
