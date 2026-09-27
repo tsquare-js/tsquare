@@ -39,7 +39,8 @@ One element per line; children are indented two spaces under their parent. The f
 | `button primary lg` | bare words set options: `phone`, `desktop`, `primary`, `ghost`, `row`, `sm`, `left`, `bottom`, `password`… |
 | `checkbox checked`, `toggle off` | a prop name turns a boolean on; `off` / `unchecked` / `no-<prop>` turn it off |
 | `stack width=240 gap=8` | `key=value` sets any prop |
-| `tabs items=[Home, Search]` | lists in `[ ]` |
+| `tabs items=[All notes, Pinned]` | lists in `[ ]`, items separated by commas; an item can contain spaces |
+| `data=[["$1,200", "Smith, J"]]` | quote an item that contains a comma (`\"` for a quote inside quotes) |
 | `tabbar items=[{label=Home icon=home}]` | objects in `{ }` |
 | `# note to self` | comment |
 
@@ -117,7 +118,7 @@ Text is parsed into a [json-render](https://github.com/vercel-labs/json-render) 
 
 ## Why text
 
-`eval/` compares three formats a model could write: flat JSON, nested JSON and this text syntax. It uses 20 wireframe requests, Sonnet and Haiku, and identical prompts apart from the format section. Text used about 4× fewer tokens and scored the same on content checks and render quality. On validity, text trails JSON by one task per model: Sonnet 95% vs 100%, Haiku 85% vs 90%. These numbers come from the current, stricter checks. Unknown icon names (`call`, `person`) failed in every format. Sonnet's text miss is specific to the text syntax: it left table cells with spaces unquoted (`[Ana Torres, …]`), which splits them. With 20 tasks per format, one task is within noise.
+`eval/` compares three formats a model could write: flat JSON, nested JSON and this text syntax. It uses 20 wireframe requests, Sonnet and Haiku, and identical prompts apart from the format section. Text used about 4× fewer tokens and scored the same on content checks and render quality. On validity: Sonnet 100% in every format, Haiku 85% for text vs 90% for JSON, under the current, stricter checks. Unknown icon names (`call`, `person`) failed in every format. The eval also led to list items being separated by commas only: Sonnet wrote table cells like `[Ana Torres, Admin]`, which used to split on the space. With 20 tasks per format, one task is within noise.
 
 The eval also drove these fixes: `off`/`unchecked` keywords, `width` on card/input/select, `padding` on grid, `grow` on list/input, sidebars stretching in rows, and bottom sheets growing to fit their content.
 

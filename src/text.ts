@@ -15,6 +15,8 @@
  *   "quoted"      → the component's main text prop (label, title, text…)
  *   bare word     → an enum value (phone, primary, row, sm…) or a boolean prop set to true (checked)
  *   key=value     → any prop; value is "string", number, true/false, word, [list] or {key=value …}
+ *                   list items are separated by commas only, so [Ana Torres, Admin] is two items;
+ *                   quote an item that contains a comma: ["$1,200", "Smith, J"]
  *   # comment
  */
 import type { Spec } from "@json-render/core";
@@ -93,14 +95,15 @@ const ANTONYMS: Record<string, string> = { off: "on", unchecked: "checked" };
 
 // ── Tokenizer for one line's arguments ──────────────────────────────────
 
-type Tok = { kind: "str" | "word" | "num"; value: string } | { kind: "sym"; value: string };
+// start/end are offsets in the line, so an unquoted list item can keep its exact text.
+type Tok = { kind: "str" | "word" | "num" | "sym"; value: string; start: number; end: number };
 
 function tokenize(src: string): Tok[] {
   const out: Tok[] = [];
   let i = 0;
   while (i < src.length) {
     const c = src[i];
-    if (c === " " || c === "\t" || c === ",") { i++; continue; }
+    if (c === " " || c === "\t") { i++; continue; }
     if (c === "#") break; // comment
     if (c === '"' || c === "'") {
       let j = i + 1, s = "";
@@ -109,15 +112,16 @@ function tokenize(src: string): Tok[] {
         s += src[j++];
       }
       if (j >= src.length) throw new Error("unterminated string");
-      out.push({ kind: "str", value: s });
+      out.push({ kind: "str", value: s, start: i, end: j + 1 });
       i = j + 1;
       continue;
     }
-    if ("=[]{}:".includes(c)) { out.push({ kind: "sym", value: c }); i++; continue; }
+    if ("=[]{}:,".includes(c)) { out.push({ kind: "sym", value: c, start: i, end: i + 1 }); i++; continue; }
     let j = i;
-    while (j < src.length && !` \t,=[]{}#"':`.includes(src[j])) j++;
+    // an apostrophe inside a word is part of it (Don't); only a leading ' opens a string
+    while (j < src.length && !` \t,=[]{}#":`.includes(src[j])) j++;
     const w = src.slice(i, j);
-    out.push({ kind: /^-?\d+(\.\d+)?$/.test(w) ? "num" : "word", value: w });
+    out.push({ kind: /^-?\d+(\.\d+)?$/.test(w) ? "num" : "word", value: w, start: i, end: j });
     i = j;
   }
   return out;
@@ -125,11 +129,46 @@ function tokenize(src: string): Tok[] {
 
 class Cursor {
   i = 0;
-  constructor(public toks: Tok[]) {}
+  constructor(public toks: Tok[], public src: string) {}
   peek(o = 0) { return this.toks[this.i + o]; }
   next() { return this.toks[this.i++]; }
   done() { return this.i >= this.toks.length; }
   isSym(v: string, o = 0) { const t = this.peek(o); return t?.kind === "sym" && t.value === v; }
+  /** Commas only separate list items; elsewhere (between arguments, between {…} fields) they're ignored. */
+  skipCommas() { while (this.isSym(",")) this.i++; }
+}
+
+const scalar = (t: Tok) =>
+  t.kind === "num" ? Number(t.value)
+  : t.kind === "word" && t.value === "true" ? true
+  : t.kind === "word" && t.value === "false" ? false
+  : t.kind === "word" && t.value === "null" ? null
+  : t.value;
+
+/**
+ * One list item. Items are separated by commas, not spaces, so an unquoted item
+ * runs to the next comma or ] and keeps its spaces: [Ana Torres, Admin].
+ */
+function parseListItem(c: Cursor): unknown {
+  const first = c.peek();
+  if (!first) throw new Error("unclosed [");
+  if (first.kind === "str" || c.isSym("[") || c.isSym("{")) {
+    const v = parseValue(c);
+    if (!c.done() && !c.isSym(",") && !c.isSym("]")) {
+      throw new Error(`expected , or ] after ${JSON.stringify(v)} in a list (quote the whole item, or separate items with commas)`);
+    }
+    return v;
+  }
+  const toks: Tok[] = [];
+  while (!c.done() && !c.isSym(",") && !c.isSym("]")) {
+    const t = c.peek();
+    if (t.kind === "sym" && "[]{}".includes(t.value)) throw new Error(`unexpected "${t.value}" in a list item; quote the item`);
+    if (t.kind === "str") throw new Error(`unexpected quote in a list item; quote the whole item`);
+    toks.push(c.next());
+  }
+  if (!toks.length) throw new Error("empty item in a list (two commas in a row?)");
+  if (toks.length === 1) return scalar(toks[0]);
+  return c.src.slice(toks[0].start, toks[toks.length - 1].end);
 }
 
 function parseValue(c: Cursor): unknown {
@@ -137,12 +176,13 @@ function parseValue(c: Cursor): unknown {
   if (!t) throw new Error("missing value");
   if (t.kind === "str") return t.value;
   if (t.kind === "num") return Number(t.value);
-  if (t.kind === "word") return t.value === "true" ? true : t.value === "false" ? false : t.value === "null" ? null : t.value;
+  if (t.kind === "word") return scalar(t);
   if (t.value === "[") {
     const arr: unknown[] = [];
     while (!c.isSym("]")) {
       if (c.done()) throw new Error("unclosed [");
-      arr.push(parseValue(c));
+      arr.push(parseListItem(c));
+      if (c.isSym(",")) c.next();
     }
     c.next();
     return arr;
@@ -150,6 +190,8 @@ function parseValue(c: Cursor): unknown {
   if (t.value === "{") {
     const obj: Record<string, unknown> = {};
     while (!c.isSym("}")) {
+      c.skipCommas();
+      if (c.isSym("}")) break;
       if (c.done()) throw new Error("unclosed {");
       const k = c.next();
       if (!k || k.kind === "sym") throw new Error("expected key in {…}");
@@ -196,8 +238,10 @@ export function parseWireframeText(source: string): ParseResult {
 
     const props: Record<string, unknown> = {};
     try {
-      const c = new Cursor(tokenize(m[2]));
+      const c = new Cursor(tokenize(m[2]), m[2]);
       while (!c.done()) {
+        c.skipCommas();
+        if (c.done()) break;
         const t = c.peek();
         if (t.kind !== "sym" && (c.isSym("=", 1) || c.isSym(":", 1))) {
           c.next(); c.next();

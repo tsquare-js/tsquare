@@ -84,6 +84,8 @@ A line is the component name in lowercase, followed by arguments separated by sp
 - key=value sets any prop. Values: "string", number, true/false, bare word, [list, of, values], {key=value key=value}
 - # starts a comment
 
+Lists: items are separated by commas, and an item can contain spaces without quotes: [All notes, Pinned, Shared]. To put a comma inside an item, quote the item: ["$1,200", "Smith, J"]. Inside quotes, write \\" for a quote character.
+
 If a bare word could mean more than one prop, write it as key=value.`;
 
 export const EXAMPLE_REQUEST =

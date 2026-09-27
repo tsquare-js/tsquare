@@ -823,15 +823,10 @@
     "chars": 1313,
     "elements": 22,
     "parsed": true,
-    "valid": false,
+    "valid": true,
     "rendered": true,
-    "issues": [
-      "line 9: Table has 4 columns, but data rows 1 (5 cells), 2 (5 cells), 3 (5 cells), 4 (5 cells) don't match (quote cells that contain spaces, e.g. [\"Ana Ruiz\", Admin])",
-      "line 17: Table has 4 columns, but data rows 1 (5 cells), 2 (5 cells), 3 (5 cells), 4 (5 cells) don't match (quote cells that contain spaces, e.g. [\"Ana Ruiz\", Admin])"
-    ],
-    "categories": [
-      "syntax"
-    ],
+    "issues": [],
+    "categories": [],
     "checksPassed": 4,
     "checksTotal": 4,
     "failedChecks": []
