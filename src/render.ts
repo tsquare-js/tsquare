@@ -3,7 +3,8 @@ import { createRequire } from "node:module";
 import type { Spec } from "@json-render/core";
 import { renderToSvg } from "@json-render/image/render";
 import { catalog, componentDefinitions } from "./catalog";
-import { registry } from "./components";
+import { withPalette } from "./components";
+import { paletteFor } from "./colors";
 import { unknownComponentMessage } from "./suggest";
 import {
   BOARD_GAP,
@@ -161,7 +162,7 @@ export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOption
   }
   const { width, height } = boardSize(spec);
   return renderToSvg(spec, {
-    registry: registry as any,
+    registry: withPalette(paletteFor((spec.elements[spec.root]?.props as any)?.accent)) as any,
     includeStandard: false,
     fonts: await loadFonts(),
     width,

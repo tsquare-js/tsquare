@@ -1,5 +1,6 @@
 import { defineCatalog } from "@json-render/core";
 import { z } from "zod";
+import { ACCENTS, accentMessage, isAccent } from "./colors";
 import { isIcon, unknownIconMessage } from "./icons";
 import { wireframeSchema } from "./schema";
 
@@ -22,6 +23,9 @@ export const componentDefinitions = {
       columns: o(z.number().int().min(1)),
       gap: o(z.number()),
       padding: o(z.number()),
+      accent: o(z.string().refine(isAccent, { error: (iss) => accentMessage(String(iss.input)) })).describe(
+        `The one UI color: primary buttons, solid badges, checked controls, toggles, active tabs, ghost buttons. ${Object.keys(ACCENTS).join(", ")}, or a hex color like #1a73e8. Omit for grayscale.`,
+      ),
     }),
     slots: ["default"],
     description: "Root canvas (artboard). Holds Screens side by side, plus optional Notes. Must be the root element.",
@@ -165,6 +169,7 @@ export const componentDefinitions = {
     props: z.object({
       label: z.string(),
       variant: o(z.enum(["solid", "outline"])),
+      tone: o(z.enum(["neutral", "success", "warning", "danger"])).describe("Status color. Default neutral (the accent for solid badges)"),
     }),
     slots: [],
     description: "Small pill label for counts or statuses.",
@@ -192,6 +197,7 @@ export const componentDefinitions = {
       type: o(z.enum(["text", "password", "search", "email"])),
       multiline: o(z.number().int().min(1)).describe("Number of rows; 2 or more makes a textarea"),
       helper: o(z.string()),
+      error: o(z.boolean()).describe("Validation error: red border and red helper text"),
       grow: o(z.boolean()).describe("Fill the remaining space in a row"),
       width: o(z.union([z.number(), z.string()])).describe("Fixed width, e.g. 320. Default fills the space."),
     }),

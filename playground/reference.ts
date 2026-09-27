@@ -15,14 +15,18 @@ export const GROUPS: { name: string; components: string[] }[] = [
 ];
 
 export const EXAMPLES: Record<string, string> = {
-  Board: `board row "Checkout flow" gap=48
-  screen custom "Cart" width=220 height=160
+  Board: `board row "Checkout flow" gap=48 accent=blue
+  screen custom "Cart" width=240 height=200
     heading "Cart" level=3
     text lines=3
-  screen custom "Payment" width=220 height=160
+    spacer
+    button primary "Checkout" fullWidth
+  screen custom "Payment" width=240 height=200
     heading "Payment" level=3
-    text lines=3
-  note "Board holds screens side by side, plus notes." width=180`,
+    toggle "Save card" on
+    spacer
+    button primary "Pay" fullWidth
+  note "accent colors primary buttons, toggles, checked controls and active tabs. Omit it for grayscale." width=180`,
 
   Screen: `board
   screen phone "phone"
@@ -147,14 +151,19 @@ export const EXAMPLES: Record<string, string> = {
       avatar size=24`,
 
   Badge: `board
-  screen custom width=300 height=80
+  screen custom width=340 height=110
     stack row gap=8
       badge "solid" variant=solid
       badge outline "outline"
-      badge "3"`,
+      badge "3"
+    stack row gap=8
+      badge "Active" tone=success
+      badge "Pending" tone=warning
+      badge "Failed" tone=danger
+      badge outline "Failed" tone=danger`,
 
   Button: `board
-  screen custom width=420 height=260
+  screen custom width=420 height=310
     stack row gap=8 align=center
       button primary "Primary"
       button secondary "Secondary"
@@ -164,11 +173,13 @@ export const EXAMPLES: Record<string, string> = {
       button primary "Medium"
       button primary lg "Large"
     button secondary "With icon" icon=download
-    button primary "Full width" fullWidth`,
+    button primary "Full width" fullWidth
+    text "With a board accent, primary buttons fill with it and ghost buttons use it for text." sm muted`,
 
   Input: `board
-  screen custom width=420 height=450
+  screen custom width=420 height=540
     input "Email" placeholder="you@example.com" helper="We never share it"
+    input "Username" value="dana moore" error helper="No spaces allowed"
     input password "Password" value=secret
     input search placeholder="Search"
     input "Message" multiline=3

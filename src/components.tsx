@@ -1,4 +1,5 @@
 import React, { Children, cloneElement, isValidElement, type CSSProperties, type ReactNode } from "react";
+import { paletteFor, TONES, type Palette } from "./colors";
 import { iconNode } from "./icons";
 import type { ComponentRenderProps } from "@json-render/image";
 import {
@@ -19,7 +20,17 @@ import {
  */
 
 type Dir = "row" | "column";
-type Props<P = Record<string, any>> = ComponentRenderProps<P> & { dir?: Dir; stretch?: boolean };
+type Props<P = Record<string, any>> = ComponentRenderProps<P> & { dir?: Dir; stretch?: boolean; colors?: Palette };
+
+/** The board's colors, passed to every component by `withPalette`. Grayscale when there's no accent. */
+const GRAY = paletteFor();
+
+/** A registry whose components all receive this board's palette as `colors`. */
+export function withPalette(colors: Palette): typeof registry {
+  return Object.fromEntries(
+    Object.entries(registry).map(([name, C]) => [name, (props: Props) => (C as any)({ ...props, colors })]),
+  ) as typeof registry;
+}
 
 const flexAlign = { start: "flex-start", center: "center", end: "flex-end", stretch: "stretch" } as const;
 const flexJustify = {
@@ -513,8 +524,9 @@ function Avatar({ element, dir }: Props) {
   );
 }
 
-function BadgePill({ label, variant }: { label: string; variant?: string | null }) {
+function BadgePill({ label, variant, tone, c = GRAY }: { label: string; variant?: string | null; tone?: string | null; c?: Palette }) {
   const solid = variant !== "outline";
+  const toneColor = tone && tone !== "neutral" ? TONES[tone as keyof typeof TONES] : undefined;
   return (
     <Box
       style={{
@@ -525,9 +537,9 @@ function BadgePill({ label, variant }: { label: string; variant?: string | null 
         fontSize: 12,
         fontWeight: 600,
         flexShrink: 0,
-        backgroundColor: solid ? t.primary : "transparent",
-        color: solid ? t.onPrimary : t.text,
-        border: solid ? "none" : `1.5px solid ${t.lineStrong}`,
+        backgroundColor: solid ? toneColor ?? c.accent : "transparent",
+        color: solid ? (toneColor ? "#ffffff" : c.onAccent) : toneColor ?? t.text,
+        border: solid ? "none" : `1.5px solid ${toneColor ?? t.lineStrong}`,
       }}
     >
       {label}
@@ -535,21 +547,21 @@ function BadgePill({ label, variant }: { label: string; variant?: string | null 
   );
 }
 
-function Badge({ element, dir }: Props) {
+function Badge({ element, dir, colors }: Props) {
   return (
     <Box style={hug(dir)}>
-      <BadgePill label={element.props.label} variant={element.props.variant} />
+      <BadgePill label={element.props.label} variant={element.props.variant} tone={element.props.tone} c={colors} />
     </Box>
   );
 }
 
 // ── Controls ────────────────────────────────────────────────────────────
 
-function Button({ element, dir }: Props) {
+function Button({ element, dir, colors: c = GRAY }: Props) {
   const p = element.props;
   const variant = p.variant ?? "primary";
   const h = { sm: 32, md: 42, lg: 50 }[(p.size ?? "md") as "sm" | "md" | "lg"] ?? 42;
-  const fg = variant === "primary" ? t.onPrimary : t.ink;
+  const fg = variant === "primary" ? c.onAccent : variant === "ghost" ? c.accentText : t.ink;
   return (
     <Box
       style={{
@@ -563,7 +575,7 @@ function Button({ element, dir }: Props) {
         fontSize: h < 36 ? 13 : 15,
         fontWeight: 600,
         color: fg,
-        backgroundColor: variant === "primary" ? t.primary : "transparent",
+        backgroundColor: variant === "primary" ? c.accent : "transparent",
         border: variant === "secondary" ? `1.5px solid ${t.lineStrong}` : "none",
         ...(p.fullWidth ? { alignSelf: "stretch" } : hug(dir)),
       }}
@@ -584,7 +596,7 @@ function FieldLabel({ text }: { text?: string | null }) {
   return text ? <Box style={{ fontSize: 13, fontWeight: 600, color: t.text }}>{text}</Box> : null;
 }
 
-function Field({ children, height = 42, top = false }: { children?: ReactNode; height?: number; top?: boolean }) {
+function Field({ children, height = 42, top = false, error = false }: { children?: ReactNode; height?: number; top?: boolean; error?: boolean }) {
   return (
     <Box
       style={{
@@ -592,7 +604,7 @@ function Field({ children, height = 42, top = false }: { children?: ReactNode; h
         padding: top ? "10px 12px" : "0 12px",
         gap: 8,
         alignItems: top ? "flex-start" : "center",
-        border: `1.5px solid ${t.lineStrong}`,
+        border: `1.5px solid ${error ? TONES.danger : t.lineStrong}`,
         borderRadius: 8,
         backgroundColor: t.paper,
         fontSize: 15,
@@ -613,14 +625,14 @@ function Input({ element, dir }: Props) {
   return (
     <Box style={{ flexDirection: "column", gap: 6, ...fieldWidth(p.width, dir), ...(p.grow ? { flexGrow: 1 } : {}) }}>
       <FieldLabel text={p.label} />
-      <Field height={rows > 1 ? rows * 22 + 20 : 42} top={rows > 1}>
+      <Field height={rows > 1 ? rows * 22 + 20 : 42} top={rows > 1} error={!!p.error}>
         {p.type === "search" ? <IconGlyph name="search" size={18} color={t.muted} /> : null}
         <Box style={{ flexGrow: 1, color: content ? t.ink : t.muted }}>
           {content ?? p.placeholder ?? (isPassword ? "••••••••" : "")}
         </Box>
         {isPassword ? <IconGlyph name="eye-off" size={18} color={t.muted} /> : null}
       </Field>
-      {p.helper ? <Box style={{ fontSize: 12, color: t.muted }}>{p.helper}</Box> : null}
+      {p.helper ? <Box style={{ fontSize: 12, color: p.error ? TONES.danger : t.muted }}>{p.helper}</Box> : null}
     </Box>
   );
 }
@@ -638,7 +650,7 @@ function Select({ element, dir }: Props) {
   );
 }
 
-function CheckMark({ checked, round = false }: { checked?: boolean | null; round?: boolean }) {
+function CheckMark({ checked, round = false, c = GRAY }: { checked?: boolean | null; round?: boolean; c?: Palette }) {
   return (
     <Box
       style={{
@@ -646,44 +658,44 @@ function CheckMark({ checked, round = false }: { checked?: boolean | null; round
         height: 20,
         flexShrink: 0,
         borderRadius: round ? 10 : 5,
-        border: `1.5px solid ${checked && !round ? t.primary : t.lineStrong}`,
-        backgroundColor: checked && !round ? t.primary : t.paper,
+        border: `1.5px solid ${checked && !round ? c.accent : t.lineStrong}`,
+        backgroundColor: checked && !round ? c.accent : t.paper,
         alignItems: "center",
         justifyContent: "center",
       }}
     >
       {checked ? (
         round ? (
-          <Box style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: t.primary }} />
+          <Box style={{ width: 10, height: 10, borderRadius: 5, backgroundColor: c.accent }} />
         ) : (
-          <IconGlyph name="check" size={14} color={t.onPrimary} strokeWidth={3} />
+          <IconGlyph name="check" size={14} color={c.onAccent} strokeWidth={3} />
         )
       ) : null}
     </Box>
   );
 }
 
-function Checkbox({ element, dir }: Props) {
+function Checkbox({ element, dir, colors }: Props) {
   const p = element.props;
   return (
     <Box style={{ gap: 10, alignItems: "center", ...hug(dir) }}>
-      <CheckMark checked={p.checked} />
+      <CheckMark checked={p.checked} c={colors} />
       {p.label ? <Box style={{ color: t.text }}>{p.label}</Box> : null}
     </Box>
   );
 }
 
-function Radio({ element, dir }: Props) {
+function Radio({ element, dir, colors }: Props) {
   const p = element.props;
   return (
     <Box style={{ gap: 10, alignItems: "center", ...hug(dir) }}>
-      <CheckMark checked={p.checked} round />
+      <CheckMark checked={p.checked} round c={colors} />
       {p.label ? <Box style={{ color: t.text }}>{p.label}</Box> : null}
     </Box>
   );
 }
 
-function Switch({ on }: { on?: boolean | null }) {
+function Switch({ on, c = GRAY }: { on?: boolean | null; c?: Palette }) {
   return (
     <Box
       style={{
@@ -692,7 +704,7 @@ function Switch({ on }: { on?: boolean | null }) {
         borderRadius: 12,
         padding: 3,
         flexShrink: 0,
-        backgroundColor: on ? t.primary : t.fill2,
+        backgroundColor: on ? c.accent : t.fill2,
         justifyContent: on ? "flex-end" : "flex-start",
       }}
     >
@@ -701,12 +713,12 @@ function Switch({ on }: { on?: boolean | null }) {
   );
 }
 
-function Toggle({ element }: Props) {
+function Toggle({ element, colors }: Props) {
   const p = element.props;
   return (
     <Box style={{ gap: 12, alignItems: "center", justifyContent: "space-between" }}>
       {p.label ? <Box style={{ color: t.text }}>{p.label}</Box> : null}
-      <Switch on={p.on} />
+      <Switch on={p.on} c={colors} />
     </Box>
   );
 }
@@ -760,7 +772,7 @@ function NavBar({ element }: Props) {
   );
 }
 
-function TabBar({ element }: Props) {
+function TabBar({ element, colors: c = GRAY }: Props) {
   const p = element.props;
   const active = p.active ?? 0;
   return (
@@ -774,7 +786,7 @@ function TabBar({ element }: Props) {
       }}
     >
       {(p.items ?? []).map((item: { label: string; icon?: string }, i: number) => {
-        const color = i === active ? t.ink : t.muted;
+        const color = i === active ? c.accentText : t.muted;
         return (
           <Box
             key={i}
@@ -789,7 +801,7 @@ function TabBar({ element }: Props) {
   );
 }
 
-function Tabs({ element }: Props) {
+function Tabs({ element, colors: c = GRAY }: Props) {
   const p = element.props;
   const active = p.active ?? 0;
   return (
@@ -802,8 +814,8 @@ function Tabs({ element }: Props) {
             marginBottom: -1,
             fontSize: 14,
             fontWeight: i === active ? 600 : 400,
-            color: i === active ? t.ink : t.muted,
-            borderBottom: i === active ? `2.5px solid ${t.ink}` : "2.5px solid transparent",
+            color: i === active ? c.accentText : t.muted,
+            borderBottom: i === active ? `2.5px solid ${c.accentText}` : "2.5px solid transparent",
           }}
         >
           {label}
@@ -828,7 +840,7 @@ function List({ element, children, dir, stretch }: Props) {
   );
 }
 
-function ListItem({ element }: Props) {
+function ListItem({ element, colors }: Props) {
   const p = element.props;
   const leading = (() => {
     switch (p.leading) {
@@ -845,7 +857,7 @@ function ListItem({ element }: Props) {
           <Box style={{ width: 48, height: 48, borderRadius: 6, backgroundColor: t.fill, border: `1.5px solid ${t.line}`, flexShrink: 0 }} />
         );
       case "checkbox":
-        return <CheckMark />;
+        return <CheckMark c={colors} />;
       default:
         return null;
     }
@@ -855,11 +867,11 @@ function ListItem({ element }: Props) {
       case "chevron":
         return <IconGlyph name="chevron-right" size={20} color={t.muted} />;
       case "toggle":
-        return <Switch on />;
+        return <Switch on c={colors} />;
       case "text":
         return <Box style={{ fontSize: 13, color: t.muted, flexShrink: 0 }}>{p.trailingText ?? ""}</Box>;
       case "badge":
-        return <BadgePill label={p.trailingText ?? "1"} />;
+        return <BadgePill label={p.trailingText ?? "1"} c={colors} />;
       case "icon":
         return <IconGlyph name={p.trailingIcon ?? "more-horizontal"} size={20} color={t.muted} />;
       default:

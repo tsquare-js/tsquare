@@ -52,6 +52,18 @@ If a bare word could mean two props (for example `start`, which is both an `alig
 - A screen stacks its children vertically. A **navbar** is pinned to the top and a **tabbar** to the bottom.
 - **modal** and **drawer** are overlays and must be direct children of a screen.
 
+## Colors
+
+Wireframes are grayscale. There are three deliberate exceptions:
+
+| You write | It colors |
+|---|---|
+| `board "App" accent=blue` | primary buttons, solid badges, checked checkboxes and radios, toggles that are on, the active tab and tab-bar item, ghost button text |
+| `badge "Failed" tone=danger` | one badge: `success`, `warning` or `danger` |
+| `input "Email" error helper="Required"` | the field's border and helper text, in red |
+
+`accent` takes `blue`, `indigo`, `violet`, `pink`, `red`, `orange`, `green` or `teal`, or a hex color like `#1a73e8`. With a light hex color, text on it switches to dark and accent-colored text is darkened so it stays readable. There are no other color props, on purpose.
+
 ## Components
 
 | Group | Components |

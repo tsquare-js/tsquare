@@ -120,7 +120,7 @@ function tokenize(src: string): Tok[] {
   while (i < src.length) {
     const c = src[i];
     if (c === " " || c === "\t") { i++; continue; }
-    if (c === "#") break; // comment
+    if (c === "#" && !(i > 0 && "=:".includes(src[i - 1]))) break; // comment, unless it's a value: accent=#1a73e8
     if (c === '"' || c === "'") {
       let j = i + 1, s = "";
       while (j < src.length && src[j] !== c) {
@@ -133,7 +133,7 @@ function tokenize(src: string): Tok[] {
       continue;
     }
     if ("=[]{}:,".includes(c)) { out.push({ kind: "sym", value: c, start: i, end: i + 1 }); i++; continue; }
-    let j = i;
+    let j = c === "#" ? i + 1 : i; // a # value like #1a73e8
     // an apostrophe inside a word is part of it (Don't); only a leading ' opens a string
     while (j < src.length && !` \t,=[]{}#":`.includes(src[j])) j++;
     const w = src.slice(i, j);
