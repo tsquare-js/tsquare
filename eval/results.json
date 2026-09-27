@@ -1069,10 +1069,16 @@
     "chars": 2717,
     "elements": 15,
     "parsed": true,
-    "valid": true,
+    "valid": false,
     "rendered": true,
-    "issues": [],
-    "categories": [],
+    "issues": [
+      "email1.props.icon: unknown icon \"person\" (did you mean person-standing?)",
+      "email2.props.icon: unknown icon \"person\" (did you mean person-standing?)",
+      "email3.props.icon: unknown icon \"person\" (did you mean person-standing?)"
+    ],
+    "categories": [
+      "invalid prop"
+    ],
     "checksPassed": 3,
     "checksTotal": 3,
     "failedChecks": []
@@ -1449,10 +1455,14 @@
     "chars": 4273,
     "elements": 20,
     "parsed": true,
-    "valid": true,
+    "valid": false,
     "rendered": true,
-    "issues": [],
-    "categories": [],
+    "issues": [
+      "el-2.props.actions.0: unknown icon \"call\" (did you mean phone-call?)"
+    ],
+    "categories": [
+      "invalid prop"
+    ],
     "checksPassed": 3,
     "checksTotal": 3,
     "failedChecks": []
@@ -1781,10 +1791,14 @@
     "chars": 871,
     "elements": 25,
     "parsed": true,
-    "valid": true,
+    "valid": false,
     "rendered": true,
-    "issues": [],
-    "categories": [],
+    "issues": [
+      "line 3: NavBar: unknown icon \"call\" (did you mean phone-call?)"
+    ],
+    "categories": [
+      "invalid prop"
+    ],
     "checksPassed": 3,
     "checksTotal": 3,
     "failedChecks": []

@@ -1,5 +1,5 @@
 import React, { Children, cloneElement, isValidElement, type CSSProperties, type ReactNode } from "react";
-import { icons } from "lucide";
+import { iconNode } from "./icons";
 import type { ComponentRenderProps } from "@json-render/image";
 import {
   BOARD_GAP,
@@ -58,15 +58,13 @@ function hug(dir?: Dir): CSSProperties {
 
 // ── Icons ───────────────────────────────────────────────────────────────
 
-const pascal = (s: string) => s.replace(/(^|[-_ ])(\w)/g, (_, __, c) => c.toUpperCase());
-
 export function IconGlyph({ name, size = 20, color = t.ink, strokeWidth = 2 }: {
   name?: string | null;
   size?: number;
   color?: string;
   strokeWidth?: number;
 }) {
-  const node = name ? (icons as Record<string, any>)[pascal(name)] : null;
+  const node = name ? iconNode(name) : null;
   return (
     <svg
       width={size}

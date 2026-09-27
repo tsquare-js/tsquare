@@ -85,6 +85,7 @@ Errors read like this:
 line 2: Screen: don't know what "watch" is (bare words it accepts: phone, tablet, desktop, custom, chrome); quote text like "watch"
 line 3: Card has no prop "colour" (its props: title, padding, gap, variant, grow, width)
 line 5: Drawer must be a direct child of a Screen (found in the Stack on line 4)
+line 7: Icon: unknown icon "serach" (did you mean search?)
 ```
 
 ## How it works
@@ -104,7 +105,7 @@ Text is parsed into a [json-render](https://github.com/vercel-labs/json-render) 
 
 ## Why text
 
-`eval/` compares three formats a model could write: flat JSON, nested JSON and this text syntax. It uses 20 wireframe requests, Sonnet and Haiku, and identical prompts apart from the format section. Text used about 4× fewer tokens and scored the same on content checks and render quality. With the fixes below, it matched the JSON formats on validity (Sonnet 100%, Haiku 90% vs 95%).
+`eval/` compares three formats a model could write: flat JSON, nested JSON and this text syntax. It uses 20 wireframe requests, Sonnet and Haiku, and identical prompts apart from the format section. Text used about 4× fewer tokens and scored the same on content checks and render quality. With the fixes below, it matched the JSON formats on validity (Sonnet 100%, Haiku 85% vs 90%). Those Haiku numbers include checking icon names, which caught `call` and `person` across the formats.
 
 The eval also drove these fixes: `off`/`unchecked` keywords, `width` on card/input/select, `padding` on grid, `grow` on list/input, sidebars stretching in rows, and bottom sheets growing to fit their content.
 

@@ -1,5 +1,6 @@
 import { defineCatalog } from "@json-render/core";
 import { z } from "zod";
+import { isIcon, unknownIconMessage } from "./icons";
 import { wireframeSchema } from "./schema";
 
 // Every prop is optional so hand-written specs stay short.
@@ -9,6 +10,7 @@ const align = z.enum(["start", "center", "end", "stretch"]);
 const justify = z.enum(["start", "center", "end", "between", "around"]);
 const iconName = z
   .string()
+  .refine(isIcon, { error: (iss) => unknownIconMessage(String(iss.input)) })
   .describe("Lucide icon name in kebab-case, e.g. menu, search, arrow-left, settings, bell, user");
 
 export const componentDefinitions = {
@@ -147,7 +149,7 @@ export const componentDefinitions = {
       size: o(z.number()),
     }),
     slots: [],
-    description: "Line icon. Unknown names render as a generic circle.",
+    description: "Line icon from Lucide.",
     example: { name: "search", size: 20 },
   },
   Avatar: {
