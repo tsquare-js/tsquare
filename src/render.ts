@@ -1,6 +1,5 @@
 import { readFile } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
-import path from "node:path";
+import { createRequire } from "node:module";
 import type { Spec } from "@json-render/core";
 import { renderToSvg } from "@json-render/image/render";
 import { catalog, componentDefinitions } from "./catalog";
@@ -15,14 +14,16 @@ import {
   screenSize,
 } from "./layout";
 
-const here = path.dirname(fileURLToPath(import.meta.url));
-const fontDir = path.resolve(here, "../fonts");
+// Inter from @fontsource/inter, pinned to an exact version: a font change shifts
+// text metrics and line wraps, so treat a bump like a renderer change.
+const fontFile = (name: string) =>
+  createRequire(import.meta.url).resolve(`@fontsource/inter/files/${name}`);
 
 let fontCache: Promise<any[]> | null = null;
 function loadFonts() {
   fontCache ??= Promise.all([
-    readFile(path.join(fontDir, "inter-latin-400-normal.woff")),
-    readFile(path.join(fontDir, "inter-latin-600-normal.woff")),
+    readFile(fontFile("inter-latin-400-normal.woff")),
+    readFile(fontFile("inter-latin-600-normal.woff")),
   ]).then(([regular, semibold]) => [
     { name: "Inter", data: regular, weight: 400, style: "normal" },
     { name: "Inter", data: semibold, weight: 600, style: "normal" },

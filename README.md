@@ -120,3 +120,7 @@ Specs are in `eval/out/`, scores in `eval/results.json`, and renders in `eval/re
 - **Flow** arrows between screens. These need a second pass that reads element positions after layout.
 - Selectable text in SVG. Satori draws text as outlines, which is portable but not searchable in PDFs.
 - `fmt` doesn't keep comments.
+
+## License
+
+MIT. The Inter font comes from the `@fontsource/inter` dependency, under the SIL Open Font License 1.1.
