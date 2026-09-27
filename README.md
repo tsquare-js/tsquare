@@ -117,7 +117,7 @@ Text is parsed into a [json-render](https://github.com/vercel-labs/json-render) 
 
 ## Why text
 
-`eval/` compares three formats a model could write: flat JSON, nested JSON and this text syntax. It uses 20 wireframe requests, Sonnet and Haiku, and identical prompts apart from the format section. Text used about 4× fewer tokens and scored the same on content checks and render quality. With the fixes below, it matched the JSON formats on validity (Sonnet 100%, Haiku 85% vs 90%). Those Haiku numbers include checking icon names, which caught `call` and `person` across the formats.
+`eval/` compares three formats a model could write: flat JSON, nested JSON and this text syntax. It uses 20 wireframe requests, Sonnet and Haiku, and identical prompts apart from the format section. Text used about 4× fewer tokens and scored the same on content checks and render quality. On validity, text trails JSON by one task per model: Sonnet 95% vs 100%, Haiku 85% vs 90%. These numbers come from the current, stricter checks. Unknown icon names (`call`, `person`) failed in every format. Sonnet's text miss is specific to the text syntax: it left table cells with spaces unquoted (`[Ana Torres, …]`), which splits them. With 20 tasks per format, one task is within noise.
 
 The eval also drove these fixes: `off`/`unchecked` keywords, `width` on card/input/select, `padding` on grid, `grow` on list/input, sidebars stretching in rows, and bottom sheets growing to fit their content.
 

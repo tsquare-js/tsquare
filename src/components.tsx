@@ -51,6 +51,16 @@ function fillRow(inRow?: boolean, edge = true): CSSProperties {
   return { alignSelf: edge ? "stretch" : "flex-start" };
 }
 
+/**
+ * `grow` fills the parent's leftover space. In a row, growing siblings split it
+ * equally whatever their content (two growing cards → equal columns); with the
+ * default flex-basis the one with more content would get more.
+ */
+function grow(on: unknown, dir?: Dir): CSSProperties {
+  if (!on) return { flexGrow: 0 };
+  return dir === "row" ? { flexGrow: 1, flexBasis: "0px" } : { flexGrow: 1 };
+}
+
 /** Leaves like buttons shouldn't stretch across a column. */
 function hug(dir?: Dir): CSSProperties {
   return dir === "row" ? {} : { alignSelf: "flex-start" };
@@ -263,7 +273,7 @@ const borderSide = (side?: string | null): CSSProperties => {
   }
 };
 
-function Stack({ element, children, stretch }: Props) {
+function Stack({ element, children, dir: parentDir, stretch }: Props) {
   const p = element.props;
   const dir: Dir = p.direction ?? "column";
   return (
@@ -275,7 +285,7 @@ function Stack({ element, children, stretch }: Props) {
         alignItems: flexAlign[(p.align ?? (dir === "row" ? "center" : "stretch")) as keyof typeof flexAlign],
         justifyContent: flexJustify[(p.justify ?? "start") as keyof typeof flexJustify],
         flexWrap: p.wrap ? "wrap" : "nowrap",
-        flexGrow: p.grow ? 1 : 0,
+        ...grow(p.grow, parentDir),
         flexShrink: p.width ? 0 : 1,
         width: p.width ?? undefined,
         minHeight: 0,
@@ -307,7 +317,7 @@ function Grid({ element, children }: Props) {
   );
 }
 
-function Card({ element, children, stretch }: Props) {
+function Card({ element, children, dir, stretch }: Props) {
   const p = element.props;
   const filled = p.variant === "filled";
   return (
@@ -319,7 +329,7 @@ function Card({ element, children, stretch }: Props) {
         borderRadius: 10,
         border: filled ? "none" : `1.5px solid ${t.line}`,
         backgroundColor: filled ? t.fill : t.paper,
-        flexGrow: p.grow ? 1 : 0,
+        ...grow(p.grow, dir),
         width: p.width ?? undefined,
         flexShrink: p.width ? 0 : 1,
         ...fillRow(stretch),
@@ -803,11 +813,11 @@ function Tabs({ element }: Props) {
   );
 }
 
-function List({ element, children, stretch }: Props) {
+function List({ element, children, dir, stretch }: Props) {
   const dividers = element.props.dividers ?? true;
   const items = withDir(children, "column");
   return (
-    <Box style={{ flexDirection: "column", flexGrow: element.props.grow ? 1 : 0, ...fillRow(stretch, false) }}>
+    <Box style={{ flexDirection: "column", ...grow(element.props.grow, dir), ...fillRow(stretch, false) }}>
       {items.map((c, i) => (
         <Box key={i} style={{ flexDirection: "column" }}>
           {i > 0 && dividers ? <Box style={{ height: 1, backgroundColor: t.line }} /> : null}

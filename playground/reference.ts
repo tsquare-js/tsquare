@@ -81,9 +81,9 @@ export const EXAMPLES: Record<string, string> = {
   Card: `board
   screen custom width=520 height=170
     stack row gap=16
-      card "outline (default)" width=230
+      card "outline (default)" grow
         text lines=3
-      card "filled" variant=filled width=230
+      card "filled" variant=filled grow
         text lines=3`,
 
   Divider: `board

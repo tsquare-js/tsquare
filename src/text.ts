@@ -20,6 +20,7 @@
 import type { Spec } from "@json-render/core";
 import { z } from "zod";
 import { componentDefinitions } from "./catalog";
+import { unknownComponentMessage } from "./suggest";
 
 /** Which prop a quoted string fills, per component. */
 export const PRIMARY_PROP: Record<string, string> = {
@@ -191,7 +192,7 @@ export function parseWireframeText(source: string): ParseResult {
     const m = trimmed.match(/^([A-Za-z][\w-]*)(.*)$/);
     if (!m) { issues.push({ line: lineNo, message: `expected a component name, got "${trimmed}"` }); return; }
     const info = COMPONENTS.get(normalizeType(m[1]));
-    if (!info) { issues.push({ line: lineNo, message: `unknown component "${m[1]}"` }); return; }
+    if (!info) { issues.push({ line: lineNo, message: unknownComponentMessage(m[1], [...COMPONENTS.keys()]) }); return; }
 
     const props: Record<string, unknown> = {};
     try {

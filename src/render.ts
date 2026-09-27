@@ -4,6 +4,7 @@ import type { Spec } from "@json-render/core";
 import { renderToSvg } from "@json-render/image/render";
 import { catalog, componentDefinitions } from "./catalog";
 import { registry } from "./components";
+import { unknownComponentMessage } from "./suggest";
 import {
   BOARD_GAP,
   BOARD_PADDING,
@@ -63,7 +64,7 @@ export function checkSpec(spec: Spec): string[] {
     // so validate props against the component's Zod schema here.
     const def = (componentDefinitions as Record<string, { props: any }>)[el.type];
     if (!def) {
-      issues.push(`${id}: unknown component "${el.type}"`);
+      issues.push(`${id}: ${unknownComponentMessage(el.type, Object.keys(componentDefinitions))}`);
     } else {
       const parsed = def.props.safeParse(el.props ?? {});
       if (!parsed.success) {
@@ -86,6 +87,27 @@ export function checkSpec(spec: Spec): string[] {
       const parent = Object.entries(spec.elements).find(([, p]) => p.children?.includes(id));
       if (parent && parent[1].type !== "Screen") {
         issues.push(`${id}: ${el.type} must be a direct child of a Screen (found in ${parent[1].type} "${parent[0]}")`);
+      }
+    }
+    // The renderer would silently drop extra cells. Usually the cause is an unquoted
+    // cell with a space, which the text syntax splits into two.
+    if (el.type === "Table") {
+      const { columns, data } = (el.props ?? {}) as { columns?: unknown; data?: unknown };
+      if (Array.isArray(columns) && Array.isArray(data)) {
+        const bad = data
+          .map((row, i) => ({ row: i + 1, cells: Array.isArray(row) ? row.length : 1 }))
+          .filter((r) => r.cells !== columns.length);
+        if (bad.length) {
+          const cells = (n: number) => `${n} cell${n === 1 ? "" : "s"}`;
+          const rows = bad.length === 1
+            ? `data row ${bad[0].row} has ${cells(bad[0].cells)}`
+            : `data rows ${bad.map((r) => `${r.row} (${cells(r.cells)})`).join(", ")} don't match`;
+          const hints = [
+            bad.some((r) => r.cells > columns.length) && `quote cells that contain spaces, e.g. ["Ana Ruiz", Admin]`,
+            bad.some((r) => r.cells < columns.length) && `use "" for an empty cell`,
+          ].filter(Boolean);
+          issues.push(`${id}: Table has ${columns.length} columns, but ${rows} (${hints.join("; ")})`);
+        }
       }
     }
   }
