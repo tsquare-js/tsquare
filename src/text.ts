@@ -56,6 +56,22 @@ function unwrap(t: any): any {
   return cur;
 }
 
+/**
+ * Numbers written where the schema wants text become text: `tabs items=[2023, 2024]`,
+ * `data=[[Apples, 12]]`. Walks arrays and objects; anything else is left for validation.
+ */
+function textWhereExpected(schema: any, value: unknown): unknown {
+  const s = unwrap(schema);
+  switch (s?.def?.type) {
+    case "string": return typeof value === "number" ? String(value) : value;
+    case "array": return Array.isArray(value) ? value.map((v) => textWhereExpected(s.def.element, v)) : value;
+    case "object":
+      if (!value || typeof value !== "object" || Array.isArray(value)) return value;
+      return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, k in s.shape ? textWhereExpected(s.shape[k], v) : v]));
+    default: return value;
+  }
+}
+
 interface ComponentInfo {
   name: string;
   props: Record<string, any>;
@@ -249,7 +265,7 @@ export function parseWireframeText(source: string): ParseResult {
           if (!(key in info.props)) {
             issues.push({ line: lineNo, message: `${info.name} has no prop "${key}" (its props: ${Object.keys(info.props).join(", ")})` });
           }
-          props[key] = parseValue(c);
+          props[key] = key in info.props ? textWhereExpected(info.props[key], parseValue(c)) : parseValue(c);
           continue;
         }
         c.next();
