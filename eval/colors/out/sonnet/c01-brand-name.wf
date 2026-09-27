@@ -1,0 +1,16 @@
+```wireframe
+board "Coffee shop" accent=green
+  screen phone "Checkout"
+    navbar "Checkout" leading=back
+    card title="Order summary"
+      list
+        listitem title="Latte" trailing=text trailingText="$4.50"
+        listitem title="Croissant" trailing=text trailingText="$3.25"
+      divider
+      stack row justify=between
+        text bold "Total"
+        text bold "$7.75"
+    select "Payment method" placeholder="Select card"
+    toggle "Save card" on
+    button primary "Pay" fullWidth
+```

@@ -1,0 +1,12 @@
+```wireframe
+board "Sign Up" accent=#FF5A1F
+  screen desktop "Create Account"
+    stack gap=24 align=center padding=40
+      heading "Create Your Account" level=1 align=center
+      card width=400 padding=24 gap=16
+        input "Name" placeholder="Full name"
+        input "Email" placeholder="name@example.com" type=email
+        input "Password" placeholder="Password" type=password
+        checkbox "I agree to the terms and conditions"
+        button primary "Create Account" fullWidth
+```

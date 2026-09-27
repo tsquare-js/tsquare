@@ -1,0 +1,19 @@
+```wireframe
+board "Account settings"
+  screen phone "Account settings"
+    navbar "Account" leading=back
+    heading "Profile" level=3
+    list dividers
+      listitem title="Name" trailing=chevron
+      listitem title="Email" trailing=chevron
+      listitem title="Phone" trailing=chevron
+    heading "Notifications" level=3
+    list dividers
+      listitem title="Push notifications" trailing=toggle
+      listitem title="Email notifications" trailing=toggle
+    heading "Security" level=3
+    list dividers
+      listitem title="Change password" trailing=chevron
+      listitem title="Two-factor authentication" trailing=chevron
+    button secondary "Delete account" fullWidth
+```

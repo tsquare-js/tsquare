@@ -1,0 +1,22 @@
+```wireframe
+board "Coffee Shop" accent=green
+  screen phone "Checkout"
+    navbar "Order" leading=back
+    heading "Order Summary" level=2
+    card padding=12
+      stack gap=8
+        text "Items" bold
+        stack row gap=8 justify=between
+          text "Cappuccino x2"
+          text "$8.00"
+        stack row gap=8 justify=between
+          text "Croissant x1"
+          text "$4.50"
+        divider
+        stack row gap=8 justify=between
+          text "Total" bold
+          text "$12.50" bold
+    select "Payment method" value="Visa"
+    toggle "Save card for future purchases"
+    button primary "Pay $12.50" fullWidth
+```

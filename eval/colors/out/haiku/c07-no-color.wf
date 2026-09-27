@@ -1,0 +1,24 @@
+```wireframe
+board "Notes"
+  screen phone "Notes"
+    navbar "Notes" leading=menu actions=[search]
+    tabs items=[All, Pinned] active=0
+    stack gap=12 padding=16
+      card padding=12 gap=8
+        text "Meeting notes" bold
+        text sm "Yesterday at 2:30 PM" muted
+        text lines=2
+      card padding=12 gap=8
+        text "Project ideas" bold
+        text sm "3 days ago" muted
+        text lines=2
+      card padding=12 gap=8
+        text "Shopping list" bold
+        text sm "1 week ago" muted
+        text lines=2
+      card padding=12 gap=8
+        text "Travel plans" bold
+        text sm "2 weeks ago" muted
+        text lines=2
+    button primary "New Note" fullWidth
+```

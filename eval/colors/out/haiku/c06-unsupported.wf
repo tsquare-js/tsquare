@@ -1,0 +1,16 @@
+```wireframe
+board "Settings" accent=red
+  screen phone "Account Settings"
+    navbar "Settings" leading=back
+    stack gap=24 padding=16
+      heading "Account" level=2
+      list dividers
+        listitem title="Email" subtitle="user@example.com" trailing=chevron
+        listitem title="Password" trailing=chevron
+        listitem title="Notifications" trailing=toggle
+      heading "Preferences" level=2
+      list dividers
+        listitem title="Language" subtitle="English" trailing=chevron
+        listitem title="Theme" subtitle="Light" trailing=chevron
+      button primary="Delete Account" fullWidth
+```

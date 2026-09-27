@@ -1,0 +1,18 @@
+```wireframe
+board "Orders"
+  screen desktop "Orders"
+    navbar "Orders" leading=menu
+    heading "Recent orders" level=2
+    table columns=[Order, Customer, Date, Amount] rows=5
+    heading "Order status" level=3
+    stack column gap=8
+      stack row justify=between padding=12 border=bottom
+        text "Order #1042"
+        badge "Paid" tone=success
+      stack row justify=between padding=12 border=bottom
+        text "Order #1041"
+        badge "Pending" tone=warning
+      stack row justify=between padding=12 border=bottom
+        text "Order #1040"
+        badge "Failed" tone=danger
+```

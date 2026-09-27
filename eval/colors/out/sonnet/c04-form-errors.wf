@@ -1,0 +1,10 @@
+```wireframe
+board "Sign up"
+  screen phone "Sign up"
+    navbar "Sign up" leading=back
+    stack column gap=16 padding=16
+      input "Name" value="Jane Doe"
+      input "Email" type=email value="jane@" error helper="Enter a valid email"
+      input "Password" type=password error helper="At least 8 characters"
+      button primary "Create account" fullWidth
+```

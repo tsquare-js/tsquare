@@ -1,0 +1,13 @@
+```wireframe
+board "Notes"
+  screen phone "Notes"
+    navbar "Notes" leading=menu actions=[search]
+    input search placeholder="Search notes"
+    tabs items=[All, Pinned] active=0
+    list dividers
+      listitem title="Grocery list" subtitle="Milk, eggs, bread" trailing=chevron
+      listitem title="Meeting notes" subtitle="Q3 planning" trailing=chevron
+      listitem title="Ideas" subtitle="App redesign concepts" trailing=chevron
+      listitem title="Travel checklist" subtitle="Passport, tickets, chargers" trailing=chevron
+    button primary "New note" fullWidth
+```

@@ -1,0 +1,156 @@
+[
+  {
+    "model": "sonnet",
+    "task": "c01-brand-name",
+    "valid": true,
+    "issues": [],
+    "invented": 0,
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "task": "c02-brand-hex",
+    "valid": true,
+    "issues": [],
+    "invented": 0,
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "task": "c03-status-badges",
+    "valid": true,
+    "issues": [],
+    "invented": 0,
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "task": "c04-form-errors",
+    "valid": true,
+    "issues": [],
+    "invented": 0,
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "task": "c05-purple",
+    "valid": true,
+    "issues": [],
+    "invented": 0,
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "task": "c06-unsupported",
+    "valid": true,
+    "issues": [],
+    "invented": 0,
+    "passed": 1,
+    "total": 1,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "task": "c07-no-color",
+    "valid": true,
+    "issues": [],
+    "invented": 0,
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "task": "c01-brand-name",
+    "valid": true,
+    "issues": [],
+    "invented": 0,
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "task": "c02-brand-hex",
+    "valid": true,
+    "issues": [],
+    "invented": 0,
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "task": "c03-status-badges",
+    "valid": false,
+    "issues": [
+      "line 5: unknown component \"padding\" (components: board, screen, note, stack, grid, card, divider, spacer, heading, text, image, icon, avatar, badge, button, input, checkbox, radio, toggle, select, navbar, tabbar, tabs, list, listitem, table, modal, drawer)",
+      "line 8: unknown component \"data\" (components: board, screen, note, stack, grid, card, divider, spacer, heading, text, image, icon, avatar, badge, button, input, checkbox, radio, toggle, select, navbar, tabbar, tabs, list, listitem, table, modal, drawer)",
+      "line 9: expected a component name, got \"[ORD-001, 2024-09-27, $150.00, Completed],\"",
+      "line 10: expected a component name, got \"[ORD-002, 2024-09-26, $89.50, Pending],\"",
+      "line 11: expected a component name, got \"[ORD-003, 2024-09-25, $220.00, Completed]\"",
+      "line 12: expected a component name, got \"]\""
+    ],
+    "invented": 0,
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "task": "c04-form-errors",
+    "valid": true,
+    "issues": [],
+    "invented": 0,
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "task": "c05-purple",
+    "valid": false,
+    "issues": [
+      "line 7: ListItem: don't know what \"checked\" is (bare words it accepts: avatar, image, checkbox, chevron, toggle, text, badge)",
+      "line 8: ListItem: don't know what \"checked\" is (bare words it accepts: avatar, image, checkbox, chevron, toggle, text, badge)"
+    ],
+    "invented": 0,
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "task": "c06-unsupported",
+    "valid": false,
+    "issues": [
+      "line 15: Button has no prop \"primary\" (its props: label, variant, size, icon, fullWidth)"
+    ],
+    "invented": 0,
+    "passed": 0,
+    "total": 1,
+    "failed": [
+      "delete button"
+    ]
+  },
+  {
+    "model": "haiku",
+    "task": "c07-no-color",
+    "valid": true,
+    "issues": [],
+    "invented": 0,
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  }
+]

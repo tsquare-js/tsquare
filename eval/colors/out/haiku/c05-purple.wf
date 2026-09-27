@@ -1,0 +1,13 @@
+```wireframe
+board "Habit Tracker" accent=violet
+  screen phone "Today"
+    navbar "Habits" leading=menu
+    tabs items=[Today, Week] active=0
+    list dividers
+      listitem title="Morning exercise" leading=checkbox checked
+      listitem title="Read for 30 mins" leading=checkbox checked
+      listitem title="Drink water" leading=checkbox
+      listitem title="Meditation" leading=checkbox
+      listitem title="Journal" leading=checkbox
+    tabbar items=[{label=Today icon=calendar}, {label=Stats icon=bar-chart-2}, {label=Profile icon=user}] active=0
+```

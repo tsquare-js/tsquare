@@ -1,0 +1,24 @@
+```wireframe
+board "Orders"
+  screen desktop "Orders"
+    navbar "Orders" leading=menu actions=[bell]
+    padding=24
+    heading "Recent Orders" level=2
+    table columns=[Order ID, Date, Amount, Status]
+      data=[
+        [ORD-001, 2024-09-27, $150.00, Completed],
+        [ORD-002, 2024-09-26, $89.50, Pending],
+        [ORD-003, 2024-09-25, $220.00, Completed]
+      ]
+    heading "Order Status Summary" level=3
+    stack gap=16
+      stack row gap=12 align=center
+        badge solid tone=success "Paid"
+        text "Order ORD-001 completed successfully"
+      stack row gap=12 align=center
+        badge solid tone=warning "Pending"
+        text "Order ORD-002 awaiting payment confirmation"
+      stack row gap=12 align=center
+        badge solid tone=danger "Failed"
+        text "Order ORD-003 payment declined - retry"
+```

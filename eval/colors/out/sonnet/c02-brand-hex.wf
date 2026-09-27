@@ -1,0 +1,12 @@
+```wireframe
+board "Sign up" accent=#FF5A1F
+  screen desktop "Sign up"
+    navbar "Brand" leading=logo
+    stack column gap=16 padding=24 width=400
+      heading "Create your account" level=2
+      input "Name" placeholder="Jane Doe"
+      input "Email" type=email placeholder="jane@example.com"
+      input "Password" type=password placeholder="********"
+      checkbox "I agree to the Terms of Service"
+      button primary "Create account" fullWidth
+```

@@ -1,0 +1,12 @@
+```wireframe
+board "Habit tracker" accent=violet
+  screen phone "Habits"
+    navbar "Habits" leading=menu actions=[bell]
+    tabs items=[Today, Week] active=0
+    stack column gap=12 padding=16
+      checkbox "Drink water" checked
+      checkbox "Read 10 pages"
+      checkbox "Meditate" checked
+      checkbox "Exercise"
+    tabbar items=[{label=Home icon=home}, {label=Stats icon=bar-chart}, {label=Profile icon=user}] active=0
+```

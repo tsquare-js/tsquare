@@ -1,0 +1,12 @@
+```wireframe
+board "Sign Up Form"
+  screen phone "Create Account"
+    navbar "Sign Up" leading=back
+    stack gap=16 padding=16
+      heading "Create Account" level=2
+      input "Name" placeholder="Full name"
+      input "Email" placeholder="Email" type=email error helper="Enter a valid email"
+      input "Password" placeholder="Password" type=password error helper="At least 8 characters"
+      checkbox "I agree to the terms"
+      button primary "Create Account" fullWidth
+```
