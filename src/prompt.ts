@@ -29,15 +29,36 @@ function describeType(t: any): string {
   }
 }
 
+export interface PropDoc {
+  name: string;
+  type: string;
+  required: boolean;
+  /** This prop is filled by a quoted string, e.g. the label of `button "Save"`. */
+  main: boolean;
+  description?: string;
+}
+
+/** Every component with its description and props, straight from the catalog. */
+export function componentDocs() {
+  return Object.entries(componentDefinitions).map(([name, def]) => ({
+    name,
+    description: def.description,
+    props: Object.entries((def.props as any).shape).map(([prop, schema]: [string, any]): PropDoc => ({
+      name: prop,
+      type: describeType(schema),
+      required: !["optional", "nullable"].includes(schema.def?.type),
+      main: PRIMARY_PROP[name] === prop,
+      description: schema.description ?? unwrap(schema)?.description,
+    })),
+  }));
+}
+
 export function componentReference() {
   const lines: string[] = [];
-  for (const [name, def] of Object.entries(componentDefinitions)) {
-    lines.push(`### ${name}`, def.description);
-    for (const [prop, schema] of Object.entries((def.props as any).shape)) {
-      const required = !["optional", "nullable"].includes((schema as any).def?.type);
-      const desc = (schema as any).description ?? unwrap(schema)?.description;
-      const main = PRIMARY_PROP[name] === prop ? " (main text)" : "";
-      lines.push(`- ${prop}${required ? " (required)" : ""}: ${describeType(schema)}${main}${desc ? ` — ${desc}` : ""}`);
+  for (const c of componentDocs()) {
+    lines.push(`### ${c.name}`, c.description);
+    for (const p of c.props) {
+      lines.push(`- ${p.name}${p.required ? " (required)" : ""}: ${p.type}${p.main ? " (main text)" : ""}${p.description ? ` — ${p.description}` : ""}`);
     }
     lines.push("");
   }

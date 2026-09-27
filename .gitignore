@@ -13,6 +13,8 @@
 
 !/src/**/*.ts
 !/src/**/*.tsx
+!/playground/*.ts
+!/playground/*.html
 !/examples/*.wf
 !/examples/*.png
 

@@ -8,6 +8,7 @@
     "check": "tsx src/cli.ts check",
     "fmt": "tsx src/cli.ts fmt",
     "prompt": "tsx src/cli.ts prompt",
+    "playground": "tsx playground/server.ts",
     "typecheck": "tsc",
     "examples": "for f in examples/*.wf; do tsx src/cli.ts render $f -o ${f%.wf}.png --scale 2; done",
     "eval:prompts": "tsx eval/prompts.ts",

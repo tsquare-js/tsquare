@@ -17,6 +17,18 @@ npm install
 npm run render -- examples/notes-mobile.wf -o notes.png --scale 2
 ```
 
+## Playground
+
+```bash
+npm run playground   # http://localhost:4321
+```
+
+- **Editor:** live render as you type, problems listed by line (click one to jump there), and SVG/PNG export. Paste a whole model reply and it keeps just the code block.
+- **Components:** every component with its props and a rendered example you can open in the editor. It's generated from the catalog, so it can't drift from what the renderer accepts.
+- **Prompt:** the system prompt for models, with a copy button.
+
+It renders on a local Node server using the same code as the CLI.
+
 ## The language
 
 One element per line; children are indented two spaces under their parent. The first line is the board.
