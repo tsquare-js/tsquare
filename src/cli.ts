@@ -5,12 +5,12 @@ import { compileWireframe, formatIssues, renderWireframe, WireframeError } from 
 import { printWireframeText } from "./print";
 import { wireframePrompt } from "./prompt";
 
-const USAGE = `wireframe — render wireframe text to SVG or PNG
+const USAGE = `tsquare — render wireframe text to SVG or PNG
 
-  wireframe render <file.wf|-> [-o out.svg|out.png] [--scale 2]
-  wireframe check  <file.wf|->      report problems by line number
-  wireframe fmt    <file.wf|-> [-w] print in canonical form (-w rewrites the file; drops comments)
-  wireframe prompt                  print the system prompt for models
+  tsquare render <file.tsq|-> [-o out.svg|out.png] [--scale 2]
+  tsquare check  <file.tsq|->      report problems by line number
+  tsquare fmt    <file.tsq|-> [-w] print in canonical form (-w rewrites the file; drops comments)
+  tsquare prompt                   print the system prompt for models
 
 Use - to read from stdin. Code fences (\`\`\`) in the input are ignored.
 `;
@@ -62,7 +62,7 @@ async function main(argv: string[]) {
     return;
   }
 
-  const out = flag("-o") ?? (file === "-" ? "wireframe.svg" : file.replace(/\.wf$/, "") + ".svg");
+  const out = flag("-o") ?? (file === "-" ? "wireframe.svg" : file.replace(/\.(tsq|wf)$/, "") + ".svg");
   const png = out.endsWith(".png");
   const data = await renderWireframe(source, { format: png ? "png" : "svg", scale: Number(flag("--scale") ?? 1) });
   await writeFile(out, data);

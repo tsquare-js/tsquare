@@ -1,7 +1,7 @@
 {
-  "name": "wireframe",
+  "name": "tsquare",
   "version": "0.1.0",
-  "description": "Low-fidelity wireframes from text, rendered to SVG/PNG",
+  "description": "UI wireframe boards from text, written by AI, rendered to SVG/PNG",
   "main": "src/index.ts",
   "scripts": {
     "render": "tsx src/cli.ts render",
@@ -10,7 +10,7 @@
     "prompt": "tsx src/cli.ts prompt",
     "playground": "tsx playground/server.ts",
     "typecheck": "tsc",
-    "examples": "for f in examples/*.wf; do tsx src/cli.ts render $f -o ${f%.wf}.png --scale 2; done",
+    "examples": "for f in examples/*.tsq; do tsx src/cli.ts render $f -o ${f%.tsq}.png --scale 2; done",
     "eval:prompts": "tsx eval/prompts.ts",
     "eval:score": "tsx eval/score.ts"
   },
@@ -30,7 +30,7 @@
   },
   "type": "module",
   "bin": {
-    "wireframe": "src/cli.ts"
+    "tsquare": "src/cli.ts"
   },
   "devDependencies": {
     "gpt-tokenizer": "^4.0.0"

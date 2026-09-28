@@ -15,7 +15,7 @@
 !/src/**/*.tsx
 !/playground/*.ts
 !/playground/*.html
-!/examples/*.wf
+!/examples/*.tsq
 !/examples/*.png
 
 # eval/renders/ is left out on purpose: `npm run eval:score` regenerates it

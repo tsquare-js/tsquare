@@ -47,8 +47,8 @@ function reference() {
 
 async function examples() {
   const dir = path.join(root, "examples");
-  const files = (await readdir(dir)).filter((f) => f.endsWith(".wf")).sort();
-  return Promise.all(files.map(async (f) => ({ name: f.replace(/\.wf$/, ""), source: await readFile(path.join(dir, f), "utf8") })));
+  const files = (await readdir(dir)).filter((f) => f.endsWith(".tsq")).sort();
+  return Promise.all(files.map(async (f) => ({ name: f.replace(/\.tsq$/, ""), source: await readFile(path.join(dir, f), "utf8") })));
 }
 
 function readBody(req: IncomingMessage) {
@@ -110,5 +110,5 @@ createServer((req, res) => {
     else res.end();
   });
 }).listen(PORT, "127.0.0.1", () => {
-  console.log(`Wireframe playground → http://localhost:${PORT}`);
+  console.log(`tsquare playground → http://localhost:${PORT}`);
 });

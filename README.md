@@ -1,8 +1,8 @@
-# wireframe
+# tsquare
 
-Low-fidelity UI wireframes from a small text language, rendered to SVG or PNG. Built for LLMs to write: the prompt comes from the component catalog, and errors come back with line numbers so a model can fix its own output.
+UI wireframe boards from text, written by AI, ready for your docs. A small text language for low-fidelity screens (several devices side by side, with notes), rendered to clean SVG or PNG. Built for LLMs to write: the prompt comes from the component catalog, and errors come back with line numbers so a model can fix its own output.
 
-```wireframe
+```tsquare
 board "Login"
   screen phone "Sign in"
     heading "Welcome back"
@@ -14,7 +14,7 @@ board "Login"
 
 ```bash
 npm install
-npm run render -- examples/notes-mobile.wf -o notes.png --scale 2
+npm run render -- examples/notes-mobile.tsq -o notes.png --scale 2
 ```
 
 ## Playground
@@ -80,13 +80,13 @@ Wireframes are grayscale. There are three deliberate exceptions:
 ## CLI
 
 ```bash
-wireframe render <file.wf|-> [-o out.svg|out.png] [--scale 2]
-wireframe check  <file.wf|->        # problems by line number
-wireframe fmt    <file.wf|-> [-w]   # canonical formatting (drops comments)
-wireframe prompt                    # system prompt for models
+tsquare render <file.tsq|-> [-o out.svg|out.png] [--scale 2]
+tsquare check  <file.tsq|->        # problems by line number
+tsquare fmt    <file.tsq|-> [-w]   # canonical formatting (drops comments)
+tsquare prompt                     # system prompt for models
 ```
 
-Use `-` to read from stdin. In this repo, run them through npm: `npm run check -- file.wf`.
+Use `-` to read from stdin. In this repo, run them through npm: `npm run check -- file.tsq`. Files use the `.tsq` extension; the CLI reads any text file..
 
 ## Using it with a model
 

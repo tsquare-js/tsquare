@@ -105,7 +105,7 @@ export function wireframePrompt() {
     "## Example",
     `Request: ${EXAMPLE_REQUEST}`,
     "",
-    "```wireframe",
+    "```tsquare",
     printWireframeText(exampleSpec).trimEnd(),
     "```",
     "",
