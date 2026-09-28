@@ -12,10 +12,13 @@ board "Login"
     button primary "Sign in" fullWidth
 ```
 
+Save that as `login.tsq`, then:
+
 ```bash
-npm install
-npm run render -- examples/notes-mobile.tsq -o notes.png --scale 2
+npx tsquare render login.tsq -o login.png --scale 2
 ```
+
+Requires Node 20 or newer. To work on tsquare itself, clone the repo, run `npm install`, and use `npm run render -- examples/notes-mobile.tsq -o notes.png --scale 2`.
 
 ## Playground
 
@@ -93,6 +96,8 @@ Use `-` to read from stdin. In this repo, run them through npm: `npm run check -
 \`skill/tsquare/\` is a Claude skill: the syntax, the component reference, and a workflow of write → \`tsquare check\` → \`tsquare render\` → look at the PNG and fix. Copy it to \`~/.claude/skills/tsquare\` (all projects) or \`<project>/.claude/skills/tsquare\`, and make the \`tsquare\` command available (\`npm link\` in this repo). Rebuild it after catalog changes with \`npm run skill\`.
 
 ## Using it with a model
+
+The library API is TypeScript and isn't built for importing from npm yet, so for now use it from a checkout of the repo (as below) or through the CLI.
 
 ```ts
 import { wireframePrompt, repairPrompt, compileWireframe, formatIssues, renderWireframe } from "./src";

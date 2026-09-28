@@ -2,7 +2,32 @@
   "name": "tsquare",
   "version": "0.1.0",
   "description": "UI wireframe boards from text, written by AI, rendered to SVG/PNG",
-  "main": "src/index.ts",
+  "keywords": [
+    "wireframe",
+    "mockup",
+    "ui",
+    "diagram",
+    "llm",
+    "ai",
+    "svg",
+    "text-to-diagram",
+    "claude"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "tsquare": "bin/tsquare.js"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "skill/tsquare/",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "render": "tsx src/cli.ts render",
     "check": "tsx src/cli.ts check",
@@ -15,25 +40,20 @@
     "eval:prompts": "tsx eval/prompts.ts",
     "eval:score": "tsx eval/score.ts"
   },
-  "license": "MIT",
   "dependencies": {
     "@fontsource/inter": "5.3.0",
     "@json-render/core": "^0.21.0",
     "@json-render/image": "^0.21.0",
     "@resvg/resvg-js": "^2.6.2",
-    "@types/node": "^26.6.3",
-    "@types/react": "^19.3.0",
     "lucide": "^1.48.0",
     "react": "^19.3.0",
     "tsx": "^4.23.15",
-    "typescript": "^7.0.2",
     "zod": "^4.6.5"
   },
-  "type": "module",
-  "bin": {
-    "tsquare": "bin/tsquare.js"
-  },
   "devDependencies": {
-    "gpt-tokenizer": "^4.0.0"
+    "@types/node": "^26.6.3",
+    "@types/react": "^19.3.0",
+    "gpt-tokenizer": "^4.0.0",
+    "typescript": "^7.0.2"
   }
 }
