@@ -13,8 +13,11 @@
 
 !/src/**/*.ts
 !/src/**/*.tsx
+!/bin/*.js
 !/playground/*.ts
 !/playground/*.html
+!/skill/*.ts
+!/skill/tsquare/*.md
 !/examples/*.tsq
 !/examples/*.png
 

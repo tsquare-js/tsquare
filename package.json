@@ -9,6 +9,7 @@
     "fmt": "tsx src/cli.ts fmt",
     "prompt": "tsx src/cli.ts prompt",
     "playground": "tsx playground/server.ts",
+    "skill": "tsx skill/build.ts",
     "typecheck": "tsc",
     "examples": "for f in examples/*.tsq; do tsx src/cli.ts render $f -o ${f%.tsq}.png --scale 2; done",
     "eval:prompts": "tsx eval/prompts.ts",
@@ -30,7 +31,7 @@
   },
   "type": "module",
   "bin": {
-    "tsquare": "src/cli.ts"
+    "tsquare": "bin/tsquare.js"
   },
   "devDependencies": {
     "gpt-tokenizer": "^4.0.0"

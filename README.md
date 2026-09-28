@@ -88,6 +88,10 @@ tsquare prompt                     # system prompt for models
 
 Use `-` to read from stdin. In this repo, run them through npm: `npm run check -- file.tsq`. Files use the `.tsq` extension; the CLI reads any text file..
 
+## Using it with Claude (skill)
+
+\`skill/tsquare/\` is a Claude skill: the syntax, the component reference, and a workflow of write → \`tsquare check\` → \`tsquare render\` → look at the PNG and fix. Copy it to \`~/.claude/skills/tsquare\` (all projects) or \`<project>/.claude/skills/tsquare\`, and make the \`tsquare\` command available (\`npm link\` in this repo). Rebuild it after catalog changes with \`npm run skill\`.
+
 ## Using it with a model
 
 ```ts
