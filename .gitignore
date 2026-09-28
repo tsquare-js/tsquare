@@ -4,7 +4,6 @@
 !*/
 
 !/.gitignore
-!/CLAUDE.md
 !/README.md
 !/LICENSE
 !/package.json
