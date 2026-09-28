@@ -1,6 +1,6 @@
 # tsquare
 
-UI wireframe boards from text, written by AI, ready for your docs. A small text language for low-fidelity screens (several devices side by side, with notes), rendered to clean SVG or PNG. Built for LLMs to write: the prompt comes from the component catalog, and errors come back with line numbers so a model can fix its own output.
+Wireframes in plain text: easy for LLMs to write, fast to render as SVG or PNG. A small text language for low-fidelity screens (several devices side by side, with notes), rendered to clean SVG or PNG. Built for LLMs to write: the prompt comes from the component catalog, and errors come back with line numbers so a model can fix its own output.
 
 ```tsquare
 board "Login"

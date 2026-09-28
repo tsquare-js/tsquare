@@ -1,7 +1,7 @@
 {
   "name": "tsquare",
   "version": "0.1.0",
-  "description": "UI wireframe boards from text, written by AI, rendered to SVG/PNG",
+  "description": "Wireframes in plain text: easy for LLMs to write, fast to render as SVG or PNG.",
   "keywords": [
     "wireframe",
     "mockup",
