@@ -43,6 +43,7 @@
     "prompt": "tsx src/cli.ts prompt",
     "playground": "tsx playground/server.ts",
     "skill": "tsx skill/build.ts",
+    "docs": "tsx docs/build.ts",
     "typecheck": "tsc",
     "examples": "for f in examples/*.tsq; do tsx src/cli.ts render $f -o ${f%.tsq}.png --scale 2; done",
     "eval:prompts": "tsx eval/prompts.ts",
@@ -53,7 +54,7 @@
     "@json-render/core": "^0.21.0",
     "@json-render/image": "^0.21.0",
     "@resvg/resvg-js": "^2.6.2",
-    "lucide": "^1.48.0",
+    "lucide": "1.48.0",
     "react": "^19.3.0",
     "tsx": "^4.23.15",
     "zod": "^4.6.5"

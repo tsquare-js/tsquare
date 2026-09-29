@@ -1,6 +1,6 @@
 # tsquare
 
-Wireframes in plain text: easy for LLMs to write, fast to render as SVG or PNG. A small text language for low-fidelity screens (several devices side by side, with notes), rendered to clean SVG or PNG. Built for LLMs to write: the prompt comes from the component catalog, and errors come back with line numbers so a model can fix its own output.
+Wireframes in plain text: easy for LLMs to write, fast to render as SVG or PNG. A small text language for low-fidelity screens, with several devices side by side and notes beside them. Built for LLMs to write: the prompt comes from the component catalog, and errors come back with line numbers so a model can fix its own output.
 
 ```tsquare
 board "Login"
@@ -19,6 +19,10 @@ npx tsquare render login.tsq -o login.png --scale 2
 ```
 
 Requires Node 20 or newer. To work on tsquare itself, clone the repo, run `npm install`, and use `npm run render -- examples/notes-mobile.tsq -o notes.png --scale 2`.
+
+## Docs
+
+[Getting started](docs/getting-started.md) · [The language](docs/language.md) · [Components](docs/components/README.md) · [Icons](docs/icons.md) · [Colors](docs/colors.md) · [Using it with AI](docs/ai.md)
 
 ## Playground
 
@@ -57,7 +61,7 @@ If a bare word could mean two props (for example `start`, which is both an `alig
 
 ## Colors
 
-Wireframes are grayscale. There are three deliberate exceptions:
+Wireframes are grayscale. There are three deliberate exceptions in the UI itself:
 
 | You write | It colors |
 |---|---|
@@ -65,7 +69,9 @@ Wireframes are grayscale. There are three deliberate exceptions:
 | `badge "Failed" tone=danger` | one badge: `success`, `warning` or `danger` |
 | `input "Email" error helper="Required"` | the field's border and helper text, in red |
 
-`accent` takes `blue`, `indigo`, `violet`, `pink`, `red`, `orange`, `green` or `teal`, or a hex color like `#1a73e8`. With a light hex color, text on it switches to dark and accent-colored text is darkened so it stays readable. There are no other color props, on purpose.
+`accent` takes `blue`, `indigo`, `violet`, `pink`, `red`, `orange`, `green` or `teal`, or a hex color like `#1a73e8`. With a light hex color, text on it switches to dark and accent-colored text is darkened so it stays readable. There are no other UI color props, on purpose.
+
+Sticky notes beside the wireframe have their own colors, since they're annotations rather than part of the UI: `note "TBD" color=pink` (`yellow` is the default, plus `blue`, `pink` and `green`). See [Colors](docs/colors.md) for more.
 
 ## Components
 
@@ -73,12 +79,12 @@ Wireframes are grayscale. There are three deliberate exceptions:
 |---|---|
 | Canvas | board, screen (`phone` 390×844, `tablet` 820×1180, `desktop` 1280×800, `custom`), note |
 | Layout | stack, grid, card, divider, spacer |
-| Content | heading, text (`lines=3` draws placeholder lines), image (X-box placeholder), icon (any [Lucide](https://lucide.dev/icons) name), avatar, badge |
+| Content | heading, text (`lines=3` draws placeholder lines), image (X-box placeholder), icon (any [Lucide](https://lucide.dev/icons) name, see [Icons](docs/icons.md)), avatar, badge |
 | Controls | button, input (`multiline=4` for a textarea), checkbox, radio, toggle, select |
 | Navigation & data | navbar, tabbar, tabs, list, listitem, table |
 | Overlays | modal, drawer (`left`, `right`, `bottom` sheet) |
 
-`npm run prompt` prints every component with its props. The source of truth is `src/catalog.ts`.
+Each component has its own page with a rendered example and its props: see [Components](docs/components/README.md).
 
 ## CLI
 
@@ -89,38 +95,11 @@ tsquare fmt    <file.tsq|-> [-w]   # canonical formatting (drops comments)
 tsquare prompt                     # system prompt for models
 ```
 
-Use `-` to read from stdin. In this repo, run them through npm: `npm run check -- file.tsq`. Files use the `.tsq` extension; the CLI reads any text file..
+Use `-` to read from stdin. In this repo, run them through npm: `npm run check -- file.tsq`. Files use the `.tsq` extension; the CLI reads any text file.
 
 ## Using it with Claude (skill)
 
-\`skill/tsquare/\` is a Claude skill: the syntax, the component reference, and a workflow of write → \`tsquare check\` → \`tsquare render\` → look at the PNG and fix. Copy it to \`~/.claude/skills/tsquare\` (all projects) or \`<project>/.claude/skills/tsquare\`, and make the \`tsquare\` command available (\`npm link\` in this repo). Rebuild it after catalog changes with \`npm run skill\`.
-
-## Using it with a model
-
-The library API is TypeScript and isn't built for importing from npm yet, so for now use it from a checkout of the repo (as below) or through the CLI.
-
-```ts
-import { wireframePrompt, repairPrompt, compileWireframe, formatIssues, renderWireframe } from "./src";
-
-const system = wireframePrompt();
-let reply = await callModel(system, [{ role: "user", content: "A settings screen with toggles" }]);
-
-// Optional repair loop: send the model its own errors, by line
-const { issues } = compileWireframe(reply);
-if (issues.length) reply = await callModel(system, [...history, { role: "user", content: repairPrompt(formatIssues(issues)) }]);
-
-const svg = await renderWireframe(reply);                 // SVG string
-const png = await renderWireframe(reply, { format: "png", scale: 2 });
-```
-
-Errors read like this:
-
-```
-line 2: Screen: don't know what "watch" is (bare words it accepts: phone, tablet, desktop, custom, chrome); quote text like "watch"
-line 3: Card has no prop "colour" (its props: title, padding, gap, variant, grow, width)
-line 5: Drawer must be a direct child of a Screen (found in the Stack on line 4)
-line 7: Icon: unknown icon "serach" (did you mean search?)
-```
+`skill/tsquare/` is a Claude skill: the syntax, the component reference, and a workflow of write → `tsquare check` → `tsquare render` → look at the PNG and fix. Copy it to `~/.claude/skills/tsquare` (all projects) or `<project>/.claude/skills/tsquare`, and make the `tsquare` command available (`npm link` in this repo). Rebuild it after catalog changes with `npm run skill`.
 
 ## How it works
 
@@ -137,25 +116,18 @@ Text is parsed into a [json-render](https://github.com/vercel-labs/json-render) 
 | `src/render.ts` | validation, board sizing, SVG/PNG |
 | `src/layout.ts` | colors, device sizes, spacing |
 
-## Why text
+## Measured
 
-`eval/` compares three formats a model could write: flat JSON, nested JSON and this text syntax. It uses 20 wireframe requests, Sonnet and Haiku, and identical prompts apart from the format section. Text used about 4× fewer tokens and scored the same on content checks and render quality. On validity: Sonnet 100% in every format, Haiku 85% for text vs 90% for JSON, under the current, stricter checks. Unknown icon names (`call`, `person`) failed in every format. The eval also led to list items being separated by commas only: Sonnet wrote table cells like `[Ana Torres, Admin]`, which used to split on the space. With 20 tasks per format, one task is within noise.
+How often models write valid tsquare on the first try, with no repair round:
 
-The eval also drove these fixes: `off`/`unchecked` keywords, `width` on card/input/select, `padding` on grid, `grow` on list/input, sidebars stretching in rows, and bottom sheets growing to fit their content.
+| | Sonnet | Haiku |
+|---|---|---|
+| Valid on the first try (20 requests) | 100% | 85% |
+| Median tokens per wireframe (JSON took about 4× as many) | 184 | 210 |
+| Color checks passed (7 requests) | 11/11 | 11/11 |
 
-```bash
-npm run eval:prompts   # rebuild prompts (the committed ones are what was tested)
-npm run eval:score     # parse, validate, check, count tokens, render
-```
-
-Specs are in `eval/out/`, scores in `eval/results.json`, and renders in `eval/renders/`. Caveats: generation used subagents rather than bare API calls, token counts use an OpenAI tokenizer as a stand-in, and there are 20 tasks per format.
-
-## Not yet
-
-- **Flow** arrows between screens. These need a second pass that reads element positions after layout.
-- Selectable text in SVG. Satori draws text as outlines, which is portable but not searchable in PDFs.
-- `fmt` doesn't keep comments.
+How it was measured, the tasks, every model output, and the scripts: [`eval/`](eval/).
 
 ## License
 
-MIT. The Inter font comes from the `@fontsource/inter` dependency, under the SIL Open Font License 1.1.
+MIT. The Inter font comes from the `@fontsource/inter` dependency, under the SIL Open Font License 1.1. Icons are from [Lucide](https://lucide.dev), under the ISC license.

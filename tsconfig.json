@@ -10,5 +10,5 @@
     "resolveJsonModule": true,
     "noEmit": true
   },
-  "include": ["src", "examples", "playground", "skill"]
+  "include": ["src", "examples", "playground", "skill", "docs"]
 }

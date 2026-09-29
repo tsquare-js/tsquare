@@ -104,7 +104,7 @@ export function checkSpec(spec: Spec): string[] {
             ? `data row ${bad[0].row} has ${cells(bad[0].cells)}`
             : `data rows ${bad.map((r) => `${r.row} (${cells(r.cells)})`).join(", ")} don't match`;
           const hints = [
-            bad.some((r) => r.cells > columns.length) && `quote cells that contain spaces, e.g. ["Ana Ruiz", Admin]`,
+            bad.some((r) => r.cells > columns.length) && `quote cells that contain a comma, e.g. ["$1,200", Paid]`,
             bad.some((r) => r.cells < columns.length) && `use "" for an empty cell`,
           ].filter(Boolean);
           issues.push(`${id}: Table has ${columns.length} columns, but ${rows} (${hints.join("; ")})`);

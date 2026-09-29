@@ -20,7 +20,7 @@ import {
  */
 
 type Dir = "row" | "column";
-type Props<P = Record<string, any>> = ComponentRenderProps<P> & { dir?: Dir; stretch?: boolean; colors?: Palette };
+type Props<P = Record<string, any>> = ComponentRenderProps<P> & { dir?: Dir; stretch?: boolean; aligned?: boolean; colors?: Palette };
 
 /** The board's colors, passed to every component by `withPalette`. Grayscale when there's no accent. */
 const GRAY = paletteFor();
@@ -49,8 +49,9 @@ function Box({ style, children }: { style?: CSSProperties; children?: ReactNode 
 }
 
 /** Tell each child which way its parent lays out, so leaves can avoid stretching. */
-function withDir(children: ReactNode, dir: Dir, stretch = false) {
-  return Children.toArray(children).map((c) => (isValidElement(c) ? cloneElement(c as any, { dir, stretch }) : c));
+/** `aligned`: the parent column sets align=start/center/end, so leaves follow it instead of hugging the left edge. */
+function withDir(children: ReactNode, dir: Dir, stretch = false, aligned = false) {
+  return Children.toArray(children).map((c) => (isValidElement(c) ? cloneElement(c as any, { dir, stretch, aligned }) : c));
 }
 
 /**
@@ -72,9 +73,9 @@ function grow(on: unknown, dir?: Dir): CSSProperties {
   return dir === "row" ? { flexGrow: 1, flexBasis: "0px" } : { flexGrow: 1 };
 }
 
-/** Leaves like buttons shouldn't stretch across a column. */
-function hug(dir?: Dir): CSSProperties {
-  return dir === "row" ? {} : { alignSelf: "flex-start" };
+/** Leaves like buttons shouldn't stretch across a column, unless the column sets its own alignment. */
+function hug(dir?: Dir, aligned = false): CSSProperties {
+  return dir === "row" || aligned ? {} : { alignSelf: "flex-start" };
 }
 
 // ── Icons ───────────────────────────────────────────────────────────────
@@ -247,7 +248,7 @@ function Screen({ element, children }: Props) {
   );
 }
 
-function Note({ element, dir }: Props) {
+function Note({ element, dir, aligned }: Props) {
   const p = element.props;
   const onBoard = dir === undefined; // Board children don't get a dir
   return (
@@ -262,7 +263,7 @@ function Note({ element, dir }: Props) {
         fontSize: 14,
         lineHeight: 1.5,
         color: t.ink,
-        ...(onBoard ? {} : hug(dir)),
+        ...(onBoard ? {} : hug(dir, aligned)),
       }}
     >
       {p.text}
@@ -306,7 +307,7 @@ function Stack({ element, children, dir: parentDir, stretch }: Props) {
         ...fillRow(stretch, p.width != null || !!p.fill || (!!p.border && p.border !== "none")),
       }}
     >
-      {withDir(children, dir, dir === "row" && p.align == null)}
+      {withDir(children, dir, dir === "row" && p.align == null, dir === "column" && p.align != null && p.align !== "stretch")}
     </Box>
   );
 }
@@ -485,10 +486,10 @@ function Image({ element, dir }: Props) {
   );
 }
 
-function Icon({ element, dir }: Props) {
+function Icon({ element, dir, aligned }: Props) {
   const p = element.props;
   return (
-    <Box style={{ flexShrink: 0, ...hug(dir) }}>
+    <Box style={{ flexShrink: 0, ...hug(dir, aligned) }}>
       <IconGlyph name={p.name} size={p.size ?? 20} />
     </Box>
   );
@@ -516,9 +517,9 @@ function AvatarCircle({ initials, size = 40 }: { initials?: string | null; size?
   );
 }
 
-function Avatar({ element, dir }: Props) {
+function Avatar({ element, dir, aligned }: Props) {
   return (
-    <Box style={hug(dir)}>
+    <Box style={hug(dir, aligned)}>
       <AvatarCircle initials={element.props.initials} size={element.props.size ?? 40} />
     </Box>
   );
@@ -547,9 +548,9 @@ function BadgePill({ label, variant, tone, c = GRAY }: { label: string; variant?
   );
 }
 
-function Badge({ element, dir, colors }: Props) {
+function Badge({ element, dir, aligned, colors }: Props) {
   return (
-    <Box style={hug(dir)}>
+    <Box style={hug(dir, aligned)}>
       <BadgePill label={element.props.label} variant={element.props.variant} tone={element.props.tone} c={colors} />
     </Box>
   );
@@ -557,7 +558,7 @@ function Badge({ element, dir, colors }: Props) {
 
 // ── Controls ────────────────────────────────────────────────────────────
 
-function Button({ element, dir, colors: c = GRAY }: Props) {
+function Button({ element, dir, aligned, colors: c = GRAY }: Props) {
   const p = element.props;
   const variant = p.variant ?? "primary";
   const h = { sm: 32, md: 42, lg: 50 }[(p.size ?? "md") as "sm" | "md" | "lg"] ?? 42;
@@ -577,7 +578,7 @@ function Button({ element, dir, colors: c = GRAY }: Props) {
         color: fg,
         backgroundColor: variant === "primary" ? c.accent : "transparent",
         border: variant === "secondary" ? `1.5px solid ${t.lineStrong}` : "none",
-        ...(p.fullWidth ? { alignSelf: "stretch" } : hug(dir)),
+        ...(p.fullWidth ? { alignSelf: "stretch" } : hug(dir, aligned)),
       }}
     >
       {p.icon ? <IconGlyph name={p.icon} size={h < 36 ? 16 : 18} color={fg} /> : null}
@@ -675,20 +676,20 @@ function CheckMark({ checked, round = false, c = GRAY }: { checked?: boolean | n
   );
 }
 
-function Checkbox({ element, dir, colors }: Props) {
+function Checkbox({ element, dir, aligned, colors }: Props) {
   const p = element.props;
   return (
-    <Box style={{ gap: 10, alignItems: "center", ...hug(dir) }}>
+    <Box style={{ gap: 10, alignItems: "center", ...hug(dir, aligned) }}>
       <CheckMark checked={p.checked} c={colors} />
       {p.label ? <Box style={{ color: t.text }}>{p.label}</Box> : null}
     </Box>
   );
 }
 
-function Radio({ element, dir, colors }: Props) {
+function Radio({ element, dir, aligned, colors }: Props) {
   const p = element.props;
   return (
-    <Box style={{ gap: 10, alignItems: "center", ...hug(dir) }}>
+    <Box style={{ gap: 10, alignItems: "center", ...hug(dir, aligned) }}>
       <CheckMark checked={p.checked} round c={colors} />
       {p.label ? <Box style={{ color: t.text }}>{p.label}</Box> : null}
     </Box>

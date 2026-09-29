@@ -76,6 +76,7 @@ interface ComponentInfo {
   name: string;
   props: Record<string, any>;
   enumValues: Map<string, string>; // value → prop
+  ambiguous: Set<string>; // values shared by two props: must be written key=value
   booleans: Set<string>;
 }
 
@@ -98,7 +99,19 @@ for (const [name, def] of Object.entries(componentDefinitions)) {
     }
   }
   for (const v of ambiguous) enumValues.delete(v); // must be written key=value
-  COMPONENTS.set(name.toLowerCase(), { name, props: shape, enumValues, booleans });
+  COMPONENTS.set(name.toLowerCase(), { name, props: shape, enumValues, ambiguous, booleans });
+}
+
+/** What a component accepts as bare words, for docs: option values (with their prop), ambiguous values, and boolean props. */
+export function bareWords(component: string) {
+  const info = COMPONENTS.get(component.toLowerCase());
+  if (!info) throw new Error(`unknown component ${component}`);
+  return {
+    options: [...info.enumValues].map(([value, prop]) => ({ value, prop })),
+    ambiguous: [...info.ambiguous],
+    booleans: [...info.booleans],
+    wordPrimary: WORD_PRIMARY.has(info.name),
+  };
 }
 
 const normalizeType = (s: string) => s.toLowerCase().replace(/[-_]/g, "");

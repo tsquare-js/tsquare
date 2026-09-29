@@ -1,0 +1,142 @@
+# The language
+
+A tsquare file (`.tsq`) describes one **board**: a canvas with one or more **screens** side by side, and optional **notes** beside them. This page covers how to write it. For what each component does, see [Components](components/README.md).
+
+```tsquare
+board "Sign-up flow"
+  screen phone "1 · Details"
+    navbar "Create account" leading=back
+    input "Name"
+    input email "Email" placeholder="you@example.com"
+    checkbox "I agree to the terms"
+    button primary "Continue" fullWidth
+  screen phone "2 · Done"
+    heading "You're in" level=1
+    text "Check your inbox to confirm your email." muted
+  note "Confirmation email copy is TBD" color=pink
+```
+
+## Lines and indentation
+
+- **One element per line.** The line starts with the component name, in lowercase.
+- **Children are indented two spaces** under their parent. A screen's children stack from top to bottom.
+- **The first line is the board.** Everything else is indented under it.
+- Blank lines are ignored.
+
+## Anatomy of a line
+
+```tsquare
+    button primary lg "Sign in" fullWidth icon=log-in
+```
+
+| Part | What it does |
+|---|---|
+| `button` | the component |
+| `primary`, `lg` | **bare words** that set options: `primary` sets `variant`, `lg` sets `size` |
+| `"Sign in"` | a **quoted string** sets the component's main text: a button's label, a heading's text, a screen's name |
+| `fullWidth` | a **switch**: naming a yes/no prop turns it on |
+| `icon=log-in` | **`key=value`** sets any prop |
+
+The order doesn't matter. `button "Sign in" lg primary` is the same button.
+
+### Quoted strings
+
+Use double or single quotes: `"Sign in"` or `'Sign in'`. Inside quotes, write `\"` for a quote character. Each component has one main-text prop, marked **main text** on its component page; a quoted string always fills that one. Components without one (such as `stack`) don't take a quoted string.
+
+`icon` and `avatar` also accept their main text as a bare word: `icon search`, `avatar JD`.
+
+### Bare words: options and switches
+
+A bare word is one of a component's option values (`phone`, `primary`, `row`, `sm`, `bottom`…) or the name of a yes/no prop (`checked`, `fullWidth`, `grow`, `muted`…). Each component page lists the words it accepts under **Writing it**.
+
+To turn a switch off, write `no-` in front of it (`no-dividers`), or use `off` and `unchecked` for toggles and checkboxes: `toggle "Wi-Fi" off`, `checkbox "Remember me" unchecked`.
+
+If a word is an option of two props, write which one you mean. On a stack, `center` could be `align` or `justify`, so write `align=center` or `justify=center`.
+
+### `key=value`
+
+`key=value` works for every prop. Values can be:
+
+| Value | Example |
+|---|---|
+| a quoted string | `placeholder="you@example.com"` |
+| a single word | `value=Travel`, `icon=arrow-left` (see [Icons](icons.md)) |
+| a number | `gap=12`, `width=240` |
+| `true` or `false` | `dividers=false` |
+| a list | `items=[All notes, Pinned, Shared]` |
+| an object | `{label=Home icon=house}` |
+| a color | `accent=#1a73e8` |
+
+### Lists
+
+Lists go in square brackets, with **items separated by commas**. An item can contain spaces without quotes:
+
+```tsquare
+    tabs items=[All notes, Pinned, Shared]
+    table columns=[Name, Role, Status] data=[[Ana Torres, Admin, Active], [Ben Cho, Editor, Invited]]
+```
+
+To put a comma inside an item, quote the item: `["$1,200", "Smith, J"]`. A number in a list of text is fine: `tabs items=[2023, 2024]`.
+
+A missing comma joins two items into one: `actions=[search bell]` is a single item, "search bell".
+
+### Objects
+
+Objects go in curly braces, as `key=value` pairs separated by spaces (commas are also fine). Tab bars use a list of objects:
+
+```tsquare
+    tabbar items=[{label=Home icon=house}, {label=Search icon=search}] active=0
+```
+
+### Comments
+
+`#` after a space starts a comment that runs to the end of the line. A line that starts with `#` is ignored. A `#` right after `=` is part of the value, which is how hex colors work: `accent=#1a73e8`.
+
+```tsquare
+  screen phone "Home"   # the main screen
+```
+
+### Code fences
+
+Lines starting with ```` ``` ```` are ignored, so a model's reply in a code block can be rendered as-is.
+
+## Structure
+
+- The **board** is the root. Its children are **screens**, plus **notes** beside them.
+- A **screen** is one view of the product. Its children stack vertically. Use several screens to show several views, states or steps.
+- A **navbar** is pinned to the top of its screen, and a **tabbar** to the bottom.
+- **modal** and **drawer** are overlays, drawn over the screen. They must be direct children of a screen, listed last.
+- **stack** arranges its children in a `row` or a column; **grid** makes equal-width columns that wrap; **card** groups content in a box.
+- **spacer** without a size pushes what comes after it to the end: put one before a button to pin the button to the bottom of the screen.
+
+## Screens and devices
+
+| Device | Size | Top bar |
+|---|---|---|
+| `phone` (default) | 390 × 844 | status bar |
+| `tablet` | 820 × 1180 | none |
+| `desktop` | 1280 × 800 | browser bar |
+| `custom` | `width` × `height`, default 800 × 600 | none |
+
+Turn the top bar on or off with `chrome` or `no-chrome`. `width` and `height` only apply to `custom` screens.
+
+Screens have a **fixed height**. Content that doesn't fit is cut off at the bottom, and nothing warns about it, so check the render. Split long content across screens, or use a taller `custom` screen.
+
+## Checking and errors
+
+`tsquare check file.tsq` reports every problem with its line number, and suggests a fix where it can:
+
+```
+line 2: Screen: don't know what "watch" is (bare words it accepts: phone, tablet, desktop, custom, chrome); quote text like "watch"
+line 3: unknown component "buton" (did you mean button?)
+line 4: Card has no prop "colour" (its props: title, padding, gap, variant, grow, width)
+line 5: Icon: unknown icon "serach" (did you mean search?)
+line 7: Drawer must be a direct child of a Screen (found in the Stack on line 6)
+line 8: Table has 2 columns, but data row 1 has 3 cells (quote cells that contain a comma, e.g. ["$1,200", Paid])
+```
+
+`tsquare render` refuses to draw a file with problems, so a wireframe never renders with a silent mistake.
+
+## Formatting
+
+`tsquare fmt file.tsq` prints the file in a canonical form: bare words first, then the quoted text, then `key=value`. Add `-w` to rewrite the file. It drops comments.

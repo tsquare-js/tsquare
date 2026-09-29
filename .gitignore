@@ -17,6 +17,10 @@
 !/playground/*.html
 !/skill/*.ts
 !/skill/tsquare/*.md
+!/docs/*.ts
+!/docs/**/*.md
+!/docs/components/images/*.png
+!/docs/*.png
 !/examples/*.tsq
 !/examples/*.png
 
