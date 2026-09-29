@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>tsquare Playground</title>
+<link rel="icon" type="image/png" href="/mark.png">
 <style>
   :root {
     --bg: #f4f5f7;
@@ -28,7 +29,8 @@
   button, select { font: inherit; }
 
   header { display: flex; align-items: center; gap: 24px; padding: 0 16px; height: 52px; background: var(--panel); border-bottom: 1px solid var(--line); flex-shrink: 0; }
-  header h1 { font-size: 15px; font-weight: 650; margin: 0; letter-spacing: -0.01em; }
+  header h1 { font-size: 15px; font-weight: 650; margin: 0; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
+  header h1 img { width: 26px; height: 26px; border-radius: 6px; }
   nav { display: flex; gap: 4px; }
   nav button { border: 0; background: none; padding: 6px 12px; border-radius: 6px; color: var(--muted); cursor: pointer; font-weight: 500; }
   nav button:hover { color: var(--ink); background: var(--fill); }
@@ -126,7 +128,7 @@
 </head>
 <body>
 <header>
-  <h1>tsquare</h1>
+  <h1><img src="/mark.png" alt="">tsquare</h1>
   <nav role="tablist">
     <button role="tab" data-view="editor" aria-selected="true">Editor</button>
     <button role="tab" data-view="components" aria-selected="false">Components</button>

@@ -21,6 +21,8 @@
 !/docs/**/*.md
 !/docs/components/images/*.png
 !/docs/*.png
+!/assets/*.png
+!/assets/*.svg
 !/examples/*.tsq
 !/examples/*.png
 

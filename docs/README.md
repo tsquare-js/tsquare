@@ -1,3 +1,5 @@
+<p align="center"><img src="../assets/logo.png" alt="tsquare" width="140"></p>
+
 # tsquare docs
 
 tsquare is a small text language for UI wireframes. A `.tsq` file describes a board of screens; the `tsquare` CLI checks it and renders it to SVG or PNG. It's built for models to write, and easy for people to read and edit.

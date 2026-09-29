@@ -78,6 +78,11 @@ async function handle(req: IncomingMessage, res: ServerResponse) {
     res.end(await readFile(path.join(here, "index.html")));
     return;
   }
+  if (req.method === "GET" && url.pathname === "/mark.png") {
+    res.writeHead(200, { "content-type": "image/png", "cache-control": "max-age=3600" });
+    res.end(await readFile(path.join(root, "assets", "mark.png")));
+    return;
+  }
   if (req.method === "GET" && url.pathname === "/api/reference") return json(res, 200, await reference());
   if (req.method === "GET" && url.pathname === "/api/examples") return json(res, 200, await examples());
   if (req.method === "GET" && url.pathname === "/api/prompt") {

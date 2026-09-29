@@ -1,3 +1,5 @@
+<p align="center"><img src="https://raw.githubusercontent.com/tsquare-js/tsquare/main/assets/logo.png" alt="tsquare" width="160"></p>
+
 # tsquare
 
 Wireframes in plain text: easy for LLMs to write, fast to render as SVG or PNG. A small text language for low-fidelity screens, with several devices side by side and notes beside them. Built for LLMs to write: the prompt comes from the component catalog, and errors come back with line numbers so a model can fix its own output.
