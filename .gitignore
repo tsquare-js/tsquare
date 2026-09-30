@@ -13,8 +13,9 @@
 !/src/**/*.ts
 !/src/**/*.tsx
 !/bin/*.js
-!/playground/*.ts
-!/playground/*.html
+!/src/**/*.html
+!/scripts/*.ts
+!/tsconfig.build.json
 !/skill/*.ts
 !/skill/tsquare/*.md
 !/docs/*.ts

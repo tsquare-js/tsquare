@@ -17,7 +17,7 @@ Replies come back as a ```` ```tsquare ```` code block. You can render a reply a
 If a reply has problems, send them back to the model. The errors name the line and the valid options, which is usually enough for a model to fix its output in one round:
 
 ```ts
-import { wireframePrompt, repairPrompt, compileWireframe, formatIssues, renderWireframe } from "./src";
+import { wireframePrompt, repairPrompt, compileWireframe, formatIssues, renderWireframe } from "tsquare";
 
 const system = wireframePrompt();
 let reply = await callModel(system, [{ role: "user", content: "A settings screen with toggles" }]);
@@ -28,13 +28,13 @@ if (issues.length) reply = await callModel(system, [...history, { role: "user", 
 const png = await renderWireframe(reply, { format: "png", scale: 2 });
 ```
 
-The library API is TypeScript and isn't built for importing from npm yet, so for now use it from a checkout of the repo, or run `tsquare check` and `tsquare render` from your own code.
+Install it with `npm install tsquare`. It needs Node 20 or newer.
 
 ## The Claude skill
 
 `skill/tsquare/` in the repo is a Claude skill. It teaches Claude the language and a workflow: write the `.tsq` file, run `tsquare check` and fix every line it reports, run `tsquare render`, then look at the PNG for problems the checker can't see, such as content cut off at the bottom of a screen.
 
-To install it, copy the folder to `~/.claude/skills/tsquare` (all projects) or `<project>/.claude/skills/tsquare` (one project), and make sure the `tsquare` command works in that environment.
+To install it, copy the folder to `~/.claude/skills/tsquare` (all projects) or `<project>/.claude/skills/tsquare` (one project), and make sure `npx tsquare` runs in that environment.
 
 ## How well models write it
 

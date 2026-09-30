@@ -1,6 +1,6 @@
 import React, { Children, cloneElement, isValidElement, type CSSProperties, type ReactNode } from "react";
-import { paletteFor, TONES, type Palette } from "./colors";
-import { iconNode } from "./icons";
+import { paletteFor, TONES, type Palette } from "./colors.js";
+import { iconNode } from "./icons.js";
 import type { ComponentRenderProps } from "@json-render/image";
 import {
   BOARD_GAP,
@@ -10,7 +10,7 @@ import {
   TITLE_H,
   screenSize,
   theme as t,
-} from "./layout";
+} from "./layout.js";
 
 /**
  * Satori renders a subset of CSS. Rules followed here:

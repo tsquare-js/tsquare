@@ -29,14 +29,14 @@ Requires Node 20 or newer. To work on tsquare itself, clone the repo, run `npm i
 ## Playground
 
 ```bash
-npm run playground   # http://localhost:4321
+npx tsquare playground   # http://localhost:4321
 ```
 
 - **Editor:** live render as you type, problems listed by line (click one to jump there), and SVG/PNG export. Paste a whole model reply and it keeps just the code block.
 - **Components:** every component with its props and a rendered example you can open in the editor. It's generated from the catalog, so it can't drift from what the renderer accepts.
 - **Prompt:** the system prompt for models, with a copy button.
 
-It renders on a local Node server using the same code as the CLI.
+It runs on a local server with the same renderer as the CLI. In this repo, `npm run playground` runs it from source.
 
 ## The language
 
@@ -95,13 +95,25 @@ tsquare render <file.tsq|-> [-o out.svg|out.png] [--scale 2]
 tsquare check  <file.tsq|->        # problems by line number
 tsquare fmt    <file.tsq|-> [-w]   # canonical formatting (drops comments)
 tsquare prompt                     # system prompt for models
+tsquare playground [--port 4321]   # live editor, component reference, prompt
 ```
 
 Use `-` to read from stdin. In this repo, run them through npm: `npm run check -- file.tsq`. Files use the `.tsq` extension; the CLI reads any text file.
 
+## Library
+
+```ts
+import { renderWireframe, compileWireframe, formatIssues } from "tsquare";
+
+const { issues } = compileWireframe(source);           // problems by line, empty when valid
+const png = await renderWireframe(source, { format: "png", scale: 2 });
+```
+
+`tsquare/playground` exports the playground's request handler, for hosting it inside your own Node server. See [Using it with AI](docs/ai.md) for the prompt and the repair loop.
+
 ## Using it with Claude (skill)
 
-`skill/tsquare/` is a Claude skill: the syntax, the component reference, and a workflow of write → `tsquare check` → `tsquare render` → look at the PNG and fix. Copy it to `~/.claude/skills/tsquare` (all projects) or `<project>/.claude/skills/tsquare`, and make the `tsquare` command available (`npm link` in this repo). Rebuild it after catalog changes with `npm run skill`.
+`skill/tsquare/` is a Claude skill: the syntax, the component reference, and a workflow of write → `tsquare check` → `tsquare render` → look at the PNG and fix. Copy it to `~/.claude/skills/tsquare` (all projects) or `<project>/.claude/skills/tsquare`, and make sure `npx tsquare` runs where Claude works. Rebuild it after catalog changes with `npm run skill`.
 
 ## How it works
 

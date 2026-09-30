@@ -1,8 +1,8 @@
 import { defineCatalog } from "@json-render/core";
 import { z } from "zod";
-import { ACCENTS, accentMessage, isAccent } from "./colors";
-import { isIcon, unknownIconMessage } from "./icons";
-import { wireframeSchema } from "./schema";
+import { ACCENTS, accentMessage, isAccent } from "./colors.js";
+import { isIcon, unknownIconMessage } from "./icons.js";
+import { wireframeSchema } from "./schema.js";
 
 // Every prop is optional so hand-written specs stay short.
 const o = <T extends z.ZodType>(t: T) => t.nullish();

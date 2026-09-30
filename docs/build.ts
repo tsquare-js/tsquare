@@ -17,7 +17,7 @@ import { bareWords } from "../src/text";
 import { createRequire } from "node:module";
 
 const LUCIDE_VERSION: string = createRequire(import.meta.url)("lucide/package.json").version;
-import { EXAMPLES, GROUPS } from "../playground/reference";
+import { EXAMPLES, GROUPS } from "../src/playground/reference";
 
 const docsDir = path.dirname(fileURLToPath(import.meta.url));
 const out = path.join(docsDir, "components");

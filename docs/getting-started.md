@@ -44,7 +44,7 @@ board "Login"
 
 ## The playground
 
-From a checkout of the repo, `npm install` and then `npm run playground` opens an editor at http://localhost:4321 that renders as you type, lists problems by line, and exports SVG and PNG. Its Components tab has every component with an example you can open in the editor.
+`npx tsquare playground` opens an editor at http://localhost:4321 that renders as you type, lists problems by line, and exports SVG and PNG. Its Components tab has every component with an example you can open in the editor.
 
 ## Next
 

@@ -19,7 +19,7 @@ tsquare is a small text language for UI wireframe boards. You write a `.tsq` fil
    Fix the `.tsq` and render again.
 5. **Deliver** the image path and the `.tsq` source, so the user can edit it later.
 
-If `tsquare` isn't found, stop and ask the user how it's installed. From a checkout of the repo, `npm link` makes the command available.
+If `tsquare` isn't installed, run it through npx (`npx tsquare check <name>.tsq`); it needs Node 20 or newer. If that fails, stop and ask the user how they want it installed.
 
 ## Keep in mind
 

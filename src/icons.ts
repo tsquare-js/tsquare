@@ -1,5 +1,5 @@
 import { icons } from "lucide";
-import { editDistance } from "./suggest";
+import { editDistance } from "./suggest.js";
 
 // Lucide exports icons in PascalCase (BarChart2); wireframes use kebab-case (bar-chart-2).
 const pascal = (s: string) => s.replace(/(^|[-_ ])(\w)/g, (_, __, c) => c.toUpperCase());

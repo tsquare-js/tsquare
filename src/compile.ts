@@ -1,6 +1,6 @@
 import type { Spec } from "@json-render/core";
-import { checkSpec, renderWireframePng, renderWireframeSvg } from "./render";
-import { parseWireframeText, type TextIssue } from "./text";
+import { checkSpec, renderWireframePng, renderWireframeSvg } from "./render.js";
+import { parseWireframeText, type TextIssue } from "./text.js";
 
 export interface CompileResult {
   /** The compiled spec, or null if the text couldn't be parsed at all. */

@@ -2,10 +2,10 @@
  * System prompt for models that write wireframe text. Built from the catalog,
  * so it always matches the components and props the renderer accepts.
  */
-import { componentDefinitions } from "./catalog";
-import { printWireframeText } from "./print";
-import { exampleSpec } from "./prompt-example";
-import { PRIMARY_PROP } from "./text";
+import { componentDefinitions } from "./catalog.js";
+import { printWireframeText } from "./print.js";
+import { exampleSpec } from "./prompt-example.js";
+import { PRIMARY_PROP } from "./text.js";
 
 function unwrap(t: any): any {
   let cur = t;

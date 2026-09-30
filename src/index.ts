@@ -1,11 +1,11 @@
 // Main API: wireframe text in, SVG/PNG out.
-export { renderWireframe, compileWireframe, formatIssues, WireframeError } from "./compile";
-export { wireframePrompt, repairPrompt } from "./prompt";
-export { printWireframeText as formatWireframe } from "./print";
+export { renderWireframe, compileWireframe, formatIssues, WireframeError, type CompileResult } from "./compile.js";
+export { wireframePrompt, repairPrompt } from "./prompt.js";
+export { printWireframeText as formatWireframe } from "./print.js";
 
 // Lower level: the compiled spec and the pieces used to render it.
-export { renderWireframeSvg, renderWireframePng, checkSpec, boardSize } from "./render";
-export { parseWireframeText } from "./text";
-export { catalog, componentDefinitions } from "./catalog";
-export { registry } from "./components";
-export { theme, DEVICES } from "./layout";
+export { renderWireframeSvg, renderWireframePng, checkSpec, boardSize, type RenderWireframeOptions } from "./render.js";
+export { parseWireframeText, type TextIssue, type ParseResult } from "./text.js";
+export { catalog, componentDefinitions } from "./catalog.js";
+export { registry } from "./components.js";
+export { theme, DEVICES } from "./layout.js";

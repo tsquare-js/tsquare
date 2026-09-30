@@ -2,8 +2,8 @@
  * The only colors a wireframe can set: a board-level accent and a few fixed
  * status tones. Everything else stays grayscale.
  */
-import { theme } from "./layout";
-import { closeMatches } from "./suggest";
+import { theme } from "./layout.js";
+import { closeMatches } from "./suggest.js";
 
 /** Named accents. Each keeps white text above 4.5:1 contrast. */
 export const ACCENTS = {

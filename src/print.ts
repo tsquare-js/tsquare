@@ -1,6 +1,6 @@
 import type { Spec } from "@json-render/core";
-import { componentDefinitions } from "./catalog";
-import { PRIMARY_PROP } from "./text";
+import { componentDefinitions } from "./catalog.js";
+import { PRIMARY_PROP } from "./text.js";
 
 const BARE_WORD = /^[A-Za-z][\w-]*$/;
 /** Props whose values read naturally as bare words (phone, primary, row, sm, left…). */
