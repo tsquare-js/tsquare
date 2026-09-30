@@ -42,11 +42,11 @@ export const NOTE_WIDTH = 220;
 export function screenSize(props: Record<string, any> = {}) {
   const device: Device = props.device ?? "phone";
   const base = DEVICES[device] ?? DEVICES.phone;
-  const custom = device === "custom";
+  // width/height override any preset: `screen phone height=1400` is a long scrolling phone page
   return {
     device,
-    width: (custom ? props.width : null) ?? base.width,
-    height: (custom ? props.height : null) ?? base.height,
+    width: props.width ?? base.width,
+    height: props.height ?? base.height,
     radius: base.radius,
     padding: props.padding ?? base.padding,
     chrome: props.chrome ?? (device === "phone" || device === "desktop"),

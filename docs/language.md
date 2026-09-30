@@ -118,9 +118,9 @@ Lines starting with ```` ``` ```` are ignored, so a model's reply in a code bloc
 | `desktop` | 1280 × 800 | browser bar |
 | `custom` | `width` × `height`, default 800 × 600 | none |
 
-Turn the top bar on or off with `chrome` or `no-chrome`. `width` and `height` only apply to `custom` screens.
+Turn the top bar on or off with `chrome` or `no-chrome`. `width` and `height` override any device's size: `screen phone "Article" height=1400` is a phone showing a long scrolling page.
 
-Screens have a **fixed height**. Content that doesn't fit is cut off at the bottom, and nothing warns about it, so check the render. Split long content across screens, or use a taller `custom` screen.
+Screens have a **fixed height**. Content that doesn't fit is cut off at the bottom, and nothing warns about it, so check the render. Split long content across screens, or give the screen a larger `height`.
 
 ## Checking and errors
 

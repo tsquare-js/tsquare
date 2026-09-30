@@ -31,7 +31,7 @@ tsquare is a small text language for UI wireframe boards. You write a \`.tsq\` f
 2. **Check:** \`tsquare check <name>.tsq\`. It lists problems by line, with the valid options or a "did you mean". Fix every one and check again until it says the file is valid.
 3. **Render:** \`tsquare render <name>.tsq -o <name>.png --scale 2\` (use \`-o <name>.svg\` for docs that take SVG).
 4. **Look at the PNG** before showing it. The checker can't see layout, so check for:
-   - content cut off at the bottom of a screen (screens have a fixed height; nothing warns about clipping). Remove content, split it into another screen, or use \`device=custom\` with a larger \`height\`.
+   - content cut off at the bottom of a screen (screens have a fixed height; nothing warns about clipping). Remove content, split it into another screen, or give the screen a larger \`height\` (it works on any device).
    - cramped rows, or text squeezed into narrow columns.
    - anything the request asked for that's missing.
    Fix the \`.tsq\` and render again.
