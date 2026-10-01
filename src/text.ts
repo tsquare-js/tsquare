@@ -21,8 +21,8 @@
  */
 import type { Spec } from "@json-render/core";
 import { z } from "zod";
-import { componentDefinitions } from "./catalog";
-import { unknownComponentMessage } from "./suggest";
+import { componentDefinitions } from "./catalog.js";
+import { unknownComponentMessage } from "./suggest.js";
 
 /** Which prop a quoted string fills, per component. */
 export const PRIMARY_PROP: Record<string, string> = {

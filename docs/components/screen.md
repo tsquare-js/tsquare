@@ -30,8 +30,8 @@ board
 |---|---|---|
 | `name` *(main text)* | string | Label shown above the screen |
 | `device` | phone, tablet, desktop, custom |  |
-| `width` | number | Only for device=custom |
-| `height` | number | Only for device=custom |
+| `width` | number | Overrides the device width |
+| `height` | number | Overrides the device height, e.g. height=1400 for a long scrolling page |
 | `chrome` | boolean | Phone status bar / desktop browser bar. Default true for phone and desktop. |
 | `padding` | number |  |
 | `gap` | number |  |

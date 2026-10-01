@@ -15,8 +15,8 @@ Root canvas (artboard). Holds Screens side by side, plus optional Notes. Must be
 One view of the product in a device frame. Children stack vertically.
 - name: string (main text) — Label shown above the screen
 - device: "phone" | "tablet" | "desktop" | "custom"
-- width: number — Only for device=custom
-- height: number — Only for device=custom
+- width: number — Overrides the device width
+- height: number — Overrides the device height, e.g. height=1400 for a long scrolling page
 - chrome: boolean — Phone status bar / desktop browser bar. Default true for phone and desktop.
 - padding: number
 - gap: number

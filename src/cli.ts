@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { compileWireframe, formatIssues, renderWireframe, WireframeError } from "./compile";
-import { printWireframeText } from "./print";
-import { wireframePrompt } from "./prompt";
+import { compileWireframe, formatIssues, renderWireframe, WireframeError } from "./compile.js";
+import { printWireframeText } from "./print.js";
+import { wireframePrompt } from "./prompt.js";
 
 const USAGE = `tsquare — render wireframe text to SVG or PNG
 
@@ -11,6 +11,7 @@ const USAGE = `tsquare — render wireframe text to SVG or PNG
   tsquare check  <file.tsq|->      report problems by line number
   tsquare fmt    <file.tsq|-> [-w] print in canonical form (-w rewrites the file; drops comments)
   tsquare prompt                   print the system prompt for models
+  tsquare playground [--port 4321] open the playground: live editor, component reference, prompt
 
 Use - to read from stdin. Code fences (\`\`\`) in the input are ignored.
 `;
@@ -30,6 +31,11 @@ async function main(argv: string[]) {
   };
   const file = rest.find((a, i) => (a === "-" || !a.startsWith("-")) && !["-o", "--scale"].includes(rest[i - 1]));
 
+  if (cmd === "playground") {
+    const { startPlayground } = await import("./playground/index.js");
+    startPlayground(Number(flag("--port") ?? 4321));
+    return;
+  }
   if (cmd === "prompt") {
     process.stdout.write(wireframePrompt() + "\n");
     return;

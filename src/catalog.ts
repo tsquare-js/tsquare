@@ -1,8 +1,8 @@
 import { defineCatalog } from "@json-render/core";
 import { z } from "zod";
-import { ACCENTS, accentMessage, isAccent } from "./colors";
-import { isIcon, unknownIconMessage } from "./icons";
-import { wireframeSchema } from "./schema";
+import { ACCENTS, accentMessage, isAccent } from "./colors.js";
+import { isIcon, unknownIconMessage } from "./icons.js";
+import { wireframeSchema } from "./schema.js";
 
 // Every prop is optional so hand-written specs stay short.
 const o = <T extends z.ZodType>(t: T) => t.nullish();
@@ -35,8 +35,8 @@ export const componentDefinitions = {
     props: z.object({
       name: o(z.string()).describe("Label shown above the screen"),
       device: o(z.enum(["phone", "tablet", "desktop", "custom"])),
-      width: o(z.number()).describe("Only for device=custom"),
-      height: o(z.number()).describe("Only for device=custom"),
+      width: o(z.number()).describe("Overrides the device width"),
+      height: o(z.number()).describe("Overrides the device height, e.g. height=1400 for a long scrolling page"),
       chrome: o(z.boolean()).describe("Phone status bar / desktop browser bar. Default true for phone and desktop."),
       padding: o(z.number()),
       gap: o(z.number()),

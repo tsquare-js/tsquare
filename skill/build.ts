@@ -31,13 +31,13 @@ tsquare is a small text language for UI wireframe boards. You write a \`.tsq\` f
 2. **Check:** \`tsquare check <name>.tsq\`. It lists problems by line, with the valid options or a "did you mean". Fix every one and check again until it says the file is valid.
 3. **Render:** \`tsquare render <name>.tsq -o <name>.png --scale 2\` (use \`-o <name>.svg\` for docs that take SVG).
 4. **Look at the PNG** before showing it. The checker can't see layout, so check for:
-   - content cut off at the bottom of a screen (screens have a fixed height; nothing warns about clipping). Remove content, split it into another screen, or use \`device=custom\` with a larger \`height\`.
+   - content cut off at the bottom of a screen (screens have a fixed height; nothing warns about clipping). Remove content, split it into another screen, or give the screen a larger \`height\` (it works on any device).
    - cramped rows, or text squeezed into narrow columns.
    - anything the request asked for that's missing.
    Fix the \`.tsq\` and render again.
 5. **Deliver** the image path and the \`.tsq\` source, so the user can edit it later.
 
-If \`tsquare\` isn't found, stop and ask the user how it's installed. From a checkout of the repo, \`npm link\` makes the command available.
+If \`tsquare\` isn't installed, run it through npx (\`npx tsquare check <name>.tsq\`); it needs Node 20 or newer. If that fails, stop and ask the user how they want it installed.
 
 ## Keep in mind
 

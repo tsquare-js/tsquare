@@ -2,10 +2,10 @@ import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import type { Spec } from "@json-render/core";
 import { renderToSvg } from "@json-render/image/render";
-import { catalog, componentDefinitions } from "./catalog";
-import { withPalette } from "./components";
-import { paletteFor } from "./colors";
-import { unknownComponentMessage } from "./suggest";
+import { catalog, componentDefinitions } from "./catalog.js";
+import { withPalette } from "./components.js";
+import { paletteFor } from "./colors.js";
+import { unknownComponentMessage } from "./suggest.js";
 import {
   BOARD_GAP,
   BOARD_PADDING,
@@ -14,7 +14,7 @@ import {
   TITLE_H,
   estimateNoteHeight,
   screenSize,
-} from "./layout";
+} from "./layout.js";
 
 // Inter from @fontsource/inter, pinned to an exact version: a font change shifts
 // text metrics and line wraps, so treat a bump like a renderer change.
