@@ -1,3 +1,4 @@
+/// <reference types="node" preserve="true" />
 // Main API: wireframe text in, SVG/PNG out.
 export { renderWireframe, compileWireframe, formatIssues, WireframeError, type CompileResult } from "./compile.js";
 export { wireframePrompt, repairPrompt } from "./prompt.js";

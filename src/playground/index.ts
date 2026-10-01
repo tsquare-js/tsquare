@@ -1,3 +1,4 @@
+/// <reference types="node" preserve="true" />
 /**
  * The playground: an editor with live rendering, the component reference and
  * the model prompt. Ships in the package so it runs locally (`tsquare
@@ -124,6 +125,12 @@ export function createPlaygroundHandler() {
 
 /** Runs the playground on localhost. */
 export function startPlayground(port = 4321) {
+  // The build checks these too; checking here covers running from source (npm run playground).
+  const problems = checkReferenceExamples();
+  if (problems.length) {
+    console.error(`Reference examples need fixing:\n\n${problems.join("\n")}`);
+    process.exit(1);
+  }
   const handle = createPlaygroundHandler();
   const server = createServer((req, res) => {
     handle(req, res)

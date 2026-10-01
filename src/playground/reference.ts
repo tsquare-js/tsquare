@@ -1,8 +1,8 @@
 /**
- * Examples for the playground's component reference. Each one is a complete
- * wireframe so it can be opened in the editor as-is. `npm run playground`
- * refuses to start if any of them fails to compile, and every component in the
- * catalog must have one.
+ * Examples for the playground's Components tab and the generated component
+ * docs. Each one is a complete wireframe so it can be opened in the editor
+ * as-is. Every catalog component needs one, in a group, and each must compile:
+ * `npm run build` fails otherwise, and the playground refuses to start.
  */
 
 export const GROUPS: { name: string; components: string[] }[] = [
