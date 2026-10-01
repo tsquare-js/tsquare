@@ -44,7 +44,7 @@ board "Login"
 
 ## The playground
 
-`npx tsquare playground` opens an editor at http://localhost:4321 that renders as you type, lists problems by line, and exports SVG and PNG. Its Components tab has every component with an example you can open in the editor.
+Try it online at [tsquare.dev/playground](https://tsquare.dev/playground), or run `npx tsquare playground` for a local copy at http://localhost:4321. The editor autocompletes components, options and icons and underlines problems as you type, the preview zooms in on any screen, and **Copy link** makes a share link or an image link you can paste into Notion, GitHub or your docs. Its Components tab has every component with an example you can open in the editor.
 
 ## Next
 

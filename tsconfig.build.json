@@ -8,5 +8,5 @@
     "rootDir": "src"
   },
   "include": ["src"],
-  "exclude": ["src/cli.ts"]
+  "exclude": ["src/cli.ts", "src/playground/app.ts", "src/playground/editor.ts"]
 }

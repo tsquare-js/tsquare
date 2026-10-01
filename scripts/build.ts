@@ -4,6 +4,7 @@
  *   dist/cli.js               the CLI (bin/tsquare.js runs it)
  *   dist/playground/index.js  the playground handler (import … from "tsquare/playground")
  *   dist/playground/index.html
+ *   dist/playground/playground.js   the page's script (browser bundle)
  *   dist/**\/*.d.ts           type declarations
  *
  *   npm run build
@@ -11,7 +12,7 @@
 import { execFileSync } from "node:child_process";
 import { copyFileSync, mkdirSync, rmSync } from "node:fs";
 import { build } from "esbuild";
-import { checkReferenceExamples } from "../src/playground/index";
+import { PLAYGROUND_BUNDLE, checkReferenceExamples } from "../src/playground/index";
 
 const problems = checkReferenceExamples();
 if (problems.length) {
@@ -38,6 +39,8 @@ await build({
 
 mkdirSync("dist/playground", { recursive: true });
 copyFileSync("src/playground/index.html", "dist/playground/index.html");
+// The playground page's script: CodeMirror and the UI, for the browser
+await build({ ...PLAYGROUND_BUNDLE, entryPoints: ["src/playground/app.ts"], outfile: "dist/playground/playground.js", logLevel: "warning" });
 
 execFileSync("npx", ["tsc", "-p", "tsconfig.build.json"], { stdio: "inherit" });
 console.log("built dist/");

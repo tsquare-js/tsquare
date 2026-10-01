@@ -8,11 +8,13 @@
  * `createPlaygroundHandler`:
  *
  *   GET  /                   the page
+ *   GET  /playground.js      the page's script (CodeMirror editor and UI), bundled by the build
  *   GET  /mark.png           the logo mark (tab icon, header)
+ *   GET  /api/language       what the editor needs to highlight and autocomplete
  *   GET  /api/reference      components, props and rendered examples
  *   GET  /api/examples       the example wireframes
  *   GET  /api/prompt         the model prompt
- *   POST /api/render         wireframe text → { issues, svg? }
+ *   POST /api/render         wireframe text → { issues, svg?, width?, height?, items? } (items: where each screen sits)
  *   POST /api/png?scale=2    wireframe text → image/png
  */
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
@@ -21,7 +23,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { compileWireframe, formatIssues } from "../compile.js";
 import { componentDocs, wireframePrompt } from "../prompt.js";
-import { renderWireframePng, renderWireframeSvg } from "../render.js";
+import { boardLayout, renderWireframePng, renderWireframeSvg } from "../render.js";
+import { languageData } from "./language-data.js";
 import { EXAMPLES, GROUPS } from "./reference.js";
 
 // Same layout in src/ (development) and dist/ (published): the page sits next
@@ -43,6 +46,35 @@ export function checkReferenceExamples(): string[] {
   }
   return problems;
 }
+
+/**
+ * The page's script. Published packages ship it pre-built next to this module;
+ * running from source (npm run playground), it's bundled on first request.
+ */
+let scriptCache: Promise<string> | null = null;
+function playgroundScript() {
+  scriptCache ??= (async () => {
+    const built = path.join(here, "playground.js");
+    try {
+      return await readFile(built, "utf8");
+    } catch {
+      const { build } = await import("esbuild"); // dev dependency, only needed from source
+      const out = await build({ ...PLAYGROUND_BUNDLE, entryPoints: [path.join(here, "app.ts")], write: false });
+      return out.outputFiles[0].text;
+    }
+  })();
+  return scriptCache;
+}
+
+/** esbuild options for the browser bundle; shared with scripts/build.ts. */
+export const PLAYGROUND_BUNDLE = {
+  bundle: true,
+  format: "esm" as const,
+  platform: "browser" as const,
+  target: "es2022",
+  minify: true,
+  legalComments: "eof" as const,
+};
 
 let referenceCache: Promise<unknown> | null = null;
 function reference() {
@@ -95,6 +127,12 @@ export function createPlaygroundHandler() {
       res.end(await readFile(path.join(here, "index.html")));
       return true;
     }
+    if (req.method === "GET" && url.pathname === "/playground.js") {
+      res.writeHead(200, { "content-type": "text/javascript; charset=utf-8" });
+      res.end(await playgroundScript());
+      return true;
+    }
+    if (req.method === "GET" && url.pathname === "/api/language") return json(res, 200, languageData());
     if (req.method === "GET" && url.pathname === "/mark.png") {
       res.writeHead(200, { "content-type": "image/png", "cache-control": "max-age=3600" });
       res.end(await readFile(path.join(packageRoot, "assets", "mark.png")));
@@ -111,7 +149,8 @@ export function createPlaygroundHandler() {
       const { spec, issues } = compileWireframe(await readBody(req));
       if (url.pathname === "/api/render") {
         if (!spec || issues.length) return json(res, 200, { issues });
-        return json(res, 200, { issues, svg: await renderWireframeSvg(spec, { skipValidation: true }) });
+        const { width, height, items } = boardLayout(spec);
+        return json(res, 200, { issues, svg: await renderWireframeSvg(spec, { skipValidation: true }), width, height, items });
       }
       if (!spec || issues.length) return json(res, 400, { issues });
       const scale = Math.min(4, Math.max(1, Number(url.searchParams.get("scale") ?? 2)));

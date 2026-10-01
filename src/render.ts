@@ -115,8 +115,23 @@ export function checkSpec(spec: Spec): string[] {
   return issues;
 }
 
-/** Work out the canvas size from the Board's screens (Satori needs it up front). */
-export function boardSize(spec: Spec) {
+export interface BoardItem {
+  type: "Screen" | "Note";
+  /** Screen name or note text, for labels in tools like the playground. */
+  name: string;
+  /** Box on the board in px, including the screen's name label above its frame. */
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+/**
+ * Where everything sits on the board: the canvas size (Satori needs it up
+ * front) and each screen's and note's box, laid out in rows exactly as the
+ * Board component does.
+ */
+export function boardLayout(spec: Spec): { width: number; height: number; items: BoardItem[] } {
   const board = spec.elements[spec.root];
   const p = (board.props ?? {}) as Record<string, any>;
   const gap = p.gap ?? BOARD_GAP;
@@ -127,27 +142,37 @@ export function boardSize(spec: Spec) {
     const props = (el.props ?? {}) as Record<string, any>;
     if (el.type === "Screen") {
       const s = screenSize(props);
-      return { w: s.width, h: s.height + LABEL_H };
+      return { type: "Screen" as const, name: String(props.name ?? ""), w: s.width, h: s.height + LABEL_H };
     }
     if (el.type === "Note") {
       const w = props.width ?? NOTE_WIDTH;
-      return { w, h: LABEL_H + estimateNoteHeight(props.text ?? "", w) };
+      return { type: "Note" as const, name: String(props.text ?? ""), w, h: LABEL_H + estimateNoteHeight(props.text ?? "", w) };
     }
-    return { w: 0, h: 0 };
+    return null;
   });
 
   const perRow = p.layout === "grid" ? Math.max(1, p.columns ?? 3) : Math.max(1, boxes.length);
+  const items: BoardItem[] = [];
   let width = 0;
-  let height = 0;
+  let y = pad + (p.title ? TITLE_H : 0);
   for (let i = 0; i < boxes.length; i += perRow) {
     const row = boxes.slice(i, i + perRow);
-    width = Math.max(width, row.reduce((sum, b) => sum + b.w, 0) + gap * (row.length - 1));
-    height += Math.max(...row.map((b) => b.h)) + (i > 0 ? gap : 0);
+    if (i > 0) y += gap;
+    let x = pad;
+    for (const b of row) {
+      if (b) items.push({ type: b.type, name: b.name, x, y, width: b.w, height: b.h });
+      x += (b?.w ?? 0) + gap;
+    }
+    width = Math.max(width, row.reduce((sum, b) => sum + (b?.w ?? 0), 0) + gap * (row.length - 1));
+    y += Math.max(...row.map((b) => b?.h ?? 0));
   }
-  return {
-    width: Math.ceil(width + pad * 2),
-    height: Math.ceil(height + pad * 2 + (p.title ? TITLE_H : 0)),
-  };
+  return { width: Math.ceil(width + pad * 2), height: Math.ceil(y + pad), items };
+}
+
+/** The canvas size for a board. */
+export function boardSize(spec: Spec) {
+  const { width, height } = boardLayout(spec);
+  return { width, height };
 }
 
 export interface RenderWireframeOptions {
