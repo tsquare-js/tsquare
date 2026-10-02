@@ -1,0 +1,15 @@
+board "Notes list states"
+  screen phone "Empty"
+    navbar "Notes"
+    stack gap=24 align=center justify=center grow
+      text size=lg "📝"
+      heading "No notes yet" level=2
+      text "Create your first note to get started" align=center muted
+      button "Create note" variant=primary
+  screen phone "Error"
+    navbar "Notes"
+    stack gap=24 align=center justify=center grow
+      text size=lg "⚠️"
+      heading "Something went wrong" level=2
+      text "Unable to load your notes. Please try again." align=center muted
+      button "Retry" variant=primary

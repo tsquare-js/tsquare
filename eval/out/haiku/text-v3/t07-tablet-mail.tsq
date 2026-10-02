@@ -1,0 +1,21 @@
+```tsquare
+board "Email client"
+  screen tablet
+    stack row gap=0
+      stack width=320 border=right
+        navbar "Inbox" leading=menu
+        list dividers
+          listitem "Sarah Johnson" subtitle="Thanks for the update..." trailingText="10:30"
+          listitem "Alex Chen" subtitle="Meeting tomorrow at 2 PM" trailingText="Yesterday"
+          listitem "Marketing Team" subtitle="Campaign results are in" trailingText="2 days ago"
+          listitem "John Smith" subtitle="Please review the document" trailingText="3 days ago"
+      stack grow padding=20 gap=16
+        heading "Thanks for the update..." level=2
+        text "From: Sarah Johnson" size=sm muted
+        text "To: me@example.com" size=sm muted
+        divider
+        text "Thanks for sending over the latest draft. I've reviewed it and have some feedback..."
+        stack row gap=8
+          button secondary "Reply"
+          button ghost "Forward"
+```

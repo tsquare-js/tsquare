@@ -1,0 +1,21 @@
+```tsquare
+board "User management"
+  screen desktop "Users"
+    navbar "Users" actions=[search, bell]
+    stack padding=16 gap=12
+      tabs items=[Active, Invited, Suspended] active=0
+      table columns=[Name, Email, Role, Status] data=[[Ana Torres, ana@acme.com, Admin, Active], [Ben Carter, ben@acme.com, Editor, Active], [Chloe Nguyen, chloe@acme.com, Viewer, Active], [Dev Patel, dev@acme.com, Editor, Active]]
+  screen desktop "Users with filters"
+    navbar "Users" actions=[search, bell]
+    stack padding=16 gap=12
+      tabs items=[Active, Invited, Suspended] active=0
+      table columns=[Name, Email, Role, Status] data=[[Ana Torres, ana@acme.com, Admin, Active], [Ben Carter, ben@acme.com, Editor, Active], [Chloe Nguyen, chloe@acme.com, Viewer, Active], [Dev Patel, dev@acme.com, Editor, Active]]
+    drawer right "Filters" size=320
+      select "Role" value="Any"
+      select "Status" value="Active"
+      input "Search" type=search placeholder="Name or email"
+      checkbox "Admins only"
+      stack row gap=8
+        button secondary "Reset"
+        button primary "Apply"
+```

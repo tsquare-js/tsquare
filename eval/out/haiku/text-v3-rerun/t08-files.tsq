@@ -1,0 +1,16 @@
+```tsquare
+board "Files"
+  screen desktop "File manager" chrome
+    navbar "Files" leading=menu
+    stack column padding=20 gap=12 grow
+      table columns=[Name, Type, Size, Modified] rows=8
+    drawer right "Details" size=280
+      stack column padding=16 gap=12
+        heading "filename.pdf" level=3
+        text "Size: 2.4 MB" sm muted
+        text "Modified: Oct 1, 2024" sm muted
+        divider
+        button secondary "Download" fullWidth
+        button secondary "Share" fullWidth
+        button secondary "Delete" fullWidth
+```

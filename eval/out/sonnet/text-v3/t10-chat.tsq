@@ -1,0 +1,23 @@
+```tsquare
+board "Chat"
+  screen phone "Conversation"
+    navbar "Ana Torres" leading=back actions=[phone, more-vertical]
+    stack padding=16 gap=12 grow
+      stack row gap=8
+        avatar "AT" size=32
+        card padding=10 variant=filled
+          text "Hey! Are we still on for today?"
+      stack row justify=end
+        card padding=10
+          text "Yes, see you at 6."
+      stack row gap=8
+        avatar "AT" size=32
+        card padding=10 variant=filled
+          text "Perfect, see you then."
+      stack row justify=end
+        card padding=10
+          text "Can't wait!"
+    stack row gap=8 padding=12 align=center border=top
+      input placeholder="Message" grow
+      button primary leadingIcon=send "Send"
+```

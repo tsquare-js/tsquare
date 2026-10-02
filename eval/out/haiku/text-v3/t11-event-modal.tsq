@@ -1,0 +1,12 @@
+board "Calendar"
+  screen desktop "New event"
+    stack padding=40
+      heading "New event" level=1
+      input "Event title" placeholder="Meeting name"
+      stack row gap=16
+        input "Date" value="Oct 2, 2026" width=200
+        input "Time" value="2:00 PM" width=200
+      input "Description" placeholder="Add notes" multiline=3
+      stack row gap=12 justify=end
+        button "Cancel" variant=secondary
+        button "Save" variant=primary

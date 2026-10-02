@@ -1,0 +1,22 @@
+board "Project settings"
+  screen desktop "Settings"
+    stack row grow
+      stack width=220 border=right fill padding=16 gap=8
+        text "General" bold
+        text "Members" muted
+        text "Billing" muted
+        text "Danger zone" muted
+      stack grow padding=24 gap=16
+        heading "Project settings" level=1
+        input "Project name" value="Apollo"
+        select "Visibility" value="Private"
+        button primary "Save changes"
+        card "Danger zone" padding=16
+          text "Deleting this project permanently removes all of its data. This cannot be undone."
+          button secondary "Delete project" leadingIcon=trash-2
+    modal "Delete project" width=440
+      text "This action cannot be undone. Type the project name to confirm."
+      input "Type Apollo to confirm" placeholder="Apollo"
+      stack row gap=8 justify=end
+        button secondary "Cancel"
+        button primary "Delete"

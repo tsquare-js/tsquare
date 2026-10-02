@@ -1,0 +1,30 @@
+board "Pricing"
+  screen desktop "Pricing" height=800
+    stack align=center gap=16 padding=24
+      heading "Choose your plan" level=1 align=center
+      tabs items=[Monthly, Yearly] active=0
+    stack row gap=16 padding=24
+      card "Starter" padding=16 grow
+        heading "$9/mo" level=2
+        text sm "For individuals" muted
+        list
+          listitem "1 project" leadingIcon=check
+          listitem "Basic analytics" leadingIcon=check
+          listitem "Email support" leadingIcon=check
+        button secondary "Choose Starter" fullWidth
+      card "Pro" padding=16 grow
+        heading "$29/mo" level=2
+        text sm "For growing teams" muted
+        list
+          listitem "10 projects" leadingIcon=check
+          listitem "Advanced analytics" leadingIcon=check
+          listitem "Priority support" leadingIcon=check
+        button primary "Choose Pro" fullWidth
+      card "Enterprise" padding=16 grow
+        heading "$99/mo" level=2
+        text sm "For large organizations" muted
+        list
+          listitem "Unlimited projects" leadingIcon=check
+          listitem "Custom reports" leadingIcon=check
+          listitem "Dedicated manager" leadingIcon=check
+        button secondary "Choose Enterprise" fullWidth

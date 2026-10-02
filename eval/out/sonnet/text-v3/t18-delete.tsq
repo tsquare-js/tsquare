@@ -1,0 +1,19 @@
+```tsquare
+board "Project settings"
+  screen desktop "Settings"
+    navbar "Project settings" leading=logo actions=[user]
+    stack padding=24 gap=16
+      heading "General" level=2
+      input "Project name" value="my-project"
+      input "Description" multiline=3
+      button primary "Save changes"
+      card "Danger zone" padding=16 gap=8
+        text "Deleting this project is permanent and cannot be undone."
+        button secondary "Delete project"
+    modal "Delete project?" width=440
+      text "This will permanently delete the project. Type the project name to confirm."
+      input "Project name" placeholder="my-project"
+      stack row gap=8 justify=end
+        button secondary "Cancel"
+        button primary "Delete"
+```

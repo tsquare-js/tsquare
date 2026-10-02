@@ -1,0 +1,27 @@
+board "Ride hailing"
+  screen phone "Ride options"
+    image "Map" height=300
+    drawer bottom "Select ride" size=280
+      stack gap=12 padding=16
+        stack
+          text "Ride options" bold
+          text "Pick your ride" muted size=sm
+        card variant=outline padding=12 gap=8
+          stack row gap=12
+            text "Standard" bold
+            text "3 min away" muted size=sm
+          text "Estimated fare: $8.50"
+          button "Select" variant=ghost size=sm
+        card variant=outline padding=12 gap=8
+          stack row gap=12
+            text "Comfort" bold
+            text "5 min away" muted size=sm
+          text "Estimated fare: $12.00"
+          button "Select" variant=ghost size=sm
+        card variant=outline padding=12 gap=8
+          stack row gap=12
+            text "XL" bold
+            text "7 min away" muted size=sm
+          text "Estimated fare: $15.50"
+          button "Select" variant=ghost size=sm
+        button "Confirm ride" variant=primary fullWidth

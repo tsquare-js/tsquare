@@ -1,0 +1,27 @@
+board "Food delivery"
+  screen phone "Home"
+    navbar "FoodHub" actions=[bell]
+    input search placeholder="Search restaurants"
+    stack row gap=8 padding=12
+      badge outline "Pizza"
+      badge outline "Sushi"
+      badge outline "Burger"
+      badge outline "Thai"
+    grid columns=2 gap=12 padding=12
+      card padding=12
+        image height=120
+        text "Pizzeria Central" bold
+        text sm "4.5 stars • 25 min" muted
+      card padding=12
+        image height=120
+        text "Sushi Place" bold
+        text sm "4.8 stars • 30 min" muted
+      card padding=12
+        image height=120
+        text "Burger Joint" bold
+        text sm "4.2 stars • 20 min" muted
+      card padding=12
+        image height=120
+        text "Thai Garden" bold
+        text sm "4.6 stars • 35 min" muted
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Orders icon=shopping-bag}, {label=Account icon=user}] active=0

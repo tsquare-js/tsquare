@@ -1,0 +1,16 @@
+```tsquare
+board "Product page"
+  screen phone "Product"
+    navbar leading=back actions=[share]
+    stack padding=16 gap=16
+      image height=280 rounded
+      heading "Premium Wireless Headphones" level=1
+      text "$199.99" bold size=lg
+      select "Size" value="Standard" width=100%
+      button primary "Add to cart" fullWidth
+      heading "Reviews" level=2
+      list
+        listitem "Great quality!" trailingIcon=star
+        listitem "Perfect sound" trailingIcon=star
+        listitem "Comfortable fit" trailingIcon=star
+```

@@ -1,0 +1,13 @@
+```tsquare
+board "Login"
+  screen phone "Sign in"
+    stack padding=24 gap=16
+      spacer size=40
+      heading "Welcome back" level=1 align=center
+      input "Email" type=email placeholder="you@example.com"
+      input "Password" type=password placeholder="Enter your password"
+      stack row justify=between
+        checkbox "Remember me"
+        button ghost sm "Forgot password?"
+      button primary "Sign in" fullWidth
+```

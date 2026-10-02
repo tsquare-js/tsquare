@@ -1,0 +1,32 @@
+```tsquare
+board "Analytics dashboard"
+  screen desktop "Dashboard"
+    stack row grow
+      stack width=240 border=right fill padding=16 gap=8
+        heading "Analytics" level=3
+        list
+          listitem "Overview" leadingIcon=layout-dashboard
+          listitem "Orders" leadingIcon=shopping-cart
+          listitem "Customers" leadingIcon=users
+          listitem "Reports" leadingIcon=bar-chart
+          listitem "Settings" leadingIcon=settings
+      stack grow padding=20 gap=16
+        stack row align=center gap=12
+          input search placeholder="Search" grow
+          avatar "JD"
+        stack row gap=12
+          card title="Revenue" grow
+            heading "$24,500" level=2
+            text sm "+12%" muted
+          card title="Orders" grow
+            heading "1,240" level=2
+            text sm "+5%" muted
+          card title="Customers" grow
+            heading "860" level=2
+            text sm "+8%" muted
+          card title="Conversion" grow
+            heading "3.4%" level=2
+            text sm "-1%" muted
+        heading "Recent orders" level=2
+        table columns=[Order, Customer, Date, Status, Total] data=[[#1001, Ana Torres, Oct 1, Paid, "$120"], [#1002, Ben Lee, Oct 1, Pending, "$85"], [#1003, Chen Wu, Sep 30, Paid, "$240"], [#1004, Dana Ruiz, Sep 30, Refunded, "$60"]]
+```

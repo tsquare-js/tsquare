@@ -26,17 +26,23 @@ These numbers use today's stricter checks. Unknown icon names (`call`, `person`)
 
 `prompts/text-v2.md` is the library's prompt as of 0.3.0 (`npm run prompt`): the `leadingIcon`/`trailingIcon` names, comma lists, colors, `width` on inputs and cards. To separate the prompt from chance, each prompt was also run a second time with fresh subagents (`text-rerun` uses the old `prompts/text.md`, `text-v2-rerun` uses the new one). All runs are scored with today's checks.
 
-| Valid, first try | Old prompt, stored | Old prompt, rerun | 0.3.0 prompt | 0.3.0 prompt, rerun |
-|---|---|---|---|---|
-| Sonnet | 100% | 90% | 90% | 95% |
-| Haiku | 80% | 80% | 65% | 85% |
+Scored with today's parser, where comments are whole lines only (so `[#1001, …]` no longer breaks a table):
 
-- **No measurable difference between the prompts.** The old prompt scored 100% and 90% for Sonnet; the new one 90% and 95%. For Haiku, 80% and 80% against 65% and 85%. The same request can pass in one run and fail in the next, so a single run of 20 moves by 10–20 points.
-- **The rename works in practice.** With the new prompt, the models wrote 55 `leadingIcon`/`trailingIcon` and no old `icon=` on buttons or list items. With the old prompt, they wrote `icon=` 42 times, and every one still compiles: the backward compatibility holds on real model output.
-- **Recurring mistakes, across both prompts:**
-  - Sonnet's dashboard table fails in 3 of 4 runs with "unclosed [". Its order numbers (`[#1001, …]`) start a comment, because `#` after a space or `[` begins one. This is the parser's fault, not the model's.
-  - Haiku puts `fullWidth` on inputs (3 of 4 runs, old prompt included). Inputs already fill their width.
-  - Haiku occasionally guesses an icon (`call`, `compose`, `bag`), puts `grow`/`padding` on components that lack them, or nests a drawer in a stack.
+| Valid, first try | Old prompt ×2 (stored, rerun) | 0.3.0 prompt, first draft ×2 | 0.3.0 prompt, final ×2 |
+|---|---|---|---|
+| Sonnet | 100%, 95% | 95%, 100% | 95%, 95% |
+| Haiku | 80%, 80% | 65%, 85% | 70%, 65% |
+
+"First draft" is `prompts/text-v2.md`. "Final" (`text-v3.md`) adds the whole-line comment rule.
+
+- **Sonnet:** no difference between the prompts (95–100% in every run). The comment fix shows: the `[#1001, …]` order tables are valid in all 5 outputs that use them, and models wrote no comments at all.
+- **Haiku may be a little lower on the new prompt:** 80% and 80% on the old one, against 65–85% (average 71%) over four runs on the new one. A single run of 20 moves 10–20 points, so this is directional. None of Haiku's failures involve the rename or comments. They are the same few guesses:
+  - `fullWidth` on inputs: 4 of 6 runs, both prompts. The prompt's list of yes/no props (`checked, fullWidth, grow, muted`) doesn't say which component each belongs to.
+  - `padding` on headings, and `align` on buttons.
+  - Unknown icons: `call`, `compose`.
+  - A drawer nested in a stack, and a table's rows wrapped across lines.
+- **Sonnet's only failure:** `grow` on a select (both final runs). Inputs and stacks have `grow`, but selects don't.
+- **The rename works in practice.** With the new prompts, the models wrote `leadingIcon`/`trailingIcon` and never the old `icon=` on buttons or list items. With the old prompt, they wrote `icon=` 42 times, and every one still compiles.
 
 The stored outputs keep the `.wf` extension and the ```` ```wireframe ```` fence from before the project was named. They're the exact outputs that were scored, so they aren't renamed.
 

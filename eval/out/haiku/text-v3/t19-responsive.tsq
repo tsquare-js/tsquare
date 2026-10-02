@@ -1,0 +1,12 @@
+board "Notes list"
+  screen phone "Mobile"
+    navbar "Notes"
+    stack gap=12 padding=8
+      listitem "Project kickoff" subtitle="Oct 1 • 2:30 PM" trailingIcon=chevron-right
+      listitem "Team sync" subtitle="Sep 29 • 10:00 AM" trailingIcon=chevron-right
+      listitem "Design review" subtitle="Sep 28 • 3:00 PM" trailingIcon=chevron-right
+      listitem "Budget planning" subtitle="Sep 27 • 1:00 PM" trailingIcon=chevron-right
+  screen desktop "Desktop"
+    navbar "Notes"
+    table columns=[Title, Date, Author] rows=8 data=[["Project kickoff", "Oct 1", "Alice"], ["Team sync", "Sep 29", "Bob"], ["Design review", "Sep 28", "Carol"], ["Budget planning", "Sep 27", "Dave"], ["Q4 planning", "Sep 26", "Eve"], ["Sprint retro", "Sep 22", "Frank"], ["Client meeting", "Sep 20", "Grace"], ["Roadmap update", "Sep 18", "Henry"]]
+  note "Mobile shows compact list with icons. Desktop shows full table with multiple columns."

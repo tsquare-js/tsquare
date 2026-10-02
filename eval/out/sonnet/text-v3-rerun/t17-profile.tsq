@@ -1,0 +1,24 @@
+board "Profile"
+  screen phone "Profile" height=900
+    navbar "Profile" leading=back actions=[settings]
+    stack align=center gap=8 padding=12
+      avatar "MK" size=88
+      heading "Maya Kim" level=2 align=center
+      stack row gap=32 justify=center
+        stack align=center
+          text "128" bold
+          text sm "Posts" muted
+        stack align=center
+          text "2.4k" bold
+          text sm "Followers" muted
+        stack align=center
+          text "310" bold
+          text sm "Following" muted
+    tabs items=[Posts, Likes] active=0
+    grid columns=3 gap=4
+      image height=100
+      image height=100
+      image height=100
+      image height=100
+      image height=100
+      image height=100

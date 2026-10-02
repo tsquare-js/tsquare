@@ -1,0 +1,18 @@
+board "User management"
+  screen desktop "Active users"
+    navbar "Users"
+    tabs items=[Active, Invited, Suspended] active=0
+    table columns=[Name, Email, Role, Status] data=[["Alice Chen", "alice@company.com", "Admin", "Active"], ["Bob Smith", "bob@company.com", "Editor", "Active"], ["Carol Jones", "carol@company.com", "Viewer", "Active"], ["Dave Lee", "dave@company.com", "Editor", "Active"]]
+  screen desktop "With filters"
+    navbar "Users"
+    tabs items=[Active, Invited, Suspended] active=0
+    table columns=[Name, Email, Role, Status] data=[["Alice Chen", "alice@company.com", "Admin", "Active"], ["Bob Smith", "bob@company.com", "Editor", "Active"], ["Carol Jones", "carol@company.com", "Viewer", "Active"], ["Dave Lee", "dave@company.com", "Editor", "Active"]]
+    drawer right "Filters" size=300
+      heading "Filter by role" level=3
+      checkbox "Admin"
+      checkbox "Editor"
+      checkbox "Viewer"
+      divider
+      heading "Filter by status" level=3
+      checkbox "Active"
+      checkbox "Inactive"

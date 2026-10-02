@@ -1,0 +1,27 @@
+board "Responsive notes"
+  screen phone "Phone"
+    navbar "Notes" leading=menu actions=[search]
+    list dividers
+      listitem "Meeting notes" subtitle="Today" trailing=chevron
+      listitem "Shopping list" subtitle="Yesterday" trailing=chevron
+      listitem "Ideas" subtitle="Mon" trailing=chevron
+      listitem "Travel plans" subtitle="Last week" trailing=chevron
+    button primary "New note" fullWidth
+  screen desktop "Desktop"
+    stack row grow
+      stack width=220 border=right fill padding=16 gap=8
+        heading "Notes" level=3
+        text "All notes" bold
+        text "Pinned" muted
+        text "Archive" muted
+        button primary "New note" fullWidth
+      stack width=300 border=right
+        list dividers
+          listitem "Meeting notes" subtitle="Today"
+          listitem "Shopping list" subtitle="Yesterday"
+          listitem "Ideas" subtitle="Mon"
+          listitem "Travel plans" subtitle="Last week"
+      stack grow padding=24 gap=12
+        heading "Meeting notes" level=2
+        text lines=6
+  note "On desktop the sidebar, note list and note content appear together. On phone, one list fills the screen and tapping a note opens it." color=yellow width=240

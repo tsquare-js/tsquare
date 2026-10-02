@@ -1,0 +1,18 @@
+board "Project Settings"
+  screen desktop "Settings with delete modal"
+    navbar "Project settings" leading=back
+    stack gap=24 padding=24
+      heading "General" level=2
+      input "Project name" value="My project"
+      divider
+      card padding=20 variant=outline
+        heading "Danger zone" level=2
+        text "Deleting this project cannot be undone."
+        button "Delete project"
+    modal "Delete project?" width=400
+      heading "Delete project?" level=2
+      text "Type the project name to confirm deletion"
+      input "my-project"
+      stack row gap=8 justify=end
+        button "Cancel" secondary
+        button "Delete" primary

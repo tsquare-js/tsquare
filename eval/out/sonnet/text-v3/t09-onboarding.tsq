@@ -1,0 +1,27 @@
+```tsquare
+board "Onboarding"
+  screen phone "Step 1"
+    stack padding=24 gap=16 align=center grow
+      spacer
+      image "Illustration" height=240 rounded
+      heading "Welcome" level=1 align=center
+      text "Discover everything the app can do for you." align=center muted
+      spacer
+      button primary "Continue" fullWidth
+  screen phone "Step 2"
+    stack padding=24 gap=16 align=center grow
+      spacer
+      image "Illustration" height=240 rounded
+      heading "Stay organized" level=1 align=center
+      text "Keep all your things in one simple place." align=center muted
+      spacer
+      button primary "Continue" fullWidth
+  screen phone "Step 3"
+    stack padding=24 gap=16 align=center grow
+      spacer
+      image "Illustration" height=240 rounded
+      heading "Ready to go" level=1 align=center
+      text "Create your account and start right away." align=center muted
+      spacer
+      button primary "Get started" fullWidth
+```

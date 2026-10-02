@@ -1,0 +1,21 @@
+```tsquare
+board "Mail"
+  screen tablet "Email client" width=768 height=1024
+    stack row gap=0
+      stack column width=280 border=right padding=0 gap=0
+        navbar "Inbox" leading=none
+        list
+          listitem "Inbox" trailing=text trailingText=12
+          listitem "Starred" trailing=text trailingText=3
+          listitem "Sent"
+          listitem "Drafts"
+      stack column padding=20 gap=12 grow
+        heading "Email subject" level=2
+        text "from@example.com" muted size=sm
+        divider
+        text "This is the email body content with the message details and information."
+        text "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        stack row gap=8
+          button secondary "Reply"
+          button secondary "Forward"
+```

@@ -1,0 +1,19 @@
+board "Delivery App"
+  screen phone "Side menu"
+    navbar "Account" leading=menu
+    drawer left size=280
+      stack gap=16 padding=16
+        stack row gap=12
+          avatar "JD" size=48
+          stack gap=4 grow
+            text "John Doe" bold
+            text sm "john@example.com" muted
+        divider
+        text "Home" bold
+        text "Favorites" bold
+        text "Orders" bold
+        text "Promotions" bold
+        text "Support" bold
+        divider
+        text "Log out" bold
+    image "Content" height=300

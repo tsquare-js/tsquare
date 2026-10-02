@@ -1,0 +1,28 @@
+```tsquare
+board "Email client"
+  screen tablet "Inbox"
+    stack row grow
+      stack width=300 border=right
+        stack padding=12
+          input search placeholder="Search mail"
+        list dividers
+          listitem "Ana Torres" subtitle="Project update" leading=avatar trailingText="9:41"
+          listitem "Ben Lee" subtitle="Lunch tomorrow?" leading=avatar trailingText="8:15"
+          listitem "Chen Wu" subtitle="Invoice attached" leading=avatar trailingText="Mon"
+          listitem "Dana Ruiz" subtitle="Meeting notes" leading=avatar trailingText="Sun"
+      stack grow padding=20 gap=12
+        stack row align=center gap=12
+          avatar "AT"
+          stack
+            text "Ana Torres" bold
+            text sm "to me" muted
+          spacer
+          icon reply
+          icon trash
+        heading "Project update" level=2
+        divider
+        text lines=6
+        stack row gap=8
+          button primary "Reply" leadingIcon=reply
+          button secondary "Forward" trailingIcon=forward
+```
