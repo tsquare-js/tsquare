@@ -20,6 +20,15 @@ const BASE: string = (window as any).TSQUARE_BASE ?? "https://tsquare.dev";
 
 // ── Small helpers ───────────────────────────────────────────────────────
 
+// The logo goes to the site: home in the same tab when this is the hosted playground, a new tab when it runs locally.
+{
+  const brand = document.getElementById("brand") as HTMLAnchorElement;
+  const hosted = new URL(BASE).origin === location.origin;
+  brand.href = hosted ? "/" : BASE;
+  if (!hosted) { brand.target = "_blank"; brand.rel = "noopener"; }
+  brand.title = hosted ? "tsquare home" : "tsquare.dev (opens in a new tab)";
+}
+
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const store = {
   get: (k: string) => { try { return localStorage.getItem(k); } catch { return null; } },
