@@ -1,0 +1,19 @@
+```tsquare
+board "File manager"
+  screen desktop "Files"
+    stack row
+      stack grow padding=16 gap=12
+        stack row gap=12 align=center
+          button "New folder" secondary
+          input search placeholder="Search files..." grow
+        table columns=[Name, Type, Modified, Size] rows=6
+      drawer right "Details" size=300 scrim=false
+        stack padding=16 gap=12
+          heading "Document.pdf" level=2
+          text sm muted "Type: PDF"
+          text sm muted "Size: 2.4 MB"
+          text sm muted "Modified: Today at 2:30 PM"
+          divider
+          button "Download" primary fullWidth
+          button "Delete" secondary fullWidth
+```

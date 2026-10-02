@@ -1,0 +1,27 @@
+board "Food Delivery"
+  screen phone "Home"
+    navbar "Food Delivery" leading=none
+    input search placeholder="Search restaurants"
+    stack row gap=8 padding=12
+      badge "All"
+      badge "Pizza"
+      badge "Sushi"
+      badge "Burgers"
+    grid columns=2 gap=12 padding=12
+      card padding=10
+        image height=110
+        text "Pizza Palace" bold
+        text sm "4.5★ · 20-30 min" muted
+      card padding=10
+        image height=110
+        text "Sushi Place" bold
+        text sm "4.8★ · 30-40 min" muted
+      card padding=10
+        image height=110
+        text "Burger Joint" bold
+        text sm "4.2★ · 15-25 min" muted
+      card padding=10
+        image height=110
+        text "Ramen House" bold
+        text sm "4.7★ · 25-35 min" muted
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Orders icon=shopping-bag}, {label=Account icon=user}] active=0

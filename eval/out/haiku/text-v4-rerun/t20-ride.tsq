@@ -1,0 +1,13 @@
+```tsquare
+board "Ride Hailing"
+  screen phone "Pick Ride"
+    navbar leading=back
+    image height=300
+    drawer bottom "Select ride" size=280
+      stack padding=16 gap=12
+        list dividers=true
+          listitem "Comfort" subtitle="5 min away" trailingText="$12.50"
+          listitem "Premium" subtitle="8 min away" trailingText="$18.75"
+          listitem "XL" subtitle="12 min away" trailingText="$22.00"
+        button primary "Confirm ride" fullWidth
+```

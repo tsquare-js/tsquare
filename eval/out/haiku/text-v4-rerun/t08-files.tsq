@@ -1,0 +1,15 @@
+```tsquare
+board "File manager"
+  screen desktop
+    navbar "Files" leading=back actions=[search, grid]
+    stack padding=16 grow
+      table columns=[Name, Size, Modified, Type] rows=10
+    drawer right "Details" size=320
+      stack padding=16 gap=16
+        heading "Document.pdf" level=2
+        text "Size: 2.5 MB" muted
+        text "Modified: Today at 3:45 PM" muted
+        text "Created: Oct 1, 2026" muted
+        button "Download" fullWidth
+        button "Share" variant=secondary fullWidth
+```

@@ -1,0 +1,22 @@
+```tsquare
+board "Responsive notes"
+  screen phone "Phone"
+    navbar "Notes" leading=menu actions=[search]
+    list dividers
+      listitem "Meeting notes" subtitle="Today" trailing=chevron
+      listitem "Groceries" subtitle="Yesterday" trailing=chevron
+      listitem "Ideas" subtitle="Mon" trailing=chevron
+    tabbar items=[{label=Notes icon=file-text}, {label=Search icon=search}, {label=Settings icon=settings}] active=0
+  screen desktop "Desktop" height=600
+    navbar "Notes" leading=logo actions=[search, settings]
+    stack row grow
+      stack width=240 border=right
+        list dividers
+          listitem "Meeting notes" subtitle="Today"
+          listitem "Groceries" subtitle="Yesterday"
+          listitem "Ideas" subtitle="Mon"
+      stack grow padding=16 gap=8
+        heading "Meeting notes" level=2
+        text lines=6
+  note "On desktop the list moves to a sidebar and the selected note opens beside it. On phone the list fills the screen and the tab bar replaces the top navigation." color=yellow width=240
+```

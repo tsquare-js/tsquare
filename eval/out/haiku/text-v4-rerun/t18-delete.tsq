@@ -1,0 +1,22 @@
+```tsquare
+board "Project Settings"
+  screen desktop "Settings with Confirmation"
+    navbar "Settings" leading=back
+    stack padding=32 gap=24
+      heading "Project Settings" level=1
+      card title="General" padding=16
+        text "Update project details"
+      card title="Danger zone" padding=16 variant=outline
+        stack gap=8
+          text "Delete this project" bold
+          text "This action cannot be undone" muted size=sm
+          button "Delete project"
+    modal "Delete project" width=400
+      stack padding=24 gap=16
+        heading "Are you sure?" level=2
+        text "Type the project name to confirm deletion"
+        input placeholder="Project name"
+        stack row gap=8 justify=end
+          button secondary "Cancel"
+          button "Delete" tone=danger
+```

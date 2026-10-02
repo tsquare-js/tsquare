@@ -1,0 +1,24 @@
+```tsquare
+board "Onboarding" layout=row
+  screen phone "Step 1"
+    stack padding=20 gap=24 grow justify=center align=center
+      image height=200 "Illustration"
+      heading "Welcome to our app" level=1 align=center
+      text "Discover amazing features" size=md align=center
+      spacer
+      button primary "Continue" fullWidth
+  screen phone "Step 2"
+    stack padding=20 gap=24 grow justify=center align=center
+      image height=200 "Illustration"
+      heading "Easy to use" level=1 align=center
+      text "Get started in seconds" size=md align=center
+      spacer
+      button primary "Continue" fullWidth
+  screen phone "Step 3"
+    stack padding=20 gap=24 grow justify=center align=center
+      image height=200 "Illustration"
+      heading "You're all set" level=1 align=center
+      text "Ready to explore?" size=md align=center
+      spacer
+      button primary "Get started" fullWidth
+```

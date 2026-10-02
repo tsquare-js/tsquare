@@ -1,0 +1,15 @@
+board "User Management"
+  screen desktop "Users"
+    navbar "Users"
+    tabs items=[Active, Invited, Suspended] active=0
+    table columns=["Name", "Email", "Role", "Status"] data=[["Alice Johnson", "alice@example.com", "Admin", "Active"], ["Bob Smith", "bob@example.com", "Editor", "Active"], ["Carol White", "carol@example.com", "Viewer", "Active"], ["David Brown", "david@example.com", "Editor", "Active"]]
+  screen desktop "Users with Filters"
+    navbar "Users"
+    tabs items=[Active, Invited, Suspended] active=0
+    table columns=["Name", "Email", "Role", "Status"] data=[["Alice Johnson", "alice@example.com", "Admin", "Active"], ["Bob Smith", "bob@example.com", "Editor", "Active"], ["Carol White", "carol@example.com", "Viewer", "Active"], ["David Brown", "david@example.com", "Editor", "Active"]]
+    drawer right "Filters" size=280
+      heading "Filters" level=2
+      checkbox "Active" checked
+      checkbox "Invited"
+      checkbox "Suspended"
+      button "Apply" primary fullWidth

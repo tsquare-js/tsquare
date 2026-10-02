@@ -1,0 +1,20 @@
+```tsquare
+board "Email client"
+  screen tablet
+    stack row gap=0 grow
+      stack width=320 border=right gap=0
+        navbar title="Inbox" leading=menu
+        list dividers grow
+          listitem "Sarah Johnson" subtitle="How about the meeting..." trailingText="2m"
+          listitem "Mike Chen" subtitle="Project update..." trailingText="1h"
+          listitem "Alex Rivera" subtitle="Following up..." trailingText="Yesterday"
+          listitem "Emma Wilson" subtitle="Re: Design review..." trailingText="2d"
+      stack grow padding=24 gap=16
+        stack gap=4
+          heading "How about the meeting?" level=1
+          text "Sarah Johnson" muted
+        text lines=6
+        stack row gap=8 justify=end
+          button variant=ghost leadingIcon=reply "Reply"
+          button variant=ghost leadingIcon=more-horizontal
+```

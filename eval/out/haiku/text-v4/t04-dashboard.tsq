@@ -1,0 +1,29 @@
+```tsquare
+board "Analytics dashboard"
+  screen desktop "Dashboard"
+    stack row
+      stack width=240 padding=16 gap=8 border=right
+        heading "Dashboard" level=2
+        list
+          listitem "Overview"
+          listitem "Reports"
+          listitem "Settings"
+      stack grow padding=20 gap=16
+        stack row gap=16 align=center
+          input search placeholder="Search..." grow
+          avatar "JD"
+        stack row gap=12
+          card padding=16 gap=4 width=200
+            text sm muted "Revenue"
+            heading "$45,231" level=2
+          card padding=16 gap=4 width=200
+            text sm muted "Orders"
+            heading "1,234" level=2
+          card padding=16 gap=4 width=200
+            text sm muted "Customers"
+            heading "567" level=2
+          card padding=16 gap=4 width=200
+            text sm muted "Growth"
+            heading "+12.5%" level=2
+        table columns=[Order, Customer, Amount, Status, Date] rows=5
+```

@@ -1,0 +1,15 @@
+board "Notes List States"
+  screen phone "Empty State"
+    navbar "Notes"
+    stack align=center justify=center grow padding=32
+      image height=120 "Empty"
+      text "No notes yet" bold align=center
+      text "Create your first note to get started" align=center muted
+      button "Create note" primary
+  screen phone "Error State"
+    navbar "Notes"
+    stack align=center justify=center grow padding=32
+      image height=120 "Error"
+      text "Something went wrong" bold align=center
+      text "Please try again" align=center muted
+      button "Retry" primary

@@ -1,0 +1,19 @@
+board "Side Menu"
+  screen phone "Home with Menu"
+    image height=500 "Main content"
+    drawer left "Menu" size=240
+      stack padding=16 gap=16
+        stack row gap=12 align=center
+          avatar "JD" size=48
+          stack gap=4
+            text "John Doe" bold
+            text sm "john@example.com" muted
+        divider
+        list
+          listitem "Home" leadingIcon=home
+          listitem "Profile" leadingIcon=user
+          listitem "Settings" leadingIcon=settings
+          listitem "Help" leadingIcon=help-circle
+          listitem "About" leadingIcon=info
+        divider
+        button "Log out" variant=ghost fullWidth

@@ -1,0 +1,20 @@
+```tsquare
+board "User management"
+  screen desktop "Users"
+    navbar "Users" leading=logo actions=[search, bell]
+    stack padding=16 gap=12
+      tabs items=[Active, Invited, Suspended] active=0
+      table columns=[Name, Email, Role, Status] data=[[Ana Torres, ana@acme.co, Admin, Active], [Ben Carter, ben@acme.co, Editor, Active], [Chloe Park, chloe@acme.co, Viewer, Active], [Dev Patel, dev@acme.co, Editor, Active]]
+  screen desktop "Users with filters"
+    navbar "Users" leading=logo actions=[search, bell]
+    stack padding=16 gap=12
+      tabs items=[Active, Invited, Suspended] active=0
+      table columns=[Name, Email, Role, Status] data=[[Ana Torres, ana@acme.co, Admin, Active], [Ben Carter, ben@acme.co, Editor, Active], [Chloe Park, chloe@acme.co, Viewer, Active], [Dev Patel, dev@acme.co, Editor, Active]]
+    drawer right "Filters" size=320
+      select "Role" placeholder="Any role"
+      select "Status" placeholder="Any status"
+      checkbox "Has two-factor enabled"
+      stack row gap=8
+        button secondary "Reset"
+        button primary "Apply"
+```

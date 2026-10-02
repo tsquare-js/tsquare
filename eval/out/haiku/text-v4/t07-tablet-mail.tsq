@@ -1,0 +1,17 @@
+```tsquare
+board "Email client"
+  screen tablet "Mail"
+    stack row
+      stack width=320 border=right
+        navbar "Inbox" leading=menu
+        list dividers grow
+          listitem "Alice Smith" subtitle="Great news about..." trailingIcon=star
+          listitem "Bob Johnson" subtitle="Meeting scheduled..." trailingIcon=star
+          listitem "Carol Davis" subtitle="Project update..." trailingIcon=star
+          listitem "Diana Wilson" subtitle="Welcome to team..." trailingIcon=star
+      stack grow padding=20 gap=16
+        navbar "From: Alice Smith" leading=back actions=[archive, trash]
+        heading "Great news about the project" level=2
+        text "alice@example.com" muted
+        text lines=8
+```

@@ -1,0 +1,29 @@
+```tsquare
+board "Analytics dashboard"
+  screen desktop
+    stack row gap=0
+      stack width=240 border=right padding=16 gap=12
+        heading "Dashboard" level=2
+        list dividers grow
+          listitem "Overview" leadingIcon=bar-chart-2
+          listitem "Users" leadingIcon=users
+          listitem "Revenue" leadingIcon=trending-up
+          listitem "Reports" leadingIcon=file-text
+      stack grow
+        navbar title="Dashboard" actions=[search, bell, user]
+        stack padding=24 gap=24 grow
+          grid columns=4 gap=16
+            card padding=16
+              text "Total revenue" size=sm muted
+              heading "$45,231" level=2
+            card padding=16
+              text "Users" size=sm muted
+              heading "12,543" level=2
+            card padding=16
+              text "Orders" size=sm muted
+              heading "3,244" level=2
+            card padding=16
+              text "Growth" size=sm muted
+              heading "+12.5%" level=2
+          table columns=[Order ID, Customer, Amount, Status, Date] rows=8
+```

@@ -1,0 +1,21 @@
+```tsquare
+board "Food Delivery"
+  screen phone "Home"
+    navbar "Delivery" leading=menu actions=[bell]
+    input search placeholder="Search restaurants"
+    stack padding=16 gap=8 wrap=true
+      badge "Pizza"
+      badge "Burgers"
+      badge "Sushi"
+      badge "Salad"
+    grid columns=2 gap=12 padding=16
+      card padding=12
+        image height=120
+        text "Italian Bistro" bold
+        text sm "30 min"
+      card padding=12
+        image height=120
+        text "Burger House" bold
+        text sm "20 min"
+    tabbar items=[{label=Home icon=home}, {label=Orders icon=shopping-bag}, {label=Account icon=user}] active=0
+```

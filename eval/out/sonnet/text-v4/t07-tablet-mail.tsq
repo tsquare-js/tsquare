@@ -1,0 +1,25 @@
+```tsquare
+board "Mail"
+  screen tablet "Inbox"
+    navbar "Inbox" leading=menu actions=[search, edit]
+    stack row grow
+      stack column width=280 border=right
+        list dividers
+          listitem "Ana Torres" subtitle="Meeting tomorrow" leading=avatar trailingText="9:41"
+          listitem "Ben Lee" subtitle="Invoice attached" leading=avatar trailingText="8:15"
+          listitem "Cara Diaz" subtitle="Weekend plans" leading=avatar trailingText="Mon"
+          listitem "Dan Wu" subtitle="Project update" leading=avatar trailingText="Sun"
+          listitem "Eve Kim" subtitle="Thanks!" leading=avatar trailingText="Sat"
+      stack column grow padding=16 gap=12
+        stack row align=center gap=12
+          avatar "AT"
+          stack column
+            text "Ana Torres" bold
+            text sm "to me" muted
+        heading "Meeting tomorrow" level=2
+        divider
+        text lines=6
+        stack row gap=8
+          button primary "Reply" leadingIcon=reply
+          button secondary "Forward" leadingIcon=forward
+```

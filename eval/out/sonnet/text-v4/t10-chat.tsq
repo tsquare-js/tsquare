@@ -1,0 +1,18 @@
+```tsquare
+board "Chat"
+  screen phone "Conversation"
+    navbar "Ana Torres" leading=back actions=[phone, more-vertical]
+    stack column grow padding=12 gap=12
+      stack row
+        card width=220 variant=filled padding=10
+          text "Hey, are we still on for lunch?"
+      stack row justify=end
+        card width=220 padding=10
+          text "Yes, see you at noon."
+      stack row
+        card width=220 variant=filled padding=10
+          text "Great, I'll book a table."
+    stack row padding=12 gap=8 align=center border=top
+      input placeholder="Message" grow
+      button primary leadingIcon=send
+```

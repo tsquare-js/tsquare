@@ -1,0 +1,30 @@
+board "Analytics dashboard"
+  screen desktop "Dashboard" padding=0 gap=0
+    stack row grow
+      stack column width=240 border=right padding=16 gap=8
+        heading "Acme" level=2
+        spacer size=8
+        listitem "Overview" leadingIcon=layout-dashboard
+        listitem "Orders" leadingIcon=shopping-cart
+        listitem "Customers" leadingIcon=users
+        listitem "Reports" leadingIcon=bar-chart
+        listitem "Settings" leadingIcon=settings
+      stack column grow padding=20 gap=16
+        stack row align=center gap=12
+          input search placeholder="Search" grow
+          avatar "DV" size=36
+        stack row gap=12
+          card title="Revenue" grow
+            heading "$48,200" level=2
+            text sm "+12% this month" muted
+          card title="Orders" grow
+            heading "1,284" level=2
+            text sm "+5% this month" muted
+          card title="Customers" grow
+            heading "892" level=2
+            text sm "+3% this month" muted
+          card title="Refunds" grow
+            heading "24" level=2
+            text sm "-2% this month" muted
+        heading "Recent orders" level=3
+        table columns=[Order, Customer, Date, Status, Total] data=[[#1001, Ana Torres, Oct 1, Paid, "$120.00"], [#1002, Ben Lee, Oct 1, Pending, "$89.50"], [#1003, Carla Diaz, Sep 30, Paid, "$240.00"], [#1004, Dan Smith, Sep 30, Shipped, "$56.00"]]

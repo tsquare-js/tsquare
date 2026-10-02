@@ -1,0 +1,24 @@
+```tsquare
+board "Responsive notes"
+  screen phone "Phone"
+    navbar "Notes" leading=menu actions=[search]
+    list dividers
+      listitem "Meeting notes" subtitle="Today"
+      listitem "Shopping list" subtitle="Yesterday"
+      listitem "Ideas" subtitle="Mon"
+    button primary "New note" fullWidth
+  screen desktop "Desktop"
+    navbar "Notes" leading=logo actions=[search, settings]
+    stack row grow
+      stack width=220 border=right fill padding=12 gap=8
+        text "All notes" bold
+        text "Pinned"
+        text "Archive"
+        button primary "New note" fullWidth
+      stack grow padding=12
+        list dividers
+          listitem "Meeting notes" subtitle="Today"
+          listitem "Shopping list" subtitle="Yesterday"
+          listitem "Ideas" subtitle="Mon"
+  note "On phone the notes list fills the screen with a single full-width button. On desktop a sidebar appears with navigation and the list moves into the main area." color=yellow
+```

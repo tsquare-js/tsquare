@@ -28,12 +28,14 @@ These numbers use today's stricter checks. Unknown icon names (`call`, `person`)
 
 Scored with today's parser, where comments are whole lines only (so `[#1001, …]` no longer breaks a table):
 
-| Valid, first try | Old prompt ×2 (stored, rerun) | 0.3.0 prompt, first draft ×2 | 0.3.0 prompt, final ×2 |
-|---|---|---|---|
-| Sonnet | 100%, 95% | 95%, 100% | 95%, 95% |
-| Haiku | 80%, 80% | 65%, 85% | 70%, 65% |
+| Valid, first try | Old prompt ×2 (stored, rerun) | `text-v2` ×2 | `text-v3` ×2 | `text-v4` ×2 (shipped) |
+|---|---|---|---|---|
+| Sonnet | 100%, 95% | 95%, 100% | 95%, 95% | 100%, 95% |
+| Haiku | 80%, 80% | 65%, 85% | 70%, 65% | 85%, 55% |
 
-"First draft" is `prompts/text-v2.md`. "Final" (`text-v3.md`) adds the whole-line comment rule.
+- `text-v2` is the first 0.3.0 draft.
+- `text-v3` adds the whole-line comment rule.
+- `text-v4` lists each yes/no prop with the components that have it (`fullWidth (button)`), instead of `checked, fullWidth, grow, muted`.
 
 - **Sonnet:** no difference between the prompts (95–100% in every run). The comment fix shows: the `[#1001, …]` order tables are valid in all 5 outputs that use them, and models wrote no comments at all.
 - **Haiku may be a little lower on the new prompt:** 80% and 80% on the old one, against 65–85% (average 71%) over four runs on the new one. A single run of 20 moves 10–20 points, so this is directional. None of Haiku's failures involve the rename or comments. They are the same few guesses:
@@ -41,6 +43,9 @@ Scored with today's parser, where comments are whole lines only (so `[#1001, …
   - `padding` on headings, and `align` on buttons.
   - Unknown icons: `call`, `compose`.
   - A drawer nested in a stack, and a table's rows wrapped across lines.
+- **Listing which components have each yes/no prop (`text-v4`) didn't measurably help.** Haiku still put `fullWidth` on inputs in one of the two runs (before: 4 of 6). The line is kept because it's accurate.
+- **Haiku's range is 55–85% across eight runs of the new prompts.** One run of 20 can't separate prompt versions for Haiku.
+- **A new Haiku pattern:** a prop moved onto its own indented line under its element (`listitem "Password"` then `trailing=chevron` below it), or a table's `data=` on the next line.
 - **Sonnet's only failure:** `grow` on a select (both final runs). Inputs and stacks have `grow`, but selects don't.
 - **The rename works in practice.** With the new prompts, the models wrote `leadingIcon`/`trailingIcon` and never the old `icon=` on buttons or list items. With the old prompt, they wrote `icon=` 42 times, and every one still compiles.
 

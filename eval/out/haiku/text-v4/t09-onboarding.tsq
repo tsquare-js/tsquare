@@ -1,0 +1,27 @@
+```tsquare
+board "Onboarding"
+  screen phone "Welcome"
+    stack padding=20 gap=20 grow align=center
+      spacer size=40
+      image height=200
+      heading "Welcome" level=1
+      text "Discover amazing features" align=center
+      spacer
+      button "Continue" primary fullWidth
+  screen phone "Features"
+    stack padding=20 gap=20 grow align=center
+      spacer size=40
+      image height=200
+      heading "Stay organized" level=1
+      text "Manage everything in one place" align=center
+      spacer
+      button "Continue" primary fullWidth
+  screen phone "Ready"
+    stack padding=20 gap=20 grow align=center
+      spacer size=40
+      image height=200
+      heading "All set" level=1
+      text "You're ready to get started" align=center
+      spacer
+      button "Get started" primary fullWidth
+```

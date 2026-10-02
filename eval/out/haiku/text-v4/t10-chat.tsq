@@ -1,0 +1,19 @@
+```tsquare
+board "Chat"
+  screen phone "Chat"
+    navbar "Alice Smith" leading=back actions=[call, info]
+    stack padding=16 gap=12 grow
+      stack gap=8
+        stack row justify=start
+          badge "Hey! How are you?" outline
+        stack row justify=end
+          badge "I'm doing great!" outline
+        stack row justify=start
+          badge "Want to grab coffee?" outline
+        stack row justify=end
+          badge "Sure! When?" outline
+      spacer
+    stack row padding=16 gap=8
+      input placeholder="Type message..." grow
+      button "Send" leadingIcon=send
+```
