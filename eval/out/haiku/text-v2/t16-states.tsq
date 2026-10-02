@@ -1,0 +1,15 @@
+board "Notes App"
+  screen phone "Empty state"
+    navbar "Notes"
+    stack padding=32 grow=true justify=center align=center
+      image height=120 width=120
+      heading "No notes yet" level=2 align=center
+      text "Create your first note to get started" align=center muted
+      button "Create note" primary
+  screen phone "Error state"
+    navbar "Notes"
+    stack padding=32 grow=true justify=center align=center
+      text "😕" lg align=center
+      heading "Something went wrong" level=2 align=center
+      text "We couldn't load your notes. Please try again." align=center muted
+      button "Retry" primary

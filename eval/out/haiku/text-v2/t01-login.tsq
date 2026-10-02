@@ -1,0 +1,14 @@
+```tsquare
+board "Login"
+  screen phone "Sign in"
+    spacer size=40
+    heading "Sign in" level=1 align=center
+    spacer size=20
+    input "Email" placeholder="name@example.com" type=email fullWidth
+    input "Password" placeholder="••••••••" type=password fullWidth
+    checkbox "Remember me"
+    spacer size=12
+    button "Forgot password?" ghost
+    spacer size=20
+    button "Sign in" primary fullWidth
+```

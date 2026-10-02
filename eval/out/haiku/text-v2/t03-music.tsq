@@ -1,0 +1,46 @@
+```tsquare
+board "Music app"
+  screen phone "Home"
+    navbar "Music" leading=menu actions=[search, more-horizontal]
+    spacer size=12
+    heading "Recently played" level=2
+    stack gap=12 padding=12
+      card
+        image height=140
+        text "Album name" bold
+        text sm "Artist name" muted
+      card
+        image height=140
+        text "Album name" bold
+        text sm "Artist name" muted
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Library icon=library}, {label=Profile icon=user}] active=0
+  screen phone "Now Playing"
+    navbar leading=back actions=[share, more-horizontal]
+    spacer size=20
+    image "Album art" height=240
+    spacer size=20
+    heading "Song title" level=1 align=center
+    text "Artist name" align=center muted
+    spacer size=20
+    stack row gap=12 justify=center
+      icon "skip-back" size=24
+      icon "play" size=32
+      icon "skip-forward" size=24
+    spacer
+    drawer bottom "Queue" size=300
+      stack gap=12
+        text "Up next" bold
+        list
+          listitem "Next song"
+          listitem "Following song"
+          listitem "Another song"
+  screen phone "Library"
+    navbar "Library" leading=menu actions=[search]
+    spacer size=12
+    tabs items=[Playlists, Artists, Albums] active=0
+    list dividers
+      listitem "Your playlist 1" trailing=chevron
+      listitem "Your playlist 2" trailing=chevron
+      listitem "Your playlist 3" trailing=chevron
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Library icon=library}, {label=Profile icon=user}] active=2
+```

@@ -1,0 +1,18 @@
+board "App with Menu"
+  screen phone "Menu open"
+    drawer left "Menu" size=260
+      stack padding=16 gap=16
+        stack row gap=12
+          avatar initials="JD" size=48
+          stack
+            text "John Doe" bold
+            text "john@example.com" sm muted
+        divider
+        list
+          listitem "Home" leading=icon leadingIcon=home
+          listitem "Orders" leading=icon leadingIcon=shopping-bag
+          listitem "Favorites" leading=icon leadingIcon=heart
+          listitem "Settings" leading=icon leadingIcon=settings
+          listitem "Help" leading=icon leadingIcon=help-circle
+        spacer
+        button "Log out" secondary fullWidth

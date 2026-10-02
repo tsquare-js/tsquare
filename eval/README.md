@@ -22,6 +22,21 @@ These numbers use today's stricter checks. Unknown icon names (`call`, `person`)
 - List items are separated by commas only. Sonnet wrote table cells like `[Ana Torres, Admin]`, which used to split on the space.
 - `off`/`unchecked` keywords, `width` on card/input/select, `padding` on grid, `grow` on list/input, sidebars stretching in rows, and bottom sheets growing to fit their content.
 
+### Rerun with the 0.3.0 prompt (`text-v2`)
+
+`prompts/text-v2.md` is the library's prompt as of 0.3.0 (`npm run prompt`): the `leadingIcon`/`trailingIcon` names, comma lists, colors, `width` on inputs and cards. The same 20 requests went to fresh Sonnet and Haiku subagents, and the outputs are in `out/<model>/text-v2/*.tsq`.
+
+| | Valid, first try | Checks | Median tokens |
+|---|---|---|---|
+| Sonnet, text-v2 | 90% | 96% | 201 |
+| Haiku, text-v2 | 65% | 99% | 197 |
+
+- **The rename caused no errors.** Both models used only the new names on buttons and list items (Sonnet: 33 `leadingIcon`, 3 `trailingIcon`; Haiku: 6 and 6), and neither wrote the old `icon=` on them.
+- **Validity is lower, for other reasons.**
+  - Sonnet: an unclosed `[`, and `grow` on a select.
+  - Haiku: `fullWidth` on inputs (3 tasks), `fill`/`border` on cards (2), two unknown icon names (`compose`, `call`), and a drawer inside a stack.
+- **This is not a controlled comparison.** The prompt changed in many places since `text.md`, and 20 requests per model is a small sample. The `fullWidth`-on-input pattern is new and worth watching: inputs already fill their width, so the prop isn't needed there.
+
 The stored outputs keep the `.wf` extension and the ```` ```wireframe ```` fence from before the project was named. They're the exact outputs that were scored, so they aren't renamed.
 
 ```bash

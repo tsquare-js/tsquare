@@ -1,0 +1,24 @@
+```tsquare
+board "Side menu"
+  screen phone "Menu open"
+    navbar "Home" leading=menu
+    text lines=3
+    image height=160
+    text lines=4
+    drawer left size=280
+      stack row gap=12 align=center
+        avatar "JD" size=48
+        stack gap=2
+          text "Jane Doe" bold
+          text sm "jane@example.com" muted
+      divider
+      list
+        listitem "Home" leadingIcon=home
+        listitem "Profile" leadingIcon=user
+        listitem "Messages" leadingIcon=mail
+        listitem "Settings" leadingIcon=settings
+        listitem "Help" leadingIcon=help-circle
+      spacer
+      divider
+      button ghost "Log out" leadingIcon=log-out
+```

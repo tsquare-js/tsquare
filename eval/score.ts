@@ -11,8 +11,9 @@ import { compileWireframe } from "../src/compile";
 import { runChecks, tasks } from "./tasks";
 
 const MODELS = ["sonnet", "haiku"] as const;
-const FORMATS = ["flat", "nested", "text"] as const;
-const EXT = { flat: "json", nested: "json", text: "wf" } as const;
+// text-v2: the library prompt as of 0.3.0 (npm run prompt), saved as prompts/text-v2.md
+const FORMATS = ["flat", "nested", "text", "text-v2"] as const;
+const EXT = { flat: "json", nested: "json", text: "wf", "text-v2": "tsq" } as const;
 
 function extractBlock(reply: string) {
   const m = reply.match(/```[\w-]*\n([\s\S]*?)```/);
@@ -63,7 +64,7 @@ async function scoreOne(model: string, format: (typeof FORMATS)[number], taskId:
   let spec: Spec | null = null;
   let textCompiled = false; // compileWireframe already ran checkSpec
   try {
-    if (format === "text") {
+    if (format === "text" || format === "text-v2") {
       const r = compileWireframe(body);
       spec = r.spec;
       row.issues.push(...r.issues.map((i) => `line ${i.line}: ${i.message}`));

@@ -1,0 +1,34 @@
+```tsquare
+board "Checkout flow"
+  screen phone "Cart"
+    navbar "Cart" leading=back
+    stack padding=16 gap=16 grow
+      heading "Order summary" level=2
+      list dividers
+        listitem "Wireless headphones × 1" trailing=text trailingText="$129.99"
+        listitem "USB cable × 2" trailing=text trailingText="$19.98"
+      divider
+      stack row justify=between
+        text "Subtotal" bold
+        text "$149.97" bold
+      spacer
+      button "Continue" primary fullWidth
+  screen phone "Shipping"
+    navbar "Shipping" leading=back
+    stack padding=16 gap=16 grow
+      input "Full name" placeholder="John Doe" fullWidth
+      input "Address" placeholder="123 Main St" fullWidth
+      input "City" placeholder="New York" fullWidth
+      input "Zip code" placeholder="10001" fullWidth
+      select "Shipping method" value="Standard"
+      spacer
+      button "Continue" primary fullWidth
+  screen phone "Confirmation"
+    navbar leading=back
+    modal title="Order placed" width=300
+      stack gap=16 align=center
+        icon "check-circle" size=48
+        heading "Thank you!" level=2
+        text "Your order #12345 has been confirmed" align=center
+        button "View order" primary fullWidth
+```

@@ -1,0 +1,24 @@
+```tsquare
+board "File manager"
+  screen desktop "Files"
+    navbar "Files" actions=[search, upload, more-horizontal]
+    stack row grow
+      stack column grow padding=16 gap=12
+        stack row align=center gap=8
+          icon "folder" size=20
+          text "Documents" bold
+          icon "chevron-right" size=16
+        table columns=[Name, Type, Modified, Size] rows=8 data=[["Budget 2024.xlsx", "Spreadsheet", "Oct 1", "245 KB"], ["Q4 Report.pdf", "PDF", "Sep 28", "1.2 MB"], ["Invoice.docx", "Document", "Sep 25", "340 KB"]]
+      drawer right "Details" size=280
+        heading "Budget 2024.xlsx" level=3
+        stack gap=12
+          text bold "Type"
+          text "Microsoft Excel" muted
+          text bold "Modified"
+          text "Oct 1, 2024 at 2:30 PM" muted
+          text bold "Size"
+          text "245 KB" muted
+          divider
+          button "Download" secondary fullWidth
+          button "Share" secondary fullWidth
+```

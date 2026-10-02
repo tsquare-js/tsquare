@@ -1,0 +1,25 @@
+board "Mail"
+  screen tablet "Inbox"
+    stack row grow
+      stack width=300 border=right
+        navbar "Inbox" actions=[edit]
+        input search placeholder="Search mail"
+        list dividers
+          listitem "Ana Torres" subtitle="Project update" leading=avatar trailingText="9:41"
+          listitem "Ben Lee" subtitle="Lunch tomorrow?" leading=avatar trailingText="8:15"
+          listitem "Cara Diaz" subtitle="Invoice attached" leading=avatar trailingText="Mon"
+          listitem "Dan Kim" subtitle="Meeting notes" leading=avatar trailingText="Sun"
+          listitem "Eva Roy" subtitle="Welcome aboard" leading=avatar trailingText="Fri"
+      stack grow padding=20 gap=12
+        stack row align=center gap=12
+          avatar "AT"
+          stack grow
+            text "Ana Torres" bold
+            text sm "to me" muted
+          text sm "9:41 AM" muted
+        heading "Project update" level=2
+        divider
+        text lines=6
+        stack row gap=8
+          button secondary "Reply" leadingIcon=reply
+          button ghost "Forward" leadingIcon=forward

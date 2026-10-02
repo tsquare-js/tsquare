@@ -1,0 +1,14 @@
+board "User Management"
+  screen desktop "Users"
+    navbar "Users" actions=[search, more-horizontal]
+    tabs items=[Active, Invited, Suspended] active=0
+    table columns=[Name, Email, Role, Status] data=[["Alice Johnson", "alice@example.com", "Admin", "Active"], ["Bob Smith", "bob@example.com", "Editor", "Active"], ["Carol Davis", "carol@example.com", "Viewer", "Active"], ["Dave Wilson", "dave@example.com", "Editor", "Active"]]
+  screen desktop "Users with filters"
+    navbar "Users" actions=[search, more-horizontal]
+    tabs items=[Active, Invited, Suspended] active=0
+    table columns=[Name, Email, Role, Status] data=[["Alice Johnson", "alice@example.com", "Admin", "Active"], ["Bob Smith", "bob@example.com", "Editor", "Active"], ["Carol Davis", "carol@example.com", "Viewer", "Active"], ["Dave Wilson", "dave@example.com", "Editor", "Active"]]
+    drawer right "Filters" size=280
+      heading "Filters" level=2
+      select "Role" value="All"
+      select "Status" value="All"
+      checkbox "Verified only"
