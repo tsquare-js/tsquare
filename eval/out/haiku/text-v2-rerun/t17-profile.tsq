@@ -1,0 +1,24 @@
+board "Profile"
+  screen phone "Profile"
+    navbar "Profile" leading=back actions=[more-horizontal]
+    stack align=center gap=16 padding=24
+      avatar "JD" size=72
+      text "Jane Doe" bold size=lg
+      stack row gap=24 justify=center
+        stack align=center
+          text "42" bold size=lg
+          text "Posts" sm muted
+        stack align=center
+          text "128" bold size=lg
+          text "Followers" sm muted
+        stack align=center
+          text "89" bold size=lg
+          text "Following" sm muted
+    tabs items=[Posts, Likes] active=0
+    grid columns=3 gap=8 padding=12
+      image height=100
+      image height=100
+      image height=100
+      image height=100
+      image height=100
+      image height=100

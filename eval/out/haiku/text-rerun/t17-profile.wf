@@ -1,0 +1,27 @@
+```wireframe
+board "Profile"
+  screen phone "Profile"
+    navbar "Profile" leading=back
+    stack padding=16 gap=20
+      stack align=center gap=8
+        avatar "AB" size=72
+        heading "Alice Brown" level=2
+      stack row gap=32 justify=center
+        stack align=center gap=4
+          heading "124" level=3
+          text "Posts" sm muted
+        stack align=center gap=4
+          heading "2.5K" level=3
+          text "Followers" sm muted
+        stack align=center gap=4
+          heading "482" level=3
+          text "Following" sm muted
+      tabs items=[Posts, Likes] active=0
+      grid columns=3 gap=8
+        image height=120
+        image height=120
+        image height=120
+        image height=120
+        image height=120
+        image height=120
+```

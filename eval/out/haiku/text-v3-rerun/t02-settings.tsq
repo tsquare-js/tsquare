@@ -1,0 +1,21 @@
+```tsquare
+board "Settings"
+  screen phone "Settings"
+    navbar "Settings" leading=back
+    stack column padding=0 gap=0
+      stack column padding=16 gap=16
+        heading "Notifications" level=3
+        toggle "Notifications" on
+        heading "Display" level=3
+        toggle "Dark mode" off
+      divider
+      stack column padding=16 gap=0
+        heading "Account" level=3
+        list dividers
+          listitem "Account settings" trailing=chevron
+          listitem "Privacy" trailing=chevron
+          listitem "Help" trailing=chevron
+      divider
+      stack column padding=16 gap=16
+        button secondary "Sign out" fullWidth
+```

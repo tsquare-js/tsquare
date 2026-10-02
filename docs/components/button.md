@@ -17,7 +17,9 @@ board
       button primary sm "Small"
       button primary "Medium"
       button primary lg "Large"
-    button secondary "With icon" icon=download
+    stack row gap=8 align=center
+      button secondary "Back" leadingIcon=chevron-left
+      button primary "Next" trailingIcon=chevron-right
     button primary "Full width" fullWidth
     text "With a board accent, primary buttons fill with it and ghost buttons use it for text." sm muted
 ```
@@ -40,5 +42,6 @@ Icon names: see [Icons](../icons.md) for the common ones and every name.
 | `label` *(main text)* | string |  |
 | `variant` | primary, secondary, ghost |  |
 | `size` | sm, md, lg |  |
-| `icon` | string | Lucide icon name in kebab-case, e.g. menu, search, arrow-left, settings, bell, user |
+| `leadingIcon` | string | Lucide icon before the label, e.g. chevron-left for Back |
+| `trailingIcon` | string | Lucide icon after the label, e.g. chevron-right for Next |
 | `fullWidth` | boolean |  |

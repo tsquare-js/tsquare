@@ -1,0 +1,24 @@
+board "Email client"
+  screen tablet
+    navbar "Mail" leading=menu actions=[plus, settings]
+    stack row gap=0 grow
+      stack width=320 border=right padding=12 gap=12
+        heading "Inbox" level=2
+        list dividers grow
+          listitem "John Smith" subtitle="Re: Project update" trailing=chevron
+          listitem "Jane Doe" subtitle="Team meeting tomorrow" trailing=chevron
+          listitem "Manager" subtitle="Budget review" trailing=chevron
+          listitem "Client" subtitle="Final requirements" trailing=chevron
+      stack grow padding=24 gap=16
+        stack gap=2
+          text "Project update" bold size=lg
+          text "From: john@example.com" sm muted
+          text "Today at 2:30 PM" sm muted
+        divider
+        stack gap=12
+          text lines=8
+        stack row gap=8
+          button ghost leadingIcon=reply
+          button ghost leadingIcon=reply-all
+          button ghost leadingIcon=forward
+          button ghost leadingIcon=trash

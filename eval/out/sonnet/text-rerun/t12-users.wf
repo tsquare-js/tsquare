@@ -1,0 +1,27 @@
+```wireframe
+board "User management"
+  screen desktop "Users"
+    navbar "Users" leading=menu actions=[search, bell]
+    stack padding=16 gap=12
+      stack row justify=between
+        heading "Users" level=2
+        button primary "Invite user" icon=plus
+      tabs items=[Active, Invited, Suspended] active=0
+      table columns=[Name, Email, Role, Status] data=[[Ana Torres, ana@acme.com, Admin, Active], [Ben Carter, ben@acme.com, Editor, Active], [Chloe Nguyen, chloe@acme.com, Viewer, Active], [David Kim, david@acme.com, Editor, Active]]
+  screen desktop "Users with filters"
+    navbar "Users" leading=menu actions=[search, bell]
+    stack padding=16 gap=12
+      stack row justify=between
+        heading "Users" level=2
+        button primary "Invite user" icon=plus
+      tabs items=[Active, Invited, Suspended] active=0
+      table columns=[Name, Email, Role, Status] data=[[Ana Torres, ana@acme.com, Admin, Active], [Ben Carter, ben@acme.com, Editor, Active], [Chloe Nguyen, chloe@acme.com, Viewer, Active], [David Kim, david@acme.com, Editor, Active]]
+    drawer right "Filters" size=300
+      select "Role" placeholder="Any role"
+      select "Status" placeholder="Any status"
+      input "Joined after" placeholder="MM/DD/YYYY"
+      checkbox "Has two-factor enabled"
+      stack row gap=8
+        button secondary "Reset"
+        button primary "Apply"
+```

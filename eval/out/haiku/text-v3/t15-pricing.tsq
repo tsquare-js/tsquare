@@ -1,0 +1,35 @@
+board "Pricing"
+  screen desktop "Plans"
+    stack padding=40 gap=32
+      heading "Pricing plans" level=1
+      stack row gap=16 justify=center
+        badge outline "Monthly"
+        badge outline "Yearly"
+      stack row gap=24 justify=center
+        card width=320 padding=24 gap=16
+          heading "Starter" level=2
+          text "Free" size=lg bold
+          text "For individuals"
+          divider
+          text "• 5 projects"
+          text "• Basic support"
+          text "• 1 GB storage"
+          button "Get started" variant=secondary fullWidth
+        card width=320 padding=24 gap=16
+          heading "Professional" level=2
+          text "$29/mo" size=lg bold
+          text "For teams"
+          divider
+          text "• 50 projects"
+          text "• Priority support"
+          text "• 100 GB storage"
+          button "Get started" variant=primary fullWidth
+        card width=320 padding=24 gap=16
+          heading "Enterprise" level=2
+          text "Custom" size=lg bold
+          text "For large orgs"
+          divider
+          text "• Unlimited projects"
+          text "• 24/7 support"
+          text "• Unlimited storage"
+          button "Contact sales" variant=secondary fullWidth

@@ -106,7 +106,8 @@ Button. Primary is filled, secondary is outlined, ghost is text only.
 - label: string (main text)
 - variant: "primary" | "secondary" | "ghost"
 - size: "sm" | "md" | "lg"
-- icon: string — Lucide icon name in kebab-case, e.g. menu, search, arrow-left, settings, bell, user
+- leadingIcon: string — Lucide icon before the label, e.g. chevron-left for Back
+- trailingIcon: string — Lucide icon after the label, e.g. chevron-right for Next
 - fullWidth: boolean
 
 ### Input
@@ -170,10 +171,10 @@ Row in a List. Omit title for a placeholder bar.
 - title: string (main text)
 - subtitle: string
 - leading: "none" | "icon" | "avatar" | "image" | "checkbox"
-- icon: string — Lucide icon name in kebab-case, e.g. menu, search, arrow-left, settings, bell, user
+- leadingIcon: string — Lucide icon on the left; setting it implies leading=icon
 - trailing: "none" | "chevron" | "toggle" | "text" | "badge" | "icon"
-- trailingText: string
-- trailingIcon: string — Lucide icon name in kebab-case, e.g. menu, search, arrow-left, settings, bell, user
+- trailingText: string — Text for trailing=text or badge; setting it implies trailing=text
+- trailingIcon: string — Lucide icon on the right; setting it implies trailing=icon
 
 ### Table
 Table with headers. Rows are placeholder bars unless `data` is given.

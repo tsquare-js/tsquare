@@ -41,7 +41,7 @@ class Q {
 }
 
 const label = (re: RegExp) => (p: Record<string, any>) => re.test(String(p.label ?? p.title ?? p.text ?? ""));
-const icon = (re: RegExp) => (p: Record<string, any>) => re.test(String(p.icon ?? p.name ?? ""));
+const icon = (re: RegExp) => (p: Record<string, any>) => re.test(String(p.leadingIcon ?? p.trailingIcon ?? p.icon ?? p.name ?? ""));
 
 export interface Task { id: string; prompt: string; checks: Check[] }
 
@@ -141,7 +141,7 @@ export const tasks: Task[] = [
     checks: [
       ["navbar", (q) => q.has("NavBar")],
       ["message input", (q) => q.has("Input")],
-      ["send button", (q) => q.has("Button", (p) => /send/i.test(`${p.icon ?? ""} ${p.label ?? ""}`))],
+      ["send button", (q) => q.has("Button", (p) => /send/i.test(`${p.leadingIcon ?? ""} ${p.trailingIcon ?? ""} ${p.label ?? ""}`))],
     ],
   },
   {

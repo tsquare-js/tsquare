@@ -1,0 +1,12 @@
+board "Ride Hailing"
+  screen phone "Book ride"
+    navbar leading=back actions=[user]
+    input search placeholder="Where to?" fullWidth
+    image "Map" height=300
+    drawer bottom "Choose a ride" size=180 handle=true
+      stack gap=12 padding=12
+        list
+          listitem "Economy" subtitle="5 min away • $12" trailingText="$12"
+          listitem "Comfort" subtitle="8 min away • $18" trailingText="$18"
+          listitem "Premium" subtitle="10 min away • $25" trailingText="$25"
+        button "Confirm ride" primary fullWidth

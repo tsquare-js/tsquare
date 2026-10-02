@@ -1,0 +1,19 @@
+```tsquare
+board "Product page"
+  screen phone "Product"
+    navbar leading=back actions=[heart, share]
+    image "Product image" height=320
+    spacer size=12
+    stack padding=16 gap=12 grow
+      heading "Wireless headphones" level=1
+      text "$129.99" bold size=lg
+      text lines=2 muted
+      select "Size" value="Medium"
+      button "Add to cart" primary fullWidth
+      divider
+      heading "Reviews" level=2
+      list dividers
+        listitem "★★★★★" subtitle="Great quality and sound"
+        listitem "★★★★☆" subtitle="Good, but expensive"
+        listitem "★★★★★" subtitle="Worth every penny"
+```

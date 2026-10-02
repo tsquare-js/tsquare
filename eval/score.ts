@@ -11,8 +11,12 @@ import { compileWireframe } from "../src/compile";
 import { runChecks, tasks } from "./tasks";
 
 const MODELS = ["sonnet", "haiku"] as const;
-const FORMATS = ["flat", "nested", "text"] as const;
-const EXT = { flat: "json", nested: "json", text: "wf" } as const;
+// text-v2: the library prompt as of 0.3.0 (npm run prompt), saved as prompts/text-v2.md.
+// text-rerun and text-v2-rerun: fresh runs of prompts/text.md and text-v2.md, to see run-to-run variance.
+// text-v3 (two runs): the prompt after comments became whole lines only.
+// text-v4 (two runs): yes/no props listed with the components that have them.
+const FORMATS = ["flat", "nested", "text", "text-rerun", "text-v2", "text-v2-rerun", "text-v3", "text-v3-rerun", "text-v4", "text-v4-rerun"] as const;
+const EXT = { flat: "json", nested: "json", text: "wf", "text-rerun": "wf", "text-v2": "tsq", "text-v2-rerun": "tsq", "text-v3": "tsq", "text-v3-rerun": "tsq", "text-v4": "tsq", "text-v4-rerun": "tsq" } as const;
 
 function extractBlock(reply: string) {
   const m = reply.match(/```[\w-]*\n([\s\S]*?)```/);
@@ -23,8 +27,8 @@ function category(msg: string) {
   if (/does not exist/.test(msg)) return "dangling child id";
   if (/unknown component/.test(msg)) return "unknown component";
   if (/must be a direct child|root must be|only one top-level/.test(msg)) return "structure";
-  if (/Too small|Too big|Invalid option|expected|unknown icon/.test(msg)) return "invalid prop";
-  if (/\.props|has no prop|don't know what|takes no text|more than one text/.test(msg)) return "invalid prop";
+  if (/Too small|Too big|Invalid option|expected|unknown icon|only shows with/.test(msg)) return "invalid prop";
+  if (/\.props|has no prop|don't know what| (prop|option), not an? |takes no text|more than one text/.test(msg)) return "invalid prop";
   if (/catalog|elements|root/.test(msg)) return "spec shape";
   return "syntax";
 }
@@ -63,7 +67,7 @@ async function scoreOne(model: string, format: (typeof FORMATS)[number], taskId:
   let spec: Spec | null = null;
   let textCompiled = false; // compileWireframe already ran checkSpec
   try {
-    if (format === "text") {
+    if (format.startsWith("text")) {
       const r = compileWireframe(body);
       spec = r.spec;
       row.issues.push(...r.issues.map((i) => `line ${i.line}: ${i.message}`));

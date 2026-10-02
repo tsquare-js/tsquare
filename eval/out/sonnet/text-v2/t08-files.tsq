@@ -1,0 +1,16 @@
+board "File manager"
+  screen desktop "Files"
+    stack row align=center gap=12 padding=12 border=bottom
+      heading "Files" level=2
+      input search placeholder="Search files" grow
+      button primary "Upload" leadingIcon=upload
+    table columns=[Name, Owner, Modified, Size] data=[[Report.pdf, Ana, Oct 1, 2.4 MB], [Budget.xlsx, Ben, Sep 30, 1.1 MB], [Photos, Cara, Sep 28, 48 MB], [Notes.txt, Dan, Sep 25, 4 KB], [Design.fig, Eva, Sep 20, 12 MB]]
+    drawer right "Details" size=300
+      image "Preview" height=120
+      text "Report.pdf" bold
+      text sm "PDF document" muted
+      divider
+      text sm "Owner: Ana"
+      text sm "Modified: Oct 1"
+      text sm "Size: 2.4 MB"
+      button secondary "Download" fullWidth

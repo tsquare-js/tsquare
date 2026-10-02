@@ -1,0 +1,32 @@
+```tsquare
+board "Analytics Dashboard"
+  screen desktop
+    stack row gap=0
+      stack width=240 padding=16 gap=8 border=right fill
+        heading "Dashboard" level=2
+        list
+          listitem "Overview"
+          listitem "Analytics"
+          listitem "Reports"
+          listitem "Settings"
+      stack gap=16 grow padding=20
+        stack row gap=16 align=center justify=between
+          input placeholder="Search..." width=300
+          avatar initials=AB size=40
+        stack row gap=12
+          card grow padding=16
+            text sm muted "Total Users"
+            heading "12,345" level=2
+          card grow padding=16
+            text sm muted "Revenue"
+            heading "$45,678" level=2
+          card grow padding=16
+            text sm muted "Orders"
+            heading "892" level=2
+          card grow padding=16
+            text sm muted "Conversion"
+            heading "3.2%" level=2
+        card grow
+          heading "Recent Orders" level=2
+          table columns=["Order ID", "Customer", "Date", "Amount", "Status"] data=[["#1001", "John Doe", "2026-10-01", "$150", "Delivered"], ["#1002", "Jane Smith", "2026-10-01", "$320", "Pending"], ["#1003", "Bob Johnson", "2026-09-30", "$85", "Delivered"]]
+```

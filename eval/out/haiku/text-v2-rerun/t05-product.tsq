@@ -1,0 +1,29 @@
+board "Product"
+  screen phone
+    navbar leading=back actions=[share]
+    stack gap=16 padding=16
+      image "Product image" height=300
+      heading "Product name" level=1
+      text "$99.99" size=lg bold
+      select "Size" placeholder="Select size"
+      button primary "Add to cart" fullWidth
+      heading "Reviews" level=2
+      list dividers grow
+        card
+          stack gap=4
+            stack row gap=8 align=center justify=between
+              text "John D." bold
+              text sm "★★★★★" muted
+            text "Great product, very satisfied!" lines=2
+        card
+          stack gap=4
+            stack row gap=8 align=center justify=between
+              text "Jane S." bold
+              text sm "★★★★" muted
+            text "Good quality but a bit expensive." lines=2
+        card
+          stack gap=4
+            stack row gap=8 align=center justify=between
+              text "Mike R." bold
+              text sm "★★★★★" muted
+            text "Exceeded my expectations!" lines=2

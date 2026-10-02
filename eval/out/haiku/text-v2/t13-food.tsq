@@ -1,0 +1,29 @@
+board "Food Delivery"
+  screen phone "Home"
+    navbar "Delivery" actions=[user]
+    input search placeholder="Search restaurants"
+    text "Categories" bold
+    stack row gap=12 padding=12 wrap=true
+      badge outline "All"
+      badge outline "Pizza"
+      badge outline "Sushi"
+      badge outline "Burgers"
+    text "Popular restaurants" bold
+    grid columns=2 gap=12 padding=12
+      card padding=8
+        image height=120
+        text "Restaurant A" bold
+        text "4.5★ 30 min" sm muted
+      card padding=8
+        image height=120
+        text "Restaurant B" bold
+        text "4.8★ 25 min" sm muted
+      card padding=8
+        image height=120
+        text "Restaurant C" bold
+        text "4.3★ 35 min" sm muted
+      card padding=8
+        image height=120
+        text "Restaurant D" bold
+        text "4.6★ 20 min" sm muted
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Orders icon=shopping-bag}, {label=Account icon=user}] active=0

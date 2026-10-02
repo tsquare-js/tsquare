@@ -1,0 +1,45 @@
+```tsquare
+board "Music app"
+  screen phone "Home"
+    navbar "Home" actions=[search, bell]
+    stack padding=16 gap=12
+      heading "Recently played" level=2
+      grid columns=2 gap=12
+        card padding=8
+          image height=100
+          text "Daily Mix" bold
+        card padding=8
+          image height=100
+          text "Chill Vibes" bold
+        card padding=8
+          image height=100
+          text "Top Hits" bold
+        card padding=8
+          image height=100
+          text "New Releases" bold
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Library icon=library}, {label=Profile icon=user}] active=0
+  screen phone "Now Playing"
+    navbar "Now Playing" leading=back actions=[more-horizontal]
+    stack padding=16 gap=12
+      image height=240
+      heading "Song title" level=2 align=center
+      text "Artist name" muted align=center
+      stack row justify=around
+        icon skip-back size=28
+        icon play size=36
+        icon skip-forward size=28
+    drawer bottom "Queue" size=260
+      list dividers
+        listitem "Song one" subtitle="Artist" leading=image trailing=icon trailingIcon=grip-vertical
+        listitem "Song two" subtitle="Artist" leading=image trailing=icon trailingIcon=grip-vertical
+        listitem "Song three" subtitle="Artist" leading=image trailing=icon trailingIcon=grip-vertical
+  screen phone "Library"
+    navbar "Library" actions=[plus]
+    tabs items=[Playlists, Albums, Artists] active=0
+    list dividers
+      listitem "Liked Songs" subtitle="120 songs" leading=image trailing=chevron
+      listitem "Road Trip" subtitle="45 songs" leading=image trailing=chevron
+      listitem "Workout" subtitle="60 songs" leading=image trailing=chevron
+      listitem "Focus" subtitle="80 songs" leading=image trailing=chevron
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Library icon=library}, {label=Profile icon=user}] active=2
+```

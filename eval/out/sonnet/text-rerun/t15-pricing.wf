@@ -1,0 +1,29 @@
+```wireframe
+board "Pricing"
+  screen desktop "Pricing"
+    navbar "Acme" leading=logo actions=[user]
+    stack padding=24 gap=20 align=center
+      heading "Choose your plan" level=1 align=center
+      stack row gap=8 justify=center
+        button primary "Monthly"
+        button secondary "Yearly"
+      stack row gap=16
+        card "Starter" padding=16 grow
+          heading "$9/mo" level=2
+          text "1 project"
+          text "Basic analytics"
+          text "Email support"
+          button secondary "Choose Starter" fullWidth
+        card "Pro" padding=16 grow
+          heading "$29/mo" level=2
+          text "10 projects"
+          text "Advanced analytics"
+          text "Priority support"
+          button primary "Choose Pro" fullWidth
+        card "Team" padding=16 grow
+          heading "$79/mo" level=2
+          text "Unlimited projects"
+          text "Custom reports"
+          text "Dedicated manager"
+          button secondary "Choose Team" fullWidth
+```

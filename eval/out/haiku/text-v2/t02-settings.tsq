@@ -1,0 +1,20 @@
+```tsquare
+board "Settings"
+  screen phone "Settings"
+    navbar "Settings" leading=back
+    spacer size=16
+    heading "Notifications" level=3
+    toggle "Push notifications" on
+    toggle "Email notifications" off
+    spacer size=24
+    heading "Appearance" level=3
+    toggle "Dark mode" off
+    spacer size=24
+    heading "Account" level=3
+    list dividers
+      listitem "Edit profile" trailing=chevron
+      listitem "Privacy" trailing=chevron
+      listitem "Security" trailing=chevron
+    spacer
+    button "Sign out" secondary fullWidth
+```

@@ -1,0 +1,28 @@
+```wireframe
+board "Ride hailing"
+  screen phone "Request"
+    image height=300
+    drawer bottom "Select ride" size=220
+      stack padding=16 gap=12
+        text "Available rides" bold
+        stack gap=12
+          card padding=12
+            stack row gap=8 align=center
+              stack grow=true
+                text "Economy" bold
+                text "5 min away" sm muted
+              text "$15" bold
+          card padding=12
+            stack row gap=8 align=center
+              stack grow=true
+                text "Comfort" bold
+                text "8 min away" sm muted
+              text "$22" bold
+          card padding=12
+            stack row gap=8 align=center
+              stack grow=true
+                text "Premium" bold
+                text "12 min away" sm muted
+              text "$35" bold
+        button "Confirm ride" primary fullWidth
+```

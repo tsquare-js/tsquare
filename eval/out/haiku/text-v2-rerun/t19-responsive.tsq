@@ -1,0 +1,18 @@
+board "Notes - Responsive" layout=row gap=24
+  screen phone "Notes Mobile"
+    navbar "Notes" leading=menu actions=[plus]
+    list dividers
+      listitem "Meeting notes" subtitle="Oct 2, 2024" trailing=chevron
+      listitem "Project ideas" subtitle="Oct 1, 2024" trailing=chevron
+      listitem "To-do items" subtitle="Sep 28, 2024" trailing=chevron
+  screen desktop "Notes Desktop" width=600
+    navbar "Notes" leading=menu actions=[plus]
+    stack row gap=16
+      list grow dividers
+        listitem "Meeting notes" subtitle="Oct 2, 2024" trailing=chevron
+        listitem "Project ideas" subtitle="Oct 1, 2024" trailing=chevron
+        listitem "To-do items" subtitle="Sep 28, 2024" trailing=chevron
+      stack width=250 fill
+        text "Preview" bold
+        text lines=8
+  note "On mobile, notes are full width. On desktop, a preview panel shows on the right." color=blue width=200

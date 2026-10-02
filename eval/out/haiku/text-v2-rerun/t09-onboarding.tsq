@@ -1,0 +1,23 @@
+board "Onboarding"
+  screen phone "Welcome"
+    stack padding=24 gap=24 justify=center align=center grow
+      image "Welcome illustration" height=200
+      heading "Welcome" level=1 align=center
+      text "Discover amazing features designed to help you succeed" align=center
+      spacer
+      button primary "Continue" fullWidth
+  screen phone "Benefits"
+    stack padding=24 gap=24 justify=center align=center grow
+      image "Benefits illustration" height=200
+      heading "Save time" level=1 align=center
+      text "Automate repetitive tasks and focus on what matters" align=center
+      spacer
+      button primary "Continue" fullWidth
+  screen phone "Ready"
+    stack padding=24 gap=24 justify=center align=center grow
+      image "Ready illustration" height=200
+      heading "Ready to start?" level=1 align=center
+      text "Join thousands of users already using our app" align=center
+      spacer
+      button primary "Get started" fullWidth
+      button ghost "Sign in" fullWidth

@@ -1,0 +1,36 @@
+board "Pricing"
+  screen desktop "Plans"
+    navbar "Pricing" leading=none
+    stack gap=24 padding=40 align=center
+      heading "Choose your plan" level=1
+      stack row gap=12 justify=center
+        button "Monthly" primary
+        button "Yearly" secondary
+      stack row gap=24 justify=center
+        card padding=24 width=300
+          heading "Starter" level=2
+          text "$29" bold
+          text "per month" muted
+          divider
+          text "5 projects" size=sm
+          text "Basic support" size=sm
+          text "2 GB storage" size=sm
+          button "Get started" primary fullWidth
+        card padding=24 width=300
+          heading "Pro" level=2
+          text "$99" bold
+          text "per month" muted
+          divider
+          text "Unlimited projects" size=sm
+          text "Priority support" size=sm
+          text "100 GB storage" size=sm
+          button "Get started" primary fullWidth
+        card padding=24 width=300
+          heading "Enterprise" level=2
+          text "Custom" bold
+          text "per month" muted
+          divider
+          text "Everything in Pro" size=sm
+          text "Dedicated support" size=sm
+          text "Unlimited storage" size=sm
+          button "Contact us" secondary fullWidth

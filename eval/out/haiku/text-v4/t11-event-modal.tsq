@@ -1,0 +1,12 @@
+board "Calendar"
+  screen desktop "Calendar with New Event"
+    image height=500 "Calendar"
+    modal "New event" width=400
+      input "Title" placeholder="Event name"
+      stack row gap=16
+        select "Date" value="2024-01-15"
+        select "Time" value="09:00"
+      input "Description" multiline=4 placeholder="Add details"
+      stack row gap=8 justify=end
+        button "Cancel" secondary
+        button "Save" primary

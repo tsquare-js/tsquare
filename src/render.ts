@@ -2,10 +2,11 @@ import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import type { Spec } from "@json-render/core";
 import { renderToSvg } from "@json-render/image/render";
-import { catalog, componentDefinitions } from "./catalog.js";
+import { catalog, componentDefinitions, listItemEnds, upgradeRenamedProps } from "./catalog.js";
 import { withPalette } from "./components.js";
 import { paletteFor } from "./colors.js";
 import { unknownComponentMessage } from "./suggest.js";
+import { belongsElsewhere } from "./text.js";
 import {
   BOARD_GAP,
   BOARD_PADDING,
@@ -41,6 +42,7 @@ export class SpecError extends Error {
 
 /** Catalog validation plus the structural rules the renderer depends on. */
 export function checkSpec(spec: Spec): string[] {
+  upgradeRenamedProps(spec as any); // old prop names are fine (icon → leadingIcon)
   const issues: string[] = [];
   const result = catalog.validate(spec);
   if (!result.success) {
@@ -75,7 +77,10 @@ export function checkSpec(spec: Spec): string[] {
       }
       // Zod drops unknown keys silently; report them so the author (or model) hears about it.
       for (const key of Object.keys(el.props ?? {})) {
-        if (!(key in def.props.shape)) issues.push(`${id}.props: ${el.type} has no prop "${key}"`);
+        if (!(key in def.props.shape)) {
+          const elsewhere = belongsElsewhere(el.type, key, true);
+          issues.push(`${id}.props: ${el.type} has no prop "${key}"${elsewhere ? `: ${elsewhere}` : ""}`);
+        }
       }
     }
     for (const child of el.children ?? []) {
@@ -89,6 +94,16 @@ export function checkSpec(spec: Spec): string[] {
       if (parent && parent[1].type !== "Screen") {
         issues.push(`${id}: ${el.type} must be a direct child of a Screen (found in ${parent[1].type} "${parent[0]}")`);
       }
+    }
+    // A ListItem value that its leading/trailing kind wouldn't show (icon=star with leading=avatar).
+    if (el.type === "ListItem") {
+      const p = (el.props ?? {}) as Record<string, string | undefined>;
+      const { leading, trailing } = listItemEnds(p);
+      const conflict = (prop: string, needs: string, kind: string, has: string) =>
+        issues.push(`${id}: ${prop} only shows with ${needs} (this item has ${kind}=${has}); remove one of them`);
+      if (p.leadingIcon && leading !== "icon") conflict("leadingIcon", "leading=icon", "leading", leading!);
+      if (p.trailingIcon && trailing !== "icon") conflict("trailingIcon", "trailing=icon", "trailing", trailing!);
+      if (p.trailingText && trailing !== "text" && trailing !== "badge") conflict("trailingText", "trailing=text or badge", "trailing", trailing!);
     }
     // The renderer would silently drop extra cells. Usually the cause is an unquoted
     // cell with a space, which the text syntax splits into two.
@@ -115,8 +130,23 @@ export function checkSpec(spec: Spec): string[] {
   return issues;
 }
 
-/** Work out the canvas size from the Board's screens (Satori needs it up front). */
-export function boardSize(spec: Spec) {
+export interface BoardItem {
+  type: "Screen" | "Note";
+  /** Screen name or note text, for labels in tools like the playground. */
+  name: string;
+  /** Box on the board in px, including the screen's name label above its frame. */
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+/**
+ * Where everything sits on the board: the canvas size (Satori needs it up
+ * front) and each screen's and note's box, laid out in rows exactly as the
+ * Board component does.
+ */
+export function boardLayout(spec: Spec): { width: number; height: number; items: BoardItem[] } {
   const board = spec.elements[spec.root];
   const p = (board.props ?? {}) as Record<string, any>;
   const gap = p.gap ?? BOARD_GAP;
@@ -127,27 +157,37 @@ export function boardSize(spec: Spec) {
     const props = (el.props ?? {}) as Record<string, any>;
     if (el.type === "Screen") {
       const s = screenSize(props);
-      return { w: s.width, h: s.height + LABEL_H };
+      return { type: "Screen" as const, name: String(props.name ?? ""), w: s.width, h: s.height + LABEL_H };
     }
     if (el.type === "Note") {
       const w = props.width ?? NOTE_WIDTH;
-      return { w, h: LABEL_H + estimateNoteHeight(props.text ?? "", w) };
+      return { type: "Note" as const, name: String(props.text ?? ""), w, h: LABEL_H + estimateNoteHeight(props.text ?? "", w) };
     }
-    return { w: 0, h: 0 };
+    return null;
   });
 
   const perRow = p.layout === "grid" ? Math.max(1, p.columns ?? 3) : Math.max(1, boxes.length);
+  const items: BoardItem[] = [];
   let width = 0;
-  let height = 0;
+  let y = pad + (p.title ? TITLE_H : 0);
   for (let i = 0; i < boxes.length; i += perRow) {
     const row = boxes.slice(i, i + perRow);
-    width = Math.max(width, row.reduce((sum, b) => sum + b.w, 0) + gap * (row.length - 1));
-    height += Math.max(...row.map((b) => b.h)) + (i > 0 ? gap : 0);
+    if (i > 0) y += gap;
+    let x = pad;
+    for (const b of row) {
+      if (b) items.push({ type: b.type, name: b.name, x, y, width: b.w, height: b.h });
+      x += (b?.w ?? 0) + gap;
+    }
+    width = Math.max(width, row.reduce((sum, b) => sum + (b?.w ?? 0), 0) + gap * (row.length - 1));
+    y += Math.max(...row.map((b) => b?.h ?? 0));
   }
-  return {
-    width: Math.ceil(width + pad * 2),
-    height: Math.ceil(height + pad * 2 + (p.title ? TITLE_H : 0)),
-  };
+  return { width: Math.ceil(width + pad * 2), height: Math.ceil(y + pad), items };
+}
+
+/** The canvas size for a board. */
+export function boardSize(spec: Spec) {
+  const { width, height } = boardLayout(spec);
+  return { width, height };
 }
 
 export interface RenderWireframeOptions {
@@ -156,6 +196,7 @@ export interface RenderWireframeOptions {
 }
 
 export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOptions = {}) {
+  upgradeRenamedProps(spec as any);
   if (!opts.skipValidation) {
     const issues = checkSpec(spec);
     if (issues.length) throw new SpecError(issues);

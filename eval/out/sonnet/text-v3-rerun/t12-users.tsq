@@ -1,0 +1,28 @@
+board "User management"
+  screen desktop "Users"
+    stack row padding=16 align=center
+      heading "Users" level=1
+      spacer
+      button secondary "Filters" leadingIcon=filter
+      button primary "Invite user" leadingIcon=plus
+    tabs items=[Active, Invited, Suspended] active=0
+    stack padding=16
+      table columns=[Name, Email, Role, Status] data=[[Ana Torres, ana.torres@acme.com, Admin, Active], [Liam Chen, liam.chen@acme.com, Editor, Active], [Sofia Rossi, sofia.rossi@acme.com, Viewer, Active], [Noah Patel, noah.patel@acme.com, Editor, Active]]
+  screen desktop "Users with filters"
+    stack row padding=16 align=center
+      heading "Users" level=1
+      spacer
+      button secondary "Filters" leadingIcon=filter
+      button primary "Invite user" leadingIcon=plus
+    tabs items=[Active, Invited, Suspended] active=0
+    stack padding=16
+      table columns=[Name, Email, Role, Status] data=[[Ana Torres, ana.torres@acme.com, Admin, Active], [Liam Chen, liam.chen@acme.com, Editor, Active], [Sofia Rossi, sofia.rossi@acme.com, Viewer, Active], [Noah Patel, noah.patel@acme.com, Editor, Active]]
+    drawer right "Filters" size=320
+      select "Role" value="All roles"
+      select "Status" value="Active"
+      select "Team" placeholder="Any team"
+      checkbox "Has two-factor enabled"
+      checkbox "Joined in the last 30 days"
+      stack row gap=8
+        button secondary "Reset"
+        button primary "Apply"

@@ -1,0 +1,15 @@
+board "Settings"
+  screen phone "Settings"
+    navbar "Settings" leading=back
+    heading "Preferences" level=3
+    toggle "Notifications" on
+    toggle "Dark mode" off
+    divider
+    heading "Account" level=3
+    list dividers
+      listitem "Profile" trailing=chevron
+      listitem "Email" subtitle="you@example.com" trailing=chevron
+      listitem "Password" trailing=chevron
+      listitem "Privacy" trailing=chevron
+    spacer
+    button secondary "Sign out" fullWidth

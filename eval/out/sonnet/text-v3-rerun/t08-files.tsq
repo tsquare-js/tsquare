@@ -1,0 +1,19 @@
+```tsquare
+board "File manager"
+  screen desktop "Files"
+    stack padding=16 gap=12
+      stack row align=center gap=12
+        heading "My files" level=2
+        spacer
+        input search placeholder="Search files" width=240
+        button primary "Upload" leadingIcon=upload
+      table columns=[Name, Owner, Modified, Size] data=[[Report.pdf, Me, Oct 1, 2.4 MB], [Budget.xlsx, Ana Torres, Sep 30, 120 KB], [Photos, Me, Sep 28, 48 MB], [Notes.txt, Ben Lee, Sep 25, 4 KB]]
+    drawer right "Details" size=320
+      image "Preview" height=140
+      text "Report.pdf" bold
+      text sm "PDF document, 2.4 MB" muted
+      divider
+      text sm "Owner: Me"
+      text sm "Modified: Oct 1"
+      button secondary "Download" leadingIcon=download fullWidth
+```

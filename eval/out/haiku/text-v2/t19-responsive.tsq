@@ -1,0 +1,22 @@
+board "Notes - Responsive"
+  screen phone "Mobile"
+    navbar "Notes"
+    list grow=true
+      listitem "First note" subtitle="Yesterday" trailingIcon=trash
+      listitem "Second note" subtitle="2 days ago" trailingIcon=trash
+      listitem "Third note" subtitle="Last week" trailingIcon=trash
+    button "Add note" primary fullWidth
+  screen desktop "Desktop"
+    navbar "Notes" leading=menu
+    stack row gap=16 padding=16 grow=true
+      stack grow=true
+        heading "Notes" level=1
+        text "3 notes" muted
+        divider
+        list grow=true
+          listitem "First note" subtitle="Yesterday" trailingIcon=trash
+          listitem "Second note" subtitle="2 days ago" trailingIcon=trash
+          listitem "Third note" subtitle="Last week" trailingIcon=trash
+      card width=240 padding=16
+        text lines=4
+  note "On desktop, shows the full list in a sidebar. On mobile, shows the list fullscreen." color=yellow

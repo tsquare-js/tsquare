@@ -1,0 +1,26 @@
+board "File manager"
+  screen desktop
+    navbar "Files" leading=menu actions=[search, plus]
+    stack gap=16 padding=16 grow
+      stack row gap=8 align=center
+        button secondary leadingIcon=arrow-up
+        button secondary leadingIcon=arrow-down
+        button secondary leadingIcon=trash
+      table columns=[Name, Size, Type, Modified] rows=8
+    drawer right "Details" size=280
+      stack gap=16
+        heading "document.pdf" level=2
+        text "PDF Document" sm muted
+        divider
+        stack gap=4
+          text "Size:" muted
+          text "2.4 MB"
+        stack gap=4
+          text "Type:" muted
+          text "PDF"
+        stack gap=4
+          text "Modified:" muted
+          text "Oct 1, 2024"
+        divider
+        button primary "Download" fullWidth
+        button secondary "Share" fullWidth

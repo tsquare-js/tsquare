@@ -1,0 +1,17 @@
+```tsquare
+board "Notes states"
+  screen phone "Empty"
+    navbar "Notes" leading=menu actions=[search]
+    stack grow align=center justify=center gap=12
+      image "Illustration" height=140 width=140
+      heading "No notes yet" level=2 align=center
+      text "Tap below to write your first note." muted align=center
+      button primary "Create note"
+  screen phone "Error"
+    navbar "Notes" leading=menu actions=[search]
+    stack grow align=center justify=center gap=12
+      icon "triangle-alert" size=48
+      heading "Something went wrong" level=2 align=center
+      text "We couldn't load your notes." muted align=center
+      button secondary "Retry"
+```

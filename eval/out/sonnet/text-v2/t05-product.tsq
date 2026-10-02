@@ -1,0 +1,15 @@
+board "Product page"
+  screen phone "Product" height=900
+    navbar leading=back actions=[heart, share]
+    image "Product photo" height=260
+    heading "Product name" level=1
+    heading "$49.00" level=2
+    text lines=2 muted
+    select "Size" value="M"
+    button primary "Add to cart" fullWidth
+    divider
+    heading "Reviews" level=3
+    list dividers
+      listitem "Great quality" subtitle="Ana T. - 5 stars" leading=avatar
+      listitem "Fits well" subtitle="Ben L. - 4 stars" leading=avatar
+      listitem "Good value" subtitle="Cara D. - 4 stars" leading=avatar

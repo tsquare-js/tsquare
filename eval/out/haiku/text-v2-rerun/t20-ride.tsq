@@ -1,0 +1,24 @@
+board "Ride Hailing"
+  screen phone "Select Ride"
+    image height=300
+    drawer bottom "Choose Your Ride" size=280
+      stack gap=12
+        stack row gap=12 align=center padding=12 fill
+          image width=40 height=40
+          stack grow
+            text "Economy" bold
+            text "5 min away" sm muted
+          text "12" bold
+        stack row gap=12 align=center padding=12 fill
+          image width=40 height=40
+          stack grow
+            text "Premium" bold
+            text "8 min away" sm muted
+          text "18" bold
+        stack row gap=12 align=center padding=12 fill
+          image width=40 height=40
+          stack grow
+            text "XL" bold
+            text "10 min away" sm muted
+          text "22" bold
+      button "Confirm ride" primary fullWidth

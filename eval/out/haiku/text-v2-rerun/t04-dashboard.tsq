@@ -1,0 +1,32 @@
+board "Analytics dashboard"
+  screen desktop
+    stack row gap=0
+      stack width=240 border=right padding=12 gap=12
+        heading "Dashboard" level=2
+        list
+          listitem "Overview" trailing=chevron
+          listitem "Reports" trailing=chevron
+          listitem "Settings" trailing=chevron
+          listitem "Logout" trailing=chevron
+      stack grow
+        stack row padding=16 gap=8 align=center justify=between
+          heading "Analytics" level=1
+          input "Search" placeholder="Search..." width=200
+          avatar "JD" size=32
+        divider
+        stack padding=16 gap=16
+          grid columns=4 gap=16
+            card
+              text "Total revenue" muted
+              text "12,345" bold size=lg
+            card
+              text "Orders" muted
+              text "234" bold size=lg
+            card
+              text "Customers" muted
+              text "1,234" bold size=lg
+            card
+              text "Conversion" muted
+              text "3.2%" bold size=lg
+          heading "Recent orders" level=2
+          table columns=[Order ID, Customer, Amount, Status, Date] rows=5

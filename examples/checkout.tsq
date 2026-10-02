@@ -1,0 +1,15 @@
+board row "Checkout" accent=green
+  screen phone "Cart"
+    navbar "Cart" leading=back
+    list
+      listitem "Oat latte" subtitle="Large, extra shot" leading=image trailing=text trailingText="$5.40"
+      listitem "Croissant" subtitle="Warm" leading=image trailing=text trailingText="$3.20"
+    spacer
+    button primary lg "Checkout · $8.60" fullWidth
+  screen phone "Pay"
+    navbar "Cart" leading=back
+    text lines=4
+    drawer bottom "Payment" size=300
+      select "Card" value="Visa ending 6411"
+      toggle "Save card" on
+      button primary lg "Pay $8.60" fullWidth

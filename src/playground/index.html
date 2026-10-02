@@ -5,84 +5,177 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>tsquare Playground</title>
 <link rel="icon" type="image/png" href="/mark.png">
+<script>
+  // Apply the saved or system theme before first paint, so there's no flash.
+  try { document.documentElement.dataset.theme = localStorage.getItem("wf.theme") || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); } catch {}
+</script>
 <style>
-  :root {
+  :root, :root[data-theme="light"] {
     --bg: #f4f5f7;
     --panel: #ffffff;
     --ink: #1f2328;
     --text: #3d434b;
-    --muted: #7a818b;
+    --muted: #6f7782;
     --line: #dfe2e6;
     --line-strong: #c7cbd1;
     --fill: #eef0f3;
-    --accent: #2b3036;
-    --on-accent: #ffffff;
+    --stage: #e6e8eb;
+    --primary: #1f6fd6;          /* tsquare blue, deep enough for white text (4.9:1) */
+    --on-primary: #ffffff;
+    --accent-soft: rgba(59, 153, 251, 0.16);
     --error: #c2362b;
     --error-bg: #fcefed;
     --ok: #2f7d4f;
+    --shadow: 0 12px 32px -12px rgba(15, 23, 42, 0.28);
+    --editor-bg: #ffffff;
+    --editor-ink: #1f2328;
+    /* translucent: CodeMirror draws selections behind the text, so an opaque current-line color would hide them */
+    --editor-active: rgba(31, 111, 214, 0.045);
+    --editor-selection: rgba(31, 111, 214, 0.26);
+    --syn-component: #0b3d91;
+    --syn-string: #17754a;
+    --syn-prop: #6d28d9;
+    --syn-number: #b45309;
+    --syn-word: #0e7490;
+    --syn-color: #be185d;
+    --syn-comment: #8b95a5;
+    --syn-punct: #5b6472;
     --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     --sans: Inter, ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e131a;
+    --panel: #151c25;
+    --ink: #e6ebf2;
+    --text: #c3cad4;
+    --muted: #8b95a5;
+    --line: #253041;
+    --line-strong: #344155;
+    --fill: #1c2532;
+    --stage: #0a0e13;
+    --primary: #2f7fe6;
+    --on-primary: #ffffff;
+    --accent-soft: rgba(59, 153, 251, 0.22);
+    --error: #ff7b70;
+    --error-bg: #3a1d1c;
+    --ok: #5cc98a;
+    --shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.7);
+    --editor-bg: #111821;
+    --editor-ink: #e6ebf2;
+    --editor-active: rgba(255, 255, 255, 0.035);
+    --editor-selection: rgba(80, 150, 255, 0.36);
+    --syn-component: #8ab4ff;
+    --syn-string: #7ee2a8;
+    --syn-prop: #c4a7ff;
+    --syn-number: #f5b971;
+    --syn-word: #67d4e8;
+    --syn-color: #f49ac1;
+    --syn-comment: #6f7a8a;
+    --syn-punct: #9aa4b2;
+    color-scheme: dark;
   }
   * { box-sizing: border-box; }
   html, body { height: 100%; margin: 0; }
   body { background: var(--bg); color: var(--ink); font: 14px/1.45 var(--sans); display: flex; flex-direction: column; }
-  button, select { font: inherit; }
+  button, select { font: inherit; color: inherit; }
+  [data-icon] { display: inline-flex; }
+  [data-icon] svg { width: 16px; height: 16px; }
 
-  header { display: flex; align-items: center; gap: 24px; padding: 0 16px; height: 52px; background: var(--panel); border-bottom: 1px solid var(--line); flex-shrink: 0; }
+  header { display: flex; align-items: center; gap: 20px; padding: 0 12px 0 16px; height: 52px; background: var(--panel); border-bottom: 1px solid var(--line); flex-shrink: 0; }
   header h1 { font-size: 15px; font-weight: 650; margin: 0; letter-spacing: -0.01em; display: flex; align-items: center; gap: 8px; }
   header h1 img { width: 26px; height: 26px; border-radius: 6px; }
+  header .brand { display: flex; align-items: center; gap: 8px; color: inherit; text-decoration: none; border-radius: 6px; }
+  header .brand:hover { opacity: .8; }
+  header .spacer { flex: 1; }
   nav { display: flex; gap: 4px; }
   nav button { border: 0; background: none; padding: 6px 12px; border-radius: 6px; color: var(--muted); cursor: pointer; font-weight: 500; }
   nav button:hover { color: var(--ink); background: var(--fill); }
   nav button[aria-selected="true"] { color: var(--ink); background: var(--fill); }
 
-  .btn { border: 1px solid var(--line-strong); background: var(--panel); color: var(--ink); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; white-space: nowrap; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-strong); background: var(--panel); padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500; white-space: nowrap; }
   .btn:hover { border-color: var(--muted); }
   .btn:disabled { opacity: .45; cursor: default; }
-  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-  select.btn { padding-right: 6px; }
+  .btn.primary { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+  .btn.icon-only { padding: 5px 7px; }
+  .btn.quiet { border-color: transparent; background: none; }
+  .btn.quiet:hover { background: var(--fill); }
 
   main { flex: 1; min-height: 0; display: flex; }
   .view { flex: 1; min-width: 0; display: none; }
   .view.active { display: flex; }
 
-  /* Editor */
-  #editor-view { gap: 0; }
+  /* ── Editor view ── */
   .pane { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
-  .editor-pane { width: 44%; min-width: 320px; background: var(--panel); border-right: 1px solid var(--line); }
-  .toolbar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--line); flex-shrink: 0; flex-wrap: wrap; }
+  .editor-pane { width: var(--split, 42%); min-width: 280px; background: var(--editor-bg); }
+  .splitter { width: 6px; margin: 0 -3px; cursor: col-resize; position: relative; z-index: 2; flex-shrink: 0; }
+  .splitter::after { content: ""; position: absolute; inset: 0 2px; background: var(--line); transition: background .15s; }
+  .splitter:hover::after, .splitter.dragging::after { background: var(--primary); }
+  .toolbar { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-bottom: 1px solid var(--line); flex-shrink: 0; background: var(--panel); min-height: 47px; min-width: 0; }
   .toolbar .grow { flex: 1; }
-  .code { flex: 1; min-height: 0; display: flex; overflow: auto; font: 13px/20px var(--mono); }
-  .gutter { padding: 12px 0; text-align: right; color: var(--muted); user-select: none; flex-shrink: 0; min-width: 44px; background: var(--panel); position: sticky; left: 0; }
-  .gutter div { padding: 0 10px 0 8px; height: 20px; }
-  .gutter div.bad { color: var(--error); background: var(--error-bg); font-weight: 600; }
-  textarea { flex: 1; border: 0; outline: none; resize: none; padding: 12px 12px 12px 4px; font: inherit; color: var(--ink); background: transparent; white-space: pre; overflow: hidden; tab-size: 2; min-width: 0; }
-  .issues { border-top: 1px solid var(--line); max-height: 32%; overflow: auto; flex-shrink: 0; }
+  .doc-title { font-weight: 600; font-size: 13px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .code { flex: 1; min-height: 0; overflow: hidden; }
+  .issues { border-top: 1px solid var(--line); max-height: 30%; overflow: auto; flex-shrink: 0; background: var(--panel); }
   .issues:empty { display: none; }
-  .issue { display: flex; gap: 10px; padding: 7px 12px; border-bottom: 1px solid var(--line); cursor: pointer; font-size: 13px; }
+  .issue { display: flex; gap: 10px; padding: 7px 12px; border-bottom: 1px solid var(--line); cursor: pointer; font-size: 13px; width: 100%; text-align: left; background: none; border-left: 0; border-right: 0; border-top: 0; }
   .issue:hover { background: var(--error-bg); }
   .issue .ln { color: var(--error); font: 600 12px/20px var(--mono); flex-shrink: 0; min-width: 52px; }
 
-  .preview-pane { flex: 1; }
-  .status { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  .preview-pane { flex: 1; container-type: inline-size; }
+  /* Narrow preview: long button labels collapse to their icons (SVG/PNG keep their text) */
+  @container (max-width: 620px) { .label-wide { display: none; } .btn:has(.label-wide) { padding: 5px 7px; } }
+  @container (max-width: 470px) { .zoom-level { display: none; } }
+  .status { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
   .status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
   .status.ok .dot { background: var(--ok); }
   .status.bad { color: var(--error); }
   .status.bad .dot { background: var(--error); }
-  .stage { flex: 1; min-height: 0; overflow: auto; padding: 16px; display: flex; }
-  .stage img { margin: auto; display: block; transition: opacity .15s; }
-  .stage.fit img { max-width: 100%; max-height: 100%; object-fit: contain; }
-  .stage.stale img { opacity: .35; }
-  .stage .empty { margin: auto; color: var(--muted); }
+  .zoom-level { min-width: 52px; justify-content: center; font-variant-numeric: tabular-nums; }
+  .screens { display: flex; gap: 4px; padding: 6px 10px; border-bottom: 1px solid var(--line); background: var(--panel); overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
+  .screens::-webkit-scrollbar { display: none; }
+  .screens:empty { display: none; }
+  .screens button { border: 1px solid var(--line); background: none; border-radius: 999px; padding: 3px 10px; font-size: 12.5px; color: var(--text); cursor: pointer; white-space: nowrap; }
+  .screens button:hover { border-color: var(--line-strong); }
+  .screens button[aria-pressed="true"] { background: var(--accent-soft); border-color: transparent; color: var(--ink); font-weight: 600; }
+  .stage { flex: 1; min-height: 0; overflow: hidden; position: relative; background: var(--stage); cursor: grab; touch-action: none; }
+  .stage.panning { cursor: grabbing; }
+  .stage .canvas { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+  .stage .canvas img { display: block; user-select: none; -webkit-user-drag: none; transition: opacity .15s; }
+  .stage.stale .canvas img { opacity: .35; }
+  .stage .empty { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); }
+  .stage.animate .canvas { transition: transform .25s ease; }
+  .preview-pane:fullscreen { background: var(--bg); }
 
-  /* Components */
+  /* ── Menu (share links) ── */
+  .menu-wrap { position: relative; }
+  .menu { position: absolute; right: 0; top: calc(100% + 6px); min-width: 250px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); padding: 6px; z-index: 20; display: none; }
+  .menu.open { display: block; }
+  .menu button { display: flex; align-items: flex-start; gap: 10px; width: 100%; text-align: left; border: 0; background: none; padding: 8px 10px; border-radius: 7px; cursor: pointer; }
+  .menu button:hover, .menu button:focus-visible { background: var(--fill); outline: none; }
+  .menu button small { display: block; color: var(--muted); font-size: 12px; }
+  .menu hr { border: 0; border-top: 1px solid var(--line); margin: 6px 4px; }
+
+  /* ── Examples gallery ── */
+  dialog { border: 1px solid var(--line); border-radius: 14px; padding: 0; background: var(--panel); color: var(--ink); width: min(920px, calc(100vw - 32px)); max-height: calc(100vh - 64px); box-shadow: var(--shadow); }
+  dialog::backdrop { background: rgba(10, 14, 20, .45); }
+  .dialog-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--panel); }
+  .dialog-head h2 { margin: 0; font-size: 16px; }
+  .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; padding: 16px; }
+  .card { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); cursor: pointer; padding: 0; text-align: left; overflow: hidden; display: flex; flex-direction: column; }
+  .card:hover, .card:focus-visible { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px var(--accent-soft); }
+  .card .thumb { height: 140px; background: var(--stage); display: flex; align-items: center; justify-content: center; padding: 8px; overflow: hidden; }
+  .card .thumb img { max-width: 100%; max-height: 124px; object-fit: contain; }
+  .card .thumb.blank { color: var(--muted); font-size: 13px; }
+  .card .name { padding: 9px 12px; font-weight: 600; font-size: 13px; }
+
+  /* ── Components view ── */
   #components-view { min-height: 0; }
   .toc { width: 200px; flex-shrink: 0; overflow: auto; padding: 16px 8px 32px 16px; border-right: 1px solid var(--line); background: var(--panel); }
   .toc h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 16px 0 4px; font-weight: 600; }
   .toc h3:first-child { margin-top: 0; }
   .toc a { display: block; padding: 3px 8px; margin-left: -8px; border-radius: 5px; color: var(--text); text-decoration: none; }
   .toc a:hover { background: var(--fill); color: var(--ink); }
-  .docs { flex: 1; overflow: auto; padding: 24px 32px 80px; scroll-padding-top: 16px; }
+  .docs { flex: 1; overflow: auto; padding: 24px 32px 80px; }
   .docs-intro { max-width: 760px; color: var(--text); margin-bottom: 24px; }
   .docs-intro code, .comp code, .prompt-help code { font: 12.5px var(--mono); background: var(--fill); padding: 1px 5px; border-radius: 4px; }
   .group-title { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 40px 0 12px; font-weight: 600; }
@@ -94,7 +187,7 @@
   .comp > p { margin: 4px 20px 12px; color: var(--text); }
   .comp-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-top: 1px solid var(--line); }
   .comp-body > div { min-width: 0; }
-  .shot { background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 12px; border-right: 1px solid var(--line); }
+  .shot { background: var(--stage); display: flex; align-items: center; justify-content: center; padding: 12px; border-right: 1px solid var(--line); }
   .shot img { max-width: 100%; max-height: 420px; }
   .props { width: 100%; border-collapse: collapse; font-size: 13px; }
   .props th { text-align: left; font-weight: 600; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; padding: 10px 14px 6px; }
@@ -105,60 +198,86 @@
   .tag { display: inline-block; font: 600 10px/1 var(--sans); text-transform: uppercase; letter-spacing: .04em; padding: 3px 5px; border-radius: 4px; background: var(--fill); color: var(--text); margin-left: 6px; vertical-align: 2px; }
   pre.src { margin: 0; padding: 12px 14px; border-top: 1px solid var(--line); background: var(--panel); font: 12px/18px var(--mono); overflow: auto; max-height: 260px; color: var(--text); }
 
-  /* Prompt */
+  /* ── Prompt view ── */
   #prompt-view { flex-direction: column; min-height: 0; }
   .prompt-help { padding: 16px 24px; background: var(--panel); border-bottom: 1px solid var(--line); display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
   .prompt-help ol { margin: 0; padding-left: 20px; color: var(--text); }
   .prompt-help .grow { flex: 1; }
   #prompt-text { flex: 1; margin: 0; overflow: auto; padding: 20px 24px 60px; font: 12.5px/19px var(--mono); white-space: pre-wrap; color: var(--text); max-width: 980px; }
 
-  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--accent); color: var(--on-accent); padding: 8px 14px; border-radius: 8px; font-size: 13px; opacity: 0; transition: .2s; pointer-events: none; }
-  .toast.show { opacity: 1; transform: translateX(-50%); }
+  /* ── Toast ── */
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--ink); color: var(--panel); padding: 8px 8px 8px 14px; border-radius: 10px; font-size: 13px; opacity: 0; transition: .2s; pointer-events: none; display: flex; align-items: center; gap: 12px; z-index: 50; box-shadow: var(--shadow); }
+  .toast.show { opacity: 1; transform: translateX(-50%); pointer-events: auto; }
+  .toast button { border: 0; background: rgba(127, 127, 127, .25); color: inherit; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 12.5px; }
+  .toast button:empty { display: none; }
+  .toast:not(:has(button:not(:empty))) { padding-right: 14px; }
 
   @media (max-width: 860px) {
     #editor-view.active { flex-direction: column; }
-    .editor-pane { width: auto; min-width: 0; height: 50%; border-right: 0; border-bottom: 1px solid var(--line); }
+    .editor-pane { width: auto; min-width: 0; height: 48%; border-bottom: 1px solid var(--line); }
+    .splitter { display: none; }
     .toc { display: none; }
     .docs { padding: 16px 16px 60px; }
     .comp-body { grid-template-columns: 1fr; }
     .shot { border-right: 0; border-bottom: 1px solid var(--line); }
-    header { gap: 12px; }
+    header { gap: 10px; }
+  }
+  @media (max-width: 480px) {
+    header { gap: 6px; padding: 0 8px 0 12px; }
+    header h1 { font-size: 0; }          /* keep the logo mark, drop the word */
+    nav button { padding: 6px 8px; }
   }
 </style>
 </head>
 <body>
 <header>
-  <h1><img src="/mark.png" alt="">tsquare</h1>
+  <h1><a class="brand" id="brand" href="https://tsquare.dev"><img src="/mark.png" alt="">tsquare</a></h1>
   <nav role="tablist">
     <button role="tab" data-view="editor" aria-selected="true">Editor</button>
     <button role="tab" data-view="components" aria-selected="false">Components</button>
     <button role="tab" data-view="prompt" aria-selected="false">Prompt</button>
   </nav>
+  <span class="spacer"></span>
+  <button class="btn quiet icon-only" id="theme" type="button" aria-label="Switch to dark mode" title="Switch theme"><span data-icon="moon"></span></button>
 </header>
 
 <main>
   <section id="editor-view" class="view active">
     <div class="pane editor-pane">
       <div class="toolbar">
-        <select id="examples" class="btn" aria-label="Load an example"><option value="">Load example…</option></select>
+        <button class="btn" id="open-examples" type="button"><span data-icon="layout-grid"></span>Examples</button>
+        <span class="doc-title" id="doc-title" title="The board's title"></span>
         <span class="grow"></span>
-        <span class="status" id="status"><span class="dot"></span><span id="status-text">Rendering…</span></span>
+        <span class="status" id="status"><span class="dot"></span><span id="status-text">Loading…</span></span>
       </div>
-      <div class="code" id="code">
-        <div class="gutter" id="gutter"></div>
-        <textarea id="source" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Wireframe text"></textarea>
-      </div>
+      <div class="code" id="code"></div>
       <div class="issues" id="issues"></div>
     </div>
-    <div class="pane preview-pane">
+    <div class="splitter" id="splitter" role="separator" aria-orientation="vertical" aria-label="Resize editor" tabindex="0"></div>
+    <div class="pane preview-pane" id="preview-pane">
       <div class="toolbar">
-        <button class="btn" id="zoom">Actual size</button>
+        <button class="btn icon-only" id="zoom-out" type="button" aria-label="Zoom out" title="Zoom out"><span data-icon="zoom-out"></span></button>
+        <button class="btn zoom-level" id="zoom-fit" type="button" title="Fit to the window">100%</button>
+        <button class="btn icon-only" id="zoom-in" type="button" aria-label="Zoom in" title="Zoom in"><span data-icon="zoom-in"></span></button>
         <span class="grow"></span>
-        <button class="btn" id="copy-svg" disabled>Copy SVG</button>
-        <button class="btn" id="dl-svg" disabled>Download SVG</button>
-        <button class="btn primary" id="dl-png" disabled>Download PNG</button>
+        <div class="menu-wrap">
+          <button class="btn" id="share" type="button" aria-haspopup="menu" aria-expanded="false" title="Copy a link" disabled><span data-icon="link"></span><span class="label-wide">Copy link</span></button>
+          <div class="menu" id="share-menu" role="menu">
+            <button role="menuitem" data-copy="share"><span data-icon="share-2"></span><span>Share link<small>Opens this wireframe in the playground</small></span></button>
+            <hr>
+            <button role="menuitem" data-copy="svg"><span data-icon="image"></span><span>Image link (SVG)<small>Embed anywhere an image works</small></span></button>
+            <button role="menuitem" data-copy="png"><span data-icon="image"></span><span>Image link (PNG)<small>For tools that don't show SVG</small></span></button>
+            <button role="menuitem" data-copy="markdown"><span data-icon="file-text"></span><span>Markdown<small>For READMEs and docs</small></span></button>
+            <button role="menuitem" data-copy="html"><span data-icon="code"></span><span>HTML<small>An &lt;img&gt; tag</small></span></button>
+          </div>
+        </div>
+        <button class="btn" id="copy-svg" type="button" disabled title="Copy SVG"><span data-icon="copy"></span><span class="label-wide">Copy SVG</span></button>
+        <button class="btn" id="dl-svg" type="button" disabled title="Download SVG"><span data-icon="download"></span>SVG</button>
+        <button class="btn" id="dl-png" type="button" disabled title="Download PNG"><span data-icon="download"></span>PNG</button>
+        <button class="btn icon-only" id="fullscreen" type="button" aria-label="Full screen" title="Full screen"><span data-icon="maximize"></span></button>
       </div>
-      <div class="stage fit" id="stage"><div class="empty">Nothing rendered yet</div></div>
+      <div class="screens" id="screens" aria-label="Zoom to a screen"></div>
+      <div class="stage" id="stage"><div class="canvas" id="canvas"></div><div class="empty" id="empty">Nothing rendered yet</div></div>
     </div>
   </section>
 
@@ -172,7 +291,7 @@
         Lists use commas, and items can contain spaces: <code>[All notes, Pinned]</code>. Quote an item that contains a comma:
         <code>["$1,200", "Smith, J"]</code>. Objects are <code>{key=value key=value}</code>.
       </div>
-      <div id="docs-body" class="empty">Loading…</div>
+      <div id="docs-body">Loading…</div>
     </div>
   </section>
 
@@ -184,318 +303,23 @@
         <li>Paste the reply into the <strong>Editor</strong>. Code fences are fine; errors show by line and can be pasted back to the model.</li>
       </ol>
       <span class="grow"></span>
-      <button class="btn primary" id="copy-prompt">Copy prompt</button>
+      <button class="btn primary" id="copy-prompt" type="button"><span data-icon="copy"></span>Copy prompt</button>
     </div>
     <pre id="prompt-text">Loading…</pre>
   </section>
 </main>
 
-<div class="toast" id="toast"></div>
+<dialog id="examples-dialog" aria-labelledby="examples-title">
+  <div class="dialog-head">
+    <h2 id="examples-title">Examples</h2>
+    <span class="grow" style="flex:1"></span>
+    <button class="btn quiet icon-only" type="button" id="close-examples" aria-label="Close"><span data-icon="x"></span></button>
+  </div>
+  <div class="gallery" id="gallery"></div>
+</dialog>
 
-<script>
-const $ = (id) => document.getElementById(id);
-const store = {
-  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
-  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
-};
+<div class="toast" id="toast" role="status"><span id="toast-text"></span><button type="button" id="toast-action"></button></div>
 
-function toast(msg) {
-  const t = $("toast");
-  t.textContent = msg;
-  t.classList.add("show");
-  clearTimeout(toast.timer);
-  toast.timer = setTimeout(() => t.classList.remove("show"), 1600);
-}
-
-async function copy(text, msg) {
-  try { await navigator.clipboard.writeText(text); toast(msg); }
-  catch { toast("Couldn't copy: the browser blocked clipboard access"); }
-}
-
-function download(blob, name) {
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = name;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-}
-
-function fileName(ext) {
-  const m = source.value.match(/^\s*board\b[^"\n]*"([^"]+)"/m);
-  const base = (m ? m[1] : "wireframe").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "wireframe";
-  return `${base}.${ext}`;
-}
-
-// ── Tabs ────────────────────────────────────────────────────────────────
-function showView(name) {
-  document.querySelectorAll("nav button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.view === name)));
-  document.querySelectorAll(".view").forEach((v) => v.classList.toggle("active", v.id === `${name}-view`));
-  store.set("wf.view", name);
-  if (name === "components") loadReference();
-  if (name === "prompt") loadPrompt();
-}
-document.querySelectorAll("nav button").forEach((b) => b.addEventListener("click", () => showView(b.dataset.view)));
-
-// ── Editor ──────────────────────────────────────────────────────────────
-const source = $("source");
-const gutter = $("gutter");
-let lastSvg = null;
-let badLines = new Set();
-let seq = 0;
-
-function paintGutter() {
-  const n = source.value.split("\n").length;
-  let html = "";
-  for (let i = 1; i <= n; i++) html += `<div${badLines.has(i) ? ' class="bad"' : ""}>${i}</div>`;
-  gutter.innerHTML = html;
-  // the textarea grows with its content; .code scrolls both together
-  source.style.height = `${n * 20 + 24}px`;
-  source.style.width = "0";
-  source.style.width = `${Math.max(source.scrollWidth, source.parentElement.clientWidth - gutter.offsetWidth)}px`;
-}
-
-function setStatus(kind, text) {
-  $("status").className = `status ${kind}`;
-  $("status-text").textContent = text;
-}
-
-function showSvg(svg) {
-  const stage = $("stage");
-  const url = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
-  let img = stage.querySelector("img");
-  if (!img) { stage.innerHTML = ""; img = document.createElement("img"); img.alt = "Rendered wireframe"; stage.appendChild(img); }
-  const old = img.src;
-  img.src = url;
-  if (old.startsWith("blob:")) setTimeout(() => URL.revokeObjectURL(old), 1000);
-}
-
-function showIssues(issues) {
-  badLines = new Set(issues.map((i) => i.line));
-  const box = $("issues");
-  box.innerHTML = "";
-  for (const i of issues) {
-    const row = document.createElement("div");
-    row.className = "issue";
-    row.innerHTML = `<span class="ln">line ${i.line}</span><span></span>`;
-    row.lastChild.textContent = i.message;
-    row.addEventListener("click", () => goToLine(i.line));
-    box.appendChild(row);
-  }
-  paintGutter();
-}
-
-function goToLine(n) {
-  const lines = source.value.split("\n");
-  const start = lines.slice(0, n - 1).reduce((a, l) => a + l.length + 1, 0);
-  source.focus();
-  source.setSelectionRange(start, start + (lines[n - 1] ?? "").length);
-  $("code").scrollTop = Math.max(0, (n - 4) * 20);
-}
-
-async function render() {
-  const mine = ++seq;
-  const text = source.value;
-  store.set("wf.source", text);
-  if (!text.trim()) {
-    showIssues([]);
-    setStatus("", "Empty");
-    return;
-  }
-  setStatus("", "Rendering…");
-  try {
-    const res = await fetch("/api/render", { method: "POST", body: text });
-    const data = await res.json();
-    if (mine !== seq) return; // a newer edit is already rendering
-    if (!res.ok) throw new Error(data.error || res.statusText);
-    showIssues(data.issues);
-    const stale = !data.svg;
-    if (data.svg) { lastSvg = data.svg; showSvg(data.svg); }
-    $("stage").classList.toggle("stale", stale && !!lastSvg);
-    ["copy-svg", "dl-svg", "dl-png"].forEach((id) => ($(id).disabled = stale));
-    if (stale) setStatus("bad", `${data.issues.length} problem${data.issues.length === 1 ? "" : "s"}${lastSvg ? " · showing last valid render" : ""}`);
-    else setStatus("ok", "Valid");
-  } catch (err) {
-    if (mine !== seq) return;
-    setStatus("bad", `Render failed: ${err.message}`);
-  }
-}
-
-let timer;
-source.addEventListener("input", () => { paintGutter(); clearTimeout(timer); timer = setTimeout(render, 250); });
-source.addEventListener("keydown", (e) => {
-  if (e.key === "Tab" && !e.metaKey && !e.ctrlKey) {
-    e.preventDefault();
-    const { selectionStart: s, selectionEnd: end, value } = source;
-    const lineStart = value.lastIndexOf("\n", s - 1) + 1;
-    if (e.shiftKey) {
-      if (value.startsWith("  ", lineStart)) {
-        source.setRangeText("", lineStart, lineStart + 2, "preserve");
-        source.setSelectionRange(Math.max(lineStart, s - 2), Math.max(lineStart, end - 2));
-      }
-    } else if (s === end) {
-      source.setRangeText("  ", s, end, "end");
-    } else {
-      // indent every selected line
-      const block = value.slice(lineStart, end);
-      const out = block.replace(/^/gm, "  ");
-      source.setRangeText(out, lineStart, end, "select");
-    }
-    source.dispatchEvent(new Event("input"));
-  } else if (e.key === "Enter") {
-    // keep the current line's indentation
-    e.preventDefault();
-    const s = source.selectionStart;
-    const lineStart = source.value.lastIndexOf("\n", s - 1) + 1;
-    const indent = source.value.slice(lineStart).match(/^ */)[0];
-    source.setRangeText("\n" + indent, s, source.selectionEnd, "end");
-    source.dispatchEvent(new Event("input"));
-  }
-});
-// Pasting a whole model reply: keep just the fenced block, drop the prose around it.
-source.addEventListener("paste", (e) => {
-  const text = e.clipboardData?.getData("text/plain") ?? "";
-  const m = text.match(/```[^\n]*\n([\s\S]*?)```/);
-  if (!m || text.trim() === m[0].trim()) return;
-  e.preventDefault();
-  source.setRangeText(m[1], source.selectionStart, source.selectionEnd, "end");
-  source.dispatchEvent(new Event("input"));
-  toast("Pasted the wireframe from the code block");
-});
-window.addEventListener("resize", paintGutter);
-
-$("zoom").addEventListener("click", () => {
-  const fit = $("stage").classList.toggle("fit");
-  $("zoom").textContent = fit ? "Actual size" : "Fit";
-});
-$("copy-svg").addEventListener("click", () => lastSvg && copy(lastSvg, "SVG copied"));
-$("dl-svg").addEventListener("click", () => lastSvg && download(new Blob([lastSvg], { type: "image/svg+xml" }), fileName("svg")));
-$("dl-png").addEventListener("click", async () => {
-  const res = await fetch("/api/png?scale=2", { method: "POST", body: source.value });
-  if (!res.ok) return toast("Fix the problems first");
-  download(await res.blob(), fileName("png"));
-});
-
-function loadIntoEditor(text) {
-  source.value = text.replace(/\s+$/, "") + "\n";
-  paintGutter();
-  render();
-  showView("editor");
-  $("code").scrollTop = 0;
-}
-
-let examples = [];
-fetch("/api/examples").then((r) => r.json()).then((list) => {
-  examples = list;
-  for (const e of list) $("examples").add(new Option(e.name, e.name));
-  if (!source.value) loadIntoEditor(list[0]?.source ?? 'board "Untitled"\n  screen phone "Home"\n    heading "Hello"\n');
-});
-$("examples").addEventListener("change", (e) => {
-  const ex = examples.find((x) => x.name === e.target.value);
-  if (ex && (source.value.trim() === "" || confirm("Replace the editor contents with this example?"))) loadIntoEditor(ex.source);
-  e.target.value = "";
-});
-
-// ── Components ──────────────────────────────────────────────────────────
-let referenceLoaded = false;
-async function loadReference() {
-  if (referenceLoaded) return;
-  referenceLoaded = true;
-  const { groups, components } = await (await fetch("/api/reference")).json();
-  const byName = Object.fromEntries(components.map((c) => [c.name, c]));
-  const body = $("docs-body");
-  body.className = "";
-  body.innerHTML = "";
-  const toc = $("toc");
-  for (const g of groups) {
-    const h = document.createElement("h3");
-    h.textContent = g.name;
-    toc.appendChild(h);
-    const gt = document.createElement("div");
-    gt.className = "group-title";
-    gt.textContent = g.name;
-    body.appendChild(gt);
-    for (const name of g.components) {
-      const c = byName[name];
-      const a = document.createElement("a");
-      a.href = `#c-${name}`;
-      a.textContent = name;
-      a.addEventListener("click", (e) => { e.preventDefault(); $(`c-${name}`).scrollIntoView({ behavior: "smooth" }); });
-      toc.appendChild(a);
-      body.appendChild(componentCard(c));
-    }
-  }
-}
-
-function el(tag, cls, text) {
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (text != null) e.textContent = text;
-  return e;
-}
-
-function componentCard(c) {
-  const card = el("article", "comp");
-  card.id = `c-${c.name}`;
-  const head = el("div", "comp-head");
-  const h = el("h2", null, c.name + " ");
-  h.appendChild(el("code", null, c.name.toLowerCase()));
-  head.append(h, el("span", "grow"));
-  const open = el("button", "btn", "Open in editor");
-  open.addEventListener("click", () => {
-    if (source.value.trim() && !confirm("Replace the editor contents with this example?")) return;
-    loadIntoEditor(c.example);
-  });
-  head.appendChild(open);
-  card.append(head, el("p", null, c.description));
-
-  const bodyEl = el("div", "comp-body");
-  const shot = el("div", "shot");
-  const img = el("img");
-  img.alt = `${c.name} example`;
-  img.loading = "lazy";
-  img.src = URL.createObjectURL(new Blob([c.svg], { type: "image/svg+xml" }));
-  shot.appendChild(img);
-
-  const right = el("div");
-  if (c.props.length) {
-    const table = el("table", "props");
-    table.innerHTML = "<thead><tr><th>Prop</th><th>Values</th></tr></thead>";
-    const tb = el("tbody");
-    for (const p of c.props) {
-      const tr = el("tr");
-      const name = el("td", null, p.name);
-      if (p.main) name.appendChild(el("span", "tag", "main"));
-      if (p.required) name.appendChild(el("span", "tag", "required"));
-      const val = el("td");
-      val.appendChild(el("div", "type", p.type));
-      if (p.description) val.appendChild(el("div", "desc", p.description));
-      tr.append(name, val);
-      tb.appendChild(tr);
-    }
-    table.appendChild(tb);
-    right.appendChild(table);
-  } else {
-    right.appendChild(el("p", "desc", "No props."));
-  }
-  right.appendChild(el("pre", "src", c.example));
-  bodyEl.append(shot, right);
-  card.appendChild(bodyEl);
-  return card;
-}
-
-// ── Prompt ──────────────────────────────────────────────────────────────
-let promptText = null;
-async function loadPrompt() {
-  if (promptText) return;
-  promptText = await (await fetch("/api/prompt")).text();
-  $("prompt-text").textContent = promptText;
-}
-$("copy-prompt").addEventListener("click", async () => { await loadPrompt(); copy(promptText, "Prompt copied"); });
-
-// ── Start ───────────────────────────────────────────────────────────────
-const saved = store.get("wf.source");
-if (saved && saved.trim()) { source.value = saved; paintGutter(); render(); }
-showView(store.get("wf.view") || "editor");
-</script>
+<script type="module" src="/playground.js"></script>
 </body>
 </html>

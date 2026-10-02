@@ -1,0 +1,27 @@
+```wireframe
+board "Onboarding"
+  screen phone "Step 1"
+    stack padding=24 gap=16 align=center
+      spacer size=40
+      image "Illustration" height=240 rounded
+      heading "Welcome" level=1 align=center
+      text "A short description of what the app does." muted align=center
+      spacer
+      button primary "Continue" fullWidth
+  screen phone "Step 2"
+    stack padding=24 gap=16 align=center
+      spacer size=40
+      image "Illustration" height=240 rounded
+      heading "Stay organized" level=1 align=center
+      text "A short description of this key feature." muted align=center
+      spacer
+      button primary "Continue" fullWidth
+  screen phone "Step 3"
+    stack padding=24 gap=16 align=center
+      spacer size=40
+      image "Illustration" height=240 rounded
+      heading "You're all set" level=1 align=center
+      text "A short description of how to get started." muted align=center
+      spacer
+      button primary "Get started" fullWidth
+```

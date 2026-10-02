@@ -1,0 +1,21 @@
+board "Side menu"
+  screen phone "Home with menu"
+    navbar "Home" leading=menu
+    text lines=3
+    image height=160
+    text lines=4
+    drawer left size=260
+      stack row gap=12
+        avatar "AT" size=48
+        stack gap=2
+          text "Ana Torres" bold
+          text sm "ana@example.com" muted
+      divider
+      list
+        listitem "Home" leadingIcon=home
+        listitem "Messages" leadingIcon=mail
+        listitem "Favorites" leadingIcon=heart
+        listitem "Settings" leadingIcon=settings
+        listitem "Help" leadingIcon=help-circle
+      spacer
+      button ghost "Log out" leadingIcon=log-out

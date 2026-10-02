@@ -1,0 +1,19 @@
+```wireframe
+board "Project settings"
+  screen desktop "Settings"
+    navbar "Project settings" leading=menu actions=[bell, user]
+    stack padding=24 gap=16
+      heading "General" level=2
+      input "Project name" value="Apollo"
+      input "Description" placeholder="Describe your project" multiline=3
+      button primary "Save changes"
+      card "Danger zone" padding=16 gap=12
+        text "Deleting this project permanently removes all its data. This cannot be undone."
+        button secondary "Delete project" icon=trash-2
+    modal "Delete project?" width=420
+      text "Type the project name to confirm."
+      input "Project name" placeholder="Apollo"
+      stack row gap=8 justify=end
+        button secondary "Cancel"
+        button primary "Delete"
+```

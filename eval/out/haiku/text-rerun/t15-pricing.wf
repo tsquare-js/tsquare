@@ -1,0 +1,35 @@
+```wireframe
+board "Pricing"
+  screen desktop "Plans"
+    stack padding=40 gap=30
+      stack align=center gap=12
+        text "Choose your plan" bold
+        stack row gap=16 justify=center
+          radio "Monthly" checked=true
+          radio "Yearly"
+      stack row gap=24 justify=center
+        card padding=24 width=280
+          heading "Starter" level=2 align=center
+          text "$29/mo" bold align=center
+          divider
+          text "Up to 10 projects"
+          text "5 GB storage"
+          text "Email support"
+          button "Get started" primary fullWidth
+        card padding=24 width=280
+          heading "Pro" level=2 align=center
+          text "$99/mo" bold align=center
+          divider
+          text "Unlimited projects"
+          text "100 GB storage"
+          text "Priority support"
+          button "Get started" primary fullWidth
+        card padding=24 width=280
+          heading "Enterprise" level=2 align=center
+          text "Custom" bold align=center
+          divider
+          text "Custom limits"
+          text "Unlimited storage"
+          text "Dedicated support"
+          button "Contact us" secondary fullWidth
+```

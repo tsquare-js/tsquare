@@ -61,7 +61,7 @@ Icons come from [Lucide](https://lucide.dev/icons) (ISC license), an open-source
 
 \`\`\`tsquare
     icon search
-    button "Download" icon=download
+    button "Download" leadingIcon=download
     navbar "Inbox" actions=[search, ellipsis-vertical]
     tabbar items=[{label=Home icon=house}, {label=Cart icon=shopping-cart}]
 \`\`\`

@@ -1,0 +1,14 @@
+board "Sign in"
+  screen phone "Sign in" padding=28 gap=16
+    spacer size=24
+    heading "Welcome back" level=1
+    text "Sign in to sync your notes." muted
+    input email "Email" placeholder="you@example.com"
+    input password "Password"
+    stack row justify=between
+      checkbox "Remember me" checked
+      button ghost sm "Forgot?"
+    button primary lg "Sign in" fullWidth
+    spacer
+    text sm "New here? Create an account" align=center muted
+  note "Show the error state when the password is wrong" width=200

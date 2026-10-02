@@ -1,0 +1,27 @@
+```wireframe
+board "Onboarding" layout=row
+  screen phone "Welcome"
+    stack padding=24 gap=24 grow align=center justify=center
+      image height=240
+      heading "Welcome to App" level=1 align=center
+      text "Discover amazing features" align=center
+      text "Start your journey with us today" muted align=center
+      spacer
+      button primary "Continue" fullWidth
+  screen phone "Features"
+    stack padding=24 gap=24 grow align=center justify=center
+      image height=240
+      heading "Powerful Features" level=1 align=center
+      text "Everything you need" align=center
+      text "All tools in one place" muted align=center
+      spacer
+      button primary "Continue" fullWidth
+  screen phone "Ready"
+    stack padding=24 gap=24 grow align=center justify=center
+      image height=240
+      heading "Ready to Begin?" level=1 align=center
+      text "You are all set" align=center
+      text "Let's create something great" muted align=center
+      spacer
+      button primary "Get started" fullWidth
+```

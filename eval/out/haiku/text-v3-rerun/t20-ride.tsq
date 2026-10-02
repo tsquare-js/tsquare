@@ -1,0 +1,16 @@
+board "Ride Hailing"
+  screen phone "Book ride"
+    navbar "Pick up location" leading=back
+    image "Map" height=300
+    drawer bottom "Choose a ride" size=280
+      stack gap=12 padding=16
+        text "UberX" bold
+        text "5 min away • $12" muted
+        divider
+        text "UberXL" bold
+        text "8 min away • $18" muted
+        divider
+        text "UberPlus" bold
+        text "12 min away • $25" muted
+        spacer
+        button "Confirm ride" primary fullWidth

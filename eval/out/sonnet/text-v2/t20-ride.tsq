@@ -1,0 +1,11 @@
+```tsquare
+board "Ride hailing"
+  screen phone "Choose ride"
+    image "Map" height=360
+    stack padding=12 gap=8
+      list dividers
+        listitem "Economy" subtitle="4 min away" leadingIcon=car trailingText="$12"
+        listitem "Comfort" subtitle="6 min away" leadingIcon=car trailingText="$16"
+        listitem "XL" subtitle="8 min away" leadingIcon=car trailingText="$22"
+      button primary "Confirm ride" fullWidth
+```

@@ -1,0 +1,20 @@
+```tsquare
+board "Project settings"
+  screen desktop "Project settings" height=650
+    navbar "Project settings" leading=logo actions=[user]
+    stack padding=24 gap=16
+      heading "Settings" level=1
+      card "General" gap=12
+        input "Project name" value="Apollo"
+        input "Description" multiline=3
+        button primary "Save changes"
+      card "Danger zone" gap=12
+        text "Deleting a project permanently removes all its data. This cannot be undone."
+        button secondary "Delete project"
+    modal "Delete project" width=440
+      text "This action cannot be undone. Type the project name to confirm."
+      input "Type Apollo to confirm" placeholder="Apollo"
+      stack row gap=8 justify=end
+        button secondary "Cancel"
+        button primary "Delete"
+```

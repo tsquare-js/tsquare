@@ -1,0 +1,20 @@
+```tsquare
+board "Chat"
+  screen phone "Conversation"
+    navbar "Sarah Johnson" leading=back actions=[call, info]
+    stack column grow padding=12 gap=12
+      text "Today" align=center muted
+      stack column align=end gap=8
+        card fill padding=12
+          text "Hey, how are you?"
+        card fill padding=12
+          text "Did you see the new design?"
+      stack column gap=8
+        card fill padding=12
+          text "Hi! I'm doing great, thanks!"
+        card fill padding=12
+          text "Yes, looks amazing! 🎉"
+    stack row gap=8 padding=12
+      input placeholder="Message..." grow multiline=1
+      button leadingIcon=send size=sm
+```

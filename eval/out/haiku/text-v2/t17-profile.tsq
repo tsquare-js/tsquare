@@ -1,0 +1,25 @@
+board "Profile"
+  screen phone "Profile"
+    navbar leading=back
+    stack padding=16 align=center gap=12
+      avatar initials="SJ" size=80
+      heading "Sarah Johnson" level=1 align=center
+      text "@sarahj" muted align=center
+    stack row gap=8 justify=center padding=12
+      stack align=center
+        text "1,234" bold
+        text "Posts" sm muted
+      stack align=center
+        text "5,678" bold
+        text "Followers" sm muted
+      stack align=center
+        text "890" bold
+        text "Following" sm muted
+    tabs items=[Posts, Likes] active=0
+    grid columns=3 gap=8 padding=12
+      image height=120
+      image height=120
+      image height=120
+      image height=120
+      image height=120
+      image height=120

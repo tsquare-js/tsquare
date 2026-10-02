@@ -1,0 +1,42 @@
+board "Calendar"
+  screen desktop "Calendar"
+    navbar "Calendar" leading=menu actions=[search, settings]
+    stack row gap=8 padding=12
+      button secondary "Today"
+      button ghost leadingIcon=chevron-left
+      button ghost leadingIcon=chevron-right
+      heading "October 2026" level=3
+      spacer
+      button primary "New event" leadingIcon=plus
+    grid columns=7 gap=8 padding=12
+      card padding=8
+        text sm "Mon" muted
+        text lines=2
+      card padding=8
+        text sm "Tue" muted
+        text lines=2
+      card padding=8
+        text sm "Wed" muted
+        text lines=2
+      card padding=8
+        text sm "Thu" muted
+        text lines=2
+      card padding=8
+        text sm "Fri" muted
+        text lines=2
+      card padding=8
+        text sm "Sat" muted
+        text lines=2
+      card padding=8
+        text sm "Sun" muted
+        text lines=2
+    modal "New event" width=480
+      input "Title" placeholder="Event title"
+      stack row gap=12
+        select "Date" value="Oct 14, 2026"
+        select "Start time" value="10:00 AM"
+        select "End time" value="11:00 AM"
+      input "Description" placeholder="Add details" multiline=4
+      stack row gap=8 justify=end
+        button secondary "Cancel"
+        button primary "Save"

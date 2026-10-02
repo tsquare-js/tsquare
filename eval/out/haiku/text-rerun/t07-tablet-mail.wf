@@ -1,0 +1,25 @@
+```wireframe
+board "Email" layout=row
+  screen tablet
+    stack row grow
+      stack width=320 border=right padding=12 gap=8 grow
+        input search placeholder="Search emails"
+        text "Inbox" bold size=sm muted
+        list dividers
+          listitem "John Smith" subtitle="Hey, how are you?" trailingText="2m"
+          listitem "Marketing Team" subtitle="Weekly summary" trailingText="1h"
+          listitem "Support" subtitle="Re: Your ticket" trailingText="3h"
+      stack grow padding=24 gap=16
+        stack row justify=between align=center
+          heading "Subject: Weekly Summary" level=3
+          stack row gap=8
+            button ghost icon=archive
+            button ghost icon=trash-2
+        text "From: marketing@example.com" muted size=sm
+        text "To: you@example.com" muted size=sm
+        divider
+        text lines=8
+        stack row gap=8
+          button secondary icon=reply "Reply"
+          button secondary icon=reply-all "Reply All"
+```

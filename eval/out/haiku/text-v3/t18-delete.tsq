@@ -1,0 +1,16 @@
+board "Project settings"
+  screen desktop "Delete zone"
+    navbar "Settings" leading=back
+    stack padding=32 gap=24
+      heading "Project settings" level=1
+      card variant=filled gap=16
+        heading "Danger zone" level=2
+        text "Permanently delete this project. This action cannot be undone."
+        button "Delete project" variant=secondary
+    modal "Delete project?"
+      stack gap=16
+        text "To confirm, type the project name below:"
+        input placeholder="Enter project name"
+        stack row gap=12 justify=end
+          button "Cancel" variant=secondary
+          button "Delete" variant=secondary

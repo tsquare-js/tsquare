@@ -1,0 +1,24 @@
+```tsquare
+board "Calendar - New Event"
+  screen desktop "New Event"
+    stack padding=24 gap=16
+      heading "New event" level=2
+      input "Title" placeholder="Event title"
+      stack row gap=12
+        select "Date" value="Oct 15, 2024"
+        select "Time" value="2:00 PM"
+      input "Description" multiline=4
+      stack row gap=8 justify=end
+        button secondary "Cancel"
+        button primary "Save"
+    modal "New event" width=420 scrim=true
+      stack padding=24 gap=16
+        input "Event title" placeholder="Enter title"
+        stack row gap=12
+          select "Date" value="Oct 15"
+          select "Time" value="2:00 PM"
+        input "Description" multiline=4 placeholder="Add notes"
+        stack row gap=8 justify=end
+          button secondary "Cancel"
+          button primary "Save"
+```

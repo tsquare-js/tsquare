@@ -1,0 +1,30 @@
+```tsquare
+board "Food delivery"
+  screen phone "Home"
+    navbar "Deliver to Home" leading=menu actions=[shopping-bag]
+    input search placeholder="Search restaurants or dishes"
+    stack row gap=8 wrap
+      badge "Pizza"
+      badge outline "Sushi"
+      badge outline "Burgers"
+      badge outline "Salads"
+      badge outline "Dessert"
+    grid columns=2 gap=12
+      card padding=10
+        image height=90
+        text "Luigi's Pizzeria" bold
+        text sm "25-35 min" muted
+      card padding=10
+        image height=90
+        text "Sushi Zen" bold
+        text sm "30-40 min" muted
+      card padding=10
+        image height=90
+        text "Burger Barn" bold
+        text sm "20-30 min" muted
+      card padding=10
+        image height=90
+        text "Green Bowl" bold
+        text sm "15-25 min" muted
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Orders icon=receipt}, {label=Profile icon=user}] active=0
+```

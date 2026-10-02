@@ -1,0 +1,25 @@
+board "User management"
+  screen desktop "Users"
+    navbar "Users" leading=logo actions=[search, bell]
+    stack padding=16 gap=12
+      stack row justify=between
+        heading "User management" level=2
+        button primary "Invite user" leadingIcon=plus
+      tabs items=[Active, Invited, Suspended] active=0
+      table columns=[Name, Email, Role, Status] data=[[Ana Torres, ana@acme.io, Admin, Active], [Ben Carter, ben@acme.io, Editor, Active], [Chloe Nguyen, chloe@acme.io, Viewer, Active], [Dev Patel, dev@acme.io, Editor, Active]]
+  screen desktop "Users with filters"
+    navbar "Users" leading=logo actions=[search, bell]
+    stack padding=16 gap=12
+      stack row justify=between
+        heading "User management" level=2
+        button primary "Invite user" leadingIcon=plus
+      tabs items=[Active, Invited, Suspended] active=0
+      table columns=[Name, Email, Role, Status] data=[[Ana Torres, ana@acme.io, Admin, Active], [Ben Carter, ben@acme.io, Editor, Active], [Chloe Nguyen, chloe@acme.io, Viewer, Active], [Dev Patel, dev@acme.io, Editor, Active]]
+    drawer right "Filters" size=300
+      select "Role" value="All roles"
+      select "Status" value="Active"
+      input "Search" type=search placeholder="Name or email"
+      checkbox "Only show admins"
+      stack row gap=8
+        button secondary "Reset"
+        button primary "Apply"

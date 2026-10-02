@@ -38,4 +38,4 @@ To install it, copy the folder to `~/.claude/skills/tsquare` (all projects) or `
 
 ## How well models write it
 
-On 20 requests, Sonnet wrote a valid wireframe on the first try every time, and Haiku 85% of the time, using about a quarter of the tokens the same wireframes take in JSON. See [the evals](../eval/README.md) for the method, every model output, and the caveats.
+On 20 requests, Sonnet wrote a valid wireframe on the first try every time, and Haiku 80% of the time, using about a quarter of the tokens the same wireframes take in JSON. See [the evals](../eval/README.md) for the method, every model output, and the caveats.

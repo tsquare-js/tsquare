@@ -1,0 +1,20 @@
+board "Responsive Notes" layout=row gap=24 padding=24
+  screen phone "Mobile"
+    navbar "Notes" leading=menu
+    list grow
+      listitem "Meeting notes" subtitle="Today" trailingIcon=chevron-right
+      listitem "Project ideas" subtitle="Yesterday" trailingIcon=chevron-right
+      listitem "Todo list" subtitle="Last week" trailingIcon=chevron-right
+    button "New note" primary fullWidth
+  screen desktop "Desktop"
+    navbar "Notes"
+    stack row grow gap=12
+      stack width=300 border=right
+        heading "Notes" level=2
+        list grow
+          listitem "Meeting notes"
+          listitem "Project ideas"
+          listitem "Todo list"
+      stack grow padding=16
+        image height=300 "Note content"
+  note "On mobile, full-width list with tap to open. On desktop, split view with sidebar and detail pane." color=yellow

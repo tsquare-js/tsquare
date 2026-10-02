@@ -1,0 +1,17 @@
+board "User Management"
+  screen desktop "Users"
+    navbar "Users" leading=none actions=[filter]
+    tabs items=[Active, Invited, Suspended] active=0
+    table columns=[Name, Email, Role, Status] data=[["Alice Johnson", "alice@example.com", "Admin", "Active"], ["Bob Smith", "bob@example.com", "Editor", "Active"], ["Carol Lee", "carol@example.com", "Viewer", "Active"], ["David Park", "david@example.com", "Editor", "Active"]]
+  screen desktop "Users with Filters"
+    navbar "Users" leading=none actions=[filter]
+    tabs items=[Active, Invited, Suspended] active=0
+    stack row
+      table columns=[Name, Email, Role, Status] data=[["Alice Johnson", "alice@example.com", "Admin", "Active"], ["Bob Smith", "bob@example.com", "Editor", "Active"], ["Carol Lee", "carol@example.com", "Viewer", "Active"], ["David Park", "david@example.com", "Editor", "Active"]] grow
+      drawer right "Filters" size=280
+        text "Filter by Role"
+        checkbox "Admin"
+        checkbox "Editor"
+        checkbox "Viewer"
+        text "Filter by Status"
+        checkbox "Active"

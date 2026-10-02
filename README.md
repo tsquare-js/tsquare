@@ -28,15 +28,29 @@ Requires Node 20 or newer. To work on tsquare itself, clone the repo, run `npm i
 
 ## Playground
 
+Online at [tsquare.dev/playground](https://tsquare.dev/playground), or locally:
+
 ```bash
 npx tsquare playground   # http://localhost:4321
 ```
 
-- **Editor:** live render as you type, problems listed by line (click one to jump there), and SVG/PNG export. Paste a whole model reply and it keeps just the code block.
-- **Components:** every component with its props and a rendered example you can open in the editor. It's generated from the catalog, so it can't drift from what the renderer accepts.
-- **Prompt:** the system prompt for models, with a copy button.
+- **Editor:** syntax highlighting, autocomplete for components, options, props, icons and colors, and problems underlined by line. Paste a whole model reply and it keeps just the code block.
+- **Preview:** renders as you type. Zoom and pan (⌘/Ctrl + scroll or pinch), jump to a single screen, or go full screen.
+- **Links:** copy a share link that reopens the wireframe in the playground, or an image link (SVG, PNG, Markdown, HTML) to embed it anywhere.
+- **Examples** with thumbnails, **light and dark** themes, a resizable split, and SVG/PNG export.
+- **Components:** every component with its props and a rendered example. **Prompt:** the system prompt for models, with a copy button.
 
-It runs on a local server with the same renderer as the CLI. In this repo, `npm run playground` runs it from source.
+The local playground uses the same renderer as the CLI; its links point to tsquare.dev. In this repo, `npm run playground` runs it from source.
+
+## Image links
+
+A wireframe can be embedded anywhere an image works (Notion, GitHub, docs sites) with a link that contains the wireframe itself:
+
+```markdown
+![Login](https://tsquare.dev/svg/zNYwxDsIwEAT7vGJ…)
+```
+
+The playground's **Copy link** menu makes these. The text is compressed into the URL, not encrypted, so anyone with the link can read it; see [privacy](https://tsquare.dev/privacy). `encodeWireframe` and `decodeWireframe` in the library produce and read the same links.
 
 ## The language
 
@@ -51,7 +65,7 @@ One element per line; children are indented two spaces under their parent. The f
 | `tabs items=[All notes, Pinned]` | lists in `[ ]`, items separated by commas; an item can contain spaces |
 | `data=[["$1,200", "Smith, J"]]` | quote an item that contains a comma (`\"` for a quote inside quotes) |
 | `tabbar items=[{label=Home icon=home}]` | objects in `{ }` |
-| `# note to self` | comment |
+| `# note to self` | a comment, on its own line only; elsewhere `#` is text (`[#1001, #1002]`) |
 
 If a bare word could mean two props (for example `start`, which is both an `align` and a `justify` value), write it as `key=value`. Code fences (```` ``` ````) are ignored, so a model's reply can be rendered as-is.
 
@@ -136,7 +150,7 @@ How often models write valid tsquare on the first try, with no repair round:
 
 | | Sonnet | Haiku |
 |---|---|---|
-| Valid on the first try (20 requests) | 100% | 85% |
+| Valid on the first try (20 requests) | 100% | 80% |
 | Median tokens per wireframe (JSON took about 4× as many) | 184 | 210 |
 | Color checks passed (7 requests) | 11/11 | 11/11 |
 

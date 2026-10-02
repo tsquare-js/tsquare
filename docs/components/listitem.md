@@ -10,11 +10,11 @@ Row in a List. Omit title for a placeholder bar.
 board
   screen custom width=400 height=440
     list
-      listitem "leading=icon" subtitle="trailing=chevron" leading=icon icon=settings trailing=chevron
+      listitem "leadingIcon=settings" subtitle="trailing=chevron" leadingIcon=settings trailing=chevron
       listitem "leading=avatar" subtitle="trailing=text" leading=avatar trailing=text trailingText="9:41"
       listitem "leading=image" subtitle="trailing=badge" leading=image trailing=badge trailingText="3"
       listitem "leading=checkbox" leading=checkbox trailing=toggle
-      listitem "trailing=icon" trailing=icon trailingIcon=trash-2
+      listitem "trailingIcon=trash-2" trailingIcon=trash-2
       listitem leading=image trailing=chevron
 ```
 
@@ -36,7 +36,7 @@ Icon names: see [Icons](../icons.md) for the common ones and every name.
 | `title` *(main text)* | string |  |
 | `subtitle` | string |  |
 | `leading` | none, icon, avatar, image, checkbox |  |
-| `icon` | string | Lucide icon name in kebab-case, e.g. menu, search, arrow-left, settings, bell, user |
+| `leadingIcon` | string | Lucide icon on the left; setting it implies leading=icon |
 | `trailing` | none, chevron, toggle, text, badge, icon |  |
-| `trailingText` | string |  |
-| `trailingIcon` | string | Lucide icon name in kebab-case, e.g. menu, search, arrow-left, settings, bell, user |
+| `trailingText` | string | Text for trailing=text or badge; setting it implies trailing=text |
+| `trailingIcon` | string | Lucide icon on the right; setting it implies trailing=icon |

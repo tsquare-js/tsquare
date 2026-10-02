@@ -1,0 +1,14 @@
+```tsquare
+board "Chat"
+  screen phone
+    navbar "Alex Rivera" leading=back actions=[call, info]
+    stack grow padding=16 gap=12
+      text "Hey, how are you?" align=left
+      text "I'm doing great!" align=right
+      text "Want to catch up later?" align=left
+      text "Sure! How about 5pm?" align=right
+      text "Perfect, talk then!" align=left
+    stack row gap=8 padding=16
+      input placeholder="Type a message..." grow
+      button leadingIcon=send size=md
+```

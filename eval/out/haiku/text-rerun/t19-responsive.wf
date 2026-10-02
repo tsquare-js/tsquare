@@ -1,0 +1,22 @@
+```wireframe
+board "Notes list"
+  screen phone "Mobile"
+    navbar "Notes" leading=back actions=[plus]
+    list dividers=true
+      listitem "Meeting notes" trailing=chevron
+      listitem "Project ideas" trailing=chevron
+      listitem "To-do list" trailing=chevron
+  screen desktop "Desktop"
+    navbar "Notes" leading=menu
+    stack row gap=16 padding=16
+      stack width=240 gap=12
+        heading "Notes" level=2
+        input search placeholder="Search notes..."
+        list dividers=true
+          listitem "Meeting notes" trailing=chevron
+          listitem "Project ideas" trailing=chevron
+          listitem "To-do list" trailing=chevron
+      stack grow=true gap=12
+        text "Select a note to view" muted
+  note "Mobile uses a full-width list, desktop shows a sidebar with a preview area"
+```

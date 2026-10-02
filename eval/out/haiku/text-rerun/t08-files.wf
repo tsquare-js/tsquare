@@ -1,0 +1,18 @@
+```wireframe
+board "Files" layout=row
+  screen desktop
+    navbar "Files" leading=menu
+    stack grow padding=16
+      text "My Files" bold
+      table columns=[Name, Type, Size, Modified] rows=8
+    drawer right "Details" size=280
+      stack gap=16 padding=16
+        text "document.pdf" bold
+        heading "Properties" level=3
+        stack gap=8
+          text "Type: PDF" muted size=sm
+          text "Size: 2.4 MB" muted size=sm
+          text "Modified: Oct 1, 2024" muted size=sm
+        button secondary "Download" fullWidth
+        button ghost "Share" fullWidth
+```

@@ -1,0 +1,22 @@
+```tsquare
+board "Project settings"
+  screen desktop "Settings"
+    heading "Project settings" level=1
+    card title="General" padding=16
+      input "Project name" value="Apollo"
+      input "Description" multiline=3
+      button primary "Save changes"
+    card title="Danger zone" padding=16
+      stack row align=center
+        stack gap=2
+          text "Delete this project" bold
+          text sm "This permanently removes the project and its data." muted
+        spacer
+        button secondary "Delete project"
+    modal "Delete project?" width=440
+      text "This action cannot be undone. Type the project name Apollo to confirm."
+      input "Project name" placeholder="Apollo"
+      stack row gap=8 justify=end
+        button secondary "Cancel"
+        button primary "Delete"
+```

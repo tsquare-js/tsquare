@@ -1,0 +1,19 @@
+board "Side navigation"
+  screen phone "Menu open"
+    navbar "App" leading=close
+    drawer left
+      stack gap=16 padding=16
+        stack row gap=12
+          avatar "JD" size=48
+          stack
+            text "John Doe" bold
+            text sm "john@example.com" muted
+        divider
+        stack gap=8
+          button "Home" variant=ghost align=left
+          button "Profile" variant=ghost align=left
+          button "Settings" variant=ghost align=left
+          button "Help" variant=ghost align=left
+          button "About" variant=ghost align=left
+        spacer
+        button "Log out" variant=ghost align=left

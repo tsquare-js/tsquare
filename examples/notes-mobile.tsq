@@ -16,7 +16,7 @@ board row "Notes app — mobile"
       text sm "or" muted
       stack grow
         divider
-    button secondary lg "Continue with Google" fullWidth icon=globe
+    button secondary lg "Continue with Google" fullWidth leadingIcon=globe
     spacer
     text sm "New here? Create an account" align=center muted
   screen phone "2 · Notes"
@@ -24,13 +24,13 @@ board row "Notes app — mobile"
     input search placeholder="Search notes"
     tabs items=[All, Pinned, Shared] active=0
     list
-      listitem "Grocery list" subtitle="Eggs, oat milk, basil…" leading=icon icon=shopping-cart trailing=text trailingText="9:12"
-      listitem "Trip ideas" subtitle="Lisbon in October?" leading=icon icon=map trailing=badge trailingText="2"
+      listitem "Grocery list" subtitle="Eggs, oat milk, basil…" leadingIcon=shopping-cart trailing=text trailingText="9:12"
+      listitem "Trip ideas" subtitle="Lisbon in October?" leadingIcon=map trailing=badge trailingText="2"
       listitem leading=image trailing=chevron
       listitem leading=image trailing=chevron
       listitem leading=image trailing=chevron
     stack row justify=end grow align=end
-      button primary "New note" icon=plus
+      button primary "New note" leadingIcon=plus
     tabbar items=[{label=Notes icon=notebook-pen}, {label=Search icon=search}, {label=Shared icon=users}, {label=Profile icon=user}] active=0
   screen phone "3 · Side menu (drawer)"
     navbar "Notes" leading=menu actions=[bell, more-vertical]
@@ -49,12 +49,12 @@ board row "Notes app — mobile"
           text sm "dana@example.com" muted
       divider
       list dividers=false
-        listitem "All notes" leading=icon icon=notebook-pen trailing=text trailingText="24"
-        listitem "Folders" leading=icon icon=folder trailing=chevron
-        listitem "Archive" leading=icon icon=archive
-        listitem "Settings" leading=icon icon=settings
+        listitem "All notes" leadingIcon=notebook-pen trailing=text trailingText="24"
+        listitem "Folders" leadingIcon=folder trailing=chevron
+        listitem "Archive" leadingIcon=archive
+        listitem "Settings" leadingIcon=settings
       spacer
-      button secondary "Sign out" icon=log-out fullWidth
+      button secondary "Sign out" leadingIcon=log-out fullWidth
   screen phone "4 · Discard draft (modal)"
     navbar "New note" leading=close actions=[image, check] align=center
     heading "Untitled" level=2

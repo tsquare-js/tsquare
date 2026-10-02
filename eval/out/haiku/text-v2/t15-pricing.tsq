@@ -1,0 +1,40 @@
+board "Pricing"
+  screen desktop "Pricing Plans"
+    heading "Simple, transparent pricing" level=1 align=center
+    stack row gap=12 justify=center padding=16
+      radio "Monthly" checked=true
+      radio "Yearly"
+    stack row gap=24 padding=32 justify=center
+      card padding=24 width=280
+        heading "Starter" level=2
+        text "$29/mo" bold lg
+        text "Perfect for getting started" muted
+        divider
+        list grow=true
+          listitem "5 projects"
+          listitem "Basic analytics"
+          listitem "5 GB storage"
+          listitem "Email support"
+        button "Get started" primary fullWidth
+      card padding=24 width=280
+        heading "Pro" level=2
+        text "$99/mo" bold lg
+        text "For growing teams" muted
+        divider
+        list grow=true
+          listitem "Unlimited projects"
+          listitem "Advanced analytics"
+          listitem "100 GB storage"
+          listitem "Priority support"
+        button "Get started" primary fullWidth
+      card padding=24 width=280
+        heading "Enterprise" level=2
+        text "Custom" bold lg
+        text "For large organizations" muted
+        divider
+        list grow=true
+          listitem "Everything in Pro"
+          listitem "Custom integrations"
+          listitem "Unlimited storage"
+          listitem "Dedicated support"
+        button "Contact sales" secondary fullWidth

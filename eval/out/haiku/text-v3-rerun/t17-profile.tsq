@@ -1,0 +1,24 @@
+board "Profile"
+  screen phone "Profile"
+    navbar "Profile" leading=back actions=[settings]
+    stack gap=20 padding=24 align=center
+      avatar "AB" size=80
+      heading "Alice Brown" level=1
+      stack row gap=24 justify=center
+        stack gap=4 align=center
+          text "12" bold size=lg
+          text "Posts" muted size=sm
+        stack gap=4 align=center
+          text "345" bold size=lg
+          text "Followers" muted size=sm
+        stack gap=4 align=center
+          text "89" bold size=lg
+          text "Following" muted size=sm
+    tabs items=[Posts, Likes] active=0
+    grid columns=3 gap=8 padding=12
+      image height=120
+      image height=120
+      image height=120
+      image height=120
+      image height=120
+      image height=120

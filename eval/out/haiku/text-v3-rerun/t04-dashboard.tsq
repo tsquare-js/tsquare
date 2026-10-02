@@ -1,0 +1,32 @@
+```tsquare
+board "Dashboard"
+  screen desktop "Analytics" chrome
+    stack row gap=0
+      stack column padding=16 gap=12 width=240 border=right
+        heading "Dashboard" level=3
+        list
+          listitem "Overview" trailing=chevron
+          listitem "Analytics" trailing=chevron
+          listitem "Settings" trailing=chevron
+      stack column padding=20 gap=20 grow
+        stack row gap=12 align=center justify=between
+          heading "Overview" level=1
+          input "Search" placeholder="Search..." width=240
+          avatar "JD" size=32
+        grid columns=4 gap=16
+          card padding=16
+            text sm muted "Total revenue"
+            heading "$12,345" level=2
+          card padding=16
+            text sm muted "Orders"
+            heading "234" level=2
+          card padding=16
+            text sm muted "Customers"
+            heading "1,234" level=2
+          card padding=16
+            text sm muted "Conversion"
+            heading "3.4%" level=2
+        stack column padding=16 gap=12 grow
+          heading "Recent orders" level=2
+          table columns=[Order, Customer, Amount, Status, Date] rows=5
+```

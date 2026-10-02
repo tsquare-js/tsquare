@@ -1,0 +1,24 @@
+```tsquare
+board "Profile"
+  screen phone "Profile"
+    navbar leading=back actions=[share]
+    stack padding=24 gap=16
+      stack align=center gap=12
+        avatar "JS" size=72
+        heading "Jane Smith" level=2
+      stack row gap=24 justify=center
+        stack align=center
+          text "245" bold
+          text sm "Posts" muted
+        stack align=center
+          text "1.2K" bold
+          text sm "Followers" muted
+        stack align=center
+          text "342" bold
+          text sm "Likes" muted
+      tabs items=[Posts, Likes] active=0
+      grid columns=3 gap=8
+        image height=120
+        image height=120
+        image height=120
+```

@@ -1,0 +1,12 @@
+board "Calendar"
+  screen desktop "New event"
+    navbar "Calendar" leading=none
+    modal "New event" width=400
+      input "Title" placeholder="Event title"
+      stack row gap=12
+        select "Date" value="Today"
+        select "Time" value="10:00 AM"
+      input "Description" multiline=4 placeholder="Add a description"
+      stack row gap=8 justify=end
+        button "Cancel" secondary
+        button "Save" primary

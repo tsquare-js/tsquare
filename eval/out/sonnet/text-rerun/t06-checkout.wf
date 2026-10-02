@@ -1,0 +1,44 @@
+```wireframe
+board "Checkout"
+  screen phone "1. Cart"
+    navbar "Cart" leading=back
+    stack padding=16 gap=12
+      card padding=12
+        stack row gap=12
+          image width=64 height=64
+          stack gap=4
+            text "Product name" bold
+            text sm "Qty 1" muted
+            text "$40.00"
+      card padding=12
+        stack row gap=12
+          image width=64 height=64
+          stack gap=4
+            text "Product name" bold
+            text sm "Qty 2" muted
+            text "$30.00"
+      divider
+      stack row justify=between
+        text "Total" bold
+        text "$70.00" bold
+      button primary "Continue to shipping" fullWidth
+  screen phone "2. Shipping"
+    navbar "Shipping details" leading=back
+    stack padding=16 gap=12
+      input "Full name"
+      input "Address"
+      stack row gap=12
+        input "City"
+        input "Postal code"
+      select "Country" placeholder="Select country"
+      input "Phone" placeholder="+1 555 000 0000"
+      button primary "Place order" fullWidth
+  screen phone "3. Confirmation"
+    navbar "Confirmation" leading=none
+    stack padding=16 gap=12
+      text lines=3
+      text lines=2
+    modal "Order placed" width=280
+      text "Thank you! Your order is confirmed."
+      button primary "Done" fullWidth
+```

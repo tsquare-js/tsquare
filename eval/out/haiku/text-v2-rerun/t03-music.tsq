@@ -1,0 +1,50 @@
+board "Music app"
+  screen phone "Home"
+    navbar "Music" leading=menu
+    stack gap=16 padding=16
+      heading "Recently played" level=2
+      grid columns=2 gap=12
+        card
+          image height=80
+          text "Album" bold
+          text sm "Artist" muted
+        card
+          image height=80
+          text "Album" bold
+          text sm "Artist" muted
+      heading "Playlists" level=2
+      list
+        listitem "Liked songs" trailingIcon=play-circle
+        listitem "Workout" trailingIcon=play-circle
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Library icon=music}, {label=Account icon=user}] active=0
+  screen phone "Now Playing"
+    navbar leading=back actions=[share]
+    stack gap=24 padding=24 grow
+      spacer
+      image "Album art" height=200 rounded
+      heading "Song title" level=1 align=center
+      text "Artist name" align=center muted
+      stack row gap=8 justify=center
+        icon "heart" size=24
+        icon "repeat" size=24
+        icon "shuffle" size=24
+      spacer
+      stack row gap=8
+        button ghost leadingIcon=skip-back
+        button primary leadingIcon=play size=lg
+        button ghost leadingIcon=skip-forward
+      spacer
+    drawer bottom "Queue" size=300
+      list
+        listitem "Next song 1"
+        listitem "Next song 2"
+        listitem "Next song 3"
+  screen phone "Library"
+    navbar "Library" leading=menu
+    tabs items=[Downloaded, Playlists, Artists, Albums] active=0
+    list dividers grow
+      listitem "Liked songs" trailing=chevron
+      listitem "Favorites" trailing=chevron
+      listitem "Workout mix" trailing=chevron
+      listitem "Jazz classics" trailing=chevron
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Library icon=music}, {label=Account icon=user}] active=2

@@ -1,0 +1,19 @@
+```tsquare
+board "Product"
+  screen phone
+    navbar leading=back actions=[share]
+    image height=300
+    stack padding=16 gap=16 grow
+      heading "Premium headphones" level=1
+      text "$199.99" size=lg bold
+      stack gap=12
+        text "Size" bold
+        select value="Medium"
+      button primary "Add to cart" fullWidth
+      divider
+      heading "Reviews" level=2
+      list grow
+        listitem "Great sound quality" subtitle="★★★★★"
+        listitem "Comfortable fit" subtitle="★★★★☆"
+        listitem "Good battery life" subtitle="★★★★★"
+```

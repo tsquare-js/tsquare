@@ -1,0 +1,18 @@
+board "File manager"
+  screen desktop "Files"
+    stack row align=center gap=12
+      heading "My files" level=2
+      spacer
+      input search placeholder="Search files" width=240
+      button primary leadingIcon=upload "Upload"
+    table columns=[Name, Owner, Modified, Size] data=[[Report.pdf, Ana, Oct 1, "2.1 MB"], [Budget.xlsx, Ben, Sep 30, "840 KB"], [Photos, Carla, Sep 28, "--"], [Notes.txt, Dan, Sep 25, "4 KB"], [Design.fig, Eva, Sep 20, "12 MB"]]
+    drawer right "Details" size=300
+      image "Preview" height=140
+      text "Report.pdf" bold
+      text sm "PDF document, 2.1 MB" muted
+      divider
+      text sm "Owner: Ana" muted
+      text sm "Modified: Oct 1" muted
+      stack row gap=8
+        button secondary "Share"
+        button ghost "Delete"

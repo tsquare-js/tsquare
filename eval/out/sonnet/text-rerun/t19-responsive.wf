@@ -1,0 +1,23 @@
+```wireframe
+board "Responsive notes"
+  screen phone "Phone"
+    navbar "Notes" leading=menu actions=[search]
+    list dividers
+      listitem "Meeting notes" subtitle="Today" trailing=chevron
+      listitem "Groceries" subtitle="Yesterday" trailing=chevron
+      listitem "Ideas" subtitle="Mon" trailing=chevron
+    button primary "New note" icon=plus fullWidth
+  screen desktop "Desktop"
+    navbar "Notes" leading=logo actions=[search, user]
+    stack row grow
+      stack width=260 border=right padding=12 gap=8
+        button primary "New note" icon=plus fullWidth
+        list dividers
+          listitem "Meeting notes" subtitle="Today"
+          listitem "Groceries" subtitle="Yesterday"
+          listitem "Ideas" subtitle="Mon"
+      stack grow padding=16 gap=8
+        heading "Meeting notes" level=2
+        text lines=6
+  note "On phone, the list fills the screen and tapping a note opens it. On desktop, the list becomes a sidebar and the selected note shows beside it." color=yellow width=240
+```

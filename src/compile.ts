@@ -34,7 +34,8 @@ export function compileWireframe(source: string): CompileResult {
   // The parser and the validator can both flag the same unknown prop.
   const seen = new Set<string>();
   const unique = issues.filter((i) => {
-    const key = `${i.line}|${i.message.replace(/^\w+: /, "").replace(/ \(.*$/, "")}`;
+    // Compare up to the prop name: the parser's version (first) adds the list of valid props.
+    const key = `${i.line}|${i.message.replace(/^\w+: /, "").replace(/(has no prop "[^"]*").*$/, "$1").replace(/ \(.*$/, "")}`;
     if (seen.has(key)) return false;
     seen.add(key);
     return true;

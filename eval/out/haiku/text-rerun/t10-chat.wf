@@ -1,0 +1,19 @@
+```wireframe
+board "Chat"
+  screen phone
+    navbar "John Smith" leading=back actions=[call, info]
+    stack grow padding=12 gap=8 justify=end
+      text "Today" muted size=sm align=center
+      stack
+        text "Hi there!" muted size=sm
+      stack row justify=end
+        text "Hey! How are you?" size=sm
+      stack
+        text "Doing great, thanks for asking" muted size=sm
+      text "14:32" muted size=sm align=center
+      stack row justify=end
+        text "Want to grab coffee?" size=sm
+    stack row padding=12 gap=8
+      input placeholder="Type a message..." grow
+      button ghost icon=send
+```

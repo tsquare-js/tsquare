@@ -1,0 +1,18 @@
+```tsquare
+board "Settings"
+  screen phone "Settings"
+    navbar "Settings" leading=back
+    stack padding=16 gap=12 grow
+      heading "Preferences" level=3
+      toggle "Notifications" on
+      toggle "Dark mode" off
+      divider
+      heading "Account" level=3
+      list dividers
+        listitem "Profile" leadingIcon=user trailing=chevron
+        listitem "Password" leadingIcon=lock trailing=chevron
+        listitem "Payment methods" leadingIcon=credit-card trailing=chevron
+        listitem "Privacy" leadingIcon=shield trailing=chevron
+      spacer
+      button secondary "Sign out" fullWidth
+```

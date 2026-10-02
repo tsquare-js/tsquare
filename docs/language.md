@@ -26,7 +26,7 @@ board "Sign-up flow"
 ## Anatomy of a line
 
 ```tsquare
-    button primary lg "Sign in" fullWidth icon=log-in
+    button primary lg "Sign in" fullWidth leadingIcon=log-in
 ```
 
 | Part | What it does |
@@ -90,11 +90,15 @@ Objects go in curly braces, as `key=value` pairs separated by spaces (commas are
 
 ### Comments
 
-`#` after a space starts a comment that runs to the end of the line. A line that starts with `#` is ignored. A `#` right after `=` is part of the value, which is how hex colors work: `accent=#1a73e8`.
+A line that starts with `#` is a comment. **A comment must be on its own line:** it can't follow an element on the same line.
 
 ```tsquare
-  screen phone "Home"   # the main screen
+board
+  # the main screen
+  screen phone "Home"
 ```
+
+Anywhere else, `#` is ordinary text, so order numbers, tags and hex colors need no quotes: `[#1001, #1002]`, `accent=#1a73e8`. A `#` after an element on the same line, as in `screen phone "Home"   # the main screen`, is an error that points here.
 
 ### Code fences
 

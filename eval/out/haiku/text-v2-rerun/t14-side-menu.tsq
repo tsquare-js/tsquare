@@ -1,0 +1,16 @@
+board "Menu"
+  screen phone "Menu Open"
+    navbar "Menu" leading=back
+    drawer left "Menu" size=240
+      stack gap=16 padding=16
+        stack row gap=12 align=center
+          avatar "JD" size=40
+          text "Jane Doe" bold
+        divider
+        text "Home"
+        text "Profile"
+        text "Settings"
+        text "Notifications"
+        text "Help"
+        spacer
+        text "Log out" muted

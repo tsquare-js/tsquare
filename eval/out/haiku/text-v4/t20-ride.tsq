@@ -1,0 +1,10 @@
+board "Ride Hailing"
+  screen phone "Request Ride"
+    image height=320 "Map"
+    drawer bottom "Pick a ride" size=260
+      stack gap=12 padding=16
+        list
+          listitem "UberX" subtitle="4 min away" trailingText="$12"
+          listitem "UberXL" subtitle="7 min away" trailingText="$18"
+          listitem "Uber Premium" subtitle="2 min away" trailingText="$25"
+        button "Confirm ride" primary fullWidth

@@ -1,0 +1,17 @@
+```wireframe
+board "Notes states"
+  screen phone "Empty"
+    navbar "Notes" leading=menu actions=[search]
+    stack grow align=center justify=center gap=12
+      icon file-text size=64
+      heading "No notes yet" level=2 align=center
+      text muted align=center "Tap below to write your first note."
+      button primary "Create note"
+  screen phone "Error"
+    navbar "Notes" leading=menu actions=[search]
+    stack grow align=center justify=center gap=12
+      icon triangle-alert size=64
+      heading "Something went wrong" level=2 align=center
+      text muted align=center "We couldn't load your notes."
+      button secondary "Retry"
+```

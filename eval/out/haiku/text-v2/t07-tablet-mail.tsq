@@ -1,0 +1,21 @@
+```tsquare
+board "Email client"
+  screen tablet "Inbox"
+    navbar "Inbox" leading=menu actions=[search, compose]
+    stack row gap=0
+      stack column width=350 border=right gap=0
+        list dividers
+          listitem "Sarah Johnson" subtitle="Meeting tomorrow at 2pm" trailing=badge trailingText="1"
+          listitem "Acme Corp" subtitle="Invoice for project" trailing=badge trailingText="3"
+          listitem "Newsletter" subtitle="Weekly digest"
+          listitem "Alex Chen" subtitle="Revised proposal attached"
+      stack column grow padding=20 gap=16
+        stack row justify=between align=center
+          heading "Sarah Johnson" level=2
+          stack row gap=8
+            button "Reply" secondary size=sm
+            button "Archive" secondary size=sm
+        text "Meeting tomorrow at 2pm" muted
+        divider
+        text lines=6
+```

@@ -1,0 +1,19 @@
+board "Onboarding"
+  screen phone "Welcome"
+    image "Illustration" height=300
+    heading "Welcome" level=1 align=center
+    text "A short description of what the app does." muted align=center
+    spacer
+    button primary "Continue" fullWidth
+  screen phone "Stay organized"
+    image "Illustration" height=300
+    heading "Stay organized" level=1 align=center
+    text "A short description of this key feature." muted align=center
+    spacer
+    button primary "Continue" fullWidth
+  screen phone "Ready"
+    image "Illustration" height=300
+    heading "You're all set" level=1 align=center
+    text "A short description to wrap things up." muted align=center
+    spacer
+    button primary "Get started" fullWidth

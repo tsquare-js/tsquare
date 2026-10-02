@@ -1,0 +1,17 @@
+```tsquare
+board "Notes App States"
+  screen phone "Empty State"
+    navbar "Notes"
+    stack padding=24 gap=16 grow=true align=center justify=center
+      image height=120
+      heading "No notes yet" level=2 align=center
+      text "Create your first note to get started" align=center muted
+      button primary "Create note"
+  screen phone "Error State"
+    navbar "Notes"
+    stack padding=24 gap=16 grow=true align=center justify=center
+      image height=100
+      heading "Something went wrong" level=2 align=center
+      text "Unable to load notes" align=center muted
+      button primary "Retry"
+```

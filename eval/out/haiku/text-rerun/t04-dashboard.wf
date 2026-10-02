@@ -1,0 +1,33 @@
+```wireframe
+board "Dashboard" layout=row
+  screen desktop
+    stack row grow
+      stack width=240 border=right padding=16 gap=8
+        text "Dashboard" bold
+        list
+          listitem "Overview"
+          listitem "Reports"
+          listitem "Settings"
+      stack grow
+        stack row padding=16 gap=16 align=center
+          input search placeholder="Search..." grow
+          avatar "JD"
+        divider
+        stack padding=16 gap=16 grow
+          text "Key Metrics" bold
+          grid columns=4 gap=16
+            card padding=16
+              text "24.5K" bold
+              text "Revenue" muted size=sm
+            card padding=16
+              text "1,234" bold
+              text "Users" muted size=sm
+            card padding=16
+              text "92%" bold
+              text "Conversion" muted size=sm
+            card padding=16
+              text "3.2s" bold
+              text "Avg Time" muted size=sm
+          text "Recent Orders" bold
+          table columns=[Order, Customer, Amount, Status, Date] rows=5
+```

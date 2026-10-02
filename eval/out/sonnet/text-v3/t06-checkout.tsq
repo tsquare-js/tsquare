@@ -1,0 +1,31 @@
+```tsquare
+board "Checkout"
+  screen phone "1. Cart"
+    navbar "Cart" leading=back
+    stack padding=16 gap=12
+      list dividers
+        listitem "Product one" subtitle="Qty 1" leading=image trailingText="$30"
+        listitem "Product two" subtitle="Qty 2" leading=image trailingText="$50"
+      divider
+      stack row justify=between
+        text "Total" bold
+        text "$80" bold
+      button primary "Continue to shipping" fullWidth
+  screen phone "2. Shipping"
+    navbar "Shipping" leading=back
+    stack padding=16 gap=12
+      input "Full name" placeholder="Jane Doe"
+      input "Address" placeholder="123 Main St"
+      stack row gap=12
+        input "City" grow
+        input "ZIP" width=100
+      input "Phone" placeholder="(555) 555-5555"
+      button primary "Place order" fullWidth
+  screen phone "3. Confirmation"
+    navbar "Confirmation"
+    text lines=3
+    modal "Order placed"
+      icon check-circle size=40
+      text "Thank you! Your order is on its way."
+      button primary "Done" fullWidth
+```

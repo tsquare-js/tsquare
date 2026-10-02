@@ -182,7 +182,8 @@ export const componentDefinitions = {
       label: o(z.string()),
       variant: o(z.enum(["primary", "secondary", "ghost"])),
       size: o(z.enum(["sm", "md", "lg"])),
-      icon: o(iconName),
+      leadingIcon: o(iconName).describe("Lucide icon before the label, e.g. chevron-left for Back"),
+      trailingIcon: o(iconName).describe("Lucide icon after the label, e.g. chevron-right for Next"),
       fullWidth: o(z.boolean()),
     }),
     slots: [],
@@ -276,14 +277,14 @@ export const componentDefinitions = {
       title: o(z.string()),
       subtitle: o(z.string()),
       leading: o(z.enum(["none", "icon", "avatar", "image", "checkbox"])),
-      icon: o(iconName),
+      leadingIcon: o(iconName).describe("Lucide icon on the left; setting it implies leading=icon"),
       trailing: o(z.enum(["none", "chevron", "toggle", "text", "badge", "icon"])),
-      trailingText: o(z.string()),
-      trailingIcon: o(iconName),
+      trailingText: o(z.string()).describe("Text for trailing=text or badge; setting it implies trailing=text"),
+      trailingIcon: o(iconName).describe("Lucide icon on the right; setting it implies trailing=icon"),
     }),
     slots: [],
     description: "Row in a List. Omit title for a placeholder bar.",
-    example: { title: "Account", subtitle: "Email, password", leading: "icon", icon: "user", trailing: "chevron" },
+    example: { title: "Account", subtitle: "Email, password", leadingIcon: "user", trailing: "chevron" },
   },
   Table: {
     props: z.object({
@@ -327,3 +328,41 @@ export const catalog = defineCatalog(wireframeSchema, {
 });
 
 export type ComponentName = keyof typeof componentDefinitions;
+
+/**
+ * A ListItem's effective leading and trailing kinds. Setting the value implies
+ * the kind (leadingIcon → leading=icon, trailingIcon → trailing=icon,
+ * trailingText → trailing=text), so writing only the value still shows it.
+ * The renderer and checkSpec both use this, so they can't disagree.
+ */
+export function listItemEnds(p: { leading?: string | null; leadingIcon?: string | null; trailing?: string | null; trailingIcon?: string | null; trailingText?: string | null }) {
+  return {
+    leading: p.leading ?? (p.leadingIcon ? "icon" : undefined),
+    trailing: p.trailing ?? (p.trailingIcon ? "icon" : p.trailingText ? "text" : undefined),
+  };
+}
+
+/**
+ * Props renamed in 0.3.0, still accepted under their old names so existing
+ * wireframes and render URLs keep working. The prompt, docs and autocomplete
+ * only teach the new names, and `tsquare fmt` rewrites the old ones.
+ */
+export const RENAMED_PROPS: Record<string, Record<string, string>> = {
+  Button: { icon: "leadingIcon" },
+  ListItem: { icon: "leadingIcon" },
+};
+
+/** Rewrites renamed props to their current names, in place. Safe to call more than once. */
+export function upgradeRenamedProps(spec: { elements: Record<string, { type: string; props?: Record<string, unknown> }> }) {
+  for (const el of Object.values(spec.elements)) {
+    const renames = RENAMED_PROPS[el.type];
+    if (!renames || !el.props) continue;
+    for (const [from, to] of Object.entries(renames)) {
+      if (from in el.props) {
+        if (!(to in el.props)) el.props[to] = el.props[from];
+        delete el.props[from];
+      }
+    }
+  }
+  return spec;
+}

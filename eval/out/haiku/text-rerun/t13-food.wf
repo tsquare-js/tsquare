@@ -1,0 +1,30 @@
+```wireframe
+board "Food delivery"
+  screen phone "Home"
+    navbar "Delivery" leading=none actions=[bell, user]
+    stack padding=12 gap=12
+      input search placeholder="Search restaurants..."
+      stack row gap=8
+        badge outline "Pizza"
+        badge outline "Sushi"
+        badge outline "Burgers"
+        badge outline "Salads"
+      grid columns=2 gap=12
+        card padding=10
+          image height=100
+          text "Pizza Place" bold
+          text sm "20 min" muted
+        card padding=10
+          image height=100
+          text "Sushi Bar" bold
+          text sm "30 min" muted
+        card padding=10
+          image height=100
+          text "Burger Joint" bold
+          text sm "25 min" muted
+        card padding=10
+          image height=100
+          text "Salad Express" bold
+          text sm "15 min" muted
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Orders icon=package}, {label=Profile icon=user}] active=0
+```

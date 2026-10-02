@@ -1,0 +1,19 @@
+```tsquare
+board "Side Menu"
+  screen phone "Menu Open"
+    navbar leading=close
+    drawer left
+      stack padding=16 gap=16
+        stack row gap=12 align=center
+          avatar "JD" size=48
+          text "John Doe" bold
+        divider
+        list
+          listitem "Home" leadingIcon=home
+          listitem "Search" leadingIcon=search
+          listitem "Likes" leadingIcon=heart
+          listitem "Messages" leadingIcon=mail
+          listitem "Settings" leadingIcon=settings
+        spacer
+        button ghost "Log out" leadingIcon=log-out
+```
