@@ -29,8 +29,9 @@
     --shadow: 0 12px 32px -12px rgba(15, 23, 42, 0.28);
     --editor-bg: #ffffff;
     --editor-ink: #1f2328;
-    --editor-active: #f6f8fb;
-    --editor-selection: #cfe3fb;
+    /* translucent: CodeMirror draws selections behind the text, so an opaque current-line color would hide them */
+    --editor-active: rgba(31, 111, 214, 0.045);
+    --editor-selection: rgba(31, 111, 214, 0.26);
     --syn-component: #0b3d91;
     --syn-string: #17754a;
     --syn-prop: #6d28d9;
@@ -62,8 +63,8 @@
     --shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.7);
     --editor-bg: #111821;
     --editor-ink: #e6ebf2;
-    --editor-active: #16202c;
-    --editor-selection: #23446e;
+    --editor-active: rgba(255, 255, 255, 0.035);
+    --editor-selection: rgba(80, 150, 255, 0.36);
     --syn-component: #8ab4ff;
     --syn-string: #7ee2a8;
     --syn-prop: #c4a7ff;
