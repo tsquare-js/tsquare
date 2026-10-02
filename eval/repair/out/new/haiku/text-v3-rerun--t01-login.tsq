@@ -1,0 +1,9 @@
+board "Login"
+  screen phone "Sign in"
+    stack column padding=20 gap=16
+      heading "Sign in" level=1
+      input "Email" placeholder="you@example.com" type=email
+      input "Password" placeholder="••••••••" type=password
+      checkbox "Remember me"
+      button primary "Sign in" fullWidth
+      text center "Forgot password?" size=sm

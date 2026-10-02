@@ -1,0 +1,15 @@
+board "File manager"
+  screen desktop
+    navbar "Files" leading=menu actions=[search, more-horizontal]
+    stack row gap=0 grow
+      stack grow padding=16 gap=12
+        heading "Documents" level=2
+        table columns=["Name", "Type", "Size", "Modified"] data=[["project-proposal.pdf", "PDF", "2.4 MB", "2026-10-01"], ["budget-2024.xlsx", "Excel", "156 KB", "2026-09-29"], ["notes.txt", "Text", "12 KB", "2026-09-28"]]
+    drawer right "Details" size=300
+      heading "project-proposal.pdf" level=3
+      text "Type: PDF" size=sm
+      text "Size: 2.4 MB" size=sm
+      text "Modified: 2026-10-01" size=sm
+      divider
+      button primary "Download" fullWidth
+      button secondary "Delete" fullWidth

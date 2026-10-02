@@ -1,0 +1,11 @@
+board "Login"
+  screen phone
+    spacer size=40
+    heading "Sign in" level=1 align=center
+    spacer size=20
+    input label="Email" placeholder="you@example.com" type=email
+    input label="Password" placeholder="••••••••" type=password
+    checkbox "Remember me"
+    button primary "Sign in" fullWidth
+    spacer size=12
+    text "Forgot password?" size=sm align=center

@@ -1,0 +1,19 @@
+board "Settings"
+  screen phone
+    navbar "Settings" leading=back
+    stack gap=24 padding=16
+      stack gap=16
+        heading "Notifications" level=2
+        toggle "Push notifications" on
+        toggle "Email notifications" off
+      stack gap=16
+        heading "Appearance" level=2
+        toggle "Dark mode" off
+      stack gap=16
+        heading "Account" level=2
+        list dividers
+          listitem "Email" trailingIcon=chevron
+          listitem "Password" trailingIcon=chevron
+          listitem "Privacy" trailingIcon=chevron
+      spacer
+      button "Sign out" secondary fullWidth

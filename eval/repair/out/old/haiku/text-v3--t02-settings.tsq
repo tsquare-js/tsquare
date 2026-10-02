@@ -1,0 +1,17 @@
+board "Settings"
+  screen phone "Settings"
+    navbar leading=back
+    stack gap=20
+      heading "Settings" level=2
+      card
+        list dividers
+          listitem "Notifications" trailing=toggle
+          listitem "Dark mode" trailing=toggle
+      heading "Account" level=2
+      card
+        list dividers
+          listitem "Profile"
+          listitem "Security"
+          listitem "Preferences"
+      spacer
+      button primary "Sign out" fullWidth

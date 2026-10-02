@@ -1,0 +1,14 @@
+board "Chat"
+  screen phone "Conversation"
+    navbar "Sarah Johnson" leading=back actions=[phone-call, info]
+    stack gap=12 padding=16 grow
+      stack
+        text "Hey, how are you?" size=sm muted align=left
+      stack row justify=end
+        text "I'm doing great! How about you?" size=sm
+      stack
+        text "Just finished a project, feeling good" size=sm muted align=left
+      spacer
+    stack row gap=8 padding=16
+      input placeholder="Type a message..." grow
+      button primary trailingIcon=send

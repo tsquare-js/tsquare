@@ -1,0 +1,31 @@
+board "Checkout"
+  screen phone "Cart"
+    navbar "Cart" leading=back
+    stack column padding=16 gap=12 grow
+      list
+        listitem "Product 1" subtitle="$29.99" trailing=text trailingText=x2
+        listitem "Product 2" subtitle="$49.99" trailing=text trailingText=x1
+      divider
+      text bold "Subtotal $109.97"
+      button primary "Proceed" fullWidth
+  screen phone "Shipping"
+    navbar "Shipping" leading=back
+    stack column padding=16 gap=16
+      input "Name" placeholder="Full name"
+      input "Address" placeholder="Street address"
+      input "City" placeholder="City"
+      input "Postal code" placeholder="12345"
+      button primary "Continue" fullWidth
+  screen phone "Confirmation"
+    navbar "Order placed" leading=back
+    stack column padding=20 gap=16 align=center
+      text "Order #12345" bold
+      text "Thank you for your order"
+      text "Estimated delivery: 3-5 days" sm muted
+      button primary "Done" fullWidth
+    modal "Order confirmed" width=280
+      stack column gap=12 align=center
+        text "Order #12345" bold
+        text "Thank you for your order"
+        text "Estimated delivery: 3-5 days" sm muted
+        button primary "Done" fullWidth

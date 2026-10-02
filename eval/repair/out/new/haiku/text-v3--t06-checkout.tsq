@@ -1,0 +1,35 @@
+board "Checkout"
+  screen phone "Cart"
+    navbar leading=back
+    stack padding=16 gap=16
+      heading "Your Cart" level=1
+      list
+        listitem "Wireless Headphones" subtitle="$199.99" trailingText="x1"
+        listitem "Phone Case" subtitle="$29.99" trailingText="x2"
+      divider
+      stack row justify=between
+        text bold "Total:"
+        text bold "$259.77"
+      button primary "Proceed to Checkout" fullWidth
+  screen phone "Shipping"
+    navbar leading=back
+    stack padding=16 gap=16
+      heading "Shipping Details" level=1
+      input "Full Name" placeholder="John Doe"
+      input "Email" placeholder="john@example.com" type=email
+      input "Address" placeholder="123 Main St"
+      input "City" placeholder="New York"
+      input "ZIP Code" placeholder="10001"
+      button primary "Continue" fullWidth
+  screen phone "Confirmation"
+    navbar leading=back
+    stack padding=20 gap=16 align=center
+      text "Order confirmed" bold
+      text "Your order #12345 has been confirmed." align=center
+      text "Estimated delivery: 3-5 business days" align=center size=sm muted
+      button primary "View Order" fullWidth
+    modal "Order Placed" scrim=true
+      text align=center
+      text "Your order #12345 has been confirmed." align=center
+      text "Estimated delivery: 3-5 business days" align=center size=sm muted
+      button primary "View Order" fullWidth
