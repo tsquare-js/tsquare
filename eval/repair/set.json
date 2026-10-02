@@ -1,0 +1,198 @@
+[
+  {
+    "key": "sonnet/text-v3/t11-event-modal",
+    "model": "sonnet",
+    "run": "text-v3",
+    "task": "t11-event-modal",
+    "file": "eval/out/sonnet/text-v3/t11-event-modal.tsq"
+  },
+  {
+    "key": "sonnet/text-v3-rerun/t11-event-modal",
+    "model": "sonnet",
+    "run": "text-v3-rerun",
+    "task": "t11-event-modal",
+    "file": "eval/out/sonnet/text-v3-rerun/t11-event-modal.tsq"
+  },
+  {
+    "key": "sonnet/text-v4-rerun/t11-event-modal",
+    "model": "sonnet",
+    "run": "text-v4-rerun",
+    "task": "t11-event-modal",
+    "file": "eval/out/sonnet/text-v4-rerun/t11-event-modal.tsq"
+  },
+  {
+    "key": "haiku/text-v3/t01-login",
+    "model": "haiku",
+    "run": "text-v3",
+    "task": "t01-login",
+    "file": "eval/out/haiku/text-v3/t01-login.tsq"
+  },
+  {
+    "key": "haiku/text-v3/t02-settings",
+    "model": "haiku",
+    "run": "text-v3",
+    "task": "t02-settings",
+    "file": "eval/out/haiku/text-v3/t02-settings.tsq"
+  },
+  {
+    "key": "haiku/text-v3/t06-checkout",
+    "model": "haiku",
+    "run": "text-v3",
+    "task": "t06-checkout",
+    "file": "eval/out/haiku/text-v3/t06-checkout.tsq"
+  },
+  {
+    "key": "haiku/text-v3/t08-files",
+    "model": "haiku",
+    "run": "text-v3",
+    "task": "t08-files",
+    "file": "eval/out/haiku/text-v3/t08-files.tsq"
+  },
+  {
+    "key": "haiku/text-v3/t10-chat",
+    "model": "haiku",
+    "run": "text-v3",
+    "task": "t10-chat",
+    "file": "eval/out/haiku/text-v3/t10-chat.tsq"
+  },
+  {
+    "key": "haiku/text-v3/t14-side-menu",
+    "model": "haiku",
+    "run": "text-v3",
+    "task": "t14-side-menu",
+    "file": "eval/out/haiku/text-v3/t14-side-menu.tsq"
+  },
+  {
+    "key": "haiku/text-v3-rerun/t01-login",
+    "model": "haiku",
+    "run": "text-v3-rerun",
+    "task": "t01-login",
+    "file": "eval/out/haiku/text-v3-rerun/t01-login.tsq"
+  },
+  {
+    "key": "haiku/text-v3-rerun/t06-checkout",
+    "model": "haiku",
+    "run": "text-v3-rerun",
+    "task": "t06-checkout",
+    "file": "eval/out/haiku/text-v3-rerun/t06-checkout.tsq"
+  },
+  {
+    "key": "haiku/text-v3-rerun/t10-chat",
+    "model": "haiku",
+    "run": "text-v3-rerun",
+    "task": "t10-chat",
+    "file": "eval/out/haiku/text-v3-rerun/t10-chat.tsq"
+  },
+  {
+    "key": "haiku/text-v3-rerun/t12-users",
+    "model": "haiku",
+    "run": "text-v3-rerun",
+    "task": "t12-users",
+    "file": "eval/out/haiku/text-v3-rerun/t12-users.tsq"
+  },
+  {
+    "key": "haiku/text-v3-rerun/t13-food",
+    "model": "haiku",
+    "run": "text-v3-rerun",
+    "task": "t13-food",
+    "file": "eval/out/haiku/text-v3-rerun/t13-food.tsq"
+  },
+  {
+    "key": "haiku/text-v3-rerun/t16-states",
+    "model": "haiku",
+    "run": "text-v3-rerun",
+    "task": "t16-states",
+    "file": "eval/out/haiku/text-v3-rerun/t16-states.tsq"
+  },
+  {
+    "key": "haiku/text-v3-rerun/t19-responsive",
+    "model": "haiku",
+    "run": "text-v3-rerun",
+    "task": "t19-responsive",
+    "file": "eval/out/haiku/text-v3-rerun/t19-responsive.tsq"
+  },
+  {
+    "key": "haiku/text-v4/t08-files",
+    "model": "haiku",
+    "run": "text-v4",
+    "task": "t08-files",
+    "file": "eval/out/haiku/text-v4/t08-files.tsq"
+  },
+  {
+    "key": "haiku/text-v4/t10-chat",
+    "model": "haiku",
+    "run": "text-v4",
+    "task": "t10-chat",
+    "file": "eval/out/haiku/text-v4/t10-chat.tsq"
+  },
+  {
+    "key": "haiku/text-v4/t18-delete",
+    "model": "haiku",
+    "run": "text-v4",
+    "task": "t18-delete",
+    "file": "eval/out/haiku/text-v4/t18-delete.tsq"
+  },
+  {
+    "key": "haiku/text-v4-rerun/t01-login",
+    "model": "haiku",
+    "run": "text-v4-rerun",
+    "task": "t01-login",
+    "file": "eval/out/haiku/text-v4-rerun/t01-login.tsq"
+  },
+  {
+    "key": "haiku/text-v4-rerun/t02-settings",
+    "model": "haiku",
+    "run": "text-v4-rerun",
+    "task": "t02-settings",
+    "file": "eval/out/haiku/text-v4-rerun/t02-settings.tsq"
+  },
+  {
+    "key": "haiku/text-v4-rerun/t03-music",
+    "model": "haiku",
+    "run": "text-v4-rerun",
+    "task": "t03-music",
+    "file": "eval/out/haiku/text-v4-rerun/t03-music.tsq"
+  },
+  {
+    "key": "haiku/text-v4-rerun/t06-checkout",
+    "model": "haiku",
+    "run": "text-v4-rerun",
+    "task": "t06-checkout",
+    "file": "eval/out/haiku/text-v4-rerun/t06-checkout.tsq"
+  },
+  {
+    "key": "haiku/text-v4-rerun/t10-chat",
+    "model": "haiku",
+    "run": "text-v4-rerun",
+    "task": "t10-chat",
+    "file": "eval/out/haiku/text-v4-rerun/t10-chat.tsq"
+  },
+  {
+    "key": "haiku/text-v4-rerun/t12-users",
+    "model": "haiku",
+    "run": "text-v4-rerun",
+    "task": "t12-users",
+    "file": "eval/out/haiku/text-v4-rerun/t12-users.tsq"
+  },
+  {
+    "key": "haiku/text-v4-rerun/t15-pricing",
+    "model": "haiku",
+    "run": "text-v4-rerun",
+    "task": "t15-pricing",
+    "file": "eval/out/haiku/text-v4-rerun/t15-pricing.tsq"
+  },
+  {
+    "key": "haiku/text-v4-rerun/t18-delete",
+    "model": "haiku",
+    "run": "text-v4-rerun",
+    "task": "t18-delete",
+    "file": "eval/out/haiku/text-v4-rerun/t18-delete.tsq"
+  },
+  {
+    "key": "haiku/text-v4-rerun/t19-responsive",
+    "model": "haiku",
+    "run": "text-v4-rerun",
+    "task": "t19-responsive",
+    "file": "eval/out/haiku/text-v4-rerun/t19-responsive.tsq"
+  }
+]

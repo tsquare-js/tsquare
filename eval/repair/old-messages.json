@@ -1,0 +1,129 @@
+{
+  "sonnet/text-v3/t11-event-modal": [
+    "line 27: Select: don't know what \"grow\" is",
+    "line 28: Select: don't know what \"grow\" is"
+  ],
+  "sonnet/text-v3-rerun/t11-event-modal": [
+    "line 33: Select: don't know what \"grow\" is"
+  ],
+  "sonnet/text-v4-rerun/t11-event-modal": [
+    "line 27: Select: don't know what \"grow\" is"
+  ],
+  "haiku/text-v3/t01-login": [
+    "line 5: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 6: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)"
+  ],
+  "haiku/text-v3/t02-settings": [
+    "line 5: Heading has no prop \"padding\" (its props: text, level, align)",
+    "line 10: Heading has no prop \"padding\" (its props: text, level, align)",
+    "line 17: Button has no prop \"padding\" (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)"
+  ],
+  "haiku/text-v3/t06-checkout": [
+    "line 18: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 19: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 20: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 21: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 22: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)"
+  ],
+  "haiku/text-v3/t08-files": [
+    "line 8: Drawer must be a direct child of a Screen (found in the Stack on line 4)"
+  ],
+  "haiku/text-v3/t10-chat": [
+    "line 3: NavBar: unknown icon \"call\" (did you mean phone-call?)"
+  ],
+  "haiku/text-v3/t14-side-menu": [
+    "line 13: Button has no prop \"align\" (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
+    "line 14: Button has no prop \"align\" (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
+    "line 15: Button has no prop \"align\" (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
+    "line 16: Button has no prop \"align\" (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
+    "line 17: Button has no prop \"align\" (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
+    "line 19: Button has no prop \"align\" (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)"
+  ],
+  "haiku/text-v3-rerun/t01-login": [
+    "line 5: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 6: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)"
+  ],
+  "haiku/text-v3-rerun/t06-checkout": [
+    "line 14: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 15: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 16: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 17: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 22: Modal must be a direct child of a Screen (found in the Stack on line 21)"
+  ],
+  "haiku/text-v3-rerun/t10-chat": [
+    "line 3: NavBar: unknown icon \"call\" (did you mean phone-call?)"
+  ],
+  "haiku/text-v3-rerun/t12-users": [
+    "line 5: unclosed [",
+    "line 6: expected a component name, got \"[\"Alice Johnson\", \"alice@example.com\", \"Admin\", \"Active\"],\"",
+    "line 7: expected a component name, got \"[\"Bob Smith\", \"bob@example.com\", \"Editor\", \"Active\"],\"",
+    "line 8: expected a component name, got \"[\"Carol Davis\", \"carol@example.com\", \"Viewer\", \"Active\"],\"",
+    "line 9: expected a component name, got \"[\"David Lee\", \"david@example.com\", \"Editor\", \"Invited\"]\"",
+    "line 10: expected a component name, got \"]\"",
+    "line 14: unclosed [",
+    "line 15: expected a component name, got \"[\"Alice Johnson\", \"alice@example.com\", \"Admin\", \"Active\"],\"",
+    "line 16: expected a component name, got \"[\"Bob Smith\", \"bob@example.com\", \"Editor\", \"Active\"],\"",
+    "line 17: expected a component name, got \"[\"Carol Davis\", \"carol@example.com\", \"Viewer\", \"Active\"],\"",
+    "line 18: expected a component name, got \"[\"David Lee\", \"david@example.com\", \"Editor\", \"Invited\"]\"",
+    "line 19: expected a component name, got \"]\""
+  ],
+  "haiku/text-v3-rerun/t13-food": [
+    "line 10: Heading has no prop \"padding\" (its props: text, level, align)"
+  ],
+  "haiku/text-v3-rerun/t16-states": [
+    "line 3: NavBar: unknown icon \"compose\" (did you mean compass?)",
+    "line 10: NavBar: unknown icon \"compose\" (did you mean compass?)"
+  ],
+  "haiku/text-v3-rerun/t19-responsive": [
+    "line 3: NavBar: unknown icon \"compose\" (did you mean compass?)",
+    "line 9: NavBar: unknown icon \"compose\" (did you mean compass?)"
+  ],
+  "haiku/text-v4/t08-files": [
+    "line 9: Drawer must be a direct child of a Screen (found in the Stack on line 3)"
+  ],
+  "haiku/text-v4/t10-chat": [
+    "line 3: NavBar: unknown icon \"call\" (did you mean phone-call?)"
+  ],
+  "haiku/text-v4/t18-delete": [
+    "line 10: Card has no prop \"border\" (its props: title, padding, gap, variant, grow, width)"
+  ],
+  "haiku/text-v4-rerun/t01-login": [
+    "line 6: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 7: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)"
+  ],
+  "haiku/text-v4-rerun/t02-settings": [
+    "line 16: unknown component \"trailing\" (components: board, screen, note, stack, grid, card, divider, spacer, heading, text, image, icon, avatar, badge, button, input, checkbox, radio, toggle, select, navbar, tabbar, tabs, list, listitem, table, modal, drawer)",
+    "line 18: unknown component \"trailing\" (components: board, screen, note, stack, grid, card, divider, spacer, heading, text, image, icon, avatar, badge, button, input, checkbox, radio, toggle, select, navbar, tabbar, tabs, list, listitem, table, modal, drawer)",
+    "line 20: unknown component \"trailing\" (components: board, screen, note, stack, grid, card, divider, spacer, heading, text, image, icon, avatar, badge, button, input, checkbox, radio, toggle, select, navbar, tabbar, tabs, list, listitem, table, modal, drawer)"
+  ],
+  "haiku/text-v4-rerun/t03-music": [
+    "line 19: expected = after library",
+    "line 48: expected = after library"
+  ],
+  "haiku/text-v4-rerun/t06-checkout": [
+    "line 15: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 16: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 17: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 18: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 19: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
+    "line 24: Modal must be a direct child of a Screen (found in the Stack on line 23)"
+  ],
+  "haiku/text-v4-rerun/t10-chat": [
+    "line 3: NavBar: unknown icon \"call\" (did you mean phone-call?)"
+  ],
+  "haiku/text-v4-rerun/t12-users": [
+    "line 7: unknown component \"data\" (components: board, screen, note, stack, grid, card, divider, spacer, heading, text, image, icon, avatar, badge, button, input, checkbox, radio, toggle, select, navbar, tabbar, tabs, list, listitem, table, modal, drawer)",
+    "line 13: unknown component \"data\" (components: board, screen, note, stack, grid, card, divider, spacer, heading, text, image, icon, avatar, badge, button, input, checkbox, radio, toggle, select, navbar, tabbar, tabs, list, listitem, table, modal, drawer)"
+  ],
+  "haiku/text-v4-rerun/t15-pricing": [
+    "line 29: Heading: don't know what \"bold\" is (bare words it accepts: left, center, right)"
+  ],
+  "haiku/text-v4-rerun/t18-delete": [
+    "line 20: Button has no prop \"tone\" (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)"
+  ],
+  "haiku/text-v4-rerun/t19-responsive": [
+    "line 4: List has no prop \"padding\" (its props: dividers, grow)",
+    "line 4: List has no prop \"gap\" (its props: dividers, grow)",
+    "line 11: unknown component \"data\" (components: board, screen, note, stack, grid, card, divider, spacer, heading, text, image, icon, avatar, badge, button, input, checkbox, radio, toggle, select, navbar, tabbar, tabs, list, listitem, table, modal, drawer)"
+  ]
+}
