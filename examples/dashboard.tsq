@@ -1,0 +1,27 @@
+board "Analytics" accent=blue
+  screen desktop "Dashboard" padding=0 height=640
+    stack row grow
+      stack width=220 border=right fill padding=16 gap=6
+        text "Acme" bold
+        list dividers=false
+          listitem "Overview" leading=icon icon=layout-grid
+          listitem "Customers" leading=icon icon=users
+          listitem "Orders" leading=icon icon=receipt
+          listitem "Settings" leading=icon icon=settings
+      stack grow padding=24 gap=20
+        stack row justify=between align=center
+          heading "Overview" level=2
+          stack row gap=8
+            input search placeholder="Search" width=220
+            button primary "Export" icon=download
+            avatar "DM"
+        grid columns=4 gap=12
+          card "Revenue"
+            heading "$48.2k" level=2
+          card "Orders"
+            heading "1,284" level=2
+          card "Customers"
+            heading "932" level=2
+          card "Refunds"
+            heading "12" level=2
+        table columns=[Order, Customer, Status, Total] data=[["#1042", Ana Torres, Paid, "$120"], ["#1041", Ben Cho, Pending, "$80"], ["#1040", Priya Nair, Paid, "$45"]]

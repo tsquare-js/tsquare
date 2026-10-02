@@ -1,0 +1,16 @@
+board row "Empty and error states"
+  screen phone "No notes yet"
+    navbar "Notes" actions=[plus]
+    stack grow justify=center align=center gap=12 padding=24
+      image "Illustration" height=140 width=200
+      heading "No notes yet" level=2
+      text "Your notes will show up here." muted align=center
+      button primary "New note" icon=plus
+  screen phone "Couldn't load"
+    navbar "Notes" actions=[plus]
+    stack grow justify=center align=center gap=12 padding=24
+      icon triangle-alert size=40
+      heading "Something went wrong" level=2
+      text "Check your connection and try again." muted align=center
+      button secondary "Try again" icon=refresh-cw
+      badge "Offline" tone=warning

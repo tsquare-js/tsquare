@@ -87,9 +87,15 @@ function reference() {
   return referenceCache;
 }
 
+/** Gallery order: simple ones first (the first is also what a first-time visitor sees), then the rest alphabetically. */
+const EXAMPLE_ORDER = ["sign-in", "dashboard", "checkout", "states", "notes-mobile", "notes-web"];
+const rank = (name: string) => (EXAMPLE_ORDER.indexOf(name) + 1 || EXAMPLE_ORDER.length + 1);
+
 async function examples() {
   const dir = path.join(packageRoot, "examples");
-  const files = (await readdir(dir)).filter((f) => f.endsWith(".tsq")).sort();
+  const files = (await readdir(dir))
+    .filter((f) => f.endsWith(".tsq"))
+    .sort((a, b) => rank(a.slice(0, -4)) - rank(b.slice(0, -4)) || a.localeCompare(b));
   return Promise.all(files.map(async (f) => ({ name: f.replace(/\.tsq$/, ""), source: await readFile(path.join(dir, f), "utf8") })));
 }
 
