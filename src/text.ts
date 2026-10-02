@@ -21,7 +21,7 @@
  */
 import type { Spec } from "@json-render/core";
 import { z } from "zod";
-import { RENAMED_PROPS, componentDefinitions } from "./catalog.js";
+import { componentDefinitions } from "./catalog.js";
 import { unknownComponentMessage } from "./suggest.js";
 
 /** Which prop a quoted string fills, per component. */
@@ -313,7 +313,7 @@ export function parseWireframeText(source: string): ParseResult {
         const t = c.peek();
         if (t.kind !== "sym" && (c.isSym("=", 1) || c.isSym(":", 1))) {
           c.next(); c.next();
-          const key = RENAMED_PROPS[info.name]?.[t.value] ?? t.value; // old spellings still work (icon → leadingIcon)
+          const key = t.value;
           if (!(key in info.props)) {
             const elsewhere = belongsElsewhere(info.name, key, true);
             issues.push({ line: lineNo, message: `${info.name} has no prop "${key}"` + (elsewhere ? `: ${elsewhere}` : "") + ` (its props: ${Object.keys(info.props).join(", ")})` });

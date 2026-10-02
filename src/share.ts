@@ -10,6 +10,7 @@
  * uses CompressionStream); any raw-deflate stream decodes the same way.
  */
 import { deflateRawSync, inflateRawSync } from "node:zlib";
+import { upgradeWireframe } from "./upgrade.js";
 
 /** Largest decoded text accepted, in bytes. Plenty for a board; stops a tiny URL from inflating into megabytes. */
 export const MAX_SHARED_TEXT = 64_000;
@@ -18,7 +19,12 @@ export function encodeWireframe(text: string): string {
   return "z" + deflateRawSync(Buffer.from(text, "utf8"), { level: 9 }).toString("base64url");
 }
 
+/**
+ * The wireframe a link carries, upgraded to the current language: a link made
+ * by an older version means today what it meant then (see upgrade.ts).
+ */
 export function decodeWireframe(data: string): string {
   if (!data.startsWith("z")) throw new Error(`unknown encoding "${data.slice(0, 1)}" (expected a "z" prefix)`);
-  return inflateRawSync(Buffer.from(data.slice(1), "base64url"), { maxOutputLength: MAX_SHARED_TEXT }).toString("utf8");
+  const text = inflateRawSync(Buffer.from(data.slice(1), "base64url"), { maxOutputLength: MAX_SHARED_TEXT }).toString("utf8");
+  return upgradeWireframe(text, { fromLink: true });
 }

@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### Older wireframes are upgraded in one step
+
+- All support for older syntax now lives in one module (`upgradeWireframe`, `upgradeSpec`), run before parsing. The parser, catalog and renderer only know the current language.
+- **Links made before 0.3.0 render again** when a comment follows an element on the same line (`screen phone "Home"   # main`): the comment moves onto its own line. Text you write or paste still gets the error, so new comments go on their own line.
+- `decodeWireframe` returns the upgraded text, so a decoded link always means what it did when it was made.
+
 ## 0.3.0
 
 ### Renamed: `icon` is now `leadingIcon` on Button and ListItem

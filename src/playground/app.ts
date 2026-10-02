@@ -10,6 +10,7 @@ import { undo } from "@codemirror/commands";
 import { Code, Copy, Download, FileText, Image as ImageIcon, LayoutGrid, Link, Maximize, Minimize, Moon, Share2, Sun, X, ZoomIn, ZoomOut, createElement } from "lucide";
 import { createEditor, type Editor } from "./editor.js";
 import type { LanguageData } from "./language-data.js";
+import { upgradeWireframe } from "../upgrade.js";
 
 interface Issue { line: number; message: string }
 interface BoardItem { type: "Screen" | "Note"; name: string; x: number; y: number; width: number; height: number }
@@ -95,7 +96,8 @@ async function decode(data: string) {
   const bin = atob(b64 + "=".repeat((4 - (b64.length % 4)) % 4));
   const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
   const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
-  return new Response(stream).text();
+  // Same as the library's decodeWireframe: a link from an older version opens in today's syntax.
+  return upgradeWireframe(await new Response(stream).text(), { fromLink: true });
 }
 
 // ── Theme ───────────────────────────────────────────────────────────────

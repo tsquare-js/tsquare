@@ -341,28 +341,3 @@ export function listItemEnds(p: { leading?: string | null; leadingIcon?: string 
     trailing: p.trailing ?? (p.trailingIcon ? "icon" : p.trailingText ? "text" : undefined),
   };
 }
-
-/**
- * Props renamed in 0.3.0, still accepted under their old names so existing
- * wireframes and render URLs keep working. The prompt, docs and autocomplete
- * only teach the new names, and `tsquare fmt` rewrites the old ones.
- */
-export const RENAMED_PROPS: Record<string, Record<string, string>> = {
-  Button: { icon: "leadingIcon" },
-  ListItem: { icon: "leadingIcon" },
-};
-
-/** Rewrites renamed props to their current names, in place. Safe to call more than once. */
-export function upgradeRenamedProps(spec: { elements: Record<string, { type: string; props?: Record<string, unknown> }> }) {
-  for (const el of Object.values(spec.elements)) {
-    const renames = RENAMED_PROPS[el.type];
-    if (!renames || !el.props) continue;
-    for (const [from, to] of Object.entries(renames)) {
-      if (from in el.props) {
-        if (!(to in el.props)) el.props[to] = el.props[from];
-        delete el.props[from];
-      }
-    }
-  }
-  return spec;
-}

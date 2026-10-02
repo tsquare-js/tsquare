@@ -2,11 +2,12 @@ import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import type { Spec } from "@json-render/core";
 import { renderToSvg } from "@json-render/image/render";
-import { catalog, componentDefinitions, listItemEnds, upgradeRenamedProps } from "./catalog.js";
+import { catalog, componentDefinitions, listItemEnds } from "./catalog.js";
 import { withPalette } from "./components.js";
 import { paletteFor } from "./colors.js";
 import { unknownComponentMessage } from "./suggest.js";
 import { belongsElsewhere } from "./text.js";
+import { upgradeSpec } from "./upgrade.js";
 import {
   BOARD_GAP,
   BOARD_PADDING,
@@ -42,7 +43,7 @@ export class SpecError extends Error {
 
 /** Catalog validation plus the structural rules the renderer depends on. */
 export function checkSpec(spec: Spec): string[] {
-  upgradeRenamedProps(spec as any); // old prop names are fine (icon → leadingIcon)
+  upgradeSpec(spec as any); // older JSON is fine (icon → leadingIcon); see upgrade.ts
   const issues: string[] = [];
   const result = catalog.validate(spec);
   if (!result.success) {
@@ -196,7 +197,7 @@ export interface RenderWireframeOptions {
 }
 
 export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOptions = {}) {
-  upgradeRenamedProps(spec as any);
+  upgradeSpec(spec as any);
   if (!opts.skipValidation) {
     const issues = checkSpec(spec);
     if (issues.length) throw new SpecError(issues);

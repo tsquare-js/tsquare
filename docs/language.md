@@ -144,3 +144,12 @@ line 8: Table has 2 columns, but data row 1 has 3 cells (quote cells that contai
 ## Formatting
 
 `tsquare fmt file.tsq` prints the file in a canonical form: bare words first, then the quoted text, then `key=value`. Add `-w` to rewrite the file. It drops comments.
+
+## Older wireframes
+
+Wireframes written for an earlier version keep working:
+
+- **Renamed props are accepted under their old names.** For example, `icon=` on a button or list item, which is `leadingIcon=` since 0.3.0. `tsquare fmt` rewrites them to the current names.
+- **Links made by an earlier version mean what they meant then.** Opening an older share link or render URL upgrades its text first. For example, a comment after an element (allowed before 0.3.0) moves onto its own line.
+
+The library exports the same step as `upgradeWireframe(text)`, for tools that store wireframes themselves.
