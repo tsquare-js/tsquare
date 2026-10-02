@@ -4457,21 +4457,20 @@
     "rendered": true,
     "issues": [
       "line 6: unclosed [",
-      "line 7: expected a component name, got \"[Alice Johnson, alice@company.com, Admin, Active]\"",
-      "line 8: expected a component name, got \"[Bob Smith, bob@company.com, Editor, Active]\"",
-      "line 9: expected a component name, got \"[Carol White, carol@company.com, Viewer, Active]\"",
-      "line 10: expected a component name, got \"[David Brown, david@company.com, Admin, Active]\"",
-      "line 11: expected a component name, got \"]\"",
+      "line 7: a list must stay on one line; join this to line 6",
+      "line 8: a list must stay on one line; join this to line 6",
+      "line 9: a list must stay on one line; join this to line 6",
+      "line 10: a list must stay on one line; join this to line 6",
+      "line 11: a list must stay on one line; join this to line 6",
       "line 16: unclosed [",
-      "line 17: expected a component name, got \"[Alice Johnson, alice@company.com, Admin, Active]\"",
-      "line 18: expected a component name, got \"[Bob Smith, bob@company.com, Editor, Active]\"",
-      "line 19: expected a component name, got \"[Carol White, carol@company.com, Viewer, Active]\"",
-      "line 20: expected a component name, got \"[David Brown, david@company.com, Admin, Active]\"",
-      "line 21: expected a component name, got \"]\""
+      "line 17: a list must stay on one line; join this to line 16",
+      "line 18: a list must stay on one line; join this to line 16",
+      "line 19: a list must stay on one line; join this to line 16",
+      "line 20: a list must stay on one line; join this to line 16",
+      "line 21: a list must stay on one line; join this to line 16"
     ],
     "categories": [
-      "syntax",
-      "invalid prop"
+      "syntax"
     ],
     "checksPassed": 3,
     "checksTotal": 4,
@@ -5887,21 +5886,20 @@
     "rendered": true,
     "issues": [
       "line 5: unclosed [",
-      "line 6: expected a component name, got \"[\"Alice Johnson\", \"alice@example.com\", \"Admin\", \"Active\"],\"",
-      "line 7: expected a component name, got \"[\"Bob Smith\", \"bob@example.com\", \"Editor\", \"Active\"],\"",
-      "line 8: expected a component name, got \"[\"Carol Davis\", \"carol@example.com\", \"Viewer\", \"Active\"],\"",
-      "line 9: expected a component name, got \"[\"David Lee\", \"david@example.com\", \"Editor\", \"Invited\"]\"",
-      "line 10: expected a component name, got \"]\"",
+      "line 6: a list must stay on one line; join this to line 5",
+      "line 7: a list must stay on one line; join this to line 5",
+      "line 8: a list must stay on one line; join this to line 5",
+      "line 9: a list must stay on one line; join this to line 5",
+      "line 10: a list must stay on one line; join this to line 5",
       "line 14: unclosed [",
-      "line 15: expected a component name, got \"[\"Alice Johnson\", \"alice@example.com\", \"Admin\", \"Active\"],\"",
-      "line 16: expected a component name, got \"[\"Bob Smith\", \"bob@example.com\", \"Editor\", \"Active\"],\"",
-      "line 17: expected a component name, got \"[\"Carol Davis\", \"carol@example.com\", \"Viewer\", \"Active\"],\"",
-      "line 18: expected a component name, got \"[\"David Lee\", \"david@example.com\", \"Editor\", \"Invited\"]\"",
-      "line 19: expected a component name, got \"]\""
+      "line 15: a list must stay on one line; join this to line 14",
+      "line 16: a list must stay on one line; join this to line 14",
+      "line 17: a list must stay on one line; join this to line 14",
+      "line 18: a list must stay on one line; join this to line 14",
+      "line 19: a list must stay on one line; join this to line 14"
     ],
     "categories": [
-      "syntax",
-      "invalid prop"
+      "syntax"
     ],
     "checksPassed": 3,
     "checksTotal": 4,
@@ -6425,12 +6423,12 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 16: unknown component \"trailing\" (components: board, screen, note, stack, grid, card, divider, spacer, heading, text, image, icon, avatar, badge, button, input, checkbox, radio, toggle, select, navbar, tabbar, tabs, list, listitem, table, modal, drawer)",
-      "line 18: unknown component \"trailing\" (components: board, screen, note, stack, grid, card, divider, spacer, heading, text, image, icon, avatar, badge, button, input, checkbox, radio, toggle, select, navbar, tabbar, tabs, list, listitem, table, modal, drawer)",
-      "line 20: unknown component \"trailing\" (components: board, screen, note, stack, grid, card, divider, spacer, heading, text, image, icon, avatar, badge, button, input, checkbox, radio, toggle, select, navbar, tabbar, tabs, list, listitem, table, modal, drawer)"
+      "line 16: trailing=…: props go on the same line as their component; move it to the end of line 15",
+      "line 18: trailing=…: props go on the same line as their component; move it to the end of line 17",
+      "line 20: trailing=…: props go on the same line as their component; move it to the end of line 19"
     ],
     "categories": [
-      "unknown component"
+      "syntax"
     ],
     "checksPassed": 3,
     "checksTotal": 4,
@@ -6617,11 +6615,11 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 7: unknown component \"data\" (components: board, screen, note, stack, grid, card, divider, spacer, heading, text, image, icon, avatar, badge, button, input, checkbox, radio, toggle, select, navbar, tabbar, tabs, list, listitem, table, modal, drawer)",
-      "line 13: unknown component \"data\" (components: board, screen, note, stack, grid, card, divider, spacer, heading, text, image, icon, avatar, badge, button, input, checkbox, radio, toggle, select, navbar, tabbar, tabs, list, listitem, table, modal, drawer)"
+      "line 7: data=…: props go on the same line as their component; move it to the end of line 6",
+      "line 13: data=…: props go on the same line as their component; move it to the end of line 12"
     ],
     "categories": [
-      "unknown component"
+      "syntax"
     ],
     "checksPassed": 3,
     "checksTotal": 4,
@@ -6748,11 +6746,11 @@
     "issues": [
       "line 4: List has no prop \"padding\": padding is a Board, Screen, Stack… prop, not a List one (its props: dividers, grow)",
       "line 4: List has no prop \"gap\": gap is a Board, Screen, Stack… prop, not a List one (its props: dividers, grow)",
-      "line 11: unknown component \"data\" (components: board, screen, note, stack, grid, card, divider, spacer, heading, text, image, icon, avatar, badge, button, input, checkbox, radio, toggle, select, navbar, tabbar, tabs, list, listitem, table, modal, drawer)"
+      "line 11: data=…: props go on the same line as their component; move it to the end of line 10"
     ],
     "categories": [
       "invalid prop",
-      "unknown component"
+      "syntax"
     ],
     "checksPassed": 3,
     "checksTotal": 3,

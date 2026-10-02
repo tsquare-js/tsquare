@@ -40,6 +40,13 @@ Input: fullWidth is a Button prop, not an Input one; an Input already fills its 
 Card has no prop "border": border is a Stack prop, not a Card one
 ```
 
+A prop or list wrapped onto its own line says where it belongs, instead of "unknown component":
+
+```
+trailing=…: props go on the same line as their component; move it to the end of line 15
+a list must stay on one line; join this to line 6
+```
+
 ### Playground
 
 - A CodeMirror editor: highlighting, autocomplete for components, options, props, Lucide icons and accent colors, and problems underlined on their line.

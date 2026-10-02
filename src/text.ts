@@ -278,6 +278,7 @@ export function parseWireframeText(source: string): ParseResult {
   const stack: { indent: number; id: string }[] = [];
   let root: string | null = null;
   let n = 0;
+  let lastElementLine = 0;
 
   const srcLines = source.replace(/\r\n?/g, "\n").split("\n");
   srcLines.forEach((raw, idx) => {
@@ -286,8 +287,20 @@ export function parseWireframeText(source: string): ParseResult {
     if (!trimmed || trimmed.startsWith("#") || trimmed.startsWith("```")) return; // a comment is a whole line
     const indent = raw.length - raw.trimStart().length;
 
+    // A prop or list wrapped onto its own line: say where it belongs instead of "unknown component"
+    const target = lastElementLine ? `line ${lastElementLine}` : "its component's line";
+    const wrappedProp = trimmed.match(/^([A-Za-z][\w-]*)\s*[=:]/);
+    if (wrappedProp) {
+      issues.push({ line: lineNo, message: `${wrappedProp[1]}=…: props go on the same line as their component; move it to the end of ${target}` });
+      return;
+    }
+    if (/^[\[\]{}]/.test(trimmed)) {
+      issues.push({ line: lineNo, message: `a list must stay on one line; join this to ${target}` });
+      return;
+    }
     const m = trimmed.match(/^([A-Za-z][\w-]*)(.*)$/);
     if (!m) { issues.push({ line: lineNo, message: `expected a component name, got "${trimmed}"` }); return; }
+    lastElementLine = lineNo;
     const info = COMPONENTS.get(normalizeType(m[1]));
     if (!info) { issues.push({ line: lineNo, message: unknownComponentMessage(m[1], [...COMPONENTS.keys()]) }); return; }
 
