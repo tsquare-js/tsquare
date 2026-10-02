@@ -1072,12 +1072,12 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "email1.props.icon: unknown icon \"person\" (did you mean person-standing?)",
-      "email1: icon only shows with leading=icon (this item has leading=avatar); remove one of them",
-      "email2.props.icon: unknown icon \"person\" (did you mean person-standing?)",
-      "email2: icon only shows with leading=icon (this item has leading=avatar); remove one of them",
-      "email3.props.icon: unknown icon \"person\" (did you mean person-standing?)",
-      "email3: icon only shows with leading=icon (this item has leading=avatar); remove one of them"
+      "email1.props.leadingIcon: unknown icon \"person\" (did you mean person-standing?)",
+      "email1: leadingIcon only shows with leading=icon (this item has leading=avatar); remove one of them",
+      "email2.props.leadingIcon: unknown icon \"person\" (did you mean person-standing?)",
+      "email2: leadingIcon only shows with leading=icon (this item has leading=avatar); remove one of them",
+      "email3.props.leadingIcon: unknown icon \"person\" (did you mean person-standing?)",
+      "email3: leadingIcon only shows with leading=icon (this item has leading=avatar); remove one of them"
     ],
     "categories": [
       "invalid prop"
@@ -1713,9 +1713,9 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 16: ListItem: icon only shows with leading=icon (this item has leading=avatar); remove one of them",
-      "line 17: ListItem: icon only shows with leading=icon (this item has leading=avatar); remove one of them",
-      "line 18: ListItem: icon only shows with leading=icon (this item has leading=avatar); remove one of them"
+      "line 16: ListItem: leadingIcon only shows with leading=icon (this item has leading=avatar); remove one of them",
+      "line 17: ListItem: leadingIcon only shows with leading=icon (this item has leading=avatar); remove one of them",
+      "line 18: ListItem: leadingIcon only shows with leading=icon (this item has leading=avatar); remove one of them"
     ],
     "categories": [
       "invalid prop"

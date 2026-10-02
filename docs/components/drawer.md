@@ -14,15 +14,15 @@ board
     drawer left size=260
       heading "Menu" level=3
       list dividers=false
-        listitem "Inbox" leading=icon icon=inbox
-        listitem "Sent" leading=icon icon=send
+        listitem "Inbox" leadingIcon=inbox
+        listitem "Sent" leadingIcon=send
   screen phone "side=bottom"
     navbar "Photo" leading=back
     image height=300
     drawer bottom "Share" size=280
       list dividers=false
-        listitem "Copy link" leading=icon icon=link
-        listitem "Message" leading=icon icon=message-circle
+        listitem "Copy link" leadingIcon=link
+        listitem "Message" leadingIcon=message-circle
 ```
 
 ## Writing it

@@ -172,7 +172,9 @@ export const EXAMPLES: Record<string, string> = {
       button primary sm "Small"
       button primary "Medium"
       button primary lg "Large"
-    button secondary "With icon" icon=download
+    stack row gap=8 align=center
+      button secondary "Back" leadingIcon=chevron-left
+      button primary "Next" trailingIcon=chevron-right
     button primary "Full width" fullWidth
     text "With a board accent, primary buttons fill with it and ghost buttons use it for text." sm muted`,
 
@@ -241,11 +243,11 @@ export const EXAMPLES: Record<string, string> = {
   ListItem: `board
   screen custom width=400 height=440
     list
-      listitem "leading=icon" subtitle="trailing=chevron" leading=icon icon=settings trailing=chevron
+      listitem "leadingIcon=settings" subtitle="trailing=chevron" leadingIcon=settings trailing=chevron
       listitem "leading=avatar" subtitle="trailing=text" leading=avatar trailing=text trailingText="9:41"
       listitem "leading=image" subtitle="trailing=badge" leading=image trailing=badge trailingText="3"
       listitem "leading=checkbox" leading=checkbox trailing=toggle
-      listitem "trailing=icon" trailing=icon trailingIcon=trash-2
+      listitem "trailingIcon=trash-2" trailingIcon=trash-2
       listitem leading=image trailing=chevron`,
 
   Table: `board
@@ -271,13 +273,13 @@ export const EXAMPLES: Record<string, string> = {
     drawer left size=260
       heading "Menu" level=3
       list dividers=false
-        listitem "Inbox" leading=icon icon=inbox
-        listitem "Sent" leading=icon icon=send
+        listitem "Inbox" leadingIcon=inbox
+        listitem "Sent" leadingIcon=send
   screen phone "side=bottom"
     navbar "Photo" leading=back
     image height=300
     drawer bottom "Share" size=280
       list dividers=false
-        listitem "Copy link" leading=icon icon=link
-        listitem "Message" leading=icon icon=message-circle`,
+        listitem "Copy link" leadingIcon=link
+        listitem "Message" leadingIcon=message-circle`,
 };

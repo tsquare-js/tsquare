@@ -7,10 +7,10 @@ board "Notes app — web"
           text "Notebook" bold
         spacer size=12
         list dividers=false
-          listitem "Overview" leading=icon icon=layout-dashboard
-          listitem "All notes" leading=icon icon=notebook-pen trailing=text trailingText="128"
-          listitem "Shared" leading=icon icon=users
-          listitem "Settings" leading=icon icon=settings
+          listitem "Overview" leadingIcon=layout-dashboard
+          listitem "All notes" leadingIcon=notebook-pen trailing=text trailingText="128"
+          listitem "Shared" leadingIcon=users
+          listitem "Settings" leadingIcon=settings
         spacer
         stack row gap=10
           avatar "DM" size=32
@@ -21,7 +21,7 @@ board "Notes app — web"
           spacer
           stack width=260
             input search placeholder=Search
-          button "New note" icon=plus
+          button "New note" leadingIcon=plus
         grid columns=3 gap=20
           card "Notes this week"
             heading "42" level=1
@@ -38,7 +38,7 @@ board "Notes app — web"
     stack row gap=12
       heading "All notes" level=1
       spacer
-      button secondary "Filters" icon=sliders-horizontal
+      button secondary "Filters" leadingIcon=sliders-horizontal
     table columns=[Title, Folder, Owner, Updated] rows=9
     drawer right "Filters" size=340
       select "Folder" placeholder="Any folder"

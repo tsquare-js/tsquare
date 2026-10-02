@@ -582,8 +582,9 @@ function Button({ element, dir, aligned, colors: c = GRAY }: Props) {
         ...(p.fullWidth ? { alignSelf: "stretch" } : hug(dir, aligned)),
       }}
     >
-      {p.icon ? <IconGlyph name={p.icon} size={h < 36 ? 16 : 18} color={fg} /> : null}
+      {p.leadingIcon ? <IconGlyph name={p.leadingIcon} size={h < 36 ? 16 : 18} color={fg} /> : null}
       {p.label ? <Box>{p.label}</Box> : null}
+      {p.trailingIcon ? <IconGlyph name={p.trailingIcon} size={h < 36 ? 16 : 18} color={fg} /> : null}
     </Box>
   );
 }
@@ -850,7 +851,7 @@ function ListItem({ element, colors }: Props) {
       case "icon":
         return (
           <Box style={{ width: 38, height: 38, borderRadius: 10, backgroundColor: t.fill, alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-            <IconGlyph name={p.icon} size={20} />
+            <IconGlyph name={p.leadingIcon} size={20} />
           </Box>
         );
       case "avatar":

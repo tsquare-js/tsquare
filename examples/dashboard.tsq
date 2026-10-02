@@ -4,16 +4,16 @@ board "Analytics" accent=blue
       stack width=220 border=right fill padding=16 gap=6
         text "Acme" bold
         list dividers=false
-          listitem "Overview" leading=icon icon=layout-grid
-          listitem "Customers" leading=icon icon=users
-          listitem "Orders" leading=icon icon=receipt
-          listitem "Settings" leading=icon icon=settings
+          listitem "Overview" leadingIcon=layout-grid
+          listitem "Customers" leadingIcon=users
+          listitem "Orders" leadingIcon=receipt
+          listitem "Settings" leadingIcon=settings
       stack grow padding=24 gap=20
         stack row justify=between align=center
           heading "Overview" level=2
           stack row gap=8
             input search placeholder="Search" width=220
-            button primary "Export" icon=download
+            button primary "Export" leadingIcon=download
             avatar "DM"
         grid columns=4 gap=12
           card "Revenue"

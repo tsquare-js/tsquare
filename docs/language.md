@@ -26,7 +26,7 @@ board "Sign-up flow"
 ## Anatomy of a line
 
 ```tsquare
-    button primary lg "Sign in" fullWidth icon=log-in
+    button primary lg "Sign in" fullWidth leadingIcon=log-in
 ```
 
 | Part | What it does |

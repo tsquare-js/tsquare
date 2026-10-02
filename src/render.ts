@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import type { Spec } from "@json-render/core";
 import { renderToSvg } from "@json-render/image/render";
-import { catalog, componentDefinitions, listItemEnds } from "./catalog.js";
+import { catalog, componentDefinitions, listItemEnds, upgradeRenamedProps } from "./catalog.js";
 import { withPalette } from "./components.js";
 import { paletteFor } from "./colors.js";
 import { unknownComponentMessage } from "./suggest.js";
@@ -41,6 +41,7 @@ export class SpecError extends Error {
 
 /** Catalog validation plus the structural rules the renderer depends on. */
 export function checkSpec(spec: Spec): string[] {
+  upgradeRenamedProps(spec as any); // old prop names are fine (icon → leadingIcon)
   const issues: string[] = [];
   const result = catalog.validate(spec);
   if (!result.success) {
@@ -96,7 +97,7 @@ export function checkSpec(spec: Spec): string[] {
       const { leading, trailing } = listItemEnds(p);
       const conflict = (prop: string, needs: string, kind: string, has: string) =>
         issues.push(`${id}: ${prop} only shows with ${needs} (this item has ${kind}=${has}); remove one of them`);
-      if (p.icon && leading !== "icon") conflict("icon", "leading=icon", "leading", leading!);
+      if (p.leadingIcon && leading !== "icon") conflict("leadingIcon", "leading=icon", "leading", leading!);
       if (p.trailingIcon && trailing !== "icon") conflict("trailingIcon", "trailing=icon", "trailing", trailing!);
       if (p.trailingText && trailing !== "text" && trailing !== "badge") conflict("trailingText", "trailing=text or badge", "trailing", trailing!);
     }
@@ -191,6 +192,7 @@ export interface RenderWireframeOptions {
 }
 
 export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOptions = {}) {
+  upgradeRenamedProps(spec as any);
   if (!opts.skipValidation) {
     const issues = checkSpec(spec);
     if (issues.length) throw new SpecError(issues);
