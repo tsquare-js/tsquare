@@ -11,13 +11,13 @@ Before settling on a text syntax, we compared three formats a model could write:
 | Sonnet, text | 100% | 184 |
 | Sonnet, flat JSON | 100% | 839 |
 | Sonnet, nested JSON | 100% | 735 |
-| Haiku, text | 85% | 210 |
+| Haiku, text | 80% | 210 |
 | Haiku, flat JSON | 90% | 920 |
 | Haiku, nested JSON | 90% | 853 |
 
-Text used about 4× fewer tokens and scored the same on content checks and render quality. Validity is within noise: one task out of 20 separates text and JSON for Haiku.
+Text used about 4× fewer tokens and scored the same on content checks and render quality. Validity is close: two tasks out of 20 separate text and JSON for Haiku, which is directional at this sample size.
 
-These numbers use today's stricter checks. Unknown icon names (`call`, `person`) now fail in every format; they used to render as a silent placeholder. The eval also changed the language:
+These numbers use today's stricter checks. Unknown icon names (`call`, `person`) now fail in every format; they used to render as a silent placeholder. A list item that sets a value its kind wouldn't show (Haiku's `leading=avatar icon=star`, where the star was silently dropped) is now an error too. The eval also changed the language:
 
 - List items are separated by commas only. Sonnet wrote table cells like `[Ana Torres, Admin]`, which used to split on the space.
 - `off`/`unchecked` keywords, `width` on card/input/select, `padding` on grid, `grow` on list/input, sidebars stretching in rows, and bottom sheets growing to fit their content.

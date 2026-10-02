@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import type { Spec } from "@json-render/core";
 import { renderToSvg } from "@json-render/image/render";
-import { catalog, componentDefinitions } from "./catalog.js";
+import { catalog, componentDefinitions, listItemEnds } from "./catalog.js";
 import { withPalette } from "./components.js";
 import { paletteFor } from "./colors.js";
 import { unknownComponentMessage } from "./suggest.js";
@@ -89,6 +89,16 @@ export function checkSpec(spec: Spec): string[] {
       if (parent && parent[1].type !== "Screen") {
         issues.push(`${id}: ${el.type} must be a direct child of a Screen (found in ${parent[1].type} "${parent[0]}")`);
       }
+    }
+    // A ListItem value that its leading/trailing kind wouldn't show (icon=star with leading=avatar).
+    if (el.type === "ListItem") {
+      const p = (el.props ?? {}) as Record<string, string | undefined>;
+      const { leading, trailing } = listItemEnds(p);
+      const conflict = (prop: string, needs: string, kind: string, has: string) =>
+        issues.push(`${id}: ${prop} only shows with ${needs} (this item has ${kind}=${has}); remove one of them`);
+      if (p.icon && leading !== "icon") conflict("icon", "leading=icon", "leading", leading!);
+      if (p.trailingIcon && trailing !== "icon") conflict("trailingIcon", "trailing=icon", "trailing", trailing!);
+      if (p.trailingText && trailing !== "text" && trailing !== "badge") conflict("trailingText", "trailing=text or badge", "trailing", trailing!);
     }
     // The renderer would silently drop extra cells. Usually the cause is an unquoted
     // cell with a space, which the text syntax splits into two.

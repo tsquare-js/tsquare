@@ -1,4 +1,5 @@
 import React, { Children, cloneElement, isValidElement, type CSSProperties, type ReactNode } from "react";
+import { listItemEnds } from "./catalog.js";
 import { paletteFor, TONES, type Palette } from "./colors.js";
 import { iconNode } from "./icons.js";
 import type { ComponentRenderProps } from "@json-render/image";
@@ -843,8 +844,9 @@ function List({ element, children, dir, stretch }: Props) {
 
 function ListItem({ element, colors }: Props) {
   const p = element.props;
+  const ends = listItemEnds(p);
   const leading = (() => {
-    switch (p.leading) {
+    switch (ends.leading) {
       case "icon":
         return (
           <Box style={{ width: 38, height: 38, borderRadius: 10, backgroundColor: t.fill, alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
@@ -864,7 +866,7 @@ function ListItem({ element, colors }: Props) {
     }
   })();
   const trailing = (() => {
-    switch (p.trailing) {
+    switch (ends.trailing) {
       case "chevron":
         return <IconGlyph name="chevron-right" size={20} color={t.muted} />;
       case "toggle":

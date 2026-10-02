@@ -276,10 +276,10 @@ export const componentDefinitions = {
       title: o(z.string()),
       subtitle: o(z.string()),
       leading: o(z.enum(["none", "icon", "avatar", "image", "checkbox"])),
-      icon: o(iconName),
+      icon: o(iconName).describe("Lucide icon name for leading=icon; setting it implies leading=icon"),
       trailing: o(z.enum(["none", "chevron", "toggle", "text", "badge", "icon"])),
-      trailingText: o(z.string()),
-      trailingIcon: o(iconName),
+      trailingText: o(z.string()).describe("Text for trailing=text or badge; setting it implies trailing=text"),
+      trailingIcon: o(iconName).describe("Lucide icon name for trailing=icon; setting it implies trailing=icon"),
     }),
     slots: [],
     description: "Row in a List. Omit title for a placeholder bar.",
@@ -327,3 +327,16 @@ export const catalog = defineCatalog(wireframeSchema, {
 });
 
 export type ComponentName = keyof typeof componentDefinitions;
+
+/**
+ * A ListItem's effective leading and trailing kinds. Setting the value implies
+ * the kind (icon → leading=icon, trailingIcon → trailing=icon, trailingText →
+ * trailing=text), so writing only the value still shows it. The renderer and
+ * checkSpec both use this, so they can't disagree.
+ */
+export function listItemEnds(p: { leading?: string | null; icon?: string | null; trailing?: string | null; trailingIcon?: string | null; trailingText?: string | null }) {
+  return {
+    leading: p.leading ?? (p.icon ? "icon" : undefined),
+    trailing: p.trailing ?? (p.trailingIcon ? "icon" : p.trailingText ? "text" : undefined),
+  };
+}

@@ -23,7 +23,7 @@ function category(msg: string) {
   if (/does not exist/.test(msg)) return "dangling child id";
   if (/unknown component/.test(msg)) return "unknown component";
   if (/must be a direct child|root must be|only one top-level/.test(msg)) return "structure";
-  if (/Too small|Too big|Invalid option|expected|unknown icon/.test(msg)) return "invalid prop";
+  if (/Too small|Too big|Invalid option|expected|unknown icon|only shows with/.test(msg)) return "invalid prop";
   if (/\.props|has no prop|don't know what|takes no text|more than one text/.test(msg)) return "invalid prop";
   if (/catalog|elements|root/.test(msg)) return "spec shape";
   return "syntax";

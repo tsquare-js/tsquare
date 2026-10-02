@@ -36,7 +36,7 @@ Icon names: see [Icons](../icons.md) for the common ones and every name.
 | `title` *(main text)* | string |  |
 | `subtitle` | string |  |
 | `leading` | none, icon, avatar, image, checkbox |  |
-| `icon` | string | Lucide icon name in kebab-case, e.g. menu, search, arrow-left, settings, bell, user |
+| `icon` | string | Lucide icon name for leading=icon; setting it implies leading=icon |
 | `trailing` | none, chevron, toggle, text, badge, icon |  |
-| `trailingText` | string |  |
-| `trailingIcon` | string | Lucide icon name in kebab-case, e.g. menu, search, arrow-left, settings, bell, user |
+| `trailingText` | string | Text for trailing=text or badge; setting it implies trailing=text |
+| `trailingIcon` | string | Lucide icon name for trailing=icon; setting it implies trailing=icon |

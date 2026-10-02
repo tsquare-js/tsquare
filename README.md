@@ -150,7 +150,7 @@ How often models write valid tsquare on the first try, with no repair round:
 
 | | Sonnet | Haiku |
 |---|---|---|
-| Valid on the first try (20 requests) | 100% | 85% |
+| Valid on the first try (20 requests) | 100% | 80% |
 | Median tokens per wireframe (JSON took about 4× as many) | 184 | 210 |
 | Color checks passed (7 requests) | 11/11 | 11/11 |
 
