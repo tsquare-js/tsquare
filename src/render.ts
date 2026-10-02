@@ -2,11 +2,12 @@ import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import type { Spec } from "@json-render/core";
 import { renderToSvg } from "@json-render/image/render";
-import { catalog, componentDefinitions, listItemEnds, upgradeRenamedProps } from "./catalog.js";
+import { catalog, componentDefinitions, listItemEnds } from "./catalog.js";
 import { withPalette } from "./components.js";
 import { paletteFor } from "./colors.js";
 import { unknownComponentMessage } from "./suggest.js";
 import { belongsElsewhere } from "./text.js";
+import { upgradeSpec } from "./upgrade.js";
 import {
   BOARD_GAP,
   BOARD_PADDING,
@@ -40,9 +41,25 @@ export class SpecError extends Error {
   }
 }
 
+/**
+ * `trailingIcon=chevron` on a list item: chevron is what the side shows, not an icon name.
+ * Say so instead of suggesting chevron-right.
+ */
+function listItemKindHint(el: { type: string; props?: Record<string, unknown> }, path: PropertyKey[]): string | undefined {
+  const prop = path[0];
+  if (el.type !== "ListItem" || path.length !== 1 || (prop !== "leadingIcon" && prop !== "trailingIcon")) return undefined;
+  const side = prop === "leadingIcon" ? "leading" : "trailing";
+  const value = String(el.props?.[prop]);
+  let schema = (componentDefinitions.ListItem.props as any).shape[side];
+  while (schema && ["optional", "nullable", "default"].includes(schema.def?.type)) schema = schema.def.innerType;
+  const kinds: string[] = schema?.options ?? [];
+  if (value === "icon" || !kinds.includes(value)) return undefined;
+  return `${value} is a ${side} kind, not an icon name: write ${side}=${value} instead of ${prop}=${value}`;
+}
+
 /** Catalog validation plus the structural rules the renderer depends on. */
 export function checkSpec(spec: Spec): string[] {
-  upgradeRenamedProps(spec as any); // old prop names are fine (icon → leadingIcon)
+  upgradeSpec(spec as any); // older JSON is fine (icon → leadingIcon); see upgrade.ts
   const issues: string[] = [];
   const result = catalog.validate(spec);
   if (!result.success) {
@@ -72,7 +89,7 @@ export function checkSpec(spec: Spec): string[] {
       const parsed = def.props.safeParse(el.props ?? {});
       if (!parsed.success) {
         for (const i of parsed.error.issues) {
-          issues.push(`${id}.props${i.path.length ? "." + i.path.join(".") : ""}: ${i.message}`);
+          issues.push(`${id}.props${i.path.length ? "." + i.path.join(".") : ""}: ${listItemKindHint(el, i.path) ?? i.message}`);
         }
       }
       // Zod drops unknown keys silently; report them so the author (or model) hears about it.
@@ -196,7 +213,7 @@ export interface RenderWireframeOptions {
 }
 
 export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOptions = {}) {
-  upgradeRenamedProps(spec as any);
+  upgradeSpec(spec as any);
   if (!opts.skipValidation) {
     const issues = checkSpec(spec);
     if (issues.length) throw new SpecError(issues);

@@ -1,0 +1,17 @@
+board "User Management"
+  screen desktop "Users"
+    navbar "Users" leading=none
+    tabs items=[Active, Invited, Suspended] active=0
+    table columns=[Name, Email, Role, Status] data=[["Alice Johnson", "alice@example.com", "Admin", "Active"], ["Bob Smith", "bob@example.com", "Editor", "Active"], ["Carol Davis", "carol@example.com", "Viewer", "Active"], ["David Lee", "david@example.com", "Editor", "Invited"]]
+  screen desktop "Users with filters"
+    navbar "Users" leading=none
+    tabs items=[Active, Invited, Suspended] active=0
+    table columns=[Name, Email, Role, Status] data=[["Alice Johnson", "alice@example.com", "Admin", "Active"], ["Bob Smith", "bob@example.com", "Editor", "Active"], ["Carol Davis", "carol@example.com", "Viewer", "Active"], ["David Lee", "david@example.com", "Editor", "Invited"]]
+    drawer right "Filters" size=280
+      heading "Filter by role" level=2
+      checkbox "Admin"
+      checkbox "Editor" checked
+      checkbox "Viewer" checked
+      checkbox "Guest"
+      divider
+      button "Reset" ghost fullWidth

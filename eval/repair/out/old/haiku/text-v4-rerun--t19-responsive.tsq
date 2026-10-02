@@ -1,0 +1,11 @@
+board "Notes - Responsive"
+  screen phone "Phone"
+    navbar "Notes"
+    list dividers
+      listitem "Grocery shopping" subtitle="Today" trailingText="3 items"
+      listitem "Meeting prep" subtitle="Tomorrow" trailingText="5 items"
+      listitem "Travel plans" subtitle="Next week" trailingText="2 items"
+  screen desktop "Desktop"
+    navbar "Notes"
+    table columns=["Title", "Date", "Items"] data=[["Grocery shopping", "Today", "3"], ["Meeting prep", "Tomorrow", "5"], ["Travel plans", "Next week", "2"]]
+  note "On phone: compact list view. On desktop: table with columns for better scanning." color=yellow width=240

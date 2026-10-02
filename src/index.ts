@@ -4,6 +4,7 @@ export { renderWireframe, compileWireframe, formatIssues, WireframeError, type C
 export { wireframePrompt, repairPrompt } from "./prompt.js";
 export { printWireframeText as formatWireframe } from "./print.js";
 export { encodeWireframe, decodeWireframe, MAX_SHARED_TEXT } from "./share.js";
+export { upgradeWireframe, upgradeSpec, RENAMED_PROPS, type UpgradeOptions } from "./upgrade.js";
 
 // Lower level: the compiled spec and the pieces used to render it.
 export { renderWireframeSvg, renderWireframePng, checkSpec, boardSize, boardLayout, type BoardItem, type RenderWireframeOptions } from "./render.js";

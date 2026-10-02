@@ -49,6 +49,19 @@ Scored with today's parser, where comments are whole lines only (so `[#1001, …
 - **Sonnet's only failure:** `grow` on a select (both final runs). Inputs and stacks have `grow`, but selects don't.
 - **The rename works in practice.** With the new prompts, the models wrote `leadingIcon`/`trailingIcon` and never the old `icon=` on buttons or list items. With the old prompt, they wrote `icon=` 42 times, and every one still compiles.
 
+### Repair round (`repair/`)
+
+Every failed first try from the four 0.3.0-prompt runs (25 Haiku, 3 Sonnet) got one repair turn: the same conversation plus the library's `repairPrompt()` with the problems. Each was repaired twice, once with today's error messages and once with the messages from before the clearer errors (`repair/old-messages.json`, from commit cb30d71).
+
+| Fixed by one repair | Today's messages | Old messages |
+|---|---|---|
+| Sonnet | 3/3 | 3/3 |
+| Haiku | 24/25 | 24/25 |
+
+- **After one repair, every run is 19–20 out of 20 for both models**, including the Haiku run that started at 11/20. The repair loop is what makes Haiku usable.
+- **The clearer messages made no difference to whether a fix worked.** Both sets of messages name the line and the wrong word, which is apparently enough. Haiku's single miss is the same in both conditions: it wrote `trailingIcon=chevron` (not a Lucide name; `trailing=chevron` is the kind). The error now says exactly that: `chevron is a trailing kind, not an icon name: write trailing=chevron`.
+- `npx tsx eval/repair/build.ts` writes the conversations, and `npx tsx eval/repair/score.ts` scores them.
+
 The stored outputs keep the `.wf` extension and the ```` ```wireframe ```` fence from before the project was named. They're the exact outputs that were scored, so they aren't renamed.
 
 ```bash

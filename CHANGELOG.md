@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.1
+
+### Older wireframes are upgraded in one step
+
+- All support for older syntax now lives in one module (`upgradeWireframe`, `upgradeSpec`), run before parsing. The parser, catalog and renderer only know the current language.
+- **Links made before 0.3.0 render again** when a comment follows an element on the same line (`screen phone "Home"   # main`): the comment moves onto its own line. Text you write or paste still gets the error, so new comments go on their own line.
+- `decodeWireframe` returns the upgraded text, so a decoded link always means what it did when it was made.
+
+### Better suggestions for unknown icons
+
+- Common guesses that aren't Lucide names now suggest what was meant: `compose` → `square-pen`, `call` → `phone`, `person` → `user`, `bag` → `shopping-bag`, `notification` → `bell`, `close` → `x`.
+- Among equally close matches, the usual directions come first: `chevron` suggests `chevron-right, chevron-left, chevron-down, chevron-up`.
+- On a list item, `trailingIcon=chevron` (or `toggle`, `avatar`…) says to write `trailing=chevron`, since that's a kind, not an icon.
+
 ## 0.3.0
 
 ### Renamed: `icon` is now `leadingIcon` on Button and ListItem

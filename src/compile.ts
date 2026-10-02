@@ -1,6 +1,7 @@
 import type { Spec } from "@json-render/core";
 import { checkSpec, renderWireframePng, renderWireframeSvg } from "./render.js";
 import { parseWireframeText, type TextIssue } from "./text.js";
+import { upgradeWireframe } from "./upgrade.js";
 
 export interface CompileResult {
   /** The compiled spec, or null if the text couldn't be parsed at all. */
@@ -14,7 +15,7 @@ export interface CompileResult {
  * problem by line number so it can be shown to a person or fed back to a model.
  */
 export function compileWireframe(source: string): CompileResult {
-  const parsed = parseWireframeText(source);
+  const parsed = parseWireframeText(upgradeWireframe(source)); // older syntax first; the parser only knows the current language
   const issues: TextIssue[] = [...parsed.issues];
 
   if (parsed.spec) {

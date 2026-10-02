@@ -12,11 +12,24 @@
 import { execFileSync } from "node:child_process";
 import { copyFileSync, mkdirSync, rmSync } from "node:fs";
 import { build } from "esbuild";
+import { componentDefinitions } from "../src/catalog";
 import { PLAYGROUND_BUNDLE, checkReferenceExamples } from "../src/playground/index";
+import { bareWords } from "../src/text";
+import { PLAIN_WORD_MAIN_TEXT } from "../src/upgrade";
 
 const problems = checkReferenceExamples();
+// upgrade.ts keeps its own copy of which components take their main text as a plain word
+// (so the browser bundle stays small); it must match the parser, and they must have no option words.
+const plainWord = Object.keys(componentDefinitions).filter((c) => bareWords(c).wordPrimary);
+if (plainWord.map((c) => c.toLowerCase()).sort().join() !== [...PLAIN_WORD_MAIN_TEXT].sort().join()) {
+  problems.push(`PLAIN_WORD_MAIN_TEXT in src/upgrade.ts is ${PLAIN_WORD_MAIN_TEXT.join(", ")}, but the parser's are ${plainWord.join(", ")}`);
+}
+for (const c of plainWord) {
+  const w = bareWords(c);
+  if (w.options.length || w.booleans.length) problems.push(`${c} now has option words; fillsMainText in src/upgrade.ts assumes it has none`);
+}
 if (problems.length) {
-  console.error(`Reference examples need fixing:\n\n${problems.join("\n")}`);
+  console.error(`Build checks failed:\n\n${problems.join("\n")}`);
   process.exit(1);
 }
 

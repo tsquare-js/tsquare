@@ -1,0 +1,18 @@
+board "Notes List" layout=row
+  screen phone "Phone"
+    navbar "Notes" leading=menu actions=[edit]
+    list
+      listitem "Meeting notes" subtitle="Mar 15" trailingIcon=archive
+      listitem "Project ideas" subtitle="Mar 10" trailingIcon=archive
+      listitem "Grocery list" subtitle="Mar 5" trailingIcon=archive
+  screen desktop "Desktop"
+    navbar "Notes" leading=none actions=[edit, search, settings]
+    stack row gap=24 padding=24
+      stack width=300 border=right gap=12
+        text "My notes" bold
+        listitem "Meeting notes" subtitle="Mar 15"
+        listitem "Project ideas" subtitle="Mar 10"
+        listitem "Grocery list" subtitle="Mar 5"
+      stack grow gap=12 padding=12
+        text "Select a note to view" muted
+  note "Desktop shows sidebar plus detail area; phone shows list only"
