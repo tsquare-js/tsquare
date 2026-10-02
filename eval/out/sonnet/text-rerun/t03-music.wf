@@ -1,0 +1,47 @@
+```wireframe
+board "Music app"
+  screen phone "Home"
+    navbar "Home" leading=none actions=[search, bell]
+    stack padding=16 gap=12
+      heading "Recently played" level=2
+      grid columns=2 gap=12
+        card padding=8
+          image height=100
+          text "Playlist" bold
+          text sm "Artist" muted
+        card padding=8
+          image height=100
+          text "Album" bold
+          text sm "Artist" muted
+      heading "Made for you" level=2
+      list
+        listitem "Daily mix" subtitle="Based on your listening" leading=image trailing=chevron
+        listitem "Discover weekly" subtitle="New music" leading=image trailing=chevron
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Library icon=library}, {label=Profile icon=user}] active=0
+  screen phone "Now Playing"
+    navbar leading=back actions=[more-horizontal]
+    stack padding=16 gap=12 align=center
+      image "Album art" height=240 rounded
+      heading "Song title" level=2 align=center
+      text "Artist name" muted align=center
+      stack row justify=around align=center
+        icon "shuffle"
+        icon "skip-back"
+        icon "play" size=32
+        icon "skip-forward"
+        icon "repeat"
+    drawer bottom "Queue" size=300
+      list dividers
+        listitem "Song one" subtitle="Artist" leading=image trailing=icon trailingIcon=grip-vertical
+        listitem "Song two" subtitle="Artist" leading=image trailing=icon trailingIcon=grip-vertical
+        listitem "Song three" subtitle="Artist" leading=image trailing=icon trailingIcon=grip-vertical
+  screen phone "Library"
+    navbar "Library" leading=none actions=[search, plus]
+    tabs items=[Playlists, Artists, Albums] active=0
+    list dividers
+      listitem "Liked songs" subtitle="120 songs" leading=image trailing=chevron
+      listitem "Road trip" subtitle="45 songs" leading=image trailing=chevron
+      listitem "Workout" subtitle="32 songs" leading=image trailing=chevron
+      listitem "Chill" subtitle="60 songs" leading=image trailing=chevron
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Library icon=library}, {label=Profile icon=user}] active=2
+```

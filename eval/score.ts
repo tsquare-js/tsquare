@@ -11,9 +11,10 @@ import { compileWireframe } from "../src/compile";
 import { runChecks, tasks } from "./tasks";
 
 const MODELS = ["sonnet", "haiku"] as const;
-// text-v2: the library prompt as of 0.3.0 (npm run prompt), saved as prompts/text-v2.md
-const FORMATS = ["flat", "nested", "text", "text-v2"] as const;
-const EXT = { flat: "json", nested: "json", text: "wf", "text-v2": "tsq" } as const;
+// text-v2: the library prompt as of 0.3.0 (npm run prompt), saved as prompts/text-v2.md.
+// text-rerun and text-v2-rerun: fresh runs of prompts/text.md and text-v2.md, to see run-to-run variance.
+const FORMATS = ["flat", "nested", "text", "text-rerun", "text-v2", "text-v2-rerun"] as const;
+const EXT = { flat: "json", nested: "json", text: "wf", "text-rerun": "wf", "text-v2": "tsq", "text-v2-rerun": "tsq" } as const;
 
 function extractBlock(reply: string) {
   const m = reply.match(/```[\w-]*\n([\s\S]*?)```/);
@@ -64,7 +65,7 @@ async function scoreOne(model: string, format: (typeof FORMATS)[number], taskId:
   let spec: Spec | null = null;
   let textCompiled = false; // compileWireframe already ran checkSpec
   try {
-    if (format === "text" || format === "text-v2") {
+    if (format.startsWith("text")) {
       const r = compileWireframe(body);
       spec = r.spec;
       row.issues.push(...r.issues.map((i) => `line ${i.line}: ${i.message}`));

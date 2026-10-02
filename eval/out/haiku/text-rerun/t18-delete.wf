@@ -1,0 +1,22 @@
+```wireframe
+board "Delete project"
+  screen desktop "Settings"
+    stack padding=32 gap=24
+      heading "Project settings" level=1
+      stack gap=16
+        text "General settings" bold
+        stack gap=12
+          text "Project name"
+          text "Description"
+      card padding=20 variant=outline
+        heading "Danger zone" level=3
+        text "Irreversible actions"
+        button "Delete project" variant=ghost
+    modal "Delete project" width=400
+      heading "Delete this project?" level=2
+      text "This action cannot be undone. To confirm, type the project name:"
+      input "Project name" placeholder="Enter project name"
+      stack row gap=12 justify=end
+        button "Cancel" secondary
+        button "Delete" variant=ghost
+```

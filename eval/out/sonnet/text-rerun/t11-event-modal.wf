@@ -1,0 +1,30 @@
+```wireframe
+board "Calendar"
+  screen desktop "Calendar"
+    navbar "Calendar" leading=menu actions=[search, settings]
+    stack row gap=12 padding=12
+      button secondary "Today"
+      icon chevron-left
+      icon chevron-right
+      heading "October 2026" level=3
+      spacer
+      button primary "New event" icon=plus
+    grid columns=7 gap=4
+      text sm muted "Mon"
+      text sm muted "Tue"
+      text sm muted "Wed"
+      text sm muted "Thu"
+      text sm muted "Fri"
+      text sm muted "Sat"
+      text sm muted "Sun"
+    image "Month grid" height=300
+    modal "New event" width=440
+      input "Title" placeholder="Event title"
+      stack row gap=12
+        select "Date" value="Oct 12, 2026" grow
+        select "Time" value="10:00 AM" grow
+      input "Description" placeholder="Add details" multiline=4
+      stack row gap=8 justify=end
+        button secondary "Cancel"
+        button primary "Save"
+```

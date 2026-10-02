@@ -1,0 +1,20 @@
+```wireframe
+board "File manager"
+  screen desktop "Files"
+    stack padding=16 gap=12
+      stack row justify=between align=center
+        heading "My files" level=2
+        stack row gap=8
+          input search placeholder="Search files"
+          button primary "Upload" icon=upload
+      table columns=[Name, Owner, Modified, Size] data=[[Report.pdf, Me, Oct 1, 2.4 MB], [Budget.xlsx, Ana Torres, Sep 30, 1.1 MB], [Photos, Me, Sep 28, 48 MB], [Notes.txt, Ben Lee, Sep 25, 4 KB], [Slides.pptx, Me, Sep 20, 12 MB]]
+    drawer right "Details" size=300
+      image "Preview" height=140
+      text "Report.pdf" bold
+      text sm "PDF document" muted
+      divider
+      text sm "Owner: Me"
+      text sm "Modified: Oct 1"
+      text sm "Size: 2.4 MB"
+      button secondary "Download" icon=download fullWidth
+```

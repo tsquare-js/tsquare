@@ -1,0 +1,17 @@
+board "Settings"
+  screen phone "Settings"
+    navbar "Settings" leading=back
+    stack gap=0
+      heading "Preferences" level=2 padding=16
+      list dividers
+        toggle "Notifications" on
+        toggle "Dark mode"
+      divider
+      heading "Account" level=2 padding=16
+      list dividers
+        listitem "Profile" trailing=chevron
+        listitem "Privacy" trailing=chevron
+        listitem "Help" trailing=chevron
+      divider
+      stack padding=16
+        button secondary "Sign out" fullWidth

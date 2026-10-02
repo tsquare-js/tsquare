@@ -1,0 +1,27 @@
+board "Food Delivery"
+  screen phone "Home"
+    navbar "Delivery" leading=menu actions=[search]
+    input search placeholder="Search restaurants"
+    stack row gap=8 padding=12
+      badge outline "Pizza"
+      badge outline "Burgers"
+      badge outline "Sushi"
+      badge outline "Salads"
+    grid columns=2 gap=12 padding=12
+      card padding=10
+        image height=120
+        text "Pasta Place" bold
+        text sm "30 min" muted
+      card padding=10
+        image height=120
+        text "Burger King" bold
+        text sm "20 min" muted
+      card padding=10
+        image height=120
+        text "Sushi Hub" bold
+        text sm "45 min" muted
+      card padding=10
+        image height=120
+        text "Green Bowl" bold
+        text sm "25 min" muted
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Orders icon=bag}, {label=Profile icon=user}] active=0

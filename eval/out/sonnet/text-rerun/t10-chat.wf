@@ -1,0 +1,21 @@
+```wireframe
+board "Chat"
+  screen phone "Conversation"
+    navbar "Ana Torres" leading=back actions=[phone, more-vertical]
+    stack grow padding=16 gap=12
+      stack align=start
+        card padding=10
+          text "Hey, are we still on for today?"
+      stack align=end
+        card padding=10 variant=filled
+          text "Yes! See you at 5."
+      stack align=start
+        card padding=10
+          text "Great, I'll bring the notes."
+      stack align=end
+        card padding=10 variant=filled
+          text "Perfect."
+    stack row gap=8 padding=12 border=top align=center
+      input grow placeholder="Type a message"
+      button primary icon=send
+```

@@ -1,0 +1,15 @@
+board "Chat"
+  screen phone "Conversation"
+    navbar "Ana Torres" leading=back actions=[phone, more-vertical]
+    stack grow padding=12 gap=10
+      text "Hey, are we still on for today?" muted
+      stack align=end
+        card variant=filled padding=10
+          text "Yes, see you at 5."
+      text "Great, see you then." muted
+      stack align=end
+        card variant=filled padding=10
+          text "Perfect."
+    stack row gap=8 align=center padding=8 border=top
+      input placeholder="Message" grow
+      button primary leadingIcon=send

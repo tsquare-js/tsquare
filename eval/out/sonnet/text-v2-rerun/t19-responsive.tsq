@@ -1,0 +1,23 @@
+board "Responsive notes"
+  screen phone "Phone"
+    navbar "Notes" leading=menu actions=[search]
+    list dividers
+      listitem "Meeting notes" subtitle="Today" trailing=chevron
+      listitem "Shopping list" subtitle="Yesterday" trailing=chevron
+      listitem "Ideas" subtitle="Mon" trailing=chevron
+    button primary "New note" fullWidth
+  screen desktop "Desktop"
+    navbar "Notes" leading=logo actions=[search, user]
+    stack row grow
+      stack width=240 border=right padding=12 gap=8
+        button primary "New note" fullWidth
+        list
+          listitem "All notes" leadingIcon=file-text
+          listitem "Pinned" leadingIcon=pin
+          listitem "Shared" leadingIcon=users
+      stack grow padding=16 gap=8
+        list dividers
+          listitem "Meeting notes" subtitle="Today"
+          listitem "Shopping list" subtitle="Yesterday"
+          listitem "Ideas" subtitle="Mon"
+  note "On desktop the navigation moves into a persistent sidebar and the New note button sits there instead of spanning the bottom. Items show without chevrons." width=220

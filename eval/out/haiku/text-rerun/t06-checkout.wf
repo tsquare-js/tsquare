@@ -1,0 +1,31 @@
+```wireframe
+board "Checkout" layout=row
+  screen phone "Cart"
+    navbar "Cart" leading=back
+    stack padding=16 gap=12 grow
+      text "Order Summary" bold
+      list dividers
+        listitem "Product 1" trailingText="$50"
+        listitem "Product 2" trailingText="$30"
+      divider
+      stack row justify=between
+        text "Total" bold
+        text "$80" bold
+      button primary "Continue to shipping" fullWidth
+  screen phone "Shipping"
+    navbar "Shipping" leading=back
+    stack padding=16 gap=16 grow
+      input "Full Name" placeholder="John Doe" fullWidth
+      input "Address" placeholder="123 Main St" fullWidth
+      input "City" placeholder="New York" fullWidth
+      input "ZIP" placeholder="10001" fullWidth
+      button primary "Continue to payment" fullWidth
+  screen phone "Confirmation"
+    navbar "Order Complete" leading=none
+    modal "Order Placed" width=300
+      stack gap=16 align=center
+        icon "check-circle" size=48
+        heading "Your order is confirmed" level=2 align=center
+        text "Order #12345" align=center muted
+        button primary "Continue shopping" fullWidth
+```

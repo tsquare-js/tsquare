@@ -1,0 +1,18 @@
+```wireframe
+board "Settings"
+  screen phone "Settings"
+    navbar "Settings" leading=back
+    stack padding=16 gap=12
+      heading "Preferences" level=3
+      toggle "Notifications" on
+      toggle "Dark mode"
+      divider
+      heading "Account" level=3
+      list dividers
+        listitem "Profile" leading=icon icon=user trailing=chevron
+        listitem "Password" leading=icon icon=lock trailing=chevron
+        listitem "Payment methods" leading=icon icon=credit-card trailing=chevron
+        listitem "Privacy" leading=icon icon=shield trailing=chevron
+      spacer
+      button secondary "Sign out" fullWidth
+```

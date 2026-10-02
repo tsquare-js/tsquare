@@ -1,0 +1,41 @@
+```wireframe
+board "Music app" layout=row
+  screen phone "Home"
+    navbar "Now Playing" actions=[search, more-vertical]
+    stack gap=12 padding=12 grow
+      text "Featured" bold
+      stack row gap=8
+        card padding=12 grow
+          image height=80 rounded
+        card padding=12 grow
+          image height=80 rounded
+      text "Recently played" bold
+      list
+        listitem "Song title" subtitle="Artist" leading=image
+        listitem "Song title" subtitle="Artist" leading=image
+        listitem "Song title" subtitle="Artist" leading=image
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Library icon=music}, {label=Profile icon=user}] active=0
+  screen phone "Now Playing"
+    navbar "Now Playing" leading=back actions=[more-vertical]
+    stack gap=24 padding=24 grow align=center
+      image height=240 width=240 rounded
+      text "Song Title" bold align=center
+      text "Artist Name" muted align=center
+      stack row gap=16 justify=center
+        button ghost icon=repeat size=lg
+        button ghost icon=play size=lg
+        button ghost icon=shuffle size=lg
+    drawer bottom "Queue" size=300
+      list dividers
+        listitem "Current song" trailingIcon=play
+        listitem "Next song"
+        listitem "Song title"
+  screen phone "Library"
+    navbar "Library" actions=[search]
+    tabs items=[Liked, Playlists, Downloaded] active=0
+    list
+      listitem "My Playlist" trailing=chevron
+      listitem "Summer Vibes" trailing=chevron
+      listitem "Workout Mix" trailing=chevron
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Library icon=music}, {label=Profile icon=user}] active=2
+```

@@ -1,0 +1,11 @@
+```wireframe
+board "Ride hailing"
+  screen phone "Choose ride" padding=0
+    image "Map" height=360
+    drawer bottom "Choose a ride" size=300 scrim=false
+      list dividers
+        listitem "Economy" subtitle="4 min away" leading=icon icon=car trailing=text trailingText="$12"
+        listitem "Comfort" subtitle="6 min away" leading=icon icon=car trailing=text trailingText="$16"
+        listitem "XL" subtitle="8 min away" leading=icon icon=car trailing=text trailingText="$22"
+      button primary "Confirm ride" fullWidth
+```

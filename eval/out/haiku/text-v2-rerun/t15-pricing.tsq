@@ -1,0 +1,35 @@
+board "Pricing" accent=blue
+  screen desktop "Pricing Plans"
+    navbar "Pricing" leading=none align=center
+    stack gap=8 padding=32 align=center
+      stack row gap=16 justify=center
+        radio "Monthly" checked
+        radio "Yearly"
+    stack row gap=24 padding=32 justify=center
+      card padding=24 width=300
+        text "Starter" bold size=lg
+        text "29" size=lg bold
+        text "/month" sm muted
+        divider
+        text "Up to 10 projects"
+        text "1 GB storage"
+        text "Email support"
+        button "Get Started" primary fullWidth
+      card padding=24 width=300
+        text "Professional" bold size=lg
+        text "99" size=lg bold
+        text "/month" sm muted
+        divider
+        text "Unlimited projects"
+        text "100 GB storage"
+        text "Priority support"
+        button "Get Started" primary fullWidth
+      card padding=24 width=300
+        text "Enterprise" bold size=lg
+        text "Custom" size=lg bold
+        text "Contact sales" sm muted
+        divider
+        text "Custom setup"
+        text "Unlimited storage"
+        text "24/7 support"
+        button "Contact Sales" secondary fullWidth

@@ -1,0 +1,14 @@
+```wireframe
+board "Calendar"
+  screen desktop "New event"
+    stack padding=20 gap=20
+      heading "New event" level=1
+      input "Title" placeholder="Event title"
+      stack row gap=16
+        select "Date" value="2024-10-15"
+        select "Time" value="10:00 AM"
+      input "Description" multiline=4 placeholder="Add details..."
+      stack row gap=12 justify=end
+        button "Cancel" secondary
+        button "Save" primary
+```

@@ -1,0 +1,34 @@
+board "Pricing"
+  screen desktop "Pricing"
+    navbar "Acme" leading=logo actions=[user]
+    stack padding=24 gap=20 align=center
+      heading "Choose your plan" level=1 align=center
+      tabs items=[Monthly, Yearly] active=0
+      stack row gap=16
+        card "Starter" grow padding=16 gap=10
+          heading "$9/mo" level=2
+          text sm "For individuals" muted
+          divider
+          list
+            listitem "1 project" leadingIcon=check
+            listitem "Basic analytics" leadingIcon=check
+            listitem "Email support" leadingIcon=check
+          button secondary "Choose Starter" fullWidth
+        card "Pro" grow padding=16 gap=10
+          heading "$29/mo" level=2
+          text sm "For growing teams" muted
+          divider
+          list
+            listitem "Unlimited projects" leadingIcon=check
+            listitem "Advanced analytics" leadingIcon=check
+            listitem "Priority support" leadingIcon=check
+          button primary "Choose Pro" fullWidth
+        card "Enterprise" grow padding=16 gap=10
+          heading "$99/mo" level=2
+          text sm "For large organizations" muted
+          divider
+          list
+            listitem "Everything in Pro" leadingIcon=check
+            listitem "SSO and audit logs" leadingIcon=check
+            listitem "Dedicated manager" leadingIcon=check
+          button secondary "Contact sales" fullWidth

@@ -1,0 +1,18 @@
+```wireframe
+board "Side menu"
+  screen phone "Menu"
+    drawer left "Menu" size=280 scrim=true
+      stack padding=16 gap=16
+        stack row gap=12 align=center
+          avatar "JD"
+          text "John Doe" bold
+        divider
+        list
+          listitem "Home" icon=home
+          listitem "Explore" icon=compass
+          listitem "Messages" icon=message-circle
+          listitem "Saved" icon=bookmark
+          listitem "Settings" icon=settings
+        spacer
+        listitem "Log out" icon=log-out
+```

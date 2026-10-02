@@ -1,0 +1,29 @@
+```wireframe
+board "User management"
+  screen desktop "Users"
+    stack padding=20 gap=16
+      heading "Users" level=1
+      tabs items=[Active, Invited, Suspended] active=0
+      table columns=[Name, Email, Role, Status] data=[
+        [Alice Johnson, alice@company.com, Admin, Active]
+        [Bob Smith, bob@company.com, Editor, Active]
+        [Carol White, carol@company.com, Viewer, Active]
+        [David Brown, david@company.com, Admin, Active]
+      ]
+  screen desktop "Filters"
+    stack padding=20 gap=16
+      heading "Users" level=1
+      tabs items=[Active, Invited, Suspended] active=0
+      table columns=[Name, Email, Role, Status] data=[
+        [Alice Johnson, alice@company.com, Admin, Active]
+        [Bob Smith, bob@company.com, Editor, Active]
+        [Carol White, carol@company.com, Viewer, Active]
+        [David Brown, david@company.com, Admin, Active]
+      ]
+    drawer right "Filters" size=280
+      heading "Filter" level=2
+      checkbox "Active"
+      checkbox "Invited"
+      checkbox "Suspended"
+      button "Apply" primary fullWidth
+```

@@ -1,0 +1,23 @@
+```wireframe
+board "Side menu"
+  screen phone "Home"
+    navbar "Home" leading=menu
+    text lines=4
+    image height=160
+    text lines=3
+    drawer left size=280
+      stack row gap=12
+        avatar "AT" size=48
+        stack gap=2
+          text "Ana Torres" bold
+          text sm "ana@example.com" muted
+      divider
+      list
+        listitem "Home" leading=icon icon=home
+        listitem "Messages" leading=icon icon=mail
+        listitem "Favorites" leading=icon icon=heart
+        listitem "Settings" leading=icon icon=settings
+        listitem "Help" leading=icon icon=help-circle
+      spacer
+      button ghost "Log out" icon=log-out
+```

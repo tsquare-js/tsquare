@@ -1,0 +1,40 @@
+board "Checkout"
+  screen phone "Cart"
+    navbar "Cart" leading=back
+    stack padding=16 gap=16 grow
+      heading "Your cart" level=2
+      card
+        stack gap=12
+          list dividers
+            listitem "Product 1" trailing=text trailingText="$29.99"
+            listitem "Product 2" trailing=text trailingText="$49.99"
+          divider
+          stack row gap=8 justify=between
+            text "Total:" bold
+            text "$79.98" bold
+      button primary "Continue to shipping" fullWidth
+  screen phone "Shipping"
+    navbar "Checkout: Shipping" leading=back
+    stack padding=16 gap=16 grow
+      heading "Shipping address" level=2
+      input "First name" placeholder="John"
+      input "Last name" placeholder="Doe"
+      input "Address" placeholder="123 Main St"
+      input "City" placeholder="New York"
+      input "Zip code" placeholder="10001"
+      button primary "Continue to payment" fullWidth
+  screen phone "Confirmation"
+    navbar "Order complete" leading=back
+    stack padding=16 gap=16 justify=center align=center grow
+      icon "check-circle" size=48
+      heading "Order placed!" level=1 align=center
+      text "Thank you for your purchase" align=center
+      text "Order #12345" sm muted align=center
+      button primary "View order" fullWidth
+      button ghost "Continue shopping" fullWidth
+    modal "Order confirmation" scrim=true
+      stack gap=16 padding=24
+        heading "Order placed" level=2 align=center
+        text "Your order has been confirmed. A confirmation email has been sent." align=center
+        text sm "Order #12345" muted align=center
+        button primary "Close" fullWidth

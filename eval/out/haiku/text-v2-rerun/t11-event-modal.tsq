@@ -1,0 +1,14 @@
+board "Calendar App"
+  screen desktop "Calendar"
+    navbar "Calendar" leading=none
+    stack
+      text "Select a date"
+    modal "New Event" width=400
+      input "Title" placeholder="Event name"
+      stack row gap=12
+        select "Date" value="Today"
+        select "Time" value="10:00 AM"
+      input "Description" multiline=4 placeholder="Add notes"
+      stack row gap=12 justify=end
+        button "Cancel" secondary
+        button "Save" primary

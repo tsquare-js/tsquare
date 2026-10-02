@@ -1,0 +1,17 @@
+```wireframe
+board "Product"
+  screen phone
+    navbar leading=back actions=[share, heart]
+    stack padding=16 gap=16 grow
+      image height=300
+      heading "Product Name" level=2
+      text "High quality product description" muted
+      text "$99.99" bold size=lg
+      select "Size" value="Medium"
+      button primary "Add to cart" fullWidth
+      heading "Reviews" level=3
+      list
+        listitem "Great product" subtitle="⭐⭐⭐⭐⭐ • John D."
+        listitem "Very satisfied" subtitle="⭐⭐⭐⭐⭐ • Sarah M."
+        listitem "Good quality" subtitle="⭐⭐⭐⭐ • Alex K."
+```

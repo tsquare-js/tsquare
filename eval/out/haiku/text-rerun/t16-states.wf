@@ -1,0 +1,17 @@
+```wireframe
+board "Notes list states"
+  screen phone "Empty"
+    navbar "Notes" leading=back
+    stack padding=20 gap=16 align=center justify=center grow=true
+      image height=120
+      text "No notes yet" bold
+      text "Create your first note to get started" muted align=center
+      button "Create note" primary
+  screen phone "Error"
+    navbar "Notes" leading=back
+    stack padding=20 gap=16 align=center justify=center grow=true
+      image height=120
+      text "Something went wrong" bold
+      text "Failed to load your notes. Please try again." muted align=center
+      button "Retry" primary
+```

@@ -1,0 +1,28 @@
+board "Chat"
+  screen phone "Conversation"
+    navbar "Sarah" leading=back actions=[info]
+    stack gap=12 padding=16 grow
+      stack row gap=8
+        avatar "S" size=32
+        stack gap=4
+          text "Hi, how are you?" bold
+          text sm "2:30 PM" muted
+      stack row gap=8 justify=end
+        stack gap=4 align=end
+          text "I'm doing great! How about you?" bold
+          text sm "2:31 PM" muted
+        avatar "You" size=32
+      stack row gap=8
+        avatar "S" size=32
+        stack gap=4
+          text "Would you like to grab coffee?" bold
+          text sm "2:35 PM" muted
+      stack row gap=8 justify=end
+        stack gap=4 align=end
+          text "Sure! How about tomorrow at 3?" bold
+          text sm "2:36 PM" muted
+        avatar "You" size=32
+      spacer
+    stack row gap=8 padding=16
+      input placeholder="Type a message..." multiline=1 grow
+      button primary leadingIcon=send
