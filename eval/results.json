@@ -3347,11 +3347,11 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "email1.props.leadingIcon: unknown icon \"person\" (did you mean person-standing?)",
+      "email1.props.leadingIcon: unknown icon \"person\" (did you mean user, person-standing?)",
       "email1: leadingIcon only shows with leading=icon (this item has leading=avatar); remove one of them",
-      "email2.props.leadingIcon: unknown icon \"person\" (did you mean person-standing?)",
+      "email2.props.leadingIcon: unknown icon \"person\" (did you mean user, person-standing?)",
       "email2: leadingIcon only shows with leading=icon (this item has leading=avatar); remove one of them",
-      "email3.props.leadingIcon: unknown icon \"person\" (did you mean person-standing?)",
+      "email3.props.leadingIcon: unknown icon \"person\" (did you mean user, person-standing?)",
       "email3: leadingIcon only shows with leading=icon (this item has leading=avatar); remove one of them"
     ],
     "categories": [
@@ -3736,7 +3736,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "el-2.props.actions.0: unknown icon \"call\" (did you mean phone-call?)"
+      "el-2.props.actions.0: unknown icon \"call\" (did you mean phone, phone-call?)"
     ],
     "categories": [
       "invalid prop"
@@ -4078,7 +4078,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 3: NavBar: unknown icon \"call\" (did you mean phone-call?)"
+      "line 3: NavBar: unknown icon \"call\" (did you mean phone, phone-call?)"
     ],
     "categories": [
       "invalid prop"
@@ -4418,7 +4418,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 3: NavBar: unknown icon \"call\" (did you mean phone-call?)"
+      "line 3: NavBar: unknown icon \"call\" (did you mean phone, phone-call?)"
     ],
     "categories": [
       "invalid prop"
@@ -4729,7 +4729,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 3: NavBar: unknown icon \"compose\" (did you mean compass?)"
+      "line 3: NavBar: unknown icon \"compose\" (did you mean square-pen, pencil, compass?)"
     ],
     "categories": [
       "invalid prop"
@@ -4785,7 +4785,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 3: NavBar: unknown icon \"call\" (did you mean phone-call?)",
+      "line 3: NavBar: unknown icon \"call\" (did you mean phone, phone-call?)",
       "line 7: Card: fill is a Stack prop, not a Card one (bare words it accepts: outline, filled, grow); quote text like \"fill\"",
       "line 9: Card: fill is a Stack prop, not a Card one (bare words it accepts: outline, filled, grow); quote text like \"fill\"",
       "line 12: Card: fill is a Stack prop, not a Card one (bare words it accepts: outline, filled, grow); quote text like \"fill\"",
@@ -5184,7 +5184,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 27: TabBar: unknown icon \"bag\" (did you mean iv-bag, paper-bag, shopping-bag?)"
+      "line 27: TabBar: unknown icon \"bag\" (did you mean shopping-bag, iv-bag, paper-bag, ban?)"
     ],
     "categories": [
       "invalid prop"
@@ -5491,7 +5491,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 3: NavBar: unknown icon \"call\" (did you mean phone-call?)"
+      "line 3: NavBar: unknown icon \"call\" (did you mean phone, phone-call?)"
     ],
     "categories": [
       "invalid prop"
@@ -5849,7 +5849,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 3: NavBar: unknown icon \"call\" (did you mean phone-call?)"
+      "line 3: NavBar: unknown icon \"call\" (did you mean phone, phone-call?)"
     ],
     "categories": [
       "invalid prop"
@@ -5974,8 +5974,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 3: NavBar: unknown icon \"compose\" (did you mean compass?)",
-      "line 10: NavBar: unknown icon \"compose\" (did you mean compass?)"
+      "line 3: NavBar: unknown icon \"compose\" (did you mean square-pen, pencil, compass?)",
+      "line 10: NavBar: unknown icon \"compose\" (did you mean square-pen, pencil, compass?)"
     ],
     "categories": [
       "invalid prop"
@@ -6027,8 +6027,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 3: NavBar: unknown icon \"compose\" (did you mean compass?)",
-      "line 9: NavBar: unknown icon \"compose\" (did you mean compass?)"
+      "line 3: NavBar: unknown icon \"compose\" (did you mean square-pen, pencil, compass?)",
+      "line 9: NavBar: unknown icon \"compose\" (did you mean square-pen, pencil, compass?)"
     ],
     "categories": [
       "invalid prop"
@@ -6216,7 +6216,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 3: NavBar: unknown icon \"call\" (did you mean phone-call?)"
+      "line 3: NavBar: unknown icon \"call\" (did you mean phone, phone-call?)"
     ],
     "categories": [
       "invalid prop"
@@ -6579,7 +6579,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 3: NavBar: unknown icon \"call\" (did you mean phone-call?)"
+      "line 3: NavBar: unknown icon \"call\" (did you mean phone, phone-call?)"
     ],
     "categories": [
       "invalid prop"

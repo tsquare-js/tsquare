@@ -271,9 +271,9 @@
     "checksPassed": 3,
     "checksTotal": 4,
     "issues": [
-      "line 15: ListItem: unknown icon \"chevron\" (did you mean chevron-down, chevron-first, chevron-last?)",
-      "line 16: ListItem: unknown icon \"chevron\" (did you mean chevron-down, chevron-first, chevron-last?)",
-      "line 17: ListItem: unknown icon \"chevron\" (did you mean chevron-down, chevron-first, chevron-last?)"
+      "line 15: ListItem: chevron is a trailing kind, not an icon name: write trailing=chevron instead of trailingIcon=chevron",
+      "line 16: ListItem: chevron is a trailing kind, not an icon name: write trailing=chevron instead of trailingIcon=chevron",
+      "line 17: ListItem: chevron is a trailing kind, not an icon name: write trailing=chevron instead of trailingIcon=chevron"
     ]
   },
   {
@@ -639,9 +639,9 @@
     "checksPassed": 3,
     "checksTotal": 4,
     "issues": [
-      "line 15: ListItem: unknown icon \"chevron\" (did you mean chevron-down, chevron-first, chevron-last?)",
-      "line 16: ListItem: unknown icon \"chevron\" (did you mean chevron-down, chevron-first, chevron-last?)",
-      "line 17: ListItem: unknown icon \"chevron\" (did you mean chevron-down, chevron-first, chevron-last?)"
+      "line 15: ListItem: chevron is a trailing kind, not an icon name: write trailing=chevron instead of trailingIcon=chevron",
+      "line 16: ListItem: chevron is a trailing kind, not an icon name: write trailing=chevron instead of trailingIcon=chevron",
+      "line 17: ListItem: chevron is a trailing kind, not an icon name: write trailing=chevron instead of trailingIcon=chevron"
     ]
   },
   {

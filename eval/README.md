@@ -59,7 +59,7 @@ Every failed first try from the four 0.3.0-prompt runs (25 Haiku, 3 Sonnet) got 
 | Haiku | 24/25 | 24/25 |
 
 - **After one repair, every run is 19–20 out of 20 for both models**, including the Haiku run that started at 11/20. The repair loop is what makes Haiku usable.
-- **The clearer messages made no difference to whether a fix worked.** Both sets of messages name the line and the wrong word, which is apparently enough. Haiku's single miss is the same in both conditions: it wrote `trailingIcon=chevron` (not a Lucide name; `trailing=chevron` is the kind).
+- **The clearer messages made no difference to whether a fix worked.** Both sets of messages name the line and the wrong word, which is apparently enough. Haiku's single miss is the same in both conditions: it wrote `trailingIcon=chevron` (not a Lucide name; `trailing=chevron` is the kind). The error now says exactly that: `chevron is a trailing kind, not an icon name: write trailing=chevron`.
 - `npx tsx eval/repair/build.ts` writes the conversations, and `npx tsx eval/repair/score.ts` scores them.
 
 The stored outputs keep the `.wf` extension and the ```` ```wireframe ```` fence from before the project was named. They're the exact outputs that were scored, so they aren't renamed.

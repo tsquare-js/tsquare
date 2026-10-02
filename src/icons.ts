@@ -23,12 +23,36 @@ export function iconNode(name: string): any {
 export const isIcon = (name: string) => iconNode(name) !== undefined;
 
 /**
- * Close matches for an unknown name: near spellings ("serach" → search) and names that
- * share a word with it ("cart" → shopping-cart, "call" → phone-call).
- * There are no synonyms: "notification" won't find bell.
+ * Names models guess that aren't Lucide names, with what they meant. Lucide ships no
+ * synonyms, so spelling can't find these. Only add a name seen failing in practice
+ * (the first four are from the eval outputs) or an obvious UI word.
  */
-export function suggestIcons(name: string, limit = 3): string[] {
+const GUESSES: Record<string, string[]> = {
+  call: ["phone"],
+  compose: ["square-pen", "pencil"],
+  person: ["user"],
+  bag: ["shopping-bag"],
+  notification: ["bell"],
+  notifications: ["bell"],
+  profile: ["user", "circle-user"],
+  envelope: ["mail"],
+  close: ["x"],
+};
+
+/** Among equally close matches, the common directions first: chevron → chevron-right, not chevron-first. */
+const DIRECTIONS = ["right", "left", "down", "up"];
+const directionRank = (n: string) => {
+  const i = DIRECTIONS.indexOf(n.split("-").pop()!);
+  return i < 0 ? DIRECTIONS.length : i;
+};
+
+/**
+ * Close matches for an unknown name: known guesses ("compose" → square-pen), near spellings
+ * ("serach" → search) and names that share a word with it ("cart" → shopping-cart).
+ */
+export function suggestIcons(name: string, limit = 4): string[] {
   const q = name.toLowerCase().replace(/[_ ]/g, "-");
+  const guessed = GUESSES[q] ?? [];
   const words = q.split("-").filter((w) => w.length > 2);
   const maxEdits = Math.max(1, Math.floor(q.length / 3));
   const scored: [string, number][] = [];
@@ -43,7 +67,10 @@ export function suggestIcons(name: string, limit = 3): string[] {
     const score = Math.min(wordScore, d <= maxEdits ? (3 * d) / q.length : Infinity);
     if (score < Infinity) scored.push([n, score]);
   }
-  return scored.sort((a, b) => a[1] - b[1] || a[0].localeCompare(b[0])).slice(0, limit).map(([n]) => n);
+  const close = scored
+    .sort((a, b) => a[1] - b[1] || directionRank(a[0]) - directionRank(b[0]) || a[0].localeCompare(b[0]))
+    .map(([n]) => n);
+  return [...new Set([...guessed, ...close])].slice(0, limit);
 }
 
 export function unknownIconMessage(name: string) {
