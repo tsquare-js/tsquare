@@ -47,7 +47,7 @@ export function upgradeWireframe(text: string, options: UpgradeOptions = {}): st
     let comment = "";
     if (options.fromLink) {
       const hash = tokens.find((t) => t.kind === "word" && t.depth === 0 && upgraded[t.start] === "#" && !t.afterEquals);
-      if (hash) {
+      if (hash && !fillsMainText(component, tokens, hash)) {
         comment = upgraded.slice(hash.start).trimEnd();
         upgraded = upgraded.slice(0, hash.start).trimEnd();
       }
@@ -82,6 +82,28 @@ export function upgradeSpec<S extends { elements: Record<string, { type: string;
     }
   }
   return spec;
+}
+
+/**
+ * Components whose main text may be a plain word (`avatar JD`, `icon search`), the parser's
+ * WORD_PRIMARY. Neither has option words, so their first plain word is always the main text.
+ * Kept here rather than imported, so the playground's browser bundle doesn't pull in the parser
+ * and catalog; scripts/build.ts fails if this drifts from the parser.
+ */
+export const PLAIN_WORD_MAIN_TEXT = ["avatar", "icon"];
+
+/**
+ * `avatar #JD`: a `#word` that comes before any other text on an avatar or icon line is its
+ * initials or name, valid today, not an old comment.
+ */
+function fillsMainText(component: string, tokens: Token[], hash: Token): boolean {
+  if (!PLAIN_WORD_MAIN_TEXT.includes(component.toLowerCase())) return false;
+  for (const t of tokens) {
+    if (t === hash) return true;
+    if (t.depth > 0 || t.afterEquals || t.kind === "key") continue;
+    return false; // a string or another word already set the main text
+  }
+  return false;
 }
 
 interface Token { kind: "key" | "word" | "string"; text: string; start: number; depth: number; afterEquals: boolean }
