@@ -1015,21 +1015,15 @@
     "task": "t04-dashboard",
     "tokens": 366,
     "chars": 1363,
-    "elements": 29,
+    "elements": 30,
     "parsed": true,
-    "valid": false,
+    "valid": true,
     "rendered": true,
-    "issues": [
-      "line 30: unclosed ["
-    ],
-    "categories": [
-      "syntax"
-    ],
-    "checksPassed": 5,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 6,
     "checksTotal": 6,
-    "failedChecks": [
-      "5-column table"
-    ]
+    "failedChecks": []
   },
   {
     "model": "sonnet",
@@ -1138,8 +1132,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 23: Select: don't know what \"grow\" is",
-      "line 24: Select: don't know what \"grow\" is"
+      "line 23: Select: grow is a Stack, Card, Input… prop, not a Select one",
+      "line 24: Select: grow is a Stack, Card, Input… prop, not a Select one"
     ],
     "categories": [
       "invalid prop"
@@ -1350,21 +1344,15 @@
     "task": "t04-dashboard",
     "tokens": 373,
     "chars": 1392,
-    "elements": 29,
+    "elements": 30,
     "parsed": true,
-    "valid": false,
+    "valid": true,
     "rendered": true,
-    "issues": [
-      "line 30: unclosed ["
-    ],
-    "categories": [
-      "syntax"
-    ],
-    "checksPassed": 5,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 6,
     "checksTotal": 6,
-    "failedChecks": [
-      "5-column table"
-    ]
+    "failedChecks": []
   },
   {
     "model": "sonnet",
@@ -1473,7 +1461,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 33: Select: don't know what \"grow\" is"
+      "line 33: Select: grow is a Stack, Card, Input… prop, not a Select one"
     ],
     "categories": [
       "invalid prop"
@@ -1683,21 +1671,15 @@
     "task": "t04-dashboard",
     "tokens": 350,
     "chars": 1346,
-    "elements": 29,
+    "elements": 30,
     "parsed": true,
-    "valid": false,
+    "valid": true,
     "rendered": true,
-    "issues": [
-      "line 30: unclosed ["
-    ],
-    "categories": [
-      "syntax"
-    ],
-    "checksPassed": 5,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 6,
     "checksTotal": 6,
-    "failedChecks": [
-      "5-column table"
-    ]
+    "failedChecks": []
   },
   {
     "model": "sonnet",
@@ -2671,7 +2653,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 30: ListItem: don't know what \"bold\" is (bare words it accepts: avatar, image, checkbox, chevron, toggle, text, badge)"
+      "line 30: ListItem: bold is a Text prop, not a ListItem one (bare words it accepts: avatar, image, checkbox, chevron, toggle, text, badge)"
     ],
     "categories": [
       "invalid prop"
@@ -2979,8 +2961,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 6: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
-      "line 7: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)"
+      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
+      "line 7: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -3066,10 +3048,10 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 17: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
-      "line 18: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
-      "line 19: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
-      "line 20: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)"
+      "line 17: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
+      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
+      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
+      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -3339,8 +3321,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 6: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
-      "line 7: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)"
+      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
+      "line 7: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -3426,10 +3408,10 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 18: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
-      "line 19: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
-      "line 20: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)",
-      "line 21: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow)"
+      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
+      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
+      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
+      "line 21: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -3506,10 +3488,10 @@
     "rendered": true,
     "issues": [
       "line 3: NavBar: unknown icon \"call\" (did you mean phone-call?)",
-      "line 7: Card: don't know what \"fill\" is (bare words it accepts: outline, filled, grow); quote text like \"fill\"",
-      "line 9: Card: don't know what \"fill\" is (bare words it accepts: outline, filled, grow); quote text like \"fill\"",
-      "line 12: Card: don't know what \"fill\" is (bare words it accepts: outline, filled, grow); quote text like \"fill\"",
-      "line 14: Card: don't know what \"fill\" is (bare words it accepts: outline, filled, grow); quote text like \"fill\""
+      "line 7: Card: fill is a Stack prop, not a Card one (bare words it accepts: outline, filled, grow); quote text like \"fill\"",
+      "line 9: Card: fill is a Stack prop, not a Card one (bare words it accepts: outline, filled, grow); quote text like \"fill\"",
+      "line 12: Card: fill is a Stack prop, not a Card one (bare words it accepts: outline, filled, grow); quote text like \"fill\"",
+      "line 14: Card: fill is a Stack prop, not a Card one (bare words it accepts: outline, filled, grow); quote text like \"fill\""
     ],
     "categories": [
       "invalid prop"
@@ -3641,7 +3623,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 9: Card has no prop \"border\" (its props: title, padding, gap, variant, grow, width)"
+      "line 9: Card has no prop \"border\": border is a Stack prop, not a Card one (its props: title, padding, gap, variant, grow, width)"
     ],
     "categories": [
       "invalid prop"
@@ -3677,7 +3659,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 4: Input: don't know what \"fullWidth\" is (bare words it accepts: text, password, search, email, error, grow); quote text like \"fullWidth\""
+      "line 4: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow); quote text like \"fullWidth\""
     ],
     "categories": [
       "invalid prop"
@@ -3713,8 +3695,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 5: Heading has no prop \"padding\" (its props: text, level, align)",
-      "line 10: Heading has no prop \"padding\" (its props: text, level, align)"
+      "line 5: Heading has no prop \"padding\": padding is a Board, Screen, Stack… prop, not a Heading one (its props: text, level, align)",
+      "line 10: Heading has no prop \"padding\": padding is a Board, Screen, Stack… prop, not a Heading one (its props: text, level, align)"
     ],
     "categories": [
       "invalid prop"
@@ -3882,7 +3864,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 10: Table: don't know what \"grow\" is",
+      "line 10: Table: grow is a Stack, Card, Input… prop, not a Table one",
       "line 11: Drawer must be a direct child of a Screen (found in the Stack on line 9)"
     ],
     "categories": [

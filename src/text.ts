@@ -17,7 +17,7 @@
  *   key=value     → any prop; value is "string", number, true/false, word, [list] or {key=value …}
  *                   list items are separated by commas only, so [Ana Torres, Admin] is two items;
  *                   quote an item that contains a comma: ["$1,200", "Smith, J"]
- *   # comment
+ *   # comment        → only on a line of its own; anywhere else # is text ([#1001, …], accent=#1a73e8)
  */
 import type { Spec } from "@json-render/core";
 import { z } from "zod";
@@ -102,6 +102,32 @@ for (const [name, def] of Object.entries(componentDefinitions)) {
   COMPONENTS.set(name.toLowerCase(), { name, props: shape, enumValues, ambiguous, booleans });
 }
 
+/**
+ * For an error message: where a prop name or bare word that this component doesn't take
+ * belongs instead, e.g. fullWidth on an input → "fullWidth is a Button prop". Empty if nowhere.
+ */
+export function belongsElsewhere(component: string, word: string, asProp: boolean): string {
+  const info = COMPONENTS.get(component.toLowerCase());
+  if (!info) return "";
+  const props: string[] = [], options: string[] = [];
+  for (const other of COMPONENTS.values()) {
+    if (other === info) continue;
+    if (word in other.props && (asProp || other.booleans.has(word))) props.push(other.name);
+    else if (!asProp && (other.enumValues.has(word) || other.ambiguous.has(word))) options.push(other.name);
+  }
+  const names = (xs: string[]) => xs.length > 3 ? `${xs.slice(0, 3).join(", ")}…` : xs.join(", ").replace(/, ([^,]*)$/, " and $1");
+  const a = (name: string) => (/^[AEIOU]/.test(name) ? `an ${name}` : `a ${name}`);
+  let msg = props.length ? `${word} is a ${names(props)} prop, not ${a(info.name)} one`
+    : options.length ? `${word} is a ${names(options)} option, not ${a(info.name)} one`
+    : "";
+  // fullWidth on an input, card…: they already fill their width
+  const width = info.props.width;
+  if (msg && word === "fullWidth" && /fills the space/i.test(width?.description ?? unwrap(width)?.description ?? "")) {
+    msg += `; ${a(info.name)} already fills its width (width=… sets a fixed one), so remove it`;
+  }
+  return msg;
+}
+
 /** What a component accepts as bare words, for docs: option values (with their prop), ambiguous values, and boolean props. */
 export function bareWords(component: string) {
   const info = COMPONENTS.get(component.toLowerCase());
@@ -133,7 +159,6 @@ function tokenize(src: string): Tok[] {
   while (i < src.length) {
     const c = src[i];
     if (c === " " || c === "\t") { i++; continue; }
-    if (c === "#" && !(i > 0 && "=:".includes(src[i - 1]))) break; // comment, unless it's a value: accent=#1a73e8
     if (c === '"' || c === "'") {
       let j = i + 1, s = "";
       while (j < src.length && src[j] !== c) {
@@ -146,9 +171,10 @@ function tokenize(src: string): Tok[] {
       continue;
     }
     if ("=[]{}:,".includes(c)) { out.push({ kind: "sym", value: c, start: i, end: i + 1 }); i++; continue; }
-    let j = c === "#" ? i + 1 : i; // a # value like #1a73e8
-    // an apostrophe inside a word is part of it (Don't); only a leading ' opens a string
-    while (j < src.length && !` \t,=[]{}#":`.includes(src[j])) j++;
+    let j = i;
+    // an apostrophe inside a word is part of it (Don't); only a leading ' opens a string.
+    // # is text here (#1001, #1a73e8): comments are whole lines, handled by the parser.
+    while (j < src.length && !` \t,=[]{}":`.includes(src[j])) j++;
     const w = src.slice(i, j);
     out.push({ kind: /^-?\d+(\.\d+)?$/.test(w) ? "num" : "word", value: w, start: i, end: j });
     i = j;
@@ -257,7 +283,7 @@ export function parseWireframeText(source: string): ParseResult {
   srcLines.forEach((raw, idx) => {
     const lineNo = idx + 1;
     const trimmed = raw.trim();
-    if (!trimmed || trimmed.startsWith("#") || trimmed.startsWith("```")) return;
+    if (!trimmed || trimmed.startsWith("#") || trimmed.startsWith("```")) return; // a comment is a whole line
     const indent = raw.length - raw.trimStart().length;
 
     const m = trimmed.match(/^([A-Za-z][\w-]*)(.*)$/);
@@ -276,7 +302,8 @@ export function parseWireframeText(source: string): ParseResult {
           c.next(); c.next();
           const key = RENAMED_PROPS[info.name]?.[t.value] ?? t.value; // old spellings still work (icon → leadingIcon)
           if (!(key in info.props)) {
-            issues.push({ line: lineNo, message: `${info.name} has no prop "${key}" (its props: ${Object.keys(info.props).join(", ")})` });
+            const elsewhere = belongsElsewhere(info.name, key, true);
+            issues.push({ line: lineNo, message: `${info.name} has no prop "${key}"` + (elsewhere ? `: ${elsewhere}` : "") + ` (its props: ${Object.keys(info.props).join(", ")})` });
           }
           props[key] = key in info.props ? textWhereExpected(info.props[key], parseValue(c)) : parseValue(c);
           continue;
@@ -297,11 +324,16 @@ export function parseWireframeText(source: string): ParseResult {
           props[ANTONYMS[t.value]] = false; // `toggle off`, `checkbox unchecked`
         } else if (t.kind === "word" && WORD_PRIMARY.has(info.name) && !(PRIMARY_PROP[info.name] in props)) {
           props[PRIMARY_PROP[info.name]] = t.value; // `icon search`, `avatar JD`
+        } else if (t.kind === "word" && t.value.startsWith("#")) {
+          // Comments used to be allowed after a line's content; say so instead of "don't know what #"
+          issues.push({ line: lineNo, message: `"${t.value}": a comment must be on its own line, starting with #; to show # as text, quote it` });
+          break;
         } else {
           const options = [...info.enumValues.keys(), ...info.booleans];
+          const elsewhere = t.kind === "word" ? belongsElsewhere(info.name, t.value, false) : "";
           issues.push({
             line: lineNo,
-            message: `${info.name}: don't know what "${t.value}" is` +
+            message: (elsewhere ? `${info.name}: ${elsewhere}` : `${info.name}: don't know what "${t.value}" is`) +
               (options.length ? ` (bare words it accepts: ${options.join(", ")})` : "") +
               (PRIMARY_PROP[info.name] && !(PRIMARY_PROP[info.name] in props) ? `; quote text like "${t.value}"` : ""),
           });

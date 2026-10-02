@@ -18,6 +18,28 @@ Buttons and list items take an icon on either side, so the prop names now say wh
 - `leading` and `trailing` on ListItem stay as before. They pick what fills each side (`avatar`, `image`, `checkbox`, `chevron`, `badge`, `toggle`, …). An icon or text value implies its kind, so `leading=icon` and `trailing=icon` are optional.
 - `icon` stays as it is on TabBar items (`{label=Home icon=house}`) and on the Icon component.
 
+### Changed: comments go on their own line
+
+A line that starts with `#` is a comment. Anywhere else, `#` is ordinary text, so order numbers, tags and hex colors need no quotes:
+
+```tsquare
+# the orders page
+screen desktop "Orders"
+  table columns=[Order, Customer] data=[[#1001, Ana Torres], [#1002, Ben Lee]]
+```
+
+- **Why:** comments used to start at any `#` after a space. That cut off `[#1001, Ana Torres]` and broke the table, which happened to Sonnet in 3 of 4 eval runs. Across 160 eval outputs, models never wrote a comment.
+- **Upgrading:** a comment after an element on the same line (`screen phone "Home"   # main`) is now an error that tells you to move it to its own line. Nothing is dropped silently.
+
+### Clearer errors for props on the wrong component
+
+When a word or prop belongs to a different component, the error now says which one:
+
+```
+Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it
+Card has no prop "border": border is a Stack prop, not a Card one
+```
+
 ### Playground
 
 - A CodeMirror editor: highlighting, autocomplete for components, options, props, Lucide icons and accent colors, and problems underlined on their line.

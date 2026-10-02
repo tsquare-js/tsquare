@@ -29,12 +29,13 @@ const tsquareLanguage = StreamLanguage.define<LineState>({
     const afterEquals = state.afterEquals;
     state.afterEquals = false;
 
-    // `#` starts a comment, except right after `=` or `:` where it's a value (accent=#1a73e8)
-    if (stream.peek() === "#") {
-      if (afterEquals && stream.match(/^#[0-9a-fA-F]{3,8}\b/)) return "color";
+    // A comment is a whole line starting with #; anywhere else # is text (#1001, accent=#1a73e8)
+    if (!state.argument && stream.peek() === "#") {
       stream.skipToEnd();
       return "comment";
     }
+    // a hex color right after = (accent=#1a73e8), not a list item like [#1001]
+    if (afterEquals && /[=:]\s*$/.test(stream.string.slice(0, stream.pos)) && stream.match(/^#[0-9a-fA-F]{3,8}(?![\w-])/)) return "color";
     if (stream.match(/^```.*/)) return "comment";
     if (!state.argument) {
       state.argument = true;
@@ -57,7 +58,7 @@ const tsquareLanguage = StreamLanguage.define<LineState>({
     if (stream.match(/^(true|false|null)(?![\w-])/)) return "bool";
     if (stream.eat(/[[\]{}]/)) { state.afterEquals = stream.current() === "[" || stream.current() === "{"; return "bracket"; }
     if (stream.eat(",")) return "punctuation";
-    if (stream.match(/^[^\s,=:[\]{}"#]+/)) return "atom";
+    if (stream.match(/^[^\s,=:[\]{}"]+/)) return "atom";
     stream.next();
     return null;
   },
@@ -127,7 +128,7 @@ function completions(data: LanguageData) {
   return (ctx: CompletionContext): CompletionResult | null => {
     const line = ctx.state.doc.lineAt(ctx.pos);
     const before = line.text.slice(0, ctx.pos - line.from);
-    if (/^\s*#/.test(before) || /\s#[^"]*$/.test(before)) return null; // in a comment
+    if (/^\s*#/.test(before)) return null; // in a comment (whole lines only)
     if ((before.match(/"/g) ?? []).length % 2 === 1) return null; // in quoted text
 
     // The component name, at the start of the line

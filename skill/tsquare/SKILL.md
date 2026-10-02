@@ -35,7 +35,8 @@ A line is the component name in lowercase, followed by arguments separated by sp
 - a bare word that is one of the component's option values sets that option: phone, desktop, primary, ghost, row, sm, left, bottom, password, …
 - a bare prop name sets a boolean prop to true: checked, fullWidth, grow, muted. `off` and `unchecked` set on/checked to false
 - key=value sets any prop. Values: "string", number, true/false, bare word, [list, of, values], {key=value key=value}
-- `#` after a space starts a comment that runs to the end of the line
+
+Comments: a line that starts with # is a comment. A comment must be on its own line, never after an element on the same line. Anywhere else, # is ordinary text: [#1001, #1002], "Order #12345", accent=#1a73e8.
 
 Lists: items are separated by commas, and an item can contain spaces without quotes: [All notes, Pinned, Shared]. To put a comma inside an item, quote the item: ["$1,200", "Smith, J"]. Inside quotes, write \" for a quote character. Numbers in a list of text are fine: [2023, 2024].
 

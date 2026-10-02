@@ -6,6 +6,7 @@ import { catalog, componentDefinitions, listItemEnds, upgradeRenamedProps } from
 import { withPalette } from "./components.js";
 import { paletteFor } from "./colors.js";
 import { unknownComponentMessage } from "./suggest.js";
+import { belongsElsewhere } from "./text.js";
 import {
   BOARD_GAP,
   BOARD_PADDING,
@@ -76,7 +77,10 @@ export function checkSpec(spec: Spec): string[] {
       }
       // Zod drops unknown keys silently; report them so the author (or model) hears about it.
       for (const key of Object.keys(el.props ?? {})) {
-        if (!(key in def.props.shape)) issues.push(`${id}.props: ${el.type} has no prop "${key}"`);
+        if (!(key in def.props.shape)) {
+          const elsewhere = belongsElsewhere(el.type, key, true);
+          issues.push(`${id}.props: ${el.type} has no prop "${key}"${elsewhere ? `: ${elsewhere}` : ""}`);
+        }
       }
     }
     for (const child of el.children ?? []) {

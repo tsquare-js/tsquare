@@ -65,7 +65,7 @@ One element per line; children are indented two spaces under their parent. The f
 | `tabs items=[All notes, Pinned]` | lists in `[ ]`, items separated by commas; an item can contain spaces |
 | `data=[["$1,200", "Smith, J"]]` | quote an item that contains a comma (`\"` for a quote inside quotes) |
 | `tabbar items=[{label=Home icon=home}]` | objects in `{ }` |
-| `# note to self` | comment |
+| `# note to self` | a comment, on its own line only; elsewhere `#` is text (`[#1001, #1002]`) |
 
 If a bare word could mean two props (for example `start`, which is both an `align` and a `justify` value), write it as `key=value`. Code fences (```` ``` ````) are ignored, so a model's reply can be rendered as-is.
 
