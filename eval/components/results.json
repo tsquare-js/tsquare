@@ -1,0 +1,294 @@
+[
+  {
+    "model": "sonnet",
+    "run": "run1",
+    "task": "k01-analytics",
+    "valid": true,
+    "issues": [],
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run1",
+    "task": "k02-booking",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run1",
+    "task": "k03-verify",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run1",
+    "task": "k04-upload",
+    "valid": true,
+    "issues": [],
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run1",
+    "task": "k05-pricing",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run1",
+    "task": "k06-results",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run1",
+    "task": "k07-help",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k01-analytics",
+    "valid": true,
+    "issues": [],
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k02-booking",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k03-verify",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k04-upload",
+    "valid": true,
+    "issues": [],
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k05-pricing",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k06-results",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k07-help",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run1",
+    "task": "k01-analytics",
+    "valid": true,
+    "issues": [],
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run1",
+    "task": "k02-booking",
+    "valid": true,
+    "issues": [],
+    "passed": 1,
+    "total": 2,
+    "failed": [
+      "two date inputs"
+    ]
+  },
+  {
+    "model": "haiku",
+    "run": "run1",
+    "task": "k03-verify",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run1",
+    "task": "k04-upload",
+    "valid": true,
+    "issues": [],
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run1",
+    "task": "k05-pricing",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run1",
+    "task": "k06-results",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run1",
+    "task": "k07-help",
+    "valid": false,
+    "issues": [
+      "line 9: expected = after label=Step 1: Create your account"
+    ],
+    "passed": 1,
+    "total": 2,
+    "failed": [
+      "numbered list"
+    ]
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k01-analytics",
+    "valid": true,
+    "issues": [],
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k02-booking",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k03-verify",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k04-upload",
+    "valid": true,
+    "issues": [],
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k05-pricing",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k06-results",
+    "valid": false,
+    "issues": [
+      "line 9: ListItem: unknown icon \"shoe\" (did you mean sport-shoe?)",
+      "line 10: ListItem: unknown icon \"shoe\" (did you mean sport-shoe?)",
+      "line 11: ListItem: unknown icon \"shoe\" (did you mean sport-shoe?)",
+      "line 12: ListItem: unknown icon \"shoe\" (did you mean sport-shoe?)",
+      "line 13: ListItem: unknown icon \"shoe\" (did you mean sport-shoe?)"
+    ],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k07-help",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  }
+]

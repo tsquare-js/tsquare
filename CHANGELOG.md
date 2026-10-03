@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.4.0
+
+### New components
+
+```tsquare
+chart line "Revenue"                              # line | bar | area | pie | donut, a placeholder shape
+calendar "October 2026" range=[12, 18] marked=[3, 9]
+input "Check-in" type=date value="Oct 14, 2026"   # calendar icon
+input "Verification code" type=code value="4821"  # one box per digit (digits=6)
+slider "Price" range=[50, 400]                    # any amounts; the track scales
+progress "Uploading" value=40                     # also: progress circle, progress steps=4 step=2
+pagination pages=12 current=3
+bullets items=[Fast setup, No credit card]        # also: numbered, icon=check
+bullets icon=check items=[Boards, {label="SSO" icon=x muted}]
+```
+
+- **Charts are placeholders:** they show the kind of chart, not data.
+- **The calendar draws the real month** from its title ("October 2026" starts on a Thursday).
+- **Bullets** take any Lucide icon. One item can be an object that changes its icon or greys it out (`muted`).
+- **Inside `{…}`:**
+  - a bare word turns an option on (`{label="SSO" muted}`);
+  - an unquoted value can contain spaces (`{label=Custom domain icon=x}`).
+- **Clear errors for values that contradict each other:** a step past the last step, a page past the last page, a day that isn't in the month, a range written backwards.
+- **The accent color** also fills sliders, progress, completed steps, and the selected day and page. Charts stay gray.
+- **The prompt** grew by about 480 tokens (2,670 → 3,150).
+
+### Measured
+
+- **The new components:** 7 requests that describe a screen without naming components, two runs each.
+  - Sonnet: valid 14 of 14, and picked the right components every time (32 of 32 checks).
+  - Haiku: valid 12 of 14, 30 of 32 checks.
+- **The original 20 requests, with the new prompt:** Sonnet 100%, Haiku 65%, within its usual range. None of Haiku's failures involve the new components.
+
 ## 0.3.2
 
 - **`grow` on Select**, like Input: `select "State" grow` fills the rest of a row. Sonnet wrote it in 5 of 9 eval runs, its only remaining mistake; with it, every stored Sonnet text output is valid.

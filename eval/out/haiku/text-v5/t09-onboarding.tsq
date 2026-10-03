@@ -1,0 +1,24 @@
+```tsquare
+board "Onboarding" layout=grid columns=3
+  screen phone "Welcome"
+    stack padding=24 gap=24 align=center justify=between
+      spacer
+      image height=240
+      heading "Welcome" level=1 align=center
+      text "This is the beginning of your journey." align=center
+      button "Continue" primary fullWidth
+  screen phone "Features"
+    stack padding=24 gap=24 align=center justify=between
+      spacer
+      image height=240
+      heading "Powerful features" level=1 align=center
+      text "Discover everything you can do." align=center
+      button "Continue" primary fullWidth
+  screen phone "Ready"
+    stack padding=24 gap=24 align=center justify=between
+      spacer
+      image height=240
+      heading "You're ready" level=1 align=center
+      text "Let's create something great." align=center
+      button "Get started" primary fullWidth
+```

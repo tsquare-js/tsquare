@@ -1,0 +1,14 @@
+```tsquare
+board "Upload"
+  screen desktop "Onboarding upload"
+    stack padding=24 gap=20
+      progress steps=4 step=2
+      heading "Upload your files" level=2
+      card "Uploading"
+        progress "report.pdf" value=40
+        progress "photo.png" value=85
+      card "Storage"
+        stack row gap=16 align=center
+          progress shape=circle value=72
+          text "72% of storage used" muted
+```

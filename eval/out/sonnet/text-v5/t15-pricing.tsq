@@ -1,0 +1,21 @@
+```tsquare
+board "Pricing"
+  screen desktop "Pricing"
+    navbar "Acme" leading=logo actions=[user]
+    stack padding=24 gap=20 align=center
+      heading "Choose your plan" level=1 align=center
+      tabs items=[Monthly, Yearly] active=0
+      stack row gap=16
+        card "Starter" padding=16 grow
+          heading "$9/mo" level=2
+          bullets icon=check items=[1 project, Basic support, 1 GB storage]
+          button secondary "Choose Starter" fullWidth
+        card "Pro" padding=16 grow
+          heading "$29/mo" level=2
+          bullets icon=check items=[10 projects, Priority support, 50 GB storage]
+          button primary "Choose Pro" fullWidth
+        card "Team" padding=16 grow
+          heading "$79/mo" level=2
+          bullets icon=check items=[Unlimited projects, Dedicated support, 500 GB storage]
+          button secondary "Choose Team" fullWidth
+```

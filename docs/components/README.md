@@ -26,7 +26,9 @@ Every component, grouped as in the playground. Each page has a rendered example,
 |---|---|
 | [heading](heading.md) | Heading text, level 1 (largest) to 3. |
 | [text](text.md) | Body text, or placeholder lines when `lines` is set and `text` is not. |
+| [bullets](bullets.md) | Bulleted, numbered or icon list of short lines. |
 | [image](image.md) | Image placeholder: a box with an X through it. |
+| [chart](chart.md) | Chart placeholder: a generic line, bar, area, pie or donut shape, no data. |
 | [icon](icon.md) | Line icon from Lucide. |
 | [avatar](avatar.md) | Round avatar with initials or a person silhouette. |
 | [badge](badge.md) | Small pill label for counts or statuses. |
@@ -41,6 +43,9 @@ Every component, grouped as in the playground. Each page has a rendered example,
 | [radio](radio.md) | Radio button with label. |
 | [toggle](toggle.md) | On/off switch with label on the left. |
 | [select](select.md) | Dropdown field (closed state). |
+| [slider](slider.md) | Slider with one handle, or two with `range`. |
+| [progress](progress.md) | Progress bar, ring (circle), or stepper (steps). |
+| [calendar](calendar.md) | Month calendar. |
 
 ## Navigation & data
 
@@ -49,6 +54,7 @@ Every component, grouped as in the playground. Each page has a rendered example,
 | [navbar](navbar.md) | Top app bar. Place first in a Screen. |
 | [tabbar](tabbar.md) | Bottom tab bar for mobile. Place last in a Screen (before overlays). |
 | [tabs](tabs.md) | In-page tabs with an underline on the active one. |
+| [pagination](pagination.md) | Page numbers with previous and next. |
 | [list](list.md) | Vertical list of ListItems. |
 | [listitem](listitem.md) | Row in a List. Omit title for a placeholder bar. |
 | [table](table.md) | Table with headers. Rows are placeholder bars unless `data` is given. |

@@ -1,0 +1,26 @@
+board "Email client"
+  screen tablet "Mail"
+    stack row grow
+      stack column width=300 border=right
+        input search placeholder="Search mail"
+        list dividers
+          listitem "Sender one" subtitle="Subject line preview" leading=avatar trailingText="9:41"
+          listitem "Sender two" subtitle="Subject line preview" leading=avatar trailingText="8:15"
+          listitem "Sender three" subtitle="Subject line preview" leading=avatar trailingText="Mon"
+          listitem "Sender four" subtitle="Subject line preview" leading=avatar trailingText="Sun"
+          listitem "Sender five" subtitle="Subject line preview" leading=avatar trailingText="Fri"
+      stack column grow gap=12 padding=16
+        stack row gap=8 justify=between align=center
+          heading "Subject of the message" level=2
+          stack row gap=8
+            icon reply
+            icon trash
+            icon more-horizontal
+        stack row gap=8 align=center
+          avatar "ST"
+          stack column
+            text "Sender one" bold
+            text sm "to me" muted
+        divider
+        text lines=8
+        button secondary "Reply" leadingIcon=reply

@@ -1,0 +1,26 @@
+```tsquare
+board "Product page"
+  screen phone "Product"
+    navbar leading=back actions=[share]
+    stack padding=16 gap=16
+      image height=280
+      heading "Product name" level=1
+      stack row gap=8
+        text "4.5" bold
+        badge outline "1,234 reviews"
+      heading "$79.99" level=2
+      select "Size" value="M" fullWidth
+      button "Add to cart" primary fullWidth
+      divider
+      heading "Reviews" level=2
+      list dividers
+        listitem
+          subtitle="Great product! Highly recommend it."
+          leading=avatar
+        listitem
+          subtitle="Good quality, fast shipping."
+          leading=avatar
+        listitem
+          subtitle="Exactly as described."
+          leading=avatar
+```

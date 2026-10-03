@@ -1,0 +1,14 @@
+board "Settings"
+  screen phone "Settings"
+    navbar "Settings" leading=back
+    toggle "Notifications" on
+    toggle "Dark mode"
+    divider
+    heading "Account" level=3
+    list dividers
+      listitem "Profile" leadingIcon=user trailing=chevron
+      listitem "Password" leadingIcon=lock trailing=chevron
+      listitem "Payment methods" leadingIcon=credit-card trailing=chevron
+      listitem "Privacy" leadingIcon=shield trailing=chevron
+    spacer
+    button secondary "Sign out" fullWidth

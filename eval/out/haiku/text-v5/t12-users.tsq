@@ -1,0 +1,12 @@
+board "User Management"
+  screen desktop "Active Users"
+    stack padding=20 gap=16
+      heading "Users" level=1
+      tabs items=[Active, Invited, Suspended] active=0
+      table columns=[Name, Email, Role, Status] data=[["Alice Johnson", "alice@company.com", "Admin", "Active"], ["Bob Smith", "bob@company.com", "Member", "Active"], ["Carol White", "carol@company.com", "Viewer", "Active"], ["David Lee", "david@company.com", "Member", "Active"]]
+  screen desktop "With Filters"
+    stack padding=20 gap=16
+      heading "Users" level=1
+      tabs items=[Active, Invited, Suspended] active=0
+      table columns=[Name, Email, Role, Status] data=[["Alice Johnson", "alice@company.com", "Admin", "Active"], ["Bob Smith", "bob@company.com", "Member", "Active"], ["Carol White", "carol@company.com", "Viewer", "Active"], ["David Lee", "david@company.com", "Member", "Active"]]
+    drawer right "Filters" size=280

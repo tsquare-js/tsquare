@@ -14,6 +14,15 @@ const iconName = z
   .refine(isIcon, { error: (iss) => unknownIconMessage(String(iss.input)) })
   .describe("Lucide icon name in kebab-case, e.g. menu, search, arrow-left, settings, bell, user");
 
+const day = z.number().int().min(1).max(31);
+const percent = z.number().min(0).max(100);
+/** A bullet: plain text, or {label icon muted} to override the list's icon for one line. */
+const bulletItem = z.union([
+  z.string(),
+  // strict: a misspelled key is an error, not silently dropped
+  z.strictObject({ label: z.string(), icon: o(iconName), muted: o(z.boolean()) }),
+]);
+
 export const componentDefinitions = {
   // ── Canvas ────────────────────────────────────────────────────────────
   Board: {
@@ -24,7 +33,7 @@ export const componentDefinitions = {
       gap: o(z.number()),
       padding: o(z.number()),
       accent: o(z.string().refine(isAccent, { error: (iss) => accentMessage(String(iss.input)) })).describe(
-        `The one UI color: primary buttons, solid badges, checked controls, toggles, active tabs, ghost buttons. ${Object.keys(ACCENTS).join(", ")}, or a hex color like #1a73e8. Omit for grayscale.`,
+        `The one UI color: primary buttons, solid badges, checked controls, toggles, sliders, progress, selected days and pages, active tabs, ghost buttons. ${Object.keys(ACCENTS).join(", ")}, or a hex color like #1a73e8. Omit for grayscale.`,
       ),
     }),
     slots: ["default"],
@@ -136,6 +145,16 @@ export const componentDefinitions = {
     description: "Body text, or placeholder lines when `lines` is set and `text` is not.",
     example: { lines: 3 },
   },
+  Bullets: {
+    props: z.object({
+      items: z.array(bulletItem).describe("Text, or {label icon muted} to change one line, e.g. {label=SSO icon=x muted}"),
+      numbered: o(z.boolean()).describe("1. 2. 3. instead of dots"),
+      icon: o(iconName).describe("A Lucide icon instead of dots, e.g. check for a feature list"),
+    }),
+    slots: [],
+    description: "Bulleted, numbered or icon list of short lines.",
+    example: { items: ["Fast setup", "No credit card"] },
+  },
   Image: {
     props: z.object({
       height: o(z.number()),
@@ -146,6 +165,17 @@ export const componentDefinitions = {
     slots: [],
     description: "Image placeholder: a box with an X through it.",
     example: { height: 180, label: "Hero photo" },
+  },
+  Chart: {
+    props: z.object({
+      kind: o(z.enum(["line", "bar", "area", "pie", "donut"])).describe("Default line"),
+      title: o(z.string()),
+      height: o(z.number()).describe("Default 180"),
+      width: o(z.union([z.number(), z.string()])).describe("Default fills the container width"),
+    }),
+    slots: [],
+    description: "Chart placeholder: a generic line, bar, area, pie or donut shape, no data.",
+    example: { kind: "bar", title: "Signups" },
   },
   Icon: {
     props: z.object({
@@ -195,7 +225,8 @@ export const componentDefinitions = {
       label: o(z.string()),
       placeholder: o(z.string()),
       value: o(z.string()),
-      type: o(z.enum(["text", "password", "search", "email"])),
+      type: o(z.enum(["text", "password", "search", "email", "date", "code"])).describe("date shows a calendar icon; code draws one box per digit"),
+      digits: o(z.number().int().min(2).max(10)).describe("Boxes for type=code, default 6"),
       multiline: o(z.number().int().min(1)).describe("Number of rows; 2 or more makes a textarea"),
       helper: o(z.string()),
       error: o(z.boolean()).describe("Validation error: red border and red helper text"),
@@ -236,6 +267,39 @@ export const componentDefinitions = {
     description: "Dropdown field (closed state).",
     example: { label: "Country", value: "United States" },
   },
+  Slider: {
+    props: z.object({
+      label: o(z.string()),
+      value: o(z.number().min(0)).describe("Handle position: 0 to 100, or any amount (the track scales to fit)"),
+      range: o(z.tuple([z.number().min(0), z.number().min(0)])).describe("Two handles instead, e.g. [20, 80] or [50, 400]"),
+    }),
+    slots: [],
+    description: "Slider with one handle, or two with `range`.",
+    example: { label: "Volume", value: 30 },
+  },
+  Progress: {
+    props: z.object({
+      label: o(z.string()),
+      value: o(percent).describe("Percent done"),
+      shape: o(z.enum(["bar", "circle"])).describe("Default bar; circle is a ring with the percent inside"),
+      steps: o(z.number().int().min(2).max(10)).describe("Draw a stepper with this many steps instead"),
+      step: o(z.number().int().min(1)).describe("The current step, with steps"),
+    }),
+    slots: [],
+    description: "Progress bar, ring (circle), or stepper (steps).",
+    example: { label: "Uploading", value: 40 },
+  },
+  Calendar: {
+    props: z.object({
+      month: o(z.string()).describe('Month and year, e.g. "October 2026"; the days match that month'),
+      selected: o(day),
+      range: o(z.tuple([day, day])).describe("Selected days, e.g. [12, 18]"),
+      marked: o(z.array(day)).describe("Days with a dot, e.g. events"),
+    }),
+    slots: [],
+    description: "Month calendar.",
+    example: { month: "October 2026", selected: 14 },
+  },
 
   // ── Navigation & data ─────────────────────────────────────────────────
   NavBar: {
@@ -266,6 +330,15 @@ export const componentDefinitions = {
     slots: [],
     description: "In-page tabs with an underline on the active one.",
     example: { items: ["Overview", "Activity", "Settings"], active: 0 },
+  },
+  Pagination: {
+    props: z.object({
+      pages: z.number().int().min(1),
+      current: o(z.number().int().min(1)).describe("Default 1"),
+    }),
+    slots: [],
+    description: "Page numbers with previous and next.",
+    example: { pages: 12, current: 3 },
   },
   List: {
     props: z.object({ dividers: o(z.boolean()), grow: o(z.boolean()) }),

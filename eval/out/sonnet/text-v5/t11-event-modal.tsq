@@ -1,0 +1,22 @@
+```tsquare
+board "Calendar"
+  screen desktop "Calendar"
+    navbar "Calendar" leading=logo actions=[search, settings]
+    stack row gap=12 padding=12
+      button secondary "Today"
+      icon chevron-left
+      icon chevron-right
+      heading "October 2026" level=2
+      spacer
+      button primary "New event" leadingIcon=plus
+    calendar "October 2026" selected=14 marked=[3, 9, 14, 21]
+    modal "New event" width=420
+      input "Title" placeholder="Event title"
+      stack row gap=12
+        input "Date" type=date value="Oct 14, 2026" grow
+        select "Time" value="10:00 AM" grow
+      input "Description" placeholder="Add details" multiline=4
+      stack row gap=8 justify=end
+        button secondary "Cancel"
+        button primary "Save"
+```

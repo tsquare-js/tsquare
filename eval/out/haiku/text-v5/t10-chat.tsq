@@ -1,0 +1,21 @@
+```tsquare
+board "Chat"
+  screen phone "Conversation"
+    navbar "Alex" leading=back actions=[call, info]
+    stack padding=12 gap=8 grow
+      stack gap=8
+        stack row justify=start
+          stack fill padding=10 gap=4
+            text "Hey, how are you?" size=sm
+        stack row justify=end padding=0 12
+          stack fill padding=10 gap=4
+            text "I'm good! How about you?" size=sm
+        stack row justify=start
+          stack fill padding=10 gap=4
+            text "Great! Want to meet up?" size=sm
+        stack row justify=end padding=0 12
+          stack fill padding=10 gap=4
+            text "Sure! When are you free?" size=sm
+    input placeholder="Type a message..." width=100% multiline=1
+      button "Send" trailingIcon=send
+```

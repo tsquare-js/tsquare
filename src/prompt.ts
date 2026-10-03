@@ -23,6 +23,7 @@ function describeType(t: any): string {
     case "literal": return s.def.values.map((v: unknown) => JSON.stringify(v)).join(" | ");
     case "union": return s.def.options.map(describeType).join(" | ");
     case "array": return `array of ${describeType(s.def.element)}`;
+    case "tuple": return `[${s.def.items.map(describeType).join(", ")}]`;
     case "object":
       return `{ ${Object.entries(s.shape).map(([k, v]) => `${k}: ${describeType(v)}`).join(", ")} }`;
     default: return "any";

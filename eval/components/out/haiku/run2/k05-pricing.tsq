@@ -1,0 +1,29 @@
+```tsquare
+board "Pricing Plans"
+  screen desktop "Pricing"
+    navbar "Plans" align=center
+    stack padding=32 gap=32
+      heading "Choose your plan" level=1 align=center
+      stack row gap=24 justify=center
+        card width=300 padding=24
+          heading "Free" level=2 align=center
+          text "$0" bold align=center
+          text "/month" sm muted align=center
+          button secondary "Get Started" fullWidth
+          divider
+          bullets items=[{label="5 projects" icon=check}, {label="Basic support" icon=check}, {label="API access" icon=x muted}, {label="Advanced analytics" icon=x muted}]
+        card width=300 padding=24
+          heading "Pro" level=2 align=center
+          text "$29" bold align=center
+          text "/month" sm muted align=center
+          button primary "Subscribe" fullWidth
+          divider
+          bullets items=[{label="Unlimited projects" icon=check}, {label="Email support" icon=check}, {label="API access" icon=check}, {label="Basic analytics" icon=check}]
+        card width=300 padding=24
+          heading "Team" level=2 align=center
+          text "$99" bold align=center
+          text "/month" sm muted align=center
+          button secondary "Contact sales" fullWidth
+          divider
+          bullets items=[{label="Unlimited everything" icon=check}, {label="Priority support" icon=check}, {label="API access" icon=check}, {label="Advanced analytics" icon=check}]
+```

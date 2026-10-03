@@ -1,0 +1,33 @@
+```tsquare
+board "Analytics Dashboard"
+  screen desktop "Dashboard"
+    navbar "Analytics" leading=none actions=[settings]
+    stack gap=16 padding=20
+      stack row gap=16
+        card padding=16
+          text "Revenue" muted sm
+          heading "$24,583" level=2
+          text "+12% from last month" muted sm size=sm
+        card padding=16
+          text "Users" muted sm
+          heading "1,248" level=2
+          text "+8% from last month" muted sm size=sm
+        card padding=16
+          text "Conversion" muted sm
+          heading "3.2%" level=2
+          text "+0.5% from last month" muted sm size=sm
+        card padding=16
+          text "Churn" muted sm
+          heading "2.1%" level=2
+          text "-0.2% from last month" muted sm size=sm
+      card padding=16
+        heading "Revenue Over Time" level=2
+        chart kind=line height=300
+      stack row gap=16
+        card padding=16 grow
+          heading "Weekly Signups" level=2
+          chart kind=bar height=250
+        card padding=16 grow
+          heading "Traffic Sources" level=2
+          chart kind=pie height=250
+```

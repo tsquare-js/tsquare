@@ -1,0 +1,24 @@
+board "Notes List"
+  screen phone "Mobile"
+    navbar "Notes" leading=menu
+    stack padding=12 gap=8
+      input search placeholder="Search notes"
+      list
+        listitem "Project planning" trailingIcon=star
+        listitem "Meeting notes" trailingIcon=star
+        listitem "Ideas" trailingIcon=clock
+        listitem "Archived" subtitle="2 items" trailingIcon=chevron-right
+  screen desktop "Desktop"
+    navbar "Notes" leading=back
+    stack row gap=16 height=600
+      stack width=240 border=right
+        input search placeholder="Search"
+        list grow
+          listitem "Project planning"
+          listitem "Meeting notes"
+          listitem "Ideas"
+          listitem "Archived" trailing=text trailingText=2
+      stack grow padding=24 gap=16
+        heading "Project planning" level=1
+        text lines=4
+  note "On mobile, notes stack vertically. On desktop, the list is a sidebar and selected note expands on the right."

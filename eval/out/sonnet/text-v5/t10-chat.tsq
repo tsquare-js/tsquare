@@ -1,0 +1,21 @@
+board "Chat"
+  screen phone "Conversation"
+    navbar "Maria Lopez" leading=back actions=[phone, more-vertical]
+    stack column grow gap=10 padding=12
+      stack row gap=8
+        avatar "ML" size=32
+        card padding=8
+          text "Hey, are we still on for lunch?"
+      stack row justify=end
+        card variant=filled padding=8
+          text "Yes! 12:30 works for me."
+      stack row gap=8
+        avatar "ML" size=32
+        card padding=8
+          text "Perfect, see you there."
+      stack row justify=end
+        card variant=filled padding=8
+          text "See you soon."
+    stack row gap=8 padding=8 align=center border=top
+      input placeholder="Type a message" grow
+      button primary leadingIcon=send

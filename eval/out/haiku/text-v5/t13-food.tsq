@@ -1,0 +1,28 @@
+board "Food Delivery"
+  screen phone "Home"
+    navbar "Order Food" leading=menu
+    input search placeholder="Search restaurants"
+    stack padding=12 gap=12
+      stack row gap=8 wrap
+        badge "Burgers"
+        badge "Pizza"
+        badge "Sushi"
+        badge "Thai"
+      grid columns=2 gap=12
+        card padding=10
+          image height=100
+          text "Burger King" bold
+          text "25-35 min" sm muted
+        card padding=10
+          image height=100
+          text "Pizza Hut" bold
+          text "30-40 min" sm muted
+        card padding=10
+          image height=100
+          text "Sushi Bar" bold
+          text "35-45 min" sm muted
+        card padding=10
+          image height=100
+          text "Thai House" bold
+          text "25-35 min" sm muted
+    tabbar items=[{label=Home icon=home}, {label=Orders icon=shopping-bag}, {label=Profile icon=user}] active=0

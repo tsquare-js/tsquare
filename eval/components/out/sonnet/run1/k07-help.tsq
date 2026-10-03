@@ -1,0 +1,12 @@
+```tsquare
+board "Help article"
+  screen desktop "Help"
+    navbar "Help Center" leading=logo
+    stack padding=32 gap=16
+      heading "How to set up your account" level=1
+      text "This short guide walks you through creating your account and getting started."
+      heading "Setup steps" level=2
+      bullets numbered items=["Create an account", "Verify your email", "Set up your profile", "Invite your team"]
+      heading "Tips" level=2
+      bullets items=["Use a strong password", "Enable two-factor authentication", "Check your spam folder for emails"]
+```

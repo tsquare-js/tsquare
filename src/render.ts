@@ -3,7 +3,7 @@ import { createRequire } from "node:module";
 import type { Spec } from "@json-render/core";
 import { renderToSvg } from "@json-render/image/render";
 import { catalog, componentDefinitions, listItemEnds } from "./catalog.js";
-import { withPalette } from "./components.js";
+import { monthGrid, withPalette } from "./components.js";
 import { paletteFor } from "./colors.js";
 import { unknownComponentMessage } from "./suggest.js";
 import { belongsElsewhere } from "./text.js";
@@ -121,6 +121,34 @@ export function checkSpec(spec: Spec): string[] {
       if (p.leadingIcon && leading !== "icon") conflict("leadingIcon", "leading=icon", "leading", leading!);
       if (p.trailingIcon && trailing !== "icon") conflict("trailingIcon", "trailing=icon", "trailing", trailing!);
       if (p.trailingText && trailing !== "text" && trailing !== "badge") conflict("trailingText", "trailing=text or badge", "trailing", trailing!);
+    }
+    // Values that contradict each other would draw something odd rather than fail; say which.
+    {
+      const p = (el.props ?? {}) as Record<string, any>;
+      const say = (msg: string) => issues.push(`${id}: ${msg}`); // compile adds the component name
+      const backwards = (r: unknown) => Array.isArray(r) && r.length === 2 && r[0] > r[1];
+      if (el.type === "Progress") {
+        if (p.step != null && p.steps == null) say(`step only shows with steps (e.g. steps=4 step=${p.step})`);
+        if (p.step != null && p.steps != null && p.step > p.steps) say(`step=${p.step} is past the last step (steps=${p.steps})`);
+        if (p.steps != null && p.shape === "circle") say("a stepper (steps) can't also be a circle; remove one of them");
+      }
+      if (el.type === "Pagination" && p.current != null && p.pages != null && p.current > p.pages) {
+        say(`current=${p.current} is past the last page (pages=${p.pages})`);
+      }
+      if (el.type === "Slider" && backwards(p.range)) say(`range=[${p.range.join(", ")}] goes backwards; write the smaller number first`);
+      if (el.type === "Slider" && p.range && p.value != null) say("a slider has value (one handle) or range (two), not both");
+      if (el.type === "Calendar") {
+        const { days } = monthGrid(p.month);
+        const all = [p.selected, ...(p.range ?? []), ...(p.marked ?? [])].filter((d) => typeof d === "number");
+        const late = all.find((d: number) => d > days);
+        if (late) say(`day ${late} isn't in ${p.month ?? "the month"} (it has ${days} days)`);
+        if (backwards(p.range)) say(`range=[${p.range.join(", ")}] goes backwards; write the earlier day first`);
+        if (p.range && p.selected != null) say("a calendar has selected (one day) or range (several), not both");
+      }
+      if (el.type === "Input" && p.type === "code" && p.value != null && String(p.value).length > (p.digits ?? 6)) {
+        say(`value has ${String(p.value).length} characters but the code has ${p.digits ?? 6} boxes (digits)`);
+      }
+      if (el.type === "Input" && p.digits != null && p.type !== "code") say("digits only applies to type=code");
     }
     // The renderer would silently drop extra cells. Usually the cause is an unquoted
     // cell with a space, which the text syntax splits into two.

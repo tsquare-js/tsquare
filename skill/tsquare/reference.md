@@ -9,7 +9,7 @@ Root canvas (artboard). Holds Screens side by side, plus optional Notes. Must be
 - columns: number
 - gap: number
 - padding: number
-- accent: string — The one UI color: primary buttons, solid badges, checked controls, toggles, active tabs, ghost buttons. blue, indigo, violet, pink, red, orange, green, teal, or a hex color like #1a73e8. Omit for grayscale.
+- accent: string — The one UI color: primary buttons, solid badges, checked controls, toggles, sliders, progress, selected days and pages, active tabs, ghost buttons. blue, indigo, violet, pink, red, orange, green, teal, or a hex color like #1a73e8. Omit for grayscale.
 
 ### Screen
 One view of the product in a device frame. Children stack vertically.
@@ -78,12 +78,25 @@ Body text, or placeholder lines when `lines` is set and `text` is not.
 - bold: boolean
 - align: "left" | "center" | "right"
 
+### Bullets
+Bulleted, numbered or icon list of short lines.
+- items (required): array of string | { label: string, icon: string, muted: boolean } — Text, or {label icon muted} to change one line, e.g. {label=SSO icon=x muted}
+- numbered: boolean — 1. 2. 3. instead of dots
+- icon: string — A Lucide icon instead of dots, e.g. check for a feature list
+
 ### Image
 Image placeholder: a box with an X through it.
 - height: number
 - width: number | string — Default fills the container width
 - label: string (main text)
 - rounded: boolean
+
+### Chart
+Chart placeholder: a generic line, bar, area, pie or donut shape, no data.
+- kind: "line" | "bar" | "area" | "pie" | "donut" — Default line
+- title: string (main text)
+- height: number — Default 180
+- width: number | string — Default fills the container width
 
 ### Icon
 Line icon from Lucide.
@@ -115,7 +128,8 @@ Text field with optional label. Set multiline for a textarea.
 - label: string (main text)
 - placeholder: string
 - value: string
-- type: "text" | "password" | "search" | "email"
+- type: "text" | "password" | "search" | "email" | "date" | "code" — date shows a calendar icon; code draws one box per digit
+- digits: number — Boxes for type=code, default 6
 - multiline: number — Number of rows; 2 or more makes a textarea
 - helper: string
 - error: boolean — Validation error: red border and red helper text
@@ -145,6 +159,27 @@ Dropdown field (closed state).
 - grow: boolean — Fill the remaining space in a row
 - width: number | string — Fixed width, e.g. 320. Default fills the space.
 
+### Slider
+Slider with one handle, or two with `range`.
+- label: string (main text)
+- value: number — Handle position: 0 to 100, or any amount (the track scales to fit)
+- range: [number, number] — Two handles instead, e.g. [20, 80] or [50, 400]
+
+### Progress
+Progress bar, ring (circle), or stepper (steps).
+- label: string (main text)
+- value: number — Percent done
+- shape: "bar" | "circle" — Default bar; circle is a ring with the percent inside
+- steps: number — Draw a stepper with this many steps instead
+- step: number — The current step, with steps
+
+### Calendar
+Month calendar.
+- month: string (main text) — Month and year, e.g. "October 2026"; the days match that month
+- selected: number
+- range: [number, number] — Selected days, e.g. [12, 18]
+- marked: array of number — Days with a dot, e.g. events
+
 ### NavBar
 Top app bar. Place first in a Screen.
 - title: string (main text)
@@ -161,6 +196,11 @@ Bottom tab bar for mobile. Place last in a Screen (before overlays).
 In-page tabs with an underline on the active one.
 - items (required): array of string
 - active: number
+
+### Pagination
+Page numbers with previous and next.
+- pages (required): number
+- current: number — Default 1
 
 ### List
 Vertical list of ListItems.

@@ -10,7 +10,7 @@ Set one accent color on the board:
 board "Checkout" accent=blue
 ```
 
-It fills primary buttons, solid badges, checked checkboxes and radios, and toggles that are on. It also colors the active tab, the active tab-bar item and ghost button text. Everything else stays gray.
+It fills primary buttons, solid badges, checked checkboxes and radios, toggles that are on, the filled part of sliders and progress bars, completed steps, and the selected calendar day and current page. It also colors the active tab, the active tab-bar item and ghost button text. Everything else stays gray, including charts.
 
 | Name | Color |
 |---|---|

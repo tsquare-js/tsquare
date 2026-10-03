@@ -1,0 +1,13 @@
+```tsquare
+board "Hotel Booking"
+  screen phone "Booking"
+    navbar "Book a Stay" leading=back
+    stack padding=16 gap=16
+      input label="Check-in" type=date
+      input label="Check-out" type=date
+      select label="Guests" value="2"
+      heading "October 2026" level=2
+      calendar month="October 2026" range=[12, 18]
+      spacer size=20
+      button primary "Reserve" fullWidth
+```

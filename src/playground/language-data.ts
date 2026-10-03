@@ -54,7 +54,8 @@ function describe(name: string, schema: any): PropInfo {
     case "number": return { name, kind: "number", description };
     case "array": {
       const el = unwrap(s.def.element);
-      const hasIcon = el?.def?.type === "object" && "icon" in el.shape;
+      const objects = el?.def?.type === "union" ? el.def.options.map(unwrap) : [el];
+      const hasIcon = objects.some((x: any) => x?.def?.type === "object" && "icon" in x.shape);
       return { name, kind: "list", icon: iconish || hasIcon, description };
     }
     case "object": return { name, kind: "object", description };

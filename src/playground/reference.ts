@@ -8,9 +8,9 @@
 export const GROUPS: { name: string; components: string[] }[] = [
   { name: "Canvas", components: ["Board", "Screen", "Note"] },
   { name: "Layout", components: ["Stack", "Grid", "Card", "Divider", "Spacer"] },
-  { name: "Content", components: ["Heading", "Text", "Image", "Icon", "Avatar", "Badge"] },
-  { name: "Controls", components: ["Button", "Input", "Checkbox", "Radio", "Toggle", "Select"] },
-  { name: "Navigation & data", components: ["NavBar", "TabBar", "Tabs", "List", "ListItem", "Table"] },
+  { name: "Content", components: ["Heading", "Text", "Bullets", "Image", "Chart", "Icon", "Avatar", "Badge"] },
+  { name: "Controls", components: ["Button", "Input", "Checkbox", "Radio", "Toggle", "Select", "Slider", "Progress", "Calendar"] },
+  { name: "Navigation & data", components: ["NavBar", "TabBar", "Tabs", "Pagination", "List", "ListItem", "Table"] },
   { name: "Overlays", components: ["Modal", "Drawer"] },
 ];
 
@@ -124,6 +124,17 @@ export const EXAMPLES: Record<string, string> = {
     text "Placeholder lines when lines is set and there's no text:" sm muted
     text lines=3`,
 
+  Bullets: `board
+  screen custom width=420 height=600
+    text "Bullets" bold
+    bullets items=[Fast setup, No credit card, Cancel anytime]
+    text "numbered" bold
+    bullets numbered items=[Create an account, Verify your email, Invite your team]
+    text "icon= any Lucide icon" bold
+    bullets icon=check items=[Unlimited boards, Share links, Version history]
+    text "One item can change its icon, or be muted" bold
+    bullets icon=check items=[Unlimited boards, Share links, {label="SSO" icon=x muted}]`,
+
   Image: `board
   screen custom width=480 height=210
     stack row gap=12
@@ -131,6 +142,17 @@ export const EXAMPLES: Record<string, string> = {
       image height=120 width=120 rounded
       image height=120
     text "In a row, an image without a width is square." sm muted`,
+
+  Chart: `board
+  screen custom width=640 height=430
+    stack row gap=16
+      chart line "line (default)"
+      chart bar "bar"
+    stack row gap=16
+      chart area "area" height=150
+      chart pie "pie" height=150
+      chart donut "donut" height=150
+    text "Charts are placeholders: they show the kind of chart, not data." sm muted`,
 
   Icon: `board
   screen custom width=360 height=120
@@ -179,7 +201,7 @@ export const EXAMPLES: Record<string, string> = {
     text "With a board accent, primary buttons fill with it and ghost buttons use it for text." sm muted`,
 
   Input: `board
-  screen custom width=420 height=540
+  screen custom width=420 height=760
     input "Email" placeholder="you@example.com" helper="We never share it"
     input "Username" value="dana moore" error helper="No spaces allowed"
     input password "Password" value=secret
@@ -187,7 +209,9 @@ export const EXAMPLES: Record<string, string> = {
     input "Message" multiline=3
     stack row gap=8
       input placeholder="grow fills the row" grow
-      button primary "Send"`,
+      button primary "Send"
+    input "Check-in" type=date value="Oct 14, 2026"
+    input "Verification code" type=code value="4821" helper="Sent to (555) 010-2400"`,
 
   Checkbox: `board
   screen custom width=300 height=100
@@ -218,6 +242,27 @@ export const EXAMPLES: Record<string, string> = {
       input "City" placeholder="Monterrey" grow
       select "State" value="Nuevo León" grow`,
 
+  Slider: `board
+  screen custom width=380 height=200
+    slider "Volume" value=30
+    slider "Price range" range=[20, 80]`,
+
+  Progress: `board
+  screen custom width=420 height=330
+    progress "Uploading" value=40
+    progress value=75
+    stack row gap=24
+      progress circle "Storage" value=72
+      progress circle value=15
+    progress "Setup" steps=4 step=2`,
+
+  Calendar: `board
+  screen custom width=660 height=400
+    stack row gap=24 align=start
+      calendar "October 2026" selected=14
+      calendar "October 2026" range=[12, 18] marked=[3, 9, 22]
+    text "range selects several days; marked adds a dot, e.g. for events." sm muted`,
+
   NavBar: `board
   screen custom width=380 height=240 padding=0 gap=0
     navbar "leading=menu" leading=menu actions=[search, bell]
@@ -235,6 +280,11 @@ export const EXAMPLES: Record<string, string> = {
   screen custom width=400 height=150
     tabs items=[Overview, Activity, Settings] active=0
     text lines=2`,
+
+  Pagination: `board
+  screen custom width=420 height=160
+    pagination pages=5 current=2
+    pagination pages=12 current=6`,
 
   List: `board
   screen custom width=380 height=420

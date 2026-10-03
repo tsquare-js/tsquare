@@ -441,6 +441,35 @@ function Text({ element }: Props) {
   );
 }
 
+function Bullets({ element }: Props) {
+  const p = element.props;
+  const items: (string | { label: string; icon?: string | null; muted?: boolean | null })[] = p.items ?? [];
+  return (
+    <Box style={{ flexDirection: "column", gap: 8 }}>
+      {items.map((item, i) => {
+        const { label, icon, muted } = typeof item === "string" ? { label: item, icon: null, muted: false } : item;
+        const color = muted ? t.muted : t.text;
+        const glyph = icon ?? p.icon;
+        const marker = glyph ? (
+          <IconGlyph name={glyph} size={18} color={color} />
+        ) : p.numbered ? (
+          <Box style={{ minWidth: 18, color, fontWeight: 600 }}>{`${i + 1}.`}</Box>
+        ) : (
+          <Box style={{ width: 18, height: 22, alignItems: "center", justifyContent: "center" }}>
+            <Box style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: color }} />
+          </Box>
+        );
+        return (
+          <Box key={i} style={{ gap: 10, alignItems: glyph ? "center" : "flex-start", fontSize: 15, lineHeight: 1.45, color }}>
+            {marker}
+            <Box style={{ flexShrink: 1 }}>{label}</Box>
+          </Box>
+        );
+      })}
+    </Box>
+  );
+}
+
 function Image({ element, dir }: Props) {
   const p = element.props;
   const h = p.height ?? 160;
@@ -492,6 +521,62 @@ function Icon({ element, dir, aligned }: Props) {
   return (
     <Box style={{ flexShrink: 0, ...hug(dir, aligned) }}>
       <IconGlyph name={p.name} size={p.size ?? 20} />
+    </Box>
+  );
+}
+
+/** A fixed, generic shape per chart kind: wireframes show that a chart is there, not its data. */
+const CHART_LINE = [62, 48, 55, 30, 38, 22, 34, 12];
+const CHART_BARS = [55, 72, 40, 86, 64, 48, 78];
+
+function Chart({ element, dir }: Props) {
+  const p = element.props;
+  const kind = p.kind ?? "line";
+  const h = p.height ?? 180;
+  const w = p.width ?? (dir === "row" ? undefined : "100%");
+  const round = kind === "pie" || kind === "donut";
+  const plot = (() => {
+    if (round) {
+      // three slices: 45%, 30%, 25%
+      const slice = (from: number, to: number, fill: string, k: number) => {
+        const a0 = (from / 100) * 2 * Math.PI - Math.PI / 2, a1 = (to / 100) * 2 * Math.PI - Math.PI / 2;
+        const x0 = 50 + 46 * Math.cos(a0), y0 = 50 + 46 * Math.sin(a0), x1 = 50 + 46 * Math.cos(a1), y1 = 50 + 46 * Math.sin(a1);
+        return <path key={k} d={`M50 50 L${x0} ${y0} A46 46 0 ${to - from > 50 ? 1 : 0} 1 ${x1} ${y1} Z`} fill={fill} stroke={t.paper} strokeWidth="1.5" />;
+      };
+      return (
+        <svg width={h - 32} height={h - 32} viewBox="0 0 100 100">
+          {slice(0, 45, t.lineStrong, 0)}
+          {slice(45, 75, t.line, 1)}
+          {slice(75, 100, t.fill2, 2)}
+          {kind === "donut" ? <circle cx="50" cy="50" r="26" fill={t.paper} /> : null}
+        </svg>
+      );
+    }
+    const grid = [25, 50, 75].map((y) => <line key={y} x1="0" y1={y} x2="300" y2={y} stroke={t.fill2} strokeWidth="1" vectorEffect="non-scaling-stroke" />);
+    if (kind === "bar") {
+      const bw = 300 / CHART_BARS.length;
+      return (
+        <svg width="100%" height="100%" viewBox="0 0 300 100" preserveAspectRatio="none">
+          {grid}
+          {CHART_BARS.map((v, i) => <rect key={i} x={i * bw + bw * 0.2} y={100 - v} width={bw * 0.6} height={v} rx="2" fill={t.line} />)}
+        </svg>
+      );
+    }
+    const pts = CHART_LINE.map((y, i) => `${(i / (CHART_LINE.length - 1)) * 300},${y}`).join(" ");
+    return (
+      <svg width="100%" height="100%" viewBox="0 0 300 100" preserveAspectRatio="none">
+        {grid}
+        {kind === "area" ? <polygon points={`0,100 ${pts} 300,100`} fill={t.fill2} /> : null}
+        <polyline points={pts} fill="none" stroke={t.lineStrong} strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+      </svg>
+    );
+  })();
+  return (
+    <Box style={{ flexDirection: "column", gap: 10, width: w, height: h, flexShrink: 0, ...(dir === "row" ? { flexGrow: 1, flexBasis: "0px" } : {}) }}>
+      {p.title ? <Box style={{ fontSize: 13, fontWeight: 600, color: t.text }}>{p.title}</Box> : null}
+      <Box style={{ flexGrow: 1, borderBottom: round ? undefined : `1.5px solid ${t.line}`, justifyContent: round ? "center" : undefined, alignItems: round ? "center" : undefined }}>
+        {plot}
+      </Box>
     </Box>
   );
 }
@@ -618,8 +703,42 @@ function Field({ children, height = 42, top = false, error = false }: { children
   );
 }
 
-function Input({ element, dir }: Props) {
+function CodeBoxes({ digits, value, c = GRAY }: { digits: number; value: string; c?: Palette }) {
+  return (
+    <Box style={{ gap: 8 }}>
+      {Array.from({ length: digits }, (_, i) => (
+        <Box
+          key={i}
+          style={{
+            width: 44,
+            height: 52,
+            borderRadius: 8,
+            border: `1.5px solid ${i === value.length ? c.accent : t.lineStrong}`,
+            alignItems: "center",
+            justifyContent: "center",
+            fontSize: 22,
+            fontWeight: 600,
+            color: t.ink,
+          }}
+        >
+          {value[i] ?? ""}
+        </Box>
+      ))}
+    </Box>
+  );
+}
+
+function Input({ element, dir, colors }: Props) {
   const p = element.props;
+  if (p.type === "code") {
+    return (
+      <Box style={{ flexDirection: "column", gap: 6, ...hug(dir) }}>
+        <FieldLabel text={p.label} />
+        <CodeBoxes digits={p.digits ?? 6} value={String(p.value ?? "").slice(0, p.digits ?? 6)} c={colors} />
+        {p.helper ? <Box style={{ fontSize: 12, color: p.error ? TONES.danger : t.muted }}>{p.helper}</Box> : null}
+      </Box>
+    );
+  }
   const rows = p.multiline ?? 1;
   const isPassword = p.type === "password";
   const shown = p.value ?? null;
@@ -634,6 +753,7 @@ function Input({ element, dir }: Props) {
           {content ?? p.placeholder ?? (isPassword ? "••••••••" : "")}
         </Box>
         {isPassword ? <IconGlyph name="eye-off" size={18} color={t.muted} /> : null}
+        {p.type === "date" ? <IconGlyph name="calendar" size={18} color={t.muted} /> : null}
       </Field>
       {p.helper ? <Box style={{ fontSize: 12, color: p.error ? TONES.danger : t.muted }}>{p.helper}</Box> : null}
     </Box>
@@ -722,6 +842,169 @@ function Toggle({ element, colors }: Props) {
     <Box style={{ gap: 12, alignItems: "center", justifyContent: "space-between" }}>
       {p.label ? <Box style={{ color: t.text }}>{p.label}</Box> : null}
       <Switch on={p.on} c={colors} />
+    </Box>
+  );
+}
+
+function Slider({ element, colors: c = GRAY }: Props) {
+  const p = element.props;
+  const [a, b] = p.range ?? [0, p.value ?? 50];
+  // 0–100 by default; larger amounts (a $50–$400 price filter) scale the track to a round maximum
+  const top = Math.max(a, b);
+  const max = top <= 100 ? 100 : Math.pow(10, Math.floor(Math.log10(top * 1.25))) * Math.ceil((top * 1.25) / Math.pow(10, Math.floor(Math.log10(top * 1.25))));
+  const from = (a / max) * 100, to = (b / max) * 100;
+  const thumb = (at: number, k: number) => (
+    <Box key={k} style={{ position: "absolute", left: `${at}%`, top: 0, marginLeft: -10, width: 20, height: 20, borderRadius: 10, backgroundColor: t.paper, border: `2px solid ${c.accent}` }} />
+  );
+  return (
+    <Box style={{ flexDirection: "column", gap: 10 }}>
+      <FieldLabel text={p.label} />
+      <Box style={{ position: "relative", height: 20, marginLeft: 10, marginRight: 10 }}>
+        <Box style={{ position: "absolute", left: 0, right: 0, top: 8, height: 4, borderRadius: 2, backgroundColor: t.fill2 }} />
+        <Box style={{ position: "absolute", left: `${from}%`, width: `${to - from}%`, top: 8, height: 4, borderRadius: 2, backgroundColor: c.accent }} />
+        {p.range ? thumb(from, 0) : null}
+        {thumb(to, 1)}
+      </Box>
+    </Box>
+  );
+}
+
+function Progress({ element, dir, aligned, colors: c = GRAY }: Props) {
+  const p = element.props;
+  const value = Math.max(0, Math.min(100, p.value ?? 40));
+  if (p.steps) {
+    const current = Math.min(p.step ?? 1, p.steps);
+    return (
+      <Box style={{ flexDirection: "column", gap: 10 }}>
+        <FieldLabel text={p.label} />
+        <Box style={{ alignItems: "center" }}>
+          {Array.from({ length: p.steps }, (_, i) => {
+            const n = i + 1;
+            const done = n < current, now = n === current;
+            const dot = (
+              <Box
+                key={`d${i}`}
+                style={{
+                  width: 28,
+                  height: 28,
+                  flexShrink: 0,
+                  borderRadius: 14,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: 13,
+                  fontWeight: 600,
+                  backgroundColor: done ? c.accent : t.paper,
+                  border: `2px solid ${done || now ? c.accent : t.lineStrong}`,
+                  color: now ? c.accentText : t.muted,
+                }}
+              >
+                {done ? <IconGlyph name="check" size={14} color={c.onAccent} strokeWidth={3} /> : String(n)}
+              </Box>
+            );
+            return n === 1 ? dot : [<Box key={`l${i}`} style={{ flexGrow: 1, height: 2, backgroundColor: n <= current ? c.accent : t.line }} />, dot];
+          })}
+        </Box>
+      </Box>
+    );
+  }
+  if (p.shape === "circle") {
+    const r = 26, circumference = 2 * Math.PI * r;
+    return (
+      <Box style={{ flexDirection: "column", gap: 8, alignItems: "center", ...hug(dir, aligned), ...(dir === "row" ? { alignSelf: "flex-start" } : {}) }}>
+        <Box style={{ position: "relative", width: 64, height: 64, alignItems: "center", justifyContent: "center" }}>
+          <svg width="64" height="64" viewBox="0 0 64 64" style={{ position: "absolute", top: 0, left: 0 }}>
+            <circle cx="32" cy="32" r={r} fill="none" stroke={t.fill2} strokeWidth="6" />
+            <circle cx="32" cy="32" r={r} fill="none" stroke={c.accent} strokeWidth="6" strokeLinecap="round" strokeDasharray={`${(circumference * value) / 100} ${circumference}`} transform="rotate(-90 32 32)" />
+          </svg>
+          <Box style={{ fontSize: 14, fontWeight: 600, color: t.ink }}>{`${Math.round(value)}%`}</Box>
+        </Box>
+        {p.label ? <Box style={{ fontSize: 13, color: t.muted }}>{p.label}</Box> : null}
+      </Box>
+    );
+  }
+  return (
+    <Box style={{ flexDirection: "column", gap: 8 }}>
+      {p.label ? (
+        <Box style={{ justifyContent: "space-between", fontSize: 13 }}>
+          <Box style={{ fontWeight: 600, color: t.text }}>{p.label}</Box>
+          <Box style={{ color: t.muted }}>{`${Math.round(value)}%`}</Box>
+        </Box>
+      ) : null}
+      <Box style={{ height: 8, borderRadius: 4, backgroundColor: t.fill2 }}>
+        <Box style={{ width: `${value}%`, height: 8, borderRadius: 4, backgroundColor: c.accent }} />
+      </Box>
+    </Box>
+  );
+}
+
+const MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+
+/** The weekday (0 = Sunday) the month starts on and its length, from text like "October 2026". Generic if it can't tell. */
+export function monthGrid(month?: string | null): { start: number; days: number } {
+  const m = String(month ?? "").toLowerCase().match(/([a-z]+)\s+(\d{4})/);
+  const index = m ? MONTHS.findIndex((name) => name.startsWith(m[1].slice(0, 3))) : -1;
+  if (!m || index < 0) return { start: 3, days: 31 };
+  const year = Number(m[2]);
+  return { start: new Date(Date.UTC(year, index, 1)).getUTCDay(), days: new Date(Date.UTC(year, index + 1, 0)).getUTCDate() };
+}
+
+function Calendar({ element, dir, aligned, colors: c = GRAY }: Props) {
+  const p = element.props;
+  const { start, days } = monthGrid(p.month);
+  const [from, to] = p.range ?? [p.selected ?? 0, p.selected ?? 0];
+  const marked = new Set<number>(p.marked ?? []);
+  const cells: (number | null)[] = [...Array(start).fill(null), ...Array.from({ length: days }, (_, i) => i + 1)];
+  while (cells.length % 7) cells.push(null);
+  const weeks = Array.from({ length: cells.length / 7 }, (_, w) => cells.slice(w * 7, w * 7 + 7));
+  const CELL = 38;
+  return (
+    <Box style={{ flexDirection: "column", gap: 4, padding: 12, border: `1.5px solid ${t.line}`, borderRadius: 12, backgroundColor: t.paper, ...hug(dir, aligned) }}>
+      <Box style={{ alignItems: "center", justifyContent: "space-between", padding: "2px 4px 8px" }}>
+        <IconGlyph name="chevron-left" size={18} color={t.muted} />
+        <Box style={{ fontSize: 15, fontWeight: 600, color: t.ink }}>{p.month ?? "Month"}</Box>
+        <IconGlyph name="chevron-right" size={18} color={t.muted} />
+      </Box>
+      <Box>
+        {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
+          <Box key={i} style={{ width: CELL, justifyContent: "center", fontSize: 12, color: t.muted }}>{d}</Box>
+        ))}
+      </Box>
+      {weeks.map((week, w) => (
+        <Box key={w}>
+          {week.map((d, i) => {
+            const end = d != null && (d === from || d === to) && from > 0;
+            const inside = d != null && from > 0 && d > from && d < to;
+            // the range band runs behind the days, edge to edge between its ends
+            const band = d != null && from > 0 && to > from && d >= from && d <= to;
+            return (
+              <Box key={i} style={{ width: CELL, height: CELL, alignItems: "center", justifyContent: "center", position: "relative" }}>
+                {band ? (
+                  <Box style={{ position: "absolute", top: 4, bottom: 4, left: d === from ? CELL / 2 : 0, right: d === to ? CELL / 2 : 0, backgroundColor: t.fill }} />
+                ) : null}
+                {d != null ? (
+                  <Box
+                    style={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: 16,
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 14,
+                      backgroundColor: end ? c.accent : undefined,
+                      color: end ? c.onAccent : inside ? t.ink : t.text,
+                      fontWeight: end ? 600 : 400,
+                    }}
+                  >
+                    {String(d)}
+                    {marked.has(d) ? <Box style={{ position: "absolute", bottom: 3, width: 4, height: 4, borderRadius: 2, backgroundColor: end ? c.onAccent : t.muted }} /> : null}
+                  </Box>
+                ) : null}
+              </Box>
+            );
+          })}
+        </Box>
+      ))}
     </Box>
   );
 }
@@ -824,6 +1107,37 @@ function Tabs({ element, colors: c = GRAY }: Props) {
           {label}
         </Box>
       ))}
+    </Box>
+  );
+}
+
+/** The page numbers to show: all of them up to 7, otherwise the ends and the current page's neighbours. */
+export function pageList(pages: number, current: number): (number | "…")[] {
+  if (pages <= 7) return Array.from({ length: pages }, (_, i) => i + 1);
+  const near = [current - 1, current, current + 1].filter((n) => n > 1 && n < pages);
+  const shown = [1, ...near, pages];
+  const out: (number | "…")[] = [];
+  shown.forEach((n, i) => {
+    if (i && n - (shown[i - 1] as number) > 1) out.push("…");
+    out.push(n);
+  });
+  return out;
+}
+
+function Pagination({ element, dir, aligned, colors: c = GRAY }: Props) {
+  const p = element.props;
+  const pages = Math.max(1, p.pages ?? 1);
+  const current = Math.min(Math.max(1, p.current ?? 1), pages);
+  const cell = (content: ReactNode, key: string | number, on = false) => (
+    <Box key={key} style={{ minWidth: 34, height: 34, padding: "0 6px", borderRadius: 8, alignItems: "center", justifyContent: "center", fontSize: 14, backgroundColor: on ? c.accent : undefined, color: on ? c.onAccent : t.text, fontWeight: on ? 600 : 400 }}>
+      {content}
+    </Box>
+  );
+  return (
+    <Box style={{ gap: 4, alignItems: "center", ...hug(dir, aligned) }}>
+      {cell(<IconGlyph name="chevron-left" size={18} color={current > 1 ? t.text : t.line} />, "prev")}
+      {pageList(pages, current).map((n, i) => (n === "…" ? cell(<Box style={{ color: t.muted }}>…</Box>, `e${i}`) : cell(String(n), n, n === current)))}
+      {cell(<IconGlyph name="chevron-right" size={18} color={current < pages ? t.text : t.line} />, "next")}
     </Box>
   );
 }
@@ -1039,7 +1353,9 @@ export const registry = {
   Spacer,
   Heading,
   Text,
+  Bullets,
   Image,
+  Chart,
   Icon,
   Avatar,
   Badge,
@@ -1049,9 +1365,13 @@ export const registry = {
   Radio,
   Toggle,
   Select,
+  Slider,
+  Progress,
+  Calendar,
   NavBar,
   TabBar,
   Tabs,
+  Pagination,
   List,
   ListItem,
   Table,

@@ -33,6 +33,10 @@ export const PRIMARY_PROP: Record<string, string> = {
   Heading: "text",
   Text: "text",
   Image: "label",
+  Chart: "title",
+  Slider: "label",
+  Progress: "label",
+  Calendar: "month",
   Icon: "name",
   Avatar: "initials",
   Badge: "label",
@@ -126,6 +130,24 @@ export function belongsElsewhere(component: string, word: string, asProp: boolea
     msg += `; ${a(info.name)} already fills its width (width=… sets a fixed one), so remove it`;
   }
   return msg;
+}
+
+/**
+ * Yes/no options of the objects that go in lists (a bullet's `muted`). Inside {…} these
+ * can be written bare; any other bare word continues the previous unquoted value, so
+ * {label=Custom domain icon=x muted} is label "Custom domain", icon x, muted.
+ */
+const OBJECT_SWITCHES = new Set<string>();
+for (const info of COMPONENTS.values()) {
+  for (const schema of Object.values(info.props)) {
+    const s = unwrap(schema);
+    if (s?.def?.type !== "array") continue;
+    const el = unwrap(s.def.element);
+    for (const option of el?.def?.type === "union" ? el.def.options.map(unwrap) : [el]) {
+      if (option?.def?.type !== "object") continue;
+      for (const [key, value] of Object.entries(option.shape)) if (unwrap(value)?.def?.type === "boolean") OBJECT_SWITCHES.add(key);
+    }
+  }
 }
 
 /** What a component accepts as bare words, for docs: option values (with their prop), ambiguous values, and boolean props. */
@@ -244,15 +266,24 @@ function parseValue(c: Cursor): unknown {
   }
   if (t.value === "{") {
     const obj: Record<string, unknown> = {};
+    let lastKey: string | null = null; // the previous key, while its value is an unquoted word
     while (!c.isSym("}")) {
       c.skipCommas();
       if (c.isSym("}")) break;
       if (c.done()) throw new Error("unclosed {");
       const k = c.next();
       if (!k || k.kind === "sym") throw new Error("expected key in {…}");
+      if ((k.kind === "word" || k.kind === "num") && !(c.isSym("=") || c.isSym(":"))) {
+        if (k.kind === "word" && OBJECT_SWITCHES.has(k.value)) { obj[k.value] = true; lastKey = null; continue; } // {label=SSO muted}
+        if (lastKey) { obj[lastKey] = `${obj[lastKey]} ${k.value}`; continue; } // {label=Custom domain}
+        obj[k.value] = true; // validation reports it as an unknown key
+        continue;
+      }
       if (!(c.isSym("=") || c.isSym(":"))) throw new Error(`expected = after ${k.value}`);
       c.next();
+      const unquoted = c.peek()?.kind === "word" || c.peek()?.kind === "num";
       obj[k.value] = parseValue(c);
+      lastKey = unquoted ? k.value : null;
     }
     c.next();
     return obj;

@@ -1,0 +1,39 @@
+```tsquare
+board "Checkout" layout=grid columns=3
+  screen phone "Cart"
+    navbar "Cart" leading=back
+    stack padding=16 gap=16
+      progress label="Step 1 of 3" value=33 shape=bar
+      list dividers
+        listitem "Item 1" subtitle="$29.99" trailingText="x2"
+        listitem "Item 2" subtitle="$19.99" trailingText="x1"
+      stack gap=4
+        text "Subtotal: $79.97" align=right
+        text "Shipping: $5.00" align=right size=sm
+        text "Total: $84.97" align=right bold
+      button "Continue" primary fullWidth
+  screen phone "Shipping"
+    navbar "Shipping" leading=back
+    stack padding=16 gap=16
+      progress label="Step 2 of 3" value=66 shape=bar
+      heading "Shipping address" level=2
+      input "Full name" placeholder="John Doe" fullWidth
+      input "Address" placeholder="123 Main St" fullWidth
+      input "City" placeholder="San Francisco" fullWidth
+      input "ZIP code" placeholder="94107" fullWidth
+      button "Review order" primary fullWidth
+  screen phone "Confirmation"
+    navbar "Confirmation" leading=close
+    stack padding=16 gap=16 align=center
+      progress label="Step 3 of 3" value=100 shape=bar
+      image height=120
+      heading "Order placed" level=1 align=center
+      text "Thank you for your order!" align=center
+      text "Confirmation email sent" size=sm muted align=center
+      button "Continue shopping" primary fullWidth
+    modal "Order #12345" width=280
+      stack gap=12
+        text "Order placed successfully!"
+        text "Your order will arrive in 3-5 business days." size=sm
+        button "Done" primary fullWidth
+```

@@ -1,0 +1,16 @@
+```tsquare
+board "Search results"
+  screen phone "Results"
+    navbar "Results" leading=back actions=[search]
+    stack padding=12 gap=8
+      slider "Price range" range=[20, 70]
+    list dividers
+      listitem "Product 1" subtitle="$24" leading=image trailing=chevron
+      listitem "Product 2" subtitle="$32" leading=image trailing=chevron
+      listitem "Product 3" subtitle="$41" leading=image trailing=chevron
+      listitem "Product 4" subtitle="$55" leading=image trailing=chevron
+      listitem "Product 5" subtitle="$68" leading=image trailing=chevron
+    spacer
+    stack padding=12 align=center
+      pagination pages=9 current=2
+```

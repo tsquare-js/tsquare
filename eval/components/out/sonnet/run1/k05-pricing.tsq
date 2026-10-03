@@ -1,0 +1,20 @@
+```tsquare
+board "Pricing"
+  screen desktop "Pricing"
+    navbar "Acme" leading=logo
+    stack padding=24 gap=16
+      heading "Choose your plan" level=1 align=center
+      stack row gap=16
+        card "Free" grow padding=16
+          heading "$0" level=2
+          bullets icon=check items=["1 project", "Community support", {label="Custom domain" icon=x muted}, {label="Team roles" icon=x muted}]
+          button secondary "Get started" fullWidth
+        card "Pro" grow padding=16
+          heading "$12" level=2
+          bullets icon=check items=["10 projects", "Email support", "Custom domain", {label="Team roles" icon=x muted}]
+          button primary "Upgrade" fullWidth
+        card "Team" grow padding=16
+          heading "$49" level=2
+          bullets icon=check items=["Unlimited projects", "Priority support", "Custom domain", "Team roles"]
+          button secondary "Contact sales" fullWidth
+```

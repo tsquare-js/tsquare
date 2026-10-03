@@ -1,0 +1,15 @@
+```tsquare
+board "Upload"
+  screen desktop "Upload files"
+    navbar "Onboarding" leading=logo
+    stack padding=24 gap=20
+      progress steps=4 step=2
+      heading "Upload your files" level=2
+      card gap=12
+        text "report-q3.pdf"
+        progress value=40 label="40%"
+        text "design-assets.zip"
+        progress value=85 label="85%"
+      card "Storage used" gap=8
+        progress circle value=72 label="72% of 10 GB"
+```

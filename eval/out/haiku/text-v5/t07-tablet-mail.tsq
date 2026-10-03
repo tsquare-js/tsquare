@@ -1,0 +1,23 @@
+```tsquare
+board "Email client"
+  screen tablet
+    stack row
+      stack width=360 border=right
+        navbar "Mail" leading=menu
+        tabs items=[Inbox, Sent, Drafts] active=0
+        list dividers grow
+          listitem "John Smith" subtitle="Re: Meeting tomorrow" leading=avatar
+          listitem "Jane Doe" subtitle="Project update" leading=avatar
+          listitem "Team" subtitle="Weekly standup" leading=avatar
+      stack grow
+        navbar "Message" leading=back actions=[delete, more-horizontal]
+        stack padding=24 gap=16
+          heading "Re: Meeting tomorrow" level=1
+          text "John Smith" bold
+          text "Today at 2:30 PM" size=sm muted
+          divider
+          text lines=8
+          stack row gap=8
+            button "Reply" secondary
+            button "Forward" secondary
+```

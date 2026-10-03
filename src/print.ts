@@ -17,7 +17,7 @@ function fmt(v: unknown): string {
   if (typeof v === "number" || typeof v === "boolean" || v === null) return String(v);
   if (Array.isArray(v)) return `[${v.map(fmt).join(", ")}]`;
   if (typeof v === "object") {
-    return `{${Object.entries(v as object).map(([k, x]) => `${k}=${fmt(x)}`).join(" ")}}`;
+    return `{${Object.entries(v as object).map(([k, x]) => (x === true ? k : `${k}=${fmt(x)}`)).join(" ")}}`;
   }
   return JSON.stringify(v);
 }

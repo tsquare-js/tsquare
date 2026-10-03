@@ -1,0 +1,12 @@
+```tsquare
+board "Phone Verification"
+  screen phone "Verify"
+    navbar leading=back
+    stack gap=24 padding=24
+      heading "Enter verification code" level=1
+      text "Enter the 6-digit code we sent to (555) 010-2400" size=sm
+      input type=code digits=6 value="123" placeholder="000000"
+      stack gap=8
+        text "Resend code" size=sm bold align=center
+      button primary "Verify" fullWidth
+```

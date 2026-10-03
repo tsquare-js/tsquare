@@ -1,0 +1,24 @@
+```tsquare
+board "File manager"
+  screen desktop
+    navbar "Files" leading=menu actions=[upload, search]
+    stack row gap=0 grow
+      stack grow
+        tabs items=[All files, Recent, Favorites] active=0
+        table columns=[Name, Type, Size, Modified] rows=8
+      drawer right "Details" size=320
+        stack padding=16 gap=12
+          heading "file.pdf" level=2
+          text "PDF Document" muted
+          divider
+          stack gap=4
+            text "Size" bold
+            text "2.4 MB"
+            text "Created" bold
+            text "Oct 1, 2026"
+            text "Modified" bold
+            text "Oct 3, 2026"
+          button "Download" primary fullWidth
+          button "Share" secondary fullWidth
+          button "Delete" variant=ghost fullWidth
+```

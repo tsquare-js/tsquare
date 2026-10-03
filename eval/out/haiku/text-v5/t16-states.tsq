@@ -1,0 +1,15 @@
+board "Notes States"
+  screen phone "Empty"
+    navbar "Notes" leading=menu
+    stack padding=20 grow align=center justify=center
+      image height=120
+      heading "No notes yet" level=2 align=center
+      text "Create your first note to get started" align=center muted
+      button "Create Note" primary
+  screen phone "Error"
+    navbar "Notes" leading=menu
+    stack padding=20 grow align=center justify=center
+      image height=120
+      heading "Something went wrong" level=2 align=center
+      text "We could not load your notes" align=center muted
+      button "Retry" primary

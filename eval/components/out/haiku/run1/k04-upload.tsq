@@ -1,0 +1,19 @@
+```tsquare
+board "File Upload"
+  screen desktop "Upload"
+    navbar "Upload Files" leading=back
+    stack gap=20 padding=20
+      stack gap=12
+        text "Upload Progress" bold
+        progress steps=4 step=2
+      stack gap=16
+        stack gap=8
+          text "document.pdf" bold size=sm
+          progress value=40 label="40% uploaded"
+        stack gap=8
+          text "image.jpg" bold size=sm
+          progress value=85 label="85% uploaded"
+      stack gap=8
+        text "Storage" bold
+        progress value=72 shape=circle label="72% used"
+```

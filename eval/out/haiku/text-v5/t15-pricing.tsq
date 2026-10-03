@@ -1,0 +1,26 @@
+board "Pricing"
+  screen desktop "Plans"
+    stack padding=32 gap=32
+      heading "Choose Your Plan" level=1 align=center
+      stack row gap=16 justify=center
+        button "Monthly" primary
+        button "Yearly" secondary
+      stack row gap=24 justify=center gap=20
+        card padding=20 width=300
+          heading "Starter" level=2 align=center
+          text "$29/mo" bold align=center
+          divider
+          bullets items=[Up to 10 projects, Basic support, 5 GB storage, Standard features]
+          button "Get Started" fullWidth
+        card padding=20 width=300
+          heading "Professional" level=2 align=center
+          text "$99/mo" bold align=center
+          divider
+          bullets items=[Unlimited projects, Priority support, 500 GB storage, Advanced features, API access]
+          button "Get Started" primary fullWidth
+        card padding=20 width=300
+          heading "Enterprise" level=2 align=center
+          text "Custom" bold align=center
+          divider
+          bullets items=[Custom projects, Dedicated support, Unlimited storage, All features, SLA]
+          button "Contact Sales" fullWidth

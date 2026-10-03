@@ -1,0 +1,22 @@
+board "Ride Hailing"
+  screen phone "Select Ride"
+    navbar "Choose Ride" leading=back
+    image height=300
+    drawer bottom "Pick a Ride" size=220
+      stack padding=16 gap=12
+        stack row gap=12 padding=12 fill
+          text "Economy" bold
+          text "4 min away" sm muted
+          spacer
+          text "$12" bold
+        stack row gap=12 padding=12 fill
+          text "Premium" bold
+          text "2 min away" sm muted
+          spacer
+          text "$18" bold
+        stack row gap=12 padding=12 fill
+          text "XL" bold
+          text "5 min away" sm muted
+          spacer
+          text "$24" bold
+        button "Confirm Ride" primary fullWidth
