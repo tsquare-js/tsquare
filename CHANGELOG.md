@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.2
+
+- **Toast corners:** `position` also takes `topLeft`, `topRight`, `bottomLeft` and `bottomRight`, besides `top` and `bottom` (centered, the default). Desktop apps often show toasts in a corner.
+
 ## 0.4.1
 
 ```tsquare

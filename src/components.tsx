@@ -1380,9 +1380,11 @@ function Drawer({ element, children }: Props) {
 
 function Toast({ element, aboveTabBar }: Props & { aboveTabBar?: boolean }) {
   const p = element.props;
-  const top = p.position === "top";
+  const position: string = p.position ?? "bottom";
+  const top = position.startsWith("top");
+  const side = position.endsWith("Left") ? "flex-start" : position.endsWith("Right") ? "flex-end" : "center";
   return (
-    <Box style={{ position: "absolute", left: 16, right: 16, justifyContent: "center", ...(top ? { top: 16 } : { bottom: aboveTabBar ? 92 : 24 }) }}>
+    <Box style={{ position: "absolute", left: 16, right: 16, justifyContent: side, ...(top ? { top: 16 } : { bottom: aboveTabBar ? 92 : 24 }) }}>
       <Box style={{ alignItems: "center", gap: 12, padding: "12px 16px", borderRadius: 12, backgroundColor: t.ink, color: t.onPrimary, fontSize: 14, boxShadow: "0 6px 20px rgba(0,0,0,0.22)", maxWidth: 420 }}>
         {p.icon ? <IconGlyph name={p.icon} size={18} color={t.onPrimary} /> : null}
         <Box style={{ flexShrink: 1 }}>{p.text ?? ""}</Box>

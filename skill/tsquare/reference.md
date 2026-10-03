@@ -248,4 +248,4 @@ Short message over the screen, e.g. after saving. Must be a direct child of a Sc
 - text: string (main text)
 - action: string — A text button, e.g. "Undo"
 - icon: string — Lucide icon name in kebab-case, e.g. menu, search, arrow-left, settings, bell, user
-- position: "bottom" | "top" — Default bottom, above a TabBar
+- position: "bottom" | "top" | "topLeft" | "topRight" | "bottomLeft" | "bottomRight" — Default bottom (centered), above a TabBar
