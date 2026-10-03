@@ -22,6 +22,12 @@ board
       button primary "Next" trailingIcon=chevron-right
     button primary "Full width" fullWidth
     text "With a board accent, primary buttons fill with it and ghost buttons use it for text." sm muted
+  screen custom "tooltip" width=380 height=170
+    spacer size=34
+    stack row gap=8
+      button secondary "Draft" tooltip="Saves without publishing"
+      button primary "Publish"
+    text "Any element inside a screen can take tooltip=." sm muted
   screen custom "menu and open" width=380 height=300
     stack row justify=between align=center
       heading "Notes" level=3

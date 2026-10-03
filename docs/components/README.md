@@ -2,6 +2,8 @@
 
 Every component, grouped as in the playground. Each page has a rendered example, its source, how to write it, and its props. These pages are generated from the catalog by `npm run docs`.
 
+Any element inside a screen can also take `tooltip="…"`; see [Tooltips and open states](../language.md#tooltips-and-open-states).
+
 ## Canvas
 
 | Component | What it's for |
