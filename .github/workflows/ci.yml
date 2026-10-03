@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: Typecheck, build, test (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22, 24]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci # runs the build through "prepare"
+      - run: npx tsc
+      - run: npm test
+
+  generated:
+    name: Eval scores, docs and skill are up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      # The stored model outputs must score as committed: a change that makes a valid
+      # output invalid (or changes an error message) shows up here.
+      - run: npm run eval:score
+      - run: npm run docs && npm run skill
+      # Text only: PNG bytes can differ between macOS and Linux.
+      - run: git diff --exit-code -- eval/results.json 'docs/**/*.md' skill

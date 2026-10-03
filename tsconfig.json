@@ -10,5 +10,5 @@
     "resolveJsonModule": true,
     "noEmit": true
   },
-  "include": ["src", "examples", "skill", "docs", "scripts"]
+  "include": ["src", "examples", "skill", "docs", "scripts", "test"]
 }

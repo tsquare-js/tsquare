@@ -5,6 +5,8 @@
 
 !/.gitignore
 !/README.md
+!/.github/workflows/*.yml
+!/test/*.ts
 !/CHANGELOG.md
 !/LICENSE
 !/package.json

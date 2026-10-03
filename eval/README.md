@@ -46,7 +46,7 @@ Scored with today's parser, where comments are whole lines only (so `[#1001, …
 - **Listing which components have each yes/no prop (`text-v4`) didn't measurably help.** Haiku still put `fullWidth` on inputs in one of the two runs (before: 4 of 6). The line is kept because it's accurate.
 - **Haiku's range is 55–85% across eight runs of the new prompts.** One run of 20 can't separate prompt versions for Haiku.
 - **A new Haiku pattern:** a prop moved onto its own indented line under its element (`listitem "Password"` then `trailing=chevron` below it), or a table's `data=` on the next line.
-- **Sonnet's only failure:** `grow` on a select (both final runs). Inputs and stacks have `grow`, but selects don't.
+- **Sonnet's only failure:** `grow` on a select (5 of 9 runs, same task). Since 0.3.2 selects have `grow`, so every stored Sonnet text output is now valid.
 - **The rename works in practice.** With the new prompts, the models wrote `leadingIcon`/`trailingIcon` and never the old `icon=` on buttons or list items. With the old prompt, they wrote `icon=` 42 times, and every one still compiles.
 
 ### Repair round (`repair/`)

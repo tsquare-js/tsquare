@@ -50,7 +50,7 @@ A wireframe can be embedded anywhere an image works (Notion, GitHub, docs sites)
 ![Login](https://tsquare.dev/svg/zNYwxDsIwEAT7vGJ…)
 ```
 
-The playground's **Copy link** menu makes these. The text is compressed into the URL, not encrypted, so anyone with the link can read it; see [privacy](https://tsquare.dev/privacy). `encodeWireframe` and `decodeWireframe` in the library produce and read the same links.
+The playground's **Copy link** menu makes these; [Embedding](docs/embedding.md) has the steps for Notion, GitHub and your own site. The text is compressed into the URL, not encrypted, so anyone with the link can read it; see [privacy](https://tsquare.dev/privacy). `encodeWireframe` and `decodeWireframe` in the library produce and read the same links.
 
 ## The language
 

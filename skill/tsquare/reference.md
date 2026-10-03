@@ -142,6 +142,7 @@ Dropdown field (closed state).
 - label: string (main text)
 - value: string
 - placeholder: string
+- grow: boolean — Fill the remaining space in a row
 - width: number | string — Fixed width, e.g. 320. Default fills the space.
 
 ### NavBar
