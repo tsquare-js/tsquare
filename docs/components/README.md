@@ -17,6 +17,7 @@ Every component, grouped as in the playground. Each page has a rendered example,
 | [stack](stack.md) | Flex container. The main layout primitive (rows, columns, sidebars, toolbars). |
 | [grid](grid.md) | Equal-width columns that wrap. Good for card grids and galleries. |
 | [card](card.md) | Bordered container with optional title. Children stack vertically. |
+| [accordion](accordion.md) | Collapsible section: a title row with a chevron, children below when open. Stack several for an FAQ. |
 | [divider](divider.md) | Thin separator line. |
 | [spacer](spacer.md) | Empty space. Without a size it grows to push siblings apart. |
 
@@ -27,7 +28,7 @@ Every component, grouped as in the playground. Each page has a rendered example,
 | [heading](heading.md) | Heading text, level 1 (largest) to 3. |
 | [text](text.md) | Body text, or placeholder lines when `lines` is set and `text` is not. |
 | [bullets](bullets.md) | Bulleted, numbered or icon list of short lines. |
-| [image](image.md) | Image placeholder: a box with an X through it. |
+| [image](image.md) | Image placeholder: a box with an X through it, or a map. |
 | [chart](chart.md) | Chart placeholder: a generic line, bar, area, pie or donut shape, no data. |
 | [icon](icon.md) | Line icon from Lucide. |
 | [avatar](avatar.md) | Round avatar with initials or a person silhouette. |
@@ -65,3 +66,4 @@ Every component, grouped as in the playground. Each page has a rendered example,
 |---|---|
 | [modal](modal.md) | Centered dialog over the screen. Must be a direct child of a Screen, listed last. |
 | [drawer](drawer.md) | Panel sliding in from an edge: side nav (left), filters/details (right), or bottom sheet. Must be a direct child of a Screen, listed last. |
+| [toast](toast.md) | Short message over the screen, e.g. after saving. Must be a direct child of a Screen, listed last. |

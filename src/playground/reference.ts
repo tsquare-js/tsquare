@@ -7,11 +7,11 @@
 
 export const GROUPS: { name: string; components: string[] }[] = [
   { name: "Canvas", components: ["Board", "Screen", "Note"] },
-  { name: "Layout", components: ["Stack", "Grid", "Card", "Divider", "Spacer"] },
+  { name: "Layout", components: ["Stack", "Grid", "Card", "Accordion", "Divider", "Spacer"] },
   { name: "Content", components: ["Heading", "Text", "Bullets", "Image", "Chart", "Icon", "Avatar", "Badge"] },
   { name: "Controls", components: ["Button", "Input", "Checkbox", "Radio", "Toggle", "Select", "Slider", "Progress", "Calendar"] },
   { name: "Navigation & data", components: ["NavBar", "TabBar", "Tabs", "Pagination", "List", "ListItem", "Table"] },
-  { name: "Overlays", components: ["Modal", "Drawer"] },
+  { name: "Overlays", components: ["Modal", "Drawer", "Toast"] },
 ];
 
 export const EXAMPLES: Record<string, string> = {
@@ -90,6 +90,15 @@ export const EXAMPLES: Record<string, string> = {
       card "filled" variant=filled grow
         text lines=3`,
 
+  Accordion: `board
+  screen custom width=380 height=330 gap=0
+    heading "FAQ" level=3
+    accordion "How long does shipping take?" open
+      text "Orders arrive in 3–5 business days." muted
+    accordion "Can I return an item?"
+    accordion "Do you ship internationally?"
+    accordion "How do I track my order?"`,
+
   Divider: `board
   screen custom width=360 height=150
     text "Above"
@@ -116,13 +125,15 @@ export const EXAMPLES: Record<string, string> = {
     heading "Centered" level=3 align=center`,
 
   Text: `board
-  screen custom width=360 height=300
+  screen custom width=360 height=370
     text "Body text, default size"
     text lg "Large"
     text sm "Small and muted" muted
     text "Bold" bold
     text "Placeholder lines when lines is set and there's no text:" sm muted
-    text lines=3`,
+    text lines=3
+    text "Breadcrumbs are small muted text:" sm muted
+    text "Home / Settings / Profile" sm muted`,
 
   Bullets: `board
   screen custom width=420 height=600
@@ -136,12 +147,13 @@ export const EXAMPLES: Record<string, string> = {
     bullets icon=check items=[Unlimited boards, Share links, {label="SSO" icon=x muted}]`,
 
   Image: `board
-  screen custom width=480 height=210
+  screen custom width=480 height=400
     stack row gap=12
       image "label" height=120 width=160
       image height=120 width=120 rounded
       image height=120
-    text "In a row, an image without a width is square." sm muted`,
+    text "In a row, an image without a width is square." sm muted
+    image map height=150 "Map"`,
 
   Chart: `board
   screen custom width=640 height=430
@@ -340,4 +352,17 @@ export const EXAMPLES: Record<string, string> = {
       list dividers=false
         listitem "Copy link" leadingIcon=link
         listitem "Message" leadingIcon=message-circle`,
+
+  Toast: `board
+  screen phone "Bottom, above a tab bar"
+    heading "Inbox" level=2
+    list
+      listitem "Ana Torres" subtitle="Lunch on Friday?" leading=avatar
+      listitem "Ben Cho" subtitle="Draft attached" leading=avatar
+    tabbar items=[{label=Inbox icon=inbox}, {label=Settings icon=settings}]
+    toast "Message sent" action="Undo" icon=check
+  screen phone "Top"
+    heading "Profile" level=2
+    image height=160
+    toast "Changes saved" position=top`,
 };

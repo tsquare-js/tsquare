@@ -47,7 +47,7 @@ If a bare word could mean more than one prop, write it as key=value.
 2. Each Screen is one view of the product. Use several Screens to show several views or states.
 3. A Screen lays out its children top to bottom. Use Stack (direction row or column) and Grid to arrange content.
 4. NavBar is pinned to the top of its Screen and TabBar to the bottom.
-5. Modal and Drawer are overlays. They must be direct children of a Screen.
+5. Modal, Drawer and Toast are overlays. They must be direct children of a Screen.
 6. This is a low-fidelity wireframe. Prefer placeholders (Image boxes, Text with lines) over invented copy unless the copy matters.
 7. Only use the components and props listed below. All props are optional unless marked required.
 8. Wireframes are grayscale. The only UI colors: Board accent (one color for primary buttons, checked controls, toggles, active tabs and ghost buttons), Badge tone (success, warning, danger) and Input error. Only add an accent if the request asks for color or a brand.

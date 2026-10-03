@@ -1,0 +1,11 @@
+board "Settings"
+  screen phone "Settings"
+    navbar "Settings" leading=back
+    stack padding=16 gap=14
+      input "Display name" value="Alex Morgan"
+      input "Email" type=email value="alex@example.com"
+      toggle "Email notifications" on
+      toggle "Push notifications"
+      select "Language" value="English"
+      button primary "Save changes" fullWidth
+    toast "Settings saved" action="Undo" icon=check

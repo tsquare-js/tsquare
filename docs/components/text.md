@@ -8,13 +8,15 @@ Body text, or placeholder lines when `lines` is set and `text` is not.
 
 ```tsquare
 board
-  screen custom width=360 height=300
+  screen custom width=360 height=370
     text "Body text, default size"
     text lg "Large"
     text sm "Small and muted" muted
     text "Bold" bold
     text "Placeholder lines when lines is set and there's no text:" sm muted
     text lines=3
+    text "Breadcrumbs are small muted text:" sm muted
+    text "Home / Settings / Profile" sm muted
 ```
 
 ## Writing it

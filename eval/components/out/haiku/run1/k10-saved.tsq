@@ -1,0 +1,10 @@
+board "Settings"
+  screen phone "Settings"
+    navbar "Settings"
+    input "Name" value="John Doe"
+    toggle "Email notifications" on
+    toggle "Push notifications" off
+    select "Theme" value="Light"
+    button secondary "Reset to defaults" fullWidth
+    button primary "Save changes" fullWidth
+    toast "Settings saved" action="Undo"

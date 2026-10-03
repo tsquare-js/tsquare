@@ -1,0 +1,14 @@
+board "Help page"
+  screen desktop "Help center"
+    stack padding=24 gap=16
+      heading "Frequently asked questions" level=1
+      accordion "How do I reset my password?" open
+        text lines=3
+      divider
+      accordion "How do I change my plan?"
+      divider
+      accordion "Where can I find my invoices?"
+      divider
+      accordion "How do I contact support?"
+      divider
+      accordion "Can I delete my account?"

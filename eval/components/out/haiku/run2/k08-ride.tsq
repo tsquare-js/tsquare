@@ -1,0 +1,8 @@
+board "Ride-hailing home"
+  screen phone "Home"
+    image "Map" height=400 kind=map
+    input search placeholder="Where to?" width=320
+    heading "Recent" level=2 align=left
+    list
+      listitem "Downtown station" subtitle="123 Main St"
+      listitem "Office building" subtitle="456 Park Ave"

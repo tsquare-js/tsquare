@@ -92,6 +92,8 @@ The first scoring found two problems in the language, not the models, and both w
 
 Haiku's remaining misses: it wrote the dates as plain inputs once, and garbled one list of objects.
 
+**0.4.1** added three requests (a ride app's map, an FAQ, a "saved" message), run with the 0.4.1 prompt (`components/prompt-0.4.1.md`, +195 tokens). All 12 outputs were valid, and they used `image map`, `accordion` and `toast` correctly, except one Haiku run that drew the map as a plain image labeled "Map".
+
 The original 20 requests with the 0.4.0 prompt (`text-v5`): Sonnet 100%, Haiku 65%, within Haiku's usual 55–85%. None of its failures involve the new components, which also showed up unprompted in 6 of the 40 outputs (for example a chart on the dashboard).
 
 ```bash
