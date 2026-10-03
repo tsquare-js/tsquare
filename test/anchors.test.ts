@@ -72,8 +72,10 @@ test("open states need what they show", () => {
   assert.match(problems(board('button "More" open')).join(), /add menu=\[…\]/);
   assert.match(problems(board("list", '  listitem "Row" open')).join(), /add menu=\[…\]/);
   assert.match(problems(board('select "Size" open')).join(), /add options=\[…\]/);
-  assert.match(problems('board tooltip="x"\n  screen phone\n    text "a"').join(), /Board has no prop "tooltip"/);
-  assert.match(problems('board\n  screen phone\n    text "a"\n  note "Check copy" tooltip="x"').join(), /Note has no prop "tooltip"/);
+  assert.deepEqual(problems('board tooltip="x"\n  screen phone\n    text "a"'), ["line 1: Board: tooltips go on elements inside a screen, not on the board itself"]);
+  assert.deepEqual(problems('board\n  screen phone\n    text "a"\n  note "Check copy" tooltip="x"'), [
+    "line 4: Note: tooltips go on elements inside a screen; a note is already an annotation, so put the text in the note",
+  ]);
 });
 
 test("a custom accent in the marker range doesn't confuse measuring", async () => {

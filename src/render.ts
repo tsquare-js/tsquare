@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import type { Spec } from "@json-render/core";
 import { renderToSvg } from "@json-render/image/render";
-import { UNIVERSAL_PROPS, catalog, componentDefinitions, listItemEnds, takesUniversalProps } from "./catalog.js";
+import { UNIVERSAL_PROPS, catalog, componentDefinitions, listItemEnds, takesUniversalProps, universalPropMessage } from "./catalog.js";
 import { monthGrid, withMarkers, withPalette, withTopLayer } from "./components.js";
 import { findAnchors, overlayLayer, readMarkers, tagForMeasuring } from "./anchors.js";
 import { paletteFor } from "./colors.js";
@@ -95,9 +95,12 @@ export function checkSpec(spec: Spec): string[] {
       }
       // Zod drops unknown keys silently; report them so the author (or model) hears about it.
       for (const key of Object.keys(el.props ?? {})) {
-        if (key in UNIVERSAL_PROPS && takesUniversalProps(el.type)) {
-          const r = (UNIVERSAL_PROPS as any)[key].safeParse((el.props as any)[key]);
-          if (!r.success) issues.push(`${id}.props.${key}: ${r.error.issues[0].message}`);
+        if (key in UNIVERSAL_PROPS) {
+          if (!takesUniversalProps(el.type)) issues.push(`${id}: ${universalPropMessage(el.type, key)}`);
+          else {
+            const r = (UNIVERSAL_PROPS as any)[key].safeParse((el.props as any)[key]);
+            if (!r.success) issues.push(`${id}.props.${key}: ${r.error.issues[0].message}`);
+          }
           continue;
         }
         if (!(key in def.props.shape)) {

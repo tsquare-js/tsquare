@@ -21,7 +21,7 @@
  */
 import type { Spec } from "@json-render/core";
 import { z } from "zod";
-import { UNIVERSAL_PROPS, componentDefinitions, takesUniversalProps } from "./catalog.js";
+import { UNIVERSAL_PROPS, componentDefinitions, takesUniversalProps, universalPropMessage } from "./catalog.js";
 import { unknownComponentMessage } from "./suggest.js";
 
 /** Which prop a quoted string fills, per component. */
@@ -347,8 +347,9 @@ export function parseWireframeText(source: string): ParseResult {
         if (t.kind !== "sym" && (c.isSym("=", 1) || c.isSym(":", 1))) {
           c.next(); c.next();
           const key = t.value;
-          if (key in UNIVERSAL_PROPS && takesUniversalProps(info.name)) {
-            props[key] = textWhereExpected((UNIVERSAL_PROPS as any)[key], parseValue(c));
+          if (key in UNIVERSAL_PROPS) {
+            if (takesUniversalProps(info.name)) props[key] = textWhereExpected((UNIVERSAL_PROPS as any)[key], parseValue(c));
+            else { parseValue(c); issues.push({ line: lineNo, message: `${info.name}: ${universalPropMessage(info.name, key)}` }); }
             continue;
           }
           if (!(key in info.props)) {

@@ -29,6 +29,12 @@ export const UNIVERSAL_PROPS = {
 /** Not the canvas (Board, Screen) or its annotations (Note): a tooltip there would be meaningless. */
 export const takesUniversalProps = (type: string) => type !== "Board" && type !== "Screen" && type !== "Note";
 
+/** Why a universal prop isn't allowed here, and what to do instead. */
+export function universalPropMessage(type: string, key: string) {
+  const base = `${key}s go on elements inside a screen`;
+  return type === "Note" ? `${base}; a note is already an annotation, so put the text in the note` : `${base}, not on the ${type.toLowerCase()} itself`;
+}
+
 /** A bullet: plain text, or {label icon muted} to override the list's icon for one line. */
 const bulletItem = z.union([
   z.string(),
