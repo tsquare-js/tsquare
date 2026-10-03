@@ -19,12 +19,17 @@ board
     heading "Profile" level=2
     image height=160
     toast "Changes saved" position=top
+  screen desktop "Corners: topLeft, topRight, bottomLeft, bottomRight" width=900 height=420
+    heading "Dashboard" level=2
+    image height=220
+    toast "topRight" position=topRight
+    toast "bottomLeft" action="Undo" position=bottomLeft
 ```
 
 ## Writing it
 
 - A quoted string sets **text**: `toast "…"`.
-- Bare words set **position**: `bottom`, `top`.
+- Bare words set **position**: `bottom`, `top`, `topLeft`, `topRight`, `bottomLeft`, `bottomRight`.
 - Anything else is written `key=value`.
 - Has no children.
 
@@ -37,4 +42,4 @@ Icon names: see [Icons](../icons.md) for the common ones and every name.
 | `text` *(main text)* | string |  |
 | `action` | string | A text button, e.g. "Undo" |
 | `icon` | string | Lucide icon name in kebab-case, e.g. menu, search, arrow-left, settings, bell, user |
-| `position` | bottom, top | Default bottom, above a TabBar |
+| `position` | bottom, top, topLeft, topRight, bottomLeft, bottomRight | Default bottom (centered), above a TabBar |

@@ -410,7 +410,7 @@ export const componentDefinitions = {
       text: o(z.string()),
       action: o(z.string()).describe('A text button, e.g. "Undo"'),
       icon: o(iconName),
-      position: o(z.enum(["bottom", "top"])).describe("Default bottom, above a TabBar"),
+      position: o(z.enum(["bottom", "top", "topLeft", "topRight", "bottomLeft", "bottomRight"])).describe("Default bottom (centered), above a TabBar"),
     }),
     slots: [],
     description: "Short message over the screen, e.g. after saving. Must be a direct child of a Screen, listed last.",

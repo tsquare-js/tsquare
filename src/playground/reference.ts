@@ -364,5 +364,10 @@ export const EXAMPLES: Record<string, string> = {
   screen phone "Top"
     heading "Profile" level=2
     image height=160
-    toast "Changes saved" position=top`,
+    toast "Changes saved" position=top
+  screen desktop "Corners: topLeft, topRight, bottomLeft, bottomRight" width=900 height=420
+    heading "Dashboard" level=2
+    image height=220
+    toast "topRight" position=topRight
+    toast "bottomLeft" action="Undo" position=bottomLeft`,
 };
