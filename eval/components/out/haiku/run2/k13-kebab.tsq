@@ -1,0 +1,18 @@
+board "File List"
+  screen desktop "Files"
+    stack padding=0 gap=0
+      stack row padding=12 gap=12 align=center
+        text "document.pdf" bold
+        spacer
+        text sm muted "2.5 MB"
+        button ghost size=sm menu=[Rename, Move, Share, Delete] open
+      divider
+      stack row padding=12 gap=12 align=center
+        text "image.jpg" bold
+        spacer
+        text sm muted "1.2 MB"
+      divider
+      stack row padding=12 gap=12 align=center
+        text "spreadsheet.xlsx" bold
+        spacer
+        text sm muted "892 KB"

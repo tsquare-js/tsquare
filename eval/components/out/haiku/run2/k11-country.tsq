@@ -1,0 +1,10 @@
+board "Address Form"
+  screen phone "Shipping"
+    heading "Shipping Address" level=2
+    stack gap=12 padding=16
+      input label="Full Name" placeholder="John Doe"
+      input label="Street Address" placeholder="123 Main St"
+      input label="City" placeholder="Los Angeles"
+      input label="State" placeholder="CA"
+      select label="Country" value="Mexico" options=[Mexico, USA, Canada, Brazil, Spain] open
+      button primary "Continue" fullWidth

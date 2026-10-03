@@ -1,0 +1,7 @@
+board "Flight search"
+  screen phone "Search flights"
+    navbar "Find flights" leading=back
+    input "From" placeholder="Departure city"
+    input "To" placeholder="Arrival city"
+    input "Departure date" type=date value="Nov 20, 2026" open
+    button primary "Search" fullWidth

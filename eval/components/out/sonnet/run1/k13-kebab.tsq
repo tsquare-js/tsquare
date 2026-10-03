@@ -1,0 +1,10 @@
+```tsquare
+board "File list"
+  screen desktop "Files"
+    heading "Files" level=2
+    list dividers
+      listitem "Report.pdf" leadingIcon=file trailingIcon=more-horizontal
+      listitem "Budget.xlsx" leadingIcon=file trailingIcon=more-horizontal
+      listitem "Notes.txt" leadingIcon=file
+    button ghost "…" menu=[{label=Rename icon=pencil}, {label=Move icon=folder}, {label=Share icon=share}, {label=Delete icon=trash}] open
+```

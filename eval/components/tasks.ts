@@ -99,6 +99,30 @@ componentTasks.push(
   },
 );
 
+// 0.5.0: anchored overlays (prompt-0.5.0.md)
+componentTasks.push(
+  {
+    id: "k11-country",
+    prompt: "A mobile shipping address form with the Country dropdown opened, showing five countries with Mexico selected.",
+    checks: [["open select with options", has("Select", (p) => p.open === true && (p.options ?? []).length >= 5 && p.value === "Mexico")]],
+  },
+  {
+    id: "k12-datepicker",
+    prompt: "A mobile flight search screen: from and to fields, and the departure date field with its calendar picker open on November 2026, the 20th selected.",
+    checks: [["open date input", has("Input", (p) => p.type === "date" && p.open === true)]],
+  },
+  {
+    id: "k13-kebab",
+    prompt: "A desktop file list where the user has clicked the '…' button on one row, opening a menu with Rename, Move, Share and Delete.",
+    checks: [["open menu with 4 items", has("Button", (p) => p.open === true && (p.menu ?? []).length === 4)]],
+  },
+  {
+    id: "k14-tooltip",
+    prompt: "A desktop editor toolbar with icon buttons for bold, italic, link and image, with the tooltip 'Insert link (⌘K)' showing on the link button.",
+    checks: [["a tooltip", (e) => e.some((x) => typeof x.props.tooltip === "string" && /link/i.test(x.props.tooltip))]],
+  },
+);
+
 export function runComponentChecks(task: ComponentTask, spec: Spec) {
   const els = Object.values(spec.elements) as El[];
   return task.checks.map(([name, test]) => ({ name, pass: test(els) }));

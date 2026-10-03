@@ -1,0 +1,9 @@
+board "Editor"
+  screen desktop "Formatting Toolbar"
+    stack row gap=4 padding=8 fill
+      button ghost size=sm leadingIcon=bold
+      button ghost size=sm leadingIcon=italic
+      button ghost size=sm leadingIcon=link tooltip="Insert link (⌘K)"
+      button ghost size=sm leadingIcon=image
+      divider vertical
+      button ghost size=sm leadingIcon=list

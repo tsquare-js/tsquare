@@ -1,0 +1,8 @@
+board "File Manager"
+  screen desktop "Files"
+    heading "Files" level=2
+    list dividers
+      listitem "document.pdf" trailing=icon trailingIcon=more-horizontal
+      listitem "image.jpg"
+      listitem "presentation.pptx"
+    button "⋯" variant=ghost menu=[Rename, Move, Share, Delete] open

@@ -1,0 +1,8 @@
+board "Editor toolbar"
+  screen desktop "Editor"
+    stack row gap=8 padding=8 border=bottom
+      button secondary leadingIcon=bold
+      button secondary leadingIcon=italic
+      button secondary leadingIcon=link tooltip="Insert link (⌘K)"
+      button secondary leadingIcon=image
+    text lines=6

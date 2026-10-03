@@ -132,6 +132,22 @@ Turn the top bar on or off with `chrome` or `no-chrome`. `width` and `height` ov
 
 Screens have a **fixed height**. Content that doesn't fit is cut off at the bottom, and nothing warns about it, so check the render. Split long content across screens, or give the screen a larger `height`.
 
+## Tooltips and open states
+
+Any element except a board or screen can show a tooltip:
+
+```tsquare
+    button secondary "Draft" tooltip="Saves without publishing"
+```
+
+The tooltip sits above the element, or below it near the top of the screen, and points at it. A select, a date input and a button with a menu can be shown open. Their list, calendar or menu then covers what's below, as it would in the app:
+
+```tsquare
+    select "Country" value="Mexico" open options=[Canada, Mexico, United States]
+    input "Check-in" type=date value="Oct 14, 2026" open
+    button ghost leadingIcon=more-horizontal open menu=[Rename, Duplicate, Delete]
+```
+
 ## Checking and errors
 
 `tsquare check file.tsq` reports every problem with its line number, and suggests a fix where it can:

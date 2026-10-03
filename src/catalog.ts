@@ -16,6 +16,18 @@ const iconName = z
 
 const day = z.number().int().min(1).max(31);
 const percent = z.number().min(0).max(100);
+/** A menu item: text, or {label icon}. */
+const menuItem = z.union([z.string(), z.strictObject({ label: z.string(), icon: o(iconName) })]);
+
+/**
+ * Props every element except Board and Screen accepts, on top of its own. Kept out of each
+ * component's schema so the prompt describes them once.
+ */
+export const UNIVERSAL_PROPS = {
+  tooltip: z.string().describe("Show a tooltip with this text next to the element"),
+} as const;
+export const takesUniversalProps = (type: string) => type !== "Board" && type !== "Screen";
+
 /** A bullet: plain text, or {label icon muted} to override the list's icon for one line. */
 const bulletItem = z.union([
   z.string(),
@@ -225,9 +237,11 @@ export const componentDefinitions = {
       leadingIcon: o(iconName).describe("Lucide icon before the label, e.g. chevron-left for Back"),
       trailingIcon: o(iconName).describe("Lucide icon after the label, e.g. chevron-right for Next"),
       fullWidth: o(z.boolean()),
+      menu: o(z.array(menuItem)).describe("Dropdown menu items, shown below the button when open"),
+      open: o(z.boolean()).describe("Show the menu"),
     }),
     slots: [],
-    description: "Button. Primary is filled, secondary is outlined, ghost is text only.",
+    description: "Button. Primary is filled, secondary is outlined, ghost is text only. With menu and open, a dropdown menu.",
     example: { label: "Continue", variant: "primary", fullWidth: true },
   },
   Input: {
@@ -237,6 +251,7 @@ export const componentDefinitions = {
       value: o(z.string()),
       type: o(z.enum(["text", "password", "search", "email", "date", "code"])).describe("date shows a calendar icon; code draws one box per digit"),
       digits: o(z.number().int().min(2).max(10)).describe("Boxes for type=code, default 6"),
+      open: o(z.boolean()).describe("type=date: show the calendar below the field"),
       multiline: o(z.number().int().min(1)).describe("Number of rows; 2 or more makes a textarea"),
       helper: o(z.string()),
       error: o(z.boolean()).describe("Validation error: red border and red helper text"),
@@ -270,11 +285,13 @@ export const componentDefinitions = {
       label: o(z.string()),
       value: o(z.string()),
       placeholder: o(z.string()),
+      options: o(z.array(z.string())).describe("The choices, shown below the field when open"),
+      open: o(z.boolean()).describe("Show the options list"),
       grow: o(z.boolean()).describe("Fill the remaining space in a row"),
       width: o(z.union([z.number(), z.string()])).describe("Fixed width, e.g. 320. Default fills the space."),
     }),
     slots: [],
-    description: "Dropdown field (closed state).",
+    description: "Dropdown field. With options and open, the list shows below it.",
     example: { label: "Country", value: "United States" },
   },
   Slider: {

@@ -19,12 +19,16 @@ board
       button primary "Send"
     input "Check-in" type=date value="Oct 14, 2026"
     input "Verification code" type=code value="4821" helper="Sent to (555) 010-2400"
+  screen custom "type=date open" width=420 height=440
+    input "Check-in" type=date value="Oct 14, 2026" open
+    input "Check-out" type=date value="Oct 18, 2026"
 ```
 
 ## Writing it
 
 - A quoted string sets **label**: `input "…"`.
 - Bare words set **type**: `text`, `password`, `search`, `email`, `date`, `code`.
+- `open` turns **open** on; `no-open` turns it off.
 - `error` turns **error** on; `no-error` turns it off.
 - `grow` turns **grow** on; `no-grow` turns it off.
 - Anything else is written `key=value`.
@@ -39,6 +43,7 @@ board
 | `value` | string |  |
 | `type` | text, password, search, email, date, code | date shows a calendar icon; code draws one box per digit |
 | `digits` | number | Boxes for type=code, default 6 |
+| `open` | boolean | type=date: show the calendar below the field |
 | `multiline` | number | Number of rows; 2 or more makes a textarea |
 | `helper` | string |  |
 | `error` | boolean | Validation error: red border and red helper text |

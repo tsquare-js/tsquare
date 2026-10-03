@@ -2,7 +2,7 @@
 
 `button` · Controls · [All components](README.md)
 
-Button. Primary is filled, secondary is outlined, ghost is text only.
+Button. Primary is filled, secondary is outlined, ghost is text only. With menu and open, a dropdown menu.
 
 ![Button example](images/button.png)
 
@@ -22,6 +22,12 @@ board
       button primary "Next" trailingIcon=chevron-right
     button primary "Full width" fullWidth
     text "With a board accent, primary buttons fill with it and ghost buttons use it for text." sm muted
+  screen custom "menu and open" width=380 height=300
+    stack row justify=between align=center
+      heading "Notes" level=3
+      button ghost leadingIcon=more-horizontal open menu=[{label=Rename icon=pencil}, {label=Duplicate icon=copy}, Share, {label=Delete icon=trash-2}]
+    text lines=3
+    text "menu lists the items; open shows them over the screen." sm muted
 ```
 
 ## Writing it
@@ -30,6 +36,7 @@ board
 - Bare words set **variant**: `primary`, `secondary`, `ghost`.
 - Bare words set **size**: `sm`, `md`, `lg`.
 - `fullWidth` turns **fullWidth** on; `no-fullWidth` turns it off.
+- `open` turns **open** on; `no-open` turns it off.
 - Anything else is written `key=value`.
 - Has no children.
 
@@ -45,3 +52,5 @@ Icon names: see [Icons](../icons.md) for the common ones and every name.
 | `leadingIcon` | string | Lucide icon before the label, e.g. chevron-left for Back |
 | `trailingIcon` | string | Lucide icon after the label, e.g. chevron-right for Next |
 | `fullWidth` | boolean |  |
+| `menu` | array of string, { label: string, icon: string } | Dropdown menu items, shown below the button when open |
+| `open` | boolean | Show the menu |

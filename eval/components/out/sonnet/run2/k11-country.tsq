@@ -1,0 +1,9 @@
+board "Shipping address"
+  screen phone "Address"
+    navbar "Shipping address" leading=back
+    input "Full name" placeholder="Jane Doe"
+    input "Street address" placeholder="123 Main St"
+    input "City" placeholder="City"
+    select "Country" value="Mexico" open options=[United States, Canada, Mexico, Brazil, Argentina]
+    input "Postal code" placeholder="Postal code"
+    button primary "Save address" fullWidth

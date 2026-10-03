@@ -2,8 +2,9 @@ import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import type { Spec } from "@json-render/core";
 import { renderToSvg } from "@json-render/image/render";
-import { catalog, componentDefinitions, listItemEnds } from "./catalog.js";
-import { monthGrid, withPalette } from "./components.js";
+import { UNIVERSAL_PROPS, catalog, componentDefinitions, listItemEnds, takesUniversalProps } from "./catalog.js";
+import { monthGrid, withMarkers, withPalette, withTopLayer } from "./components.js";
+import { findAnchors, overlayLayer, readMarkers, tagForMeasuring } from "./anchors.js";
 import { paletteFor } from "./colors.js";
 import { unknownComponentMessage } from "./suggest.js";
 import { belongsElsewhere } from "./text.js";
@@ -94,6 +95,11 @@ export function checkSpec(spec: Spec): string[] {
       }
       // Zod drops unknown keys silently; report them so the author (or model) hears about it.
       for (const key of Object.keys(el.props ?? {})) {
+        if (key in UNIVERSAL_PROPS && takesUniversalProps(el.type)) {
+          const r = (UNIVERSAL_PROPS as any)[key].safeParse((el.props as any)[key]);
+          if (!r.success) issues.push(`${id}.props.${key}: ${r.error.issues[0].message}`);
+          continue;
+        }
         if (!(key in def.props.shape)) {
           const elsewhere = belongsElsewhere(el.type, key, true);
           issues.push(`${id}.props: ${el.type} has no prop "${key}"${elsewhere ? `: ${elsewhere}` : ""}`);
@@ -149,6 +155,9 @@ export function checkSpec(spec: Spec): string[] {
         say(`value has ${String(p.value).length} characters but the code has ${p.digits ?? 6} boxes (digits)`);
       }
       if (el.type === "Input" && p.digits != null && p.type !== "code") say("digits only applies to type=code");
+      if (el.type === "Input" && p.open && p.type !== "date") say("open shows a date picker, so it needs type=date");
+      if (el.type === "Button" && p.open && !(Array.isArray(p.menu) && p.menu.length)) say("open shows the button's menu; add menu=[…] with its items");
+      if (el.type === "Select" && p.open && !(Array.isArray(p.options) && p.options.length)) say("open shows the options list; add options=[…] with the choices");
     }
     // The renderer would silently drop extra cells. Usually the cause is an unquoted
     // cell with a space, which the text syntax splits into two.
@@ -247,13 +256,30 @@ export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOption
     if (issues.length) throw new SpecError(issues);
   }
   const { width, height } = boardSize(spec);
-  return renderToSvg(spec, {
-    registry: withPalette(paletteFor((spec.elements[spec.root]?.props as any)?.accent)) as any,
-    includeStandard: false,
-    fonts: await loadFonts(),
-    width,
-    height,
-  });
+  const palette = paletteFor((spec.elements[spec.root]?.props as any)?.accent);
+  const registry = withPalette(palette);
+  const draw = async (s: Spec, reg: typeof registry) =>
+    renderToSvg(s, { registry: reg as any, includeStandard: false, fonts: await loadFonts(), width, height });
+
+  // Anchored overlays (open selects and date pickers, menus, tooltips) need element positions,
+  // which Satori doesn't report: measure in a first pass, then draw them on top. See anchors.tsx.
+  const { anchors, boxes } = await measureAnchors(spec);
+  if (!anchors.length) return draw(spec, registry);
+  return draw(spec, withTopLayer(registry, overlayLayer(spec, anchors, boxes, palette, registry.Calendar as any)));
+}
+
+/**
+ * The measuring pass: the board's anchored elements (and their screens) and their boxes on the
+ * canvas, keyed by element id (`<id>#field` for a field). No render at all when there are none.
+ */
+export async function measureAnchors(spec: Spec) {
+  const anchors = findAnchors(spec);
+  if (!anchors.length) return { anchors, boxes: {} as Record<string, { x: number; y: number; w: number; h: number }> };
+  const { width, height } = boardSize(spec);
+  const registry = withPalette(paletteFor((spec.elements[spec.root]?.props as any)?.accent));
+  const { tagged, colors } = tagForMeasuring(spec, anchors);
+  const svg = await renderToSvg(tagged, { registry: withMarkers(registry) as any, includeStandard: false, fonts: await loadFonts(), width, height });
+  return { anchors, boxes: readMarkers(svg, colors) };
 }
 
 export async function renderWireframePng(spec: Spec, opts: RenderWireframeOptions & { scale?: number } = {}) {

@@ -3,7 +3,7 @@
  * derived from the catalog and the parser so it can't drift from the language.
  * Served at /api/language.
  */
-import { componentDefinitions } from "../catalog.js";
+import { UNIVERSAL_PROPS, componentDefinitions, takesUniversalProps } from "../catalog.js";
 import { ACCENTS } from "../colors.js";
 import { iconNames } from "../icons.js";
 import { PRIMARY_PROP, bareWords } from "../text.js";
@@ -70,6 +70,7 @@ export function languageData(): LanguageData {
   const components = Object.entries(componentDefinitions).map(([type, def]): ComponentInfo => {
     const shape = (def.props as any).shape as Record<string, any>;
     const props = Object.entries(shape).map(([name, schema]) => describe(name, schema));
+    if (takesUniversalProps(type)) for (const [name, schema] of Object.entries(UNIVERSAL_PROPS)) props.push(describe(name, schema));
     // Icon's main text is an icon name: `icon search`
     if (type === "Icon") props.find((p) => p.name === "name")!.icon = true;
     const words = bareWords(type);

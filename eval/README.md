@@ -94,6 +94,8 @@ Haiku's remaining misses: it wrote the dates as plain inputs once, and garbled o
 
 **0.4.1** added three requests (a ride app's map, an FAQ, a "saved" message), run with the 0.4.1 prompt (`components/prompt-0.4.1.md`, +195 tokens). All 12 outputs were valid, and they used `image map`, `accordion` and `toast` correctly, except one Haiku run that drew the map as a plain image labeled "Map".
 
+**0.5.0** added four requests for open states and tooltips: a country select, a date picker, a row's "…" menu and a toolbar tooltip. They ran with the 0.5.0 prompt (`components/prompt-0.5.0.md`, +169 tokens). All 16 outputs were valid and passed their checks, and the date picker read an ISO date (`2026-11-20`) correctly. One gap showed: for the row menu, Sonnet put "…" on each list item's trailing icon, but only a Button can carry a menu, so it added a separate button for it.
+
 The original 20 requests with the 0.4.0 prompt (`text-v5`): Sonnet 100%, Haiku 65%, within Haiku's usual 55–85%. None of its failures involve the new components, which also showed up unprompted in 6 of the 40 outputs (for example a chart on the dashboard).
 
 ```bash

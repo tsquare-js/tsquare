@@ -210,7 +210,13 @@ export const EXAMPLES: Record<string, string> = {
       button secondary "Back" leadingIcon=chevron-left
       button primary "Next" trailingIcon=chevron-right
     button primary "Full width" fullWidth
-    text "With a board accent, primary buttons fill with it and ghost buttons use it for text." sm muted`,
+    text "With a board accent, primary buttons fill with it and ghost buttons use it for text." sm muted
+  screen custom "menu and open" width=380 height=300
+    stack row justify=between align=center
+      heading "Notes" level=3
+      button ghost leadingIcon=more-horizontal open menu=[{label=Rename icon=pencil}, {label=Duplicate icon=copy}, Share, {label=Delete icon=trash-2}]
+    text lines=3
+    text "menu lists the items; open shows them over the screen." sm muted`,
 
   Input: `board
   screen custom width=420 height=760
@@ -223,7 +229,10 @@ export const EXAMPLES: Record<string, string> = {
       input placeholder="grow fills the row" grow
       button primary "Send"
     input "Check-in" type=date value="Oct 14, 2026"
-    input "Verification code" type=code value="4821" helper="Sent to (555) 010-2400"`,
+    input "Verification code" type=code value="4821" helper="Sent to (555) 010-2400"
+  screen custom "type=date open" width=420 height=440
+    input "Check-in" type=date value="Oct 14, 2026" open
+    input "Check-out" type=date value="Oct 18, 2026"`,
 
   Checkbox: `board
   screen custom width=300 height=100
@@ -252,7 +261,10 @@ export const EXAMPLES: Record<string, string> = {
     select "Size" placeholder="Choose one" width=160
     stack row gap=12
       input "City" placeholder="Monterrey" grow
-      select "State" value="Nuevo León" grow`,
+      select "State" value="Nuevo León" grow
+  screen custom "options and open" width=380 height=260
+    select "Country" value="Mexico" open options=[Canada, Mexico, United States, Spain]
+    input "City" placeholder="Monterrey"`,
 
   Slider: `board
   screen custom width=380 height=200
