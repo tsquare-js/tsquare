@@ -46,6 +46,32 @@ function iconSheet() {
   return `board grid columns=2 "Common icons"\n${screens.join("\n")}\n`;
 }
 
+/** The picture in language.md's "Tooltips and open states", rendered so it matches the code. */
+const OVERLAYS_EXAMPLE = `board "Tooltips and open states"
+  screen custom "tooltip" width=330 height=250
+    spacer size=34
+    stack row gap=8
+      button secondary "Draft" tooltip="Saves without publishing"
+      button primary "Publish"
+  screen custom "select open" width=330 height=250
+    select "Country" value="Mexico" open options=[Canada, Mexico, United States]
+  screen custom "date input open" width=330 height=440
+    input "Check-in" type=date value="Oct 14, 2026" open
+  screen custom "row menu" width=330 height=320 padding=0 gap=0
+    navbar "Files" actions=[search]
+    stack padding=16 gap=0
+      list
+        listitem "Report.pdf" leadingIcon=file-text
+        listitem "Budget.xlsx" leadingIcon=sheet open menu=[Rename, Move, Delete]
+        listitem "Notes.txt" leadingIcon=file
+`;
+
+async function writeOverlaysImage() {
+  const { spec, issues } = compileWireframe(OVERLAYS_EXAMPLE);
+  if (!spec || issues.length) throw new Error(`overlays example:\n${formatIssues(issues)}`);
+  writeFileSync(path.join(docsDir, "overlays.png"), await renderWireframePng(spec, { skipValidation: true, scale: 1.5 }));
+}
+
 async function writeIconsPage() {
   const sheet = iconSheet();
   const { spec, issues } = compileWireframe(sheet);
@@ -170,6 +196,8 @@ ${rows.join("\n")}
 
 Every component, grouped as in the playground. Each page has a rendered example, its source, how to write it, and its props. These pages are generated from the catalog by \`npm run docs\`.
 
+Any element inside a screen can also take \`tooltip="…"\`; see [Tooltips and open states](../language.md#tooltips-and-open-states).
+
 ${GROUPS.map((g) => `## ${g.name}
 
 | Component | What it's for |
@@ -178,6 +206,7 @@ ${g.components.map((n) => `| [${slug(n)}](${slug(n)}.md) | ${docs.find((d) => d.
 `;
   writeFileSync(path.join(out, "README.md"), index);
   await writeIconsPage();
+  await writeOverlaysImage();
   console.log(`wrote ${docs.length} component pages to ${path.relative(process.cwd(), out)}`);
 }
 

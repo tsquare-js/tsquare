@@ -134,7 +134,9 @@ Screens have a **fixed height**. Content that doesn't fit is cut off at the bott
 
 ## Tooltips and open states
 
-Any element except a board or screen can show a tooltip:
+![A tooltip, an open select, an open date picker and a row menu](overlays.png)
+
+Any element inside a screen can show a tooltip (not the board, a screen or a note):
 
 ```tsquare
     button secondary "Draft" tooltip="Saves without publishing"
