@@ -1,9 +1,9 @@
 ```tsquare
 board "Flight search"
   screen phone "Search flights"
-    navbar "Flights" leading=back
+    navbar "Search flights" leading=back
     input "From" placeholder="Departure city"
-    input "To" placeholder="Arrival city"
+    input "To" placeholder="Destination city"
     input "Departure" type=date value="Nov 20, 2026" open
-    calendar "November 2026" selected=20
+    button primary "Search" fullWidth
 ```

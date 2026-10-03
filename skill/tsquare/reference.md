@@ -197,6 +197,8 @@ Top app bar. Place first in a Screen.
 - leading: "none" | "menu" | "back" | "close" | "logo"
 - actions: array of string — Icon names shown on the right
 - align: "left" | "center"
+- menu: array of string | { label: string, icon: string } — A menu under the last action (adds ⋮ if needed), shown when open
+- open: boolean — Show the menu
 
 ### TabBar
 Bottom tab bar for mobile. Place last in a Screen (before overlays).
@@ -227,6 +229,8 @@ Row in a List. Omit title for a placeholder bar.
 - trailing: "none" | "chevron" | "toggle" | "text" | "badge" | "icon"
 - trailingText: string — Text for trailing=text or badge; setting it implies trailing=text
 - trailingIcon: string — Lucide icon on the right; setting it implies trailing=icon
+- menu: array of string | { label: string, icon: string } — A menu for the row (shows … on the right if nothing else is there), shown when open
+- open: boolean — Show the menu
 
 ### Table
 Table with headers. Rows are placeholder bars unless `data` is given.

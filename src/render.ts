@@ -156,7 +156,7 @@ export function checkSpec(spec: Spec): string[] {
       }
       if (el.type === "Input" && p.digits != null && p.type !== "code") say("digits only applies to type=code");
       if (el.type === "Input" && p.open && p.type !== "date") say("open shows a date picker, so it needs type=date");
-      if (el.type === "Button" && p.open && !(Array.isArray(p.menu) && p.menu.length)) say("open shows the button's menu; add menu=[…] with its items");
+      if ((el.type === "Button" || el.type === "ListItem" || el.type === "NavBar") && p.open && !(Array.isArray(p.menu) && p.menu.length)) say("open shows the menu; add menu=[…] with its items");
       if (el.type === "Select" && p.open && !(Array.isArray(p.options) && p.options.length)) say("open shows the options list; add options=[…] with the choices");
     }
     // The renderer would silently drop extra cells. Usually the cause is an unquoted

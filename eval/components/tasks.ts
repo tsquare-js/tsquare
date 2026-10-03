@@ -114,7 +114,10 @@ componentTasks.push(
   {
     id: "k13-kebab",
     prompt: "A desktop file list where the user has clicked the '…' button on one row, opening a menu with Rename, Move, Share and Delete.",
-    checks: [["open menu with 4 items", has("Button", (p) => p.open === true && (p.menu ?? []).length === 4)]],
+    checks: [
+      ["open menu with 4 items", (e) => e.some((x) => ["Button", "ListItem", "NavBar"].includes(x.type) && x.props.open === true && (x.props.menu ?? []).length === 4)],
+      ["menu on the row itself", has("ListItem", (p) => p.open === true && (p.menu ?? []).length === 4)],
+    ],
   },
   {
     id: "k14-tooltip",

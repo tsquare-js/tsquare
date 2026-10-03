@@ -1,10 +1,10 @@
 ```tsquare
-board "Editor toolbar"
+board "Editor"
   screen desktop "Editor"
-    stack row gap=8 padding=12 border=bottom
-      button secondary leadingIcon=bold
-      button secondary leadingIcon=italic
-      button secondary leadingIcon=link tooltip="Insert link (⌘K)"
-      button secondary leadingIcon=image
+    stack row gap=8 padding=8 border=bottom
+      button ghost leadingIcon=bold
+      button ghost leadingIcon=italic
+      button ghost leadingIcon=link tooltip="Insert link (⌘K)"
+      button ghost leadingIcon=image
     text lines=6
 ```

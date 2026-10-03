@@ -22,7 +22,8 @@ import { theme as t } from "./layout.js";
 
 export interface Rect { x: number; y: number; w: number; h: number }
 export type AnchorKind = "tooltip" | "options" | "calendar" | "menu";
-export interface Anchor { id: string; kind: AnchorKind; screen: string; field: boolean }
+/** `end`: the menu opens from the element's right end (a list row's …, a navbar's ⋮). */
+export interface Anchor { id: string; kind: AnchorKind; screen: string; field: boolean; end?: boolean }
 
 type Elements = Spec["elements"];
 const propsOf = (els: Elements, id: string) => (els[id].props ?? {}) as Record<string, any>;
@@ -39,6 +40,7 @@ export function findAnchors(spec: Spec): Anchor[] {
       if (el.type === "Select" && p.open) out.push({ id, kind: "options", screen, field: true });
       if (el.type === "Input" && p.open && p.type === "date") out.push({ id, kind: "calendar", screen, field: true });
       if (el.type === "Button" && p.open && Array.isArray(p.menu) && p.menu.length) out.push({ id, kind: "menu", screen, field: false });
+      if ((el.type === "ListItem" || el.type === "NavBar") && p.open && Array.isArray(p.menu) && p.menu.length) out.push({ id, kind: "menu", screen, field: false, end: true });
     }
     for (const child of el.children ?? []) visit(child, screen);
   };
@@ -192,9 +194,9 @@ export function overlayLayer(spec: Spec, anchors: Anchor[], boxes: Record<string
       node = <ListCard items={options.map((label) => ({ label }))} width={size.w} selected={p.value} c={c} />;
     } else if (a.kind === "menu") {
       const items = (p.menu as any[]).map((i) => (typeof i === "string" ? { label: i } : i));
-      const width = Math.max(180, anchor.w);
+      const width = a.end ? 200 : Math.max(180, anchor.w);
       const inRightHalf = anchor.x + anchor.w / 2 > screen.x + screen.w / 2;
-      pos = place(anchor, { w: width, h: items.length * ROW + 8 }, screen, { prefer: "below", align: inRightHalf ? "end" : "start", gap: 4 });
+      pos = place(anchor, { w: width, h: items.length * ROW + 8 }, screen, { prefer: "below", align: a.end || inRightHalf ? "end" : "start", gap: a.end ? -6 : 4 });
       node = <ListCard items={items} width={width} c={c} />;
     } else if (a.kind === "calendar") {
       const date = parseDate(p.value);

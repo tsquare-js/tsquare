@@ -1,9 +1,9 @@
 board "Editor"
-  screen desktop "Formatting Toolbar"
-    stack row gap=4 padding=8 fill
-      button ghost size=sm leadingIcon=bold
-      button ghost size=sm leadingIcon=italic
-      button ghost size=sm leadingIcon=link tooltip="Insert link (⌘K)"
-      button ghost size=sm leadingIcon=image
-      divider vertical
-      button ghost size=sm leadingIcon=list
+  screen desktop "Document"
+    navbar "Untitled Document" actions=[save]
+    stack row gap=8 padding=12 border=bottom
+      button secondary leadingIcon=bold tooltip="Bold (⌘B)"
+      button secondary leadingIcon=italic tooltip="Italic (⌘I)"
+      button secondary leadingIcon=link tooltip="Insert link (⌘K)"
+      button secondary leadingIcon=image tooltip="Insert image"
+    text lines=8

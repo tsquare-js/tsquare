@@ -16,6 +16,12 @@ board
       listitem "leading=checkbox" leading=checkbox trailing=toggle
       listitem "trailingIcon=trash-2" trailingIcon=trash-2
       listitem leading=image trailing=chevron
+  screen custom "menu and open" width=400 height=330
+    list
+      listitem "Report.pdf" subtitle="2.4 MB" leadingIcon=file-text
+      listitem "Budget.xlsx" subtitle="380 KB" leadingIcon=sheet open menu=[{label=Rename icon=pencil}, {label=Move icon=folder}, {label=Delete icon=trash-2}]
+      listitem "Notes.txt" subtitle="12 KB" leadingIcon=file
+      listitem "Photo.jpg" subtitle="1.1 MB" leadingIcon=image
 ```
 
 ## Writing it
@@ -24,6 +30,7 @@ board
 - Bare words set **leading**: `avatar`, `image`, `checkbox`.
 - Bare words set **trailing**: `chevron`, `toggle`, `text`, `badge`.
 - `none`, `icon` are options of **leading** and **trailing**, so write which one you mean: `leading=none` or `trailing=none`.
+- `open` turns **open** on; `no-open` turns it off.
 - Anything else is written `key=value`.
 - Has no children.
 
@@ -40,3 +47,5 @@ Icon names: see [Icons](../icons.md) for the common ones and every name.
 | `trailing` | none, chevron, toggle, text, badge, icon |  |
 | `trailingText` | string | Text for trailing=text or badge; setting it implies trailing=text |
 | `trailingIcon` | string | Lucide icon on the right; setting it implies trailing=icon |
+| `menu` | array of string, { label: string, icon: string } | A menu for the row (shows … on the right if nothing else is there), shown when open |
+| `open` | boolean | Show the menu |

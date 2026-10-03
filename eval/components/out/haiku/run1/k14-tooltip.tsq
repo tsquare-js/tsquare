@@ -1,8 +1,10 @@
-board "Editor"
-  screen desktop "Document"
-    heading "Document" level=2
-    stack row gap=8 padding=12 fill
-      button variant=ghost size=sm leadingIcon=bold tooltip="Bold"
-      button variant=ghost size=sm leadingIcon=italic tooltip="Italic"
-      button variant=ghost size=sm leadingIcon=link tooltip="Insert link (⌘K)"
-      button variant=ghost size=sm leadingIcon=image tooltip="Insert image"
+```tsquare
+board "Text Editor"
+  screen desktop "Editor"
+    stack row gap=4 padding=8 border=bottom
+      button ghost size=sm leadingIcon=bold tooltip="Bold (⌘B)"
+      button ghost size=sm leadingIcon=italic tooltip="Italic (⌘I)"
+      button ghost size=sm leadingIcon=link tooltip="Insert link (⌘K)"
+      button ghost size=sm leadingIcon=image tooltip="Insert image"
+    input multiline=10 placeholder="Start typing..."
+```

@@ -25,7 +25,7 @@ If a bare word could mean more than one prop, write it as key=value.
 6. This is a low-fidelity wireframe. Prefer placeholders (Image boxes, Text with lines) over invented copy unless the copy matters.
 7. Only use the components and props listed below. All props are optional unless marked required.
 8. Wireframes are grayscale. The only UI colors: Board accent (one color for primary buttons, checked controls, toggles, active tabs and ghost buttons), Badge tone (success, warning, danger) and Input error. Only add an accent if the request asks for color or a brand.
-9. Any element except Board and Screen can take tooltip="text" to show a tooltip next to it. Select (with options), Input type=date and Button (with menu) take open to show their list, calendar or menu over the screen.
+9. Any element except Board and Screen can take tooltip="text" to show a tooltip next to it. Select (with options), Input type=date, and Button, ListItem or NavBar (with menu) take open to show their list, calendar or menu over the screen.
 
 ## Example
 Request: Two phone screens for a recipe app: a browse screen with search, category tabs, a grid of recipe cards and a tab bar; and a recipe detail screen with its options sheet open.
@@ -258,6 +258,8 @@ Top app bar. Place first in a Screen.
 - leading: "none" | "menu" | "back" | "close" | "logo"
 - actions: array of string — Icon names shown on the right
 - align: "left" | "center"
+- menu: array of string | { label: string, icon: string } — A menu under the last action (adds ⋮ if needed), shown when open
+- open: boolean — Show the menu
 
 ### TabBar
 Bottom tab bar for mobile. Place last in a Screen (before overlays).
@@ -288,6 +290,8 @@ Row in a List. Omit title for a placeholder bar.
 - trailing: "none" | "chevron" | "toggle" | "text" | "badge" | "icon"
 - trailingText: string — Text for trailing=text or badge; setting it implies trailing=text
 - trailingIcon: string — Lucide icon on the right; setting it implies trailing=icon
+- menu: array of string | { label: string, icon: string } — A menu for the row (shows … on the right if nothing else is there), shown when open
+- open: boolean — Show the menu
 
 ### Table
 Table with headers. Rows are placeholder bars unless `data` is given.

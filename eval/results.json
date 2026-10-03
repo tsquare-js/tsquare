@@ -4255,7 +4255,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 30: ListItem: bold is a Text prop, not a ListItem one (bare words it accepts: avatar, image, checkbox, chevron, toggle, text, badge)"
+      "line 30: ListItem: bold is a Text prop, not a ListItem one (bare words it accepts: avatar, image, checkbox, chevron, toggle, text, badge, open)"
     ],
     "categories": [
       "invalid prop"

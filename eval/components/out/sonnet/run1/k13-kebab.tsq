@@ -1,10 +1,10 @@
 ```tsquare
-board "File list"
-  screen desktop "Files"
+board "Files"
+  screen desktop "File list"
     heading "Files" level=2
     list dividers
-      listitem "Report.pdf" leadingIcon=file trailingIcon=more-horizontal
-      listitem "Budget.xlsx" leadingIcon=file trailingIcon=more-horizontal
-      listitem "Notes.txt" leadingIcon=file
-    button ghost "…" menu=[{label=Rename icon=pencil}, {label=Move icon=folder}, {label=Share icon=share}, {label=Delete icon=trash}] open
+      listitem "Project plan.docx" subtitle="Edited today" leadingIcon=file-text
+      listitem "Budget.xlsx" subtitle="Edited yesterday" leadingIcon=file-spreadsheet menu=[Rename, Move, Share, Delete] open
+      listitem "Photos.zip" subtitle="Edited last week" leadingIcon=file-archive
+      listitem "Notes.txt" subtitle="Edited last month" leadingIcon=file
 ```

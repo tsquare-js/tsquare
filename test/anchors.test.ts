@@ -70,6 +70,7 @@ test("date values give the calendar month and day", () => {
 test("open states need what they show", () => {
   assert.match(problems(board('input "Name" open')).join(), /open shows a date picker, so it needs type=date/);
   assert.match(problems(board('button "More" open')).join(), /add menu=\[…\]/);
+  assert.match(problems(board("list", '  listitem "Row" open')).join(), /add menu=\[…\]/);
   assert.match(problems(board('select "Size" open')).join(), /add options=\[…\]/);
   assert.match(problems('board tooltip="x"\n  screen phone\n    text "a"').join(), /Board has no prop "tooltip"/);
 });

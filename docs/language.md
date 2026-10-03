@@ -148,6 +148,14 @@ The tooltip sits above the element, or below it near the top of the screen, and 
     button ghost leadingIcon=more-horizontal open menu=[Rename, Duplicate, Delete]
 ```
 
+List items and the navbar take a menu too. A row's menu opens from a … at its end, and the navbar's from a ⋮ after its actions; both are added if they aren't there already:
+
+```tsquare
+    listitem "Budget.xlsx" subtitle="380 KB" open menu=[Rename, Move, Delete]
+```
+
+`open` without anything to show (no `options` or `menu`) is an error that says what to add.
+
 ## Checking and errors
 
 `tsquare check file.tsq` reports every problem with its line number, and suggests a fix where it can:

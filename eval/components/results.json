@@ -125,8 +125,8 @@
     "task": "k13-kebab",
     "valid": true,
     "issues": [],
-    "passed": 1,
-    "total": 1,
+    "passed": 2,
+    "total": 2,
     "failed": []
   },
   {
@@ -265,8 +265,8 @@
     "task": "k13-kebab",
     "valid": true,
     "issues": [],
-    "passed": 1,
-    "total": 1,
+    "passed": 2,
+    "total": 2,
     "failed": []
   },
   {
@@ -393,16 +393,21 @@
     "task": "k11-country",
     "valid": true,
     "issues": [],
-    "passed": 1,
+    "passed": 0,
     "total": 1,
-    "failed": []
+    "failed": [
+      "open select with options"
+    ]
   },
   {
     "model": "haiku",
     "run": "run1",
     "task": "k12-datepicker",
-    "valid": true,
-    "issues": [],
+    "valid": false,
+    "issues": [
+      "line 5: Input has no prop \"leadingIcon\": leadingIcon is a Button and ListItem prop, not an Input one (its props: label, placeholder, value, type, digits, open, multiline, helper, error, grow, width)",
+      "line 6: Input has no prop \"leadingIcon\": leadingIcon is a Button and ListItem prop, not an Input one (its props: label, placeholder, value, type, digits, open, multiline, helper, error, grow, width)"
+    ],
     "passed": 1,
     "total": 1,
     "failed": []
@@ -413,8 +418,8 @@
     "task": "k13-kebab",
     "valid": true,
     "issues": [],
-    "passed": 1,
-    "total": 1,
+    "passed": 2,
+    "total": 2,
     "failed": []
   },
   {
@@ -539,9 +544,11 @@
     "task": "k11-country",
     "valid": true,
     "issues": [],
-    "passed": 1,
+    "passed": 0,
     "total": 1,
-    "failed": []
+    "failed": [
+      "open select with options"
+    ]
   },
   {
     "model": "haiku",
@@ -557,10 +564,12 @@
     "model": "haiku",
     "run": "run2",
     "task": "k13-kebab",
-    "valid": true,
-    "issues": [],
-    "passed": 1,
-    "total": 1,
+    "valid": false,
+    "issues": [
+      "line 5: ListItem: chevron is a trailing kind, not an icon name: write trailing=chevron instead of trailingIcon=chevron"
+    ],
+    "passed": 2,
+    "total": 2,
     "failed": []
   },
   {

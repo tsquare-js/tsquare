@@ -1,6 +1,10 @@
-board "File list"
-  screen desktop "Files"
+```tsquare
+board "Files"
+  screen desktop "File list"
     heading "Files" level=2
-    table columns=[Name, Modified, Size, ""] data=[[Report.pdf, Oct 1, 2 MB, ""], [Budget.xlsx, Sep 28, 540 KB, ""], [Notes.txt, Sep 20, 4 KB, ""]]
-    stack row justify=end
-      button ghost "…" menu=[{label=Rename icon=pencil}, {label=Move icon=folder}, {label=Share icon=share}, {label=Delete icon=trash}] open
+    list dividers
+      listitem "Project brief.pdf" subtitle="Edited today" leadingIcon=file
+      listitem "Budget.xlsx" subtitle="Edited yesterday" leadingIcon=file menu=[{label=Rename icon=pencil}, {label=Move icon=folder}, {label=Share icon=share}, {label=Delete icon=trash}] open
+      listitem "Notes.docx" subtitle="Edited last week" leadingIcon=file
+      listitem "Photos" subtitle="12 items" leadingIcon=folder
+```

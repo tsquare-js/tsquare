@@ -1,8 +1,11 @@
+```tsquare
 board "File Manager"
   screen desktop "Files"
-    heading "Files" level=2
+    navbar "My Files" actions=[search, more-horizontal]
     list dividers
-      listitem "document.pdf" trailing=icon trailingIcon=more-horizontal
-      listitem "image.jpg"
-      listitem "presentation.pptx"
-    button "⋯" variant=ghost menu=[Rename, Move, Share, Delete] open
+      listitem "Project Proposal" subtitle="PDF • 2.4 MB" leading=none trailing=none
+      listitem "Budget 2026" subtitle="Spreadsheet • 1.8 MB" leading=none trailing=chevron
+      listitem "Design System" subtitle="Folder" leading=none trailing=icon trailingIcon=more-horizontal menu=[Rename, Move, Share, Delete] open
+      listitem "Meeting Notes" subtitle="Doc • 892 KB" leading=none trailing=none
+      listitem "Archive.zip" subtitle="ZIP • 12.3 MB" leading=none trailing=none
+```

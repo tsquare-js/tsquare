@@ -292,7 +292,10 @@ export const EXAMPLES: Record<string, string> = {
     navbar "leading=menu" leading=menu actions=[search, bell]
     navbar "leading=back, centered" leading=back align=center actions=[share]
     navbar "leading=close" leading=close
-    navbar "leading=logo" leading=logo actions=[user]`,
+    navbar "leading=logo" leading=logo actions=[user]
+  screen custom "menu and open" width=380 height=240 padding=0 gap=0
+    navbar "Inbox" leading=menu actions=[search] open menu=[Mark all as read, {label=Settings icon=settings}, {label=Sign out icon=log-out}]
+    text lines=4`,
 
   TabBar: `board
   screen phone "Tab bar sits at the bottom"
@@ -330,7 +333,13 @@ export const EXAMPLES: Record<string, string> = {
       listitem "leading=image" subtitle="trailing=badge" leading=image trailing=badge trailingText="3"
       listitem "leading=checkbox" leading=checkbox trailing=toggle
       listitem "trailingIcon=trash-2" trailingIcon=trash-2
-      listitem leading=image trailing=chevron`,
+      listitem leading=image trailing=chevron
+  screen custom "menu and open" width=400 height=330
+    list
+      listitem "Report.pdf" subtitle="2.4 MB" leadingIcon=file-text
+      listitem "Budget.xlsx" subtitle="380 KB" leadingIcon=sheet open menu=[{label=Rename icon=pencil}, {label=Move icon=folder}, {label=Delete icon=trash-2}]
+      listitem "Notes.txt" subtitle="12 KB" leadingIcon=file
+      listitem "Photo.jpg" subtitle="1.1 MB" leadingIcon=image`,
 
   Table: `board
   screen custom width=520 height=400

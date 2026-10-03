@@ -2,8 +2,10 @@
 board "Shipping address"
   screen phone "Address"
     navbar "Shipping address" leading=back
-    input "Full name" placeholder="Jane Doe"
-    input "Street address" placeholder="123 Main St"
-    input "City"
-    select "Country" value="Mexico" open options=[United States, Canada, Mexico, Spain, Germany]
+    input "Full name" placeholder="Full name"
+    input "Street address" placeholder="Street and number"
+    select "Country" value="Mexico" options=[United States, Canada, Mexico, Spain, Brazil] open
+    input "City" placeholder="City"
+    input "Postal code" placeholder="Postal code"
+    button primary "Save address" fullWidth
 ```

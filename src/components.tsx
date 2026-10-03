@@ -1108,9 +1108,12 @@ function NavBar({ element }: Props) {
     ) : p.leading && p.leading !== "none" ? (
       <IconGlyph name={LEADING_ICON[p.leading]} size={22} />
     ) : null;
+  // a menu needs something to open from: add ⋮ unless the actions already end with one
+  const icons: string[] = [...(p.actions ?? [])];
+  if (p.menu?.length && !/^(more-|ellipsis)/.test(icons[icons.length - 1] ?? "")) icons.push("more-vertical");
   const actions = (
     <Box style={{ gap: 18, alignItems: "center", justifyContent: "flex-end" }}>
-      {(p.actions ?? []).map((a: string, i: number) => (
+      {icons.map((a: string, i: number) => (
         <IconGlyph key={i} name={a} size={22} />
       ))}
     </Box>
@@ -1280,7 +1283,8 @@ function ListItem({ element, colors }: Props) {
       case "icon":
         return <IconGlyph name={p.trailingIcon ?? "more-horizontal"} size={20} color={t.muted} />;
       default:
-        return null;
+        // a row with a menu shows … to open it from
+        return p.menu?.length ? <IconGlyph name="more-horizontal" size={20} color={t.muted} /> : null;
     }
   })();
   return (
