@@ -1,8 +1,10 @@
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { compileWireframe } from "../src/compile.js";
 
-export const root = path.resolve(import.meta.dirname, "..");
+// fileURLToPath, not import.meta.dirname: that needs Node 20.11, and the package supports all of 20.
+export const root = fileURLToPath(new URL("..", import.meta.url));
 export const read = (rel: string) => readFileSync(path.join(root, rel), "utf8");
 export const list = (dir: string, ext: string) =>
   readdirSync(path.join(root, dir)).filter((f) => f.endsWith(ext)).map((f) => path.posix.join(dir, f));

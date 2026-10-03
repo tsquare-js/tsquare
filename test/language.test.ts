@@ -37,14 +37,14 @@ test("print then parse gives back the same structure", () => {
   ];
   for (const [name, text] of sources) {
     const first = parseWireframeText(text);
-    if (!first.spec) continue;
+    assert.ok(first.spec, `${name} doesn't parse: ${first.issues.map((i) => i.message).join("; ")}`);
     const again = parseWireframeText(printWireframeText(first.spec));
     assert.deepEqual(shape(again.spec), shape(first.spec), name);
   }
 });
 
 test("every tsquare snippet in the docs and README compiles", () => {
-  const files = [...list("docs", ".md"), "README.md"];
+  const files = [...list("docs", ".md"), ...list("docs/components", ".md"), "README.md"];
   let count = 0;
   for (const file of files) {
     for (const [, snippet] of read(file).matchAll(/```tsquare\n([\s\S]*?)```/g)) {
@@ -56,5 +56,5 @@ test("every tsquare snippet in the docs and README compiles", () => {
       count++;
     }
   }
-  assert.ok(count >= 10, `found only ${count} snippets`);
+  assert.ok(count >= 40, `found only ${count} snippets`); // ~13 hand-written + one per component page
 });

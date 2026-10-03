@@ -36,5 +36,14 @@ jobs:
       # output invalid (or changes an error message) shows up here.
       - run: npm run eval:score
       - run: npm run docs && npm run skill
-      # Text only: PNG bytes can differ between macOS and Linux.
-      - run: git diff --exit-code -- eval/results.json 'docs/**/*.md' skill
+      # Text only: PNG bytes can differ between macOS and Linux. git status (not git diff)
+      # also catches new untracked files, and :(glob) makes docs/**/*.md include docs/*.md.
+      - name: Fail if generated files differ from what's committed
+        run: |
+          changed=$(git status --porcelain -- eval/results.json ':(glob)docs/**/*.md' skill)
+          if [ -n "$changed" ]; then
+            echo "Generated files are out of date; run npm run eval:score, npm run docs and npm run skill, then commit:"
+            echo "$changed"
+            git diff -- eval/results.json ':(glob)docs/**/*.md' skill | head -100
+            exit 1
+          fi
