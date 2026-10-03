@@ -8,10 +8,15 @@ Radio button with label.
 
 ```tsquare
 board
-  screen custom width=300 height=130
+  screen custom width=380 height=230
     radio "Selected" checked
     radio "Not selected"
     radio "Not selected"
+    text "Side by side: put them in a row" sm muted
+    stack row gap=20
+      radio "Standard" checked
+      radio "Express"
+      radio "Pickup"
 ```
 
 ## Writing it

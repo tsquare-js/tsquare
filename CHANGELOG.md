@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.2
+
+- **`grow` on Select**, like Input: `select "State" grow` fills the rest of a row. Sonnet wrote it in 5 of 9 eval runs, its only remaining mistake; with it, every stored Sonnet text output is valid.
+- **Docs:** a new [Embedding](docs/embedding.md) page for Notion, GitHub and your own site, and the Radio page shows radios side by side (`stack row` + `radio`).
+- **Tests and CI:** a test suite (`npm test`), run on Node 20, 22 and 24 for every pull request, plus a check that eval scores, docs and the skill match what's committed.
+- `CHANGELOG.md` is now included in the npm package.
+
 ## 0.3.1
 
 ### Older wireframes are upgraded in one step

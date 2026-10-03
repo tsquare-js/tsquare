@@ -643,7 +643,7 @@ function Input({ element, dir }: Props) {
 function Select({ element, dir }: Props) {
   const p = element.props;
   return (
-    <Box style={{ flexDirection: "column", gap: 6, ...fieldWidth(p.width, dir) }}>
+    <Box style={{ flexDirection: "column", gap: 6, ...fieldWidth(p.width, dir), ...(p.grow ? { flexGrow: 1 } : {}) }}>
       <FieldLabel text={p.label} />
       <Field>
         <Box style={{ flexGrow: 1, color: p.value ? t.ink : t.muted }}>{p.value ?? p.placeholder ?? "Select…"}</Box>

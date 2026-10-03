@@ -1,6 +1,6 @@
 {
   "name": "tsquare",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Wireframes in plain text: easy for LLMs to write, fast to render as SVG or PNG.",
   "keywords": [
     "wireframe",
@@ -44,7 +44,8 @@
     "examples/*.tsq",
     "assets/mark.png",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "CHANGELOG.md"
   ],
   "engines": {
     "node": ">=20"
@@ -62,7 +63,8 @@
     "eval:prompts": "tsx eval/prompts.ts",
     "eval:score": "tsx eval/score.ts",
     "build": "tsx scripts/build.ts",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "test": "tsx --test test/*.test.ts"
   },
   "dependencies": {
     "@fontsource/inter": "5.3.0",

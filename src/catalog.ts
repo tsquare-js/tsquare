@@ -229,6 +229,7 @@ export const componentDefinitions = {
       label: o(z.string()),
       value: o(z.string()),
       placeholder: o(z.string()),
+      grow: o(z.boolean()).describe("Fill the remaining space in a row"),
       width: o(z.union([z.number(), z.string()])).describe("Fixed width, e.g. 320. Default fills the space."),
     }),
     slots: [],

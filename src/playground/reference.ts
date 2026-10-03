@@ -195,10 +195,15 @@ export const EXAMPLES: Record<string, string> = {
     checkbox "Unchecked"`,
 
   Radio: `board
-  screen custom width=300 height=130
+  screen custom width=380 height=230
     radio "Selected" checked
     radio "Not selected"
-    radio "Not selected"`,
+    radio "Not selected"
+    text "Side by side: put them in a row" sm muted
+    stack row gap=20
+      radio "Standard" checked
+      radio "Express"
+      radio "Pickup"`,
 
   Toggle: `board
   screen custom width=300 height=100
@@ -206,9 +211,12 @@ export const EXAMPLES: Record<string, string> = {
     toggle "Off" off`,
 
   Select: `board
-  screen custom width=320 height=170
+  screen custom width=380 height=260
     select "Country" value="Mexico"
-    select "Size" placeholder="Choose one" width=160`,
+    select "Size" placeholder="Choose one" width=160
+    stack row gap=12
+      input "City" placeholder="Monterrey" grow
+      select "State" value="Nuevo León" grow`,
 
   NavBar: `board
   screen custom width=380 height=240 padding=0 gap=0
