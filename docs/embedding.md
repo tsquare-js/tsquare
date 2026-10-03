@@ -9,8 +9,8 @@ The playground's **Copy link** menu makes every kind of link:
 
 | Menu item | What you get | Use it for |
 |---|---|---|
-| Image link (SVG) | `https://tsquare.dev/svg/z…` | GitHub, docs sites, most tools |
-| Image link (PNG) | `https://tsquare.dev/png/z…` | Notion, slides, and tools that don't show SVG |
+| Image link (SVG) | `https://tsquare.dev/svg/z…` | Notion, GitHub, docs sites, most tools |
+| Image link (PNG) | `https://tsquare.dev/png/z…` | Slides, and tools that don't show SVG |
 | Markdown | `![Title](https://tsquare.dev/svg/z…)` | READMEs, issues, Markdown docs |
 | HTML | `<img src="https://tsquare.dev/svg/z…" alt="Title">` | Web pages |
 | Share link | `https://tsquare.dev/playground#z…` | Sending someone the editable wireframe |
@@ -19,10 +19,10 @@ Image links are compressed, **not encrypted**: anyone with the link can read the
 
 ## Notion
 
-1. In the playground, choose **Copy link → Image link (PNG)**.
+1. In the playground, choose **Copy link → Image link (SVG)**.
 2. In Notion, type `/image`, choose **Embed link**, and paste it.
 
-Use the PNG link: it's drawn at 2× by default, so it stays sharp. Notion fetches the image and keeps its own copy, so the page doesn't depend on tsquare.dev once it has loaded.
+The PNG link works just as well and looks the same. SVG stays sharp at any zoom; PNG is drawn at 2×.
 
 To change the wireframe, open the share link (or paste the text into the playground), edit, and replace the image with the new link. Each link always draws the same picture, so an old one never changes under you.
 
