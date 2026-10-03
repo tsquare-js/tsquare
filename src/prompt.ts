@@ -75,7 +75,7 @@ export const RULES = `## Rules
 6. This is a low-fidelity wireframe. Prefer placeholders (Image boxes, Text with lines) over invented copy unless the copy matters.
 7. Only use the components and props listed below. All props are optional unless marked required.
 8. Wireframes are grayscale. The only UI colors: Board accent (one color for primary buttons, checked controls, toggles, active tabs and ghost buttons), Badge tone (success, warning, danger) and Input error. Only add an accent if the request asks for color or a brand.
-9. Any element except Board and Screen can take tooltip="text" to show a tooltip next to it. Select (with options), Input type=date, and Button, ListItem or NavBar (with menu) take open to show their list, calendar or menu over the screen.`;
+9. Any element except Board, Screen and Note can take tooltip="text" to show a tooltip next to it. Select (with options), Input type=date, and Button, ListItem or NavBar (with menu) take open to show their list, calendar or menu over the screen.`;
 
 export const TEXT_FORMAT = `## Output format: wireframe text
 One element per line. Indent children two spaces under their parent. The first line is the board.

@@ -14,7 +14,7 @@ button secondary "Draft" tooltip="Saves without publishing"
 - **Open states:** a select's options list, a date input's calendar and a button's menu now draw over the screen, covering what's below, as they would in the app.
   - Each opens below its element, or above when there isn't room, and stays inside its screen.
   - The date picker opens on the value's month with that day selected.
-- **Menus on list rows and the navbar too:** `listitem "Budget.xlsx" open menu=[Rename, Move, Delete]` opens from a … at the row's end, and the navbar's from a ⋮ after its actions. Both icons are added if they aren't there.
+- **Menus on list rows and the navbar too:** `listitem "Budget.xlsx" open menu=[Rename, Move, Delete]` opens right-aligned under the row; a row with nothing at its end shows … for it. The navbar's menu opens under a ⋮, added after its actions unless the last one already is a ⋯/⋮ icon.
 - **Tooltips:** `tooltip="…"` works on any element except a board or screen. It sits above the element (below it near the top of the screen), with its arrow pointing at the element.
 - **Errors** when an open state has nothing to show: `open` without `options` or `menu`, or `open` on an input that isn't `type=date`.
 - **How it works:** a board with any of these renders twice. The first pass measures where elements landed, and the second draws the overlays on top. Boards without them render once, exactly as before.

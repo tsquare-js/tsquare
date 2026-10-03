@@ -16,7 +16,7 @@
  */
 import React, { type ReactNode } from "react";
 import type { Spec } from "@json-render/core";
-import { IconGlyph } from "./components.js";
+import { IconGlyph, monthGrid } from "./components.js";
 import type { Palette } from "./colors.js";
 import { theme as t } from "./layout.js";
 
@@ -200,7 +200,8 @@ export function overlayLayer(spec: Spec, anchors: Anchor[], boxes: Record<string
       node = <ListCard items={items} width={width} c={c} />;
     } else if (a.kind === "calendar") {
       const date = parseDate(p.value);
-      const weeks = 6;
+      const { start, days } = monthGrid(date?.month);
+      const weeks = Math.ceil((start + days) / 7); // as the Calendar draws it: 4, 5 or 6 rows
       pos = place(anchor, { w: 296, h: 92 + weeks * 38 }, screen, { prefer: "below", align: "start", gap: 4 });
       node = (
         <div style={{ display: "flex", boxShadow: "0 8px 24px rgba(0,0,0,0.18)", borderRadius: 12 }}>

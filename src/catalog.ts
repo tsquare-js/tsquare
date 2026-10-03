@@ -26,7 +26,8 @@ const menuItem = z.union([z.string(), z.strictObject({ label: z.string(), icon: 
 export const UNIVERSAL_PROPS = {
   tooltip: z.string().describe("Show a tooltip with this text next to the element"),
 } as const;
-export const takesUniversalProps = (type: string) => type !== "Board" && type !== "Screen";
+/** Not the canvas (Board, Screen) or its annotations (Note): a tooltip there would be meaningless. */
+export const takesUniversalProps = (type: string) => type !== "Board" && type !== "Screen" && type !== "Note";
 
 /** A bullet: plain text, or {label icon muted} to override the list's icon for one line. */
 const bulletItem = z.union([

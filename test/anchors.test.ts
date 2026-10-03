@@ -73,6 +73,15 @@ test("open states need what they show", () => {
   assert.match(problems(board("list", '  listitem "Row" open')).join(), /add menu=\[…\]/);
   assert.match(problems(board('select "Size" open')).join(), /add options=\[…\]/);
   assert.match(problems('board tooltip="x"\n  screen phone\n    text "a"').join(), /Board has no prop "tooltip"/);
+  assert.match(problems('board\n  screen phone\n    text "a"\n  note "Check copy" tooltip="x"').join(), /Note has no prop "tooltip"/);
+});
+
+test("a custom accent in the marker range doesn't confuse measuring", async () => {
+  // the stepper's connecting line is drawn as a plain rect in the accent color, before the screen's marker
+  const text = 'board accent=#fe0001\n  screen custom width=400 height=300 padding=20 chrome=false\n    progress steps=3 step=2\n    select "Size" open options=[S, M]';
+  const { anchors, boxes } = await measureAnchors(spec(text));
+  const screen = boxes[anchors[0].screen];
+  assert.ok(screen && Math.abs(screen.w - 397) <= 1, `screen measured as the screen, not the accent button: ${JSON.stringify(screen)}`);
 });
 
 test("the final render has the overlays but none of the measuring markers", async () => {

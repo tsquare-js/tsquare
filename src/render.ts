@@ -276,7 +276,9 @@ export async function measureAnchors(spec: Spec) {
   const anchors = findAnchors(spec);
   if (!anchors.length) return { anchors, boxes: {} as Record<string, { x: number; y: number; w: number; h: number }> };
   const { width, height } = boardSize(spec);
-  const registry = withPalette(paletteFor((spec.elements[spec.root]?.props as any)?.accent));
+  // Measured without the accent: color never changes layout, and a custom accent could otherwise
+  // share a marker's color (#feXXXX). No theme color starts with #fe.
+  const registry = withPalette(paletteFor());
   const { tagged, colors } = tagForMeasuring(spec, anchors);
   const svg = await renderToSvg(tagged, { registry: withMarkers(registry) as any, includeStandard: false, fonts: await loadFonts(), width, height });
   return { anchors, boxes: readMarkers(svg, colors) };

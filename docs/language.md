@@ -148,7 +148,7 @@ The tooltip sits above the element, or below it near the top of the screen, and 
     button ghost leadingIcon=more-horizontal open menu=[Rename, Duplicate, Delete]
 ```
 
-List items and the navbar take a menu too. A row's menu opens from a … at its end, and the navbar's from a ⋮ after its actions; both are added if they aren't there already:
+List items and the navbar take a menu too. A row's menu opens right-aligned under it; a row with nothing at its end shows … for it. The navbar's menu opens under a ⋮, added after its actions unless the last one already is one:
 
 ```tsquare
     listitem "Budget.xlsx" subtitle="380 KB" open menu=[Rename, Move, Delete]
