@@ -82,10 +82,16 @@ A missing comma joins two items into one: `actions=[search bell]` is a single it
 
 ### Objects
 
-Objects go in curly braces, as `key=value` pairs separated by spaces (commas are also fine). Tab bars use a list of objects:
+Objects go in curly braces, as `key=value` pairs separated by spaces (commas are also fine). A bare word turns an option on, as on an element line. Tab bars use a list of objects:
 
 ```tsquare
     tabbar items=[{label=Home icon=house}, {label=Search icon=search}] active=0
+```
+
+A list can also mix plain items and objects, when only some items need options. Bullets do this to change one line:
+
+```tsquare
+    bullets icon=check items=[Unlimited boards, Share links, {label="SSO" icon=x muted}]
 ```
 
 ### Comments

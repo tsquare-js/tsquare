@@ -1,0 +1,14 @@
+```tsquare
+board "Shop results"
+  screen phone "Results" height=900
+    navbar "Search results" leading=back actions=[filter]
+    stack padding=12 gap=12
+      slider "Price range" range=[20, 80]
+      list dividers
+        listitem "Product 1" subtitle="$24" leading=image
+        listitem "Product 2" subtitle="$32" leading=image
+        listitem "Product 3" subtitle="$41" leading=image
+        listitem "Product 4" subtitle="$55" leading=image
+        listitem "Product 5" subtitle="$68" leading=image
+      pagination pages=9 current=2
+```

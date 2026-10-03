@@ -3215,6 +3215,331 @@
     "failedChecks": []
   },
   {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t01-login",
+    "tokens": 103,
+    "chars": 442,
+    "elements": 12,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 5,
+    "checksTotal": 5,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t02-settings",
+    "tokens": 122,
+    "chars": 497,
+    "elements": 14,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t03-music",
+    "tokens": 484,
+    "chars": 1857,
+    "elements": 44,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 3,
+    "checksTotal": 3,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t04-dashboard",
+    "tokens": 269,
+    "chars": 1120,
+    "elements": 29,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 6,
+    "checksTotal": 6,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t05-product",
+    "tokens": 160,
+    "chars": 574,
+    "elements": 15,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t06-checkout",
+    "tokens": 308,
+    "chars": 1164,
+    "elements": 34,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 3,
+    "checksTotal": 3,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t07-tablet-mail",
+    "tokens": 257,
+    "chars": 1159,
+    "elements": 26,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 3,
+    "checksTotal": 3,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t08-files",
+    "tokens": 200,
+    "chars": 695,
+    "elements": 15,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 3,
+    "checksTotal": 3,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t09-onboarding",
+    "tokens": 194,
+    "chars": 767,
+    "elements": 22,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t10-chat",
+    "tokens": 185,
+    "chars": 730,
+    "elements": 21,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 3,
+    "checksTotal": 3,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t11-event-modal",
+    "tokens": 198,
+    "chars": 744,
+    "elements": 20,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 3,
+    "checksTotal": 4,
+    "failedChecks": [
+      "2+ selects"
+    ]
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t12-users",
+    "tokens": 359,
+    "chars": 1340,
+    "elements": 25,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t13-food",
+    "tokens": 254,
+    "chars": 952,
+    "elements": 28,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t14-side-menu",
+    "tokens": 153,
+    "chars": 589,
+    "elements": 20,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t15-pricing",
+    "tokens": 210,
+    "chars": 866,
+    "elements": 19,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t16-states",
+    "tokens": 152,
+    "chars": 649,
+    "elements": 15,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t17-profile",
+    "tokens": 178,
+    "chars": 671,
+    "elements": 24,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t18-delete",
+    "tokens": 169,
+    "chars": 757,
+    "elements": 18,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t19-responsive",
+    "tokens": 234,
+    "chars": 958,
+    "elements": 21,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 3,
+    "checksTotal": 3,
+    "failedChecks": []
+  },
+  {
+    "model": "sonnet",
+    "format": "text-v5",
+    "task": "t20-ride",
+    "tokens": 118,
+    "chars": 450,
+    "elements": 10,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 2,
+    "checksTotal": 4,
+    "failedChecks": [
+      "bottom sheet",
+      "3 ride options"
+    ]
+  },
+  {
     "model": "haiku",
     "format": "flat",
     "task": "t01-login",
@@ -4238,8 +4563,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 7: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)"
+      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 7: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -4325,10 +4650,10 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 17: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)"
+      "line 17: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -4597,8 +4922,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 7: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)"
+      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 7: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -4684,10 +5009,10 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 21: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)"
+      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 21: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -4935,7 +5260,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 4: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow); quote text like \"fullWidth\""
+      "line 4: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow); quote text like \"fullWidth\""
     ],
     "categories": [
       "invalid prop"
@@ -5298,8 +5623,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 5: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)"
+      "line 5: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -5393,11 +5718,11 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 21: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 22: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)"
+      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 21: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 22: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -5667,8 +5992,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 5: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)"
+      "line 5: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -5754,10 +6079,10 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 14: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 15: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 16: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 17: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
+      "line 14: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 15: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 16: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 17: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
       "line 22: Modal must be a direct child of a Screen (found in the Stack on line 21)"
     ],
     "categories": [
@@ -6380,8 +6705,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 7: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)"
+      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 7: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -6420,22 +6745,15 @@
     "task": "t03-music",
     "tokens": 458,
     "chars": 1756,
-    "elements": 46,
+    "elements": 48,
     "parsed": true,
-    "valid": false,
+    "valid": true,
     "rendered": true,
-    "issues": [
-      "line 19: expected = after library",
-      "line 48: expected = after library"
-    ],
-    "categories": [
-      "invalid prop"
-    ],
-    "checksPassed": 2,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 3,
     "checksTotal": 3,
-    "failedChecks": [
-      "tab bar with 4 tabs"
-    ]
+    "failedChecks": []
   },
   {
     "model": "haiku",
@@ -6483,11 +6801,11 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 15: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 16: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 17: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
-      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, error, grow)",
+      "line 15: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 16: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 17: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
       "line 24: Modal must be a direct child of a Screen (found in the Stack on line 23)"
     ],
     "categories": [
@@ -6749,5 +7067,379 @@
     "checksPassed": 4,
     "checksTotal": 4,
     "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t01-login",
+    "tokens": 119,
+    "chars": 466,
+    "elements": 14,
+    "parsed": true,
+    "valid": false,
+    "rendered": true,
+    "issues": [
+      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 8: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
+    ],
+    "categories": [
+      "invalid prop"
+    ],
+    "checksPassed": 5,
+    "checksTotal": 5,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t02-settings",
+    "tokens": 140,
+    "chars": 561,
+    "elements": 18,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t03-music",
+    "tokens": 423,
+    "chars": 1555,
+    "elements": 36,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 3,
+    "checksTotal": 3,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t04-dashboard",
+    "tokens": 230,
+    "chars": 978,
+    "elements": 29,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 5,
+    "checksTotal": 6,
+    "failedChecks": [
+      "search input"
+    ]
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t05-product",
+    "tokens": 173,
+    "chars": 715,
+    "elements": 18,
+    "parsed": true,
+    "valid": false,
+    "rendered": true,
+    "issues": [
+      "line 11: Select: fullWidth is a Button prop, not a Select one; a Select already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: grow)",
+      "line 17: subtitle=…: props go on the same line as their component; move it to the end of line 16",
+      "line 18: leading=…: props go on the same line as their component; move it to the end of line 16",
+      "line 20: subtitle=…: props go on the same line as their component; move it to the end of line 19",
+      "line 21: leading=…: props go on the same line as their component; move it to the end of line 19",
+      "line 23: subtitle=…: props go on the same line as their component; move it to the end of line 22",
+      "line 24: leading=…: props go on the same line as their component; move it to the end of line 22"
+    ],
+    "categories": [
+      "invalid prop",
+      "syntax"
+    ],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t06-checkout",
+    "tokens": 426,
+    "chars": 1583,
+    "elements": 37,
+    "parsed": true,
+    "valid": false,
+    "rendered": true,
+    "issues": [
+      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 21: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 22: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
+    ],
+    "categories": [
+      "invalid prop"
+    ],
+    "checksPassed": 3,
+    "checksTotal": 3,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t07-tablet-mail",
+    "tokens": 195,
+    "chars": 808,
+    "elements": 21,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 3,
+    "checksTotal": 3,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t08-files",
+    "tokens": 191,
+    "chars": 759,
+    "elements": 22,
+    "parsed": true,
+    "valid": false,
+    "rendered": true,
+    "issues": [
+      "line 8: Drawer must be a direct child of a Screen (found in the Stack on line 4)"
+    ],
+    "categories": [
+      "structure"
+    ],
+    "checksPassed": 3,
+    "checksTotal": 3,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t09-onboarding",
+    "tokens": 199,
+    "chars": 851,
+    "elements": 22,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t10-chat",
+    "tokens": 194,
+    "chars": 749,
+    "elements": 19,
+    "parsed": true,
+    "valid": false,
+    "rendered": true,
+    "issues": [
+      "line 3: NavBar: unknown icon \"call\" (did you mean phone, phone-call?)",
+      "line 9: Stack: don't know what \"12\" is (bare words it accepts: row, column, stretch, between, around, none, right, left, top, bottom, all, wrap, grow, fill)",
+      "line 15: Stack: don't know what \"12\" is (bare words it accepts: row, column, stretch, between, around, none, right, left, top, bottom, all, wrap, grow, fill)"
+    ],
+    "categories": [
+      "invalid prop"
+    ],
+    "checksPassed": 3,
+    "checksTotal": 3,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t11-event-modal",
+    "tokens": 111,
+    "chars": 442,
+    "elements": 13,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 3,
+    "checksTotal": 4,
+    "failedChecks": [
+      "2+ selects"
+    ]
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t12-users",
+    "tokens": 258,
+    "chars": 911,
+    "elements": 12,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t13-food",
+    "tokens": 236,
+    "chars": 893,
+    "elements": 28,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t14-side-menu",
+    "tokens": 150,
+    "chars": 613,
+    "elements": 17,
+    "parsed": true,
+    "valid": false,
+    "rendered": true,
+    "issues": [
+      "line 11: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
+      "line 12: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
+      "line 13: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
+      "line 14: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
+      "line 15: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
+      "line 17: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)"
+    ],
+    "categories": [
+      "invalid prop"
+    ],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t15-pricing",
+    "tokens": 253,
+    "chars": 1143,
+    "elements": 26,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 3,
+    "checksTotal": 4,
+    "failedChecks": [
+      "monthly/yearly choice"
+    ]
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t16-states",
+    "tokens": 138,
+    "chars": 587,
+    "elements": 15,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t17-profile",
+    "tokens": 187,
+    "chars": 783,
+    "elements": 24,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t18-delete",
+    "tokens": 145,
+    "chars": 622,
+    "elements": 16,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 4,
+    "checksTotal": 4,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t19-responsive",
+    "tokens": 223,
+    "chars": 943,
+    "elements": 24,
+    "parsed": true,
+    "valid": false,
+    "rendered": true,
+    "issues": [
+      "line 13: Stack has no prop \"height\": height is a Screen, Image and Chart prop, not a Stack one (its props: direction, gap, padding, align, justify, wrap, grow, width, border, fill)"
+    ],
+    "categories": [
+      "invalid prop"
+    ],
+    "checksPassed": 3,
+    "checksTotal": 3,
+    "failedChecks": []
+  },
+  {
+    "model": "haiku",
+    "format": "text-v5",
+    "task": "t20-ride",
+    "tokens": 174,
+    "chars": 675,
+    "elements": 22,
+    "parsed": true,
+    "valid": true,
+    "rendered": true,
+    "issues": [],
+    "categories": [],
+    "checksPassed": 3,
+    "checksTotal": 4,
+    "failedChecks": [
+      "3 ride options"
+    ]
   }
 ]

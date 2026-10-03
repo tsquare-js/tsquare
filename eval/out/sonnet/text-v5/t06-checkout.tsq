@@ -1,0 +1,34 @@
+board "Checkout"
+  screen phone "1. Cart"
+    navbar "Cart" leading=back
+    progress steps=3 step=1
+    list dividers
+      listitem "Product one" subtitle="Qty 1" leading=image trailingText="$29.00"
+      listitem "Product two" subtitle="Qty 2" leading=image trailingText="$40.00"
+    divider
+    stack row justify=between
+      text "Total" bold
+      text "$69.00" bold
+    spacer
+    button primary "Continue" fullWidth
+  screen phone "2. Shipping"
+    navbar "Shipping" leading=back
+    progress steps=3 step=2
+    input "Full name" placeholder="Jane Doe"
+    input "Address" placeholder="Street address"
+    stack row gap=12
+      input "City" grow
+      input "ZIP" width=100
+    select "Country" placeholder="Select a country"
+    input "Phone" placeholder="+1 555 000 0000"
+    spacer
+    button primary "Place order" fullWidth
+  screen phone "3. Confirmation"
+    navbar "Confirmation" leading=close
+    progress steps=3 step=3
+    image "Order summary" height=160
+    text lines=3
+    modal "Order placed"
+      icon check-circle size=40
+      text "Your order has been placed. A confirmation email is on its way."
+      button primary "Done" fullWidth

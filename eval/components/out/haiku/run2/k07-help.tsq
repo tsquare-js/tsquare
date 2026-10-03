@@ -1,0 +1,15 @@
+```tsquare
+board "Help Article"
+  screen desktop "Setup Guide"
+    navbar "Help Center" leading=back align=center
+    stack padding=48 gap=24 width=720
+      heading "Getting Started with Your Account" level=1 align=center
+      text "Follow these simple steps to set up your account and start using our platform" size=lg align=center
+      divider
+      text "Getting started is easy and takes just a few minutes. Follow the steps below to create your account, verify your email, and configure your basic settings." lines=3
+      heading "Setup Steps" level=2
+      bullets items=[{label="Create your account with email or social login"}, {label="Verify your email address"}, {label="Complete your profile information"}, {label="Connect your first tool or service"}] numbered
+      heading "Tips" level=2
+      bullets items=[{label="Use a strong password with mixed characters"}, {label="Enable two-factor authentication for security"}, {label="Customize your preferences in settings"}, {label="Check our docs for advanced features"}]
+      spacer size=32
+```

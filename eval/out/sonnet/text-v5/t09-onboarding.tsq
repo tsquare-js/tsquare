@@ -1,0 +1,22 @@
+board "Onboarding"
+  screen phone "Step 1"
+    spacer size=40
+    image "Illustration" height=240
+    heading "Welcome" level=1 align=center
+    text "A short description of the first feature." muted align=center
+    spacer
+    button primary "Continue" fullWidth
+  screen phone "Step 2"
+    spacer size=40
+    image "Illustration" height=240
+    heading "Stay organized" level=1 align=center
+    text "A short description of the second feature." muted align=center
+    spacer
+    button primary "Continue" fullWidth
+  screen phone "Step 3"
+    spacer size=40
+    image "Illustration" height=240
+    heading "You're all set" level=1 align=center
+    text "A short description of the last step." muted align=center
+    spacer
+    button primary "Get started" fullWidth

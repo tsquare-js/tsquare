@@ -1,0 +1,29 @@
+```tsquare
+board "Pricing Plans"
+  screen desktop "Pricing"
+    navbar "Pricing Plans" leading=none
+    stack gap=20 padding=20
+      heading "Choose Your Plan" level=1
+      stack row gap=20
+        card padding=20
+          heading "Free" level=2
+          heading "$0" level=3
+          text "/month" muted size=sm
+          button secondary "Get Started" fullWidth
+          text "Features:" bold size=sm
+          bullets items=[{label="Feature 1" icon=check}, {label="Feature 2" icon=check}, {label="Feature 3" icon=x muted}]
+        card padding=20
+          heading "Pro" level=2
+          heading "$29" level=3
+          text "/month" muted size=sm
+          button primary "Subscribe" fullWidth
+          text "Features:" bold size=sm
+          bullets items=[{label="Feature 1" icon=check}, {label="Feature 2" icon=check}, {label="Feature 3" icon=check}]
+        card padding=20
+          heading "Team" level=2
+          heading "$99" level=3
+          text "/month" muted size=sm
+          button secondary "Subscribe" fullWidth
+          text "Features:" bold size=sm
+          bullets items=[{label="Feature 1" icon=check}, {label="Feature 2" icon=check}, {label="Feature 3" icon=check}]
+```

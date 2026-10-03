@@ -1,0 +1,13 @@
+board "Calendar"
+  screen desktop "New Event"
+    stack padding=20
+      heading "New Event" level=1
+      input "Title" placeholder="Event name"
+      stack row gap=16
+        input "Date" type=date width=150
+        input "Time" type=text width=150
+      input "Description" placeholder="Add details" multiline=4
+      stack row gap=8 justify=end
+        button "Cancel" secondary
+        button "Save" primary
+    modal "Confirm" width=400

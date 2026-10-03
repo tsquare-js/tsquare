@@ -1,0 +1,16 @@
+```tsquare
+board "Shop Search"
+  screen phone "Results"
+    navbar "Search Results" leading=back actions=[filter]
+    stack gap=16 padding=16
+      stack gap=8
+        text "Price Range" bold size=sm
+        slider range=[20, 80] label="$20 - $80"
+      list grow
+        listitem title="Product 1" trailingText="$29.99" subtitle="Category"
+        listitem title="Product 2" trailingText="$49.99" subtitle="Category"
+        listitem title="Product 3" trailingText="$19.99" subtitle="Category"
+        listitem title="Product 4" trailingText="$39.99" subtitle="Category"
+        listitem title="Product 5" trailingText="$59.99" subtitle="Category"
+      pagination pages=9 current=2
+```

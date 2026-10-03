@@ -1,0 +1,16 @@
+board "Project Settings"
+  screen desktop "Delete Confirmation"
+    stack padding=24 gap=20
+      heading "Project Settings" level=1
+      stack gap=16
+        card padding=16 variant=outline
+          heading "Danger Zone" level=3
+          text "Permanently delete this project" muted
+          button "Delete Project" size=sm
+    modal "Confirm Deletion" width=400
+      stack padding=24 gap=16
+        text "Type the project name to confirm deletion"
+        input "Project name" placeholder="Enter project name"
+        stack row gap=8 justify=end
+          button "Cancel" secondary
+          button "Delete" size=sm

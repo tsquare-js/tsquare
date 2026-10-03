@@ -1,0 +1,16 @@
+```tsquare
+board "Shop Results"
+  screen phone "Search Results"
+    navbar "Products" leading=back actions=[search]
+    stack padding=16 gap=16
+      stack gap=8
+        text "Price Range" bold
+        slider range=[30, 200] label="$30 - $200"
+      list dividers
+        listitem title="Blue Sneakers" subtitle="$79" trailingIcon=chevron-right leading=icon leadingIcon=shoe
+        listitem title="Running Shoes" subtitle="$89" trailingIcon=chevron-right leading=icon leadingIcon=shoe
+        listitem title="Classic Loafers" subtitle="$119" trailingIcon=chevron-right leading=icon leadingIcon=shoe
+        listitem title="Sport Boots" subtitle="$149" trailingIcon=chevron-right leading=icon leadingIcon=shoe
+        listitem title="Casual Oxfords" subtitle="$99" trailingIcon=chevron-right leading=icon leadingIcon=shoe
+      pagination pages=9 current=2
+```

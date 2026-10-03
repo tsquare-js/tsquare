@@ -1,0 +1,38 @@
+```tsquare
+board "Music app" layout=grid columns=3
+  screen phone "Home"
+    navbar "Music" leading=menu
+    tabs items=[For You, Playlists, Artists] active=0
+    stack padding=16 gap=16
+      heading "Recently played" level=2
+      list
+        listitem "Playlist 1" subtitle="20 songs" leading=image
+        listitem "Playlist 2" subtitle="15 songs" leading=image
+        listitem "Playlist 3" subtitle="30 songs" leading=image
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Liked icon=heart}, {label=Profile icon=user}] active=0
+  screen phone "Now Playing"
+    navbar "Now playing" leading=close
+    stack padding=16 gap=12 grow
+      image height=240
+      heading "Song title" level=1 align=center
+      text "Artist name" size=lg align=center muted
+      spacer
+      stack row justify=between
+        icon "skip-back" size=32
+        icon "play" size=32
+        icon "skip-forward" size=32
+      spacer
+    drawer bottom "Queue" size=320
+      list dividers
+        listitem "Song 1" leading=icon leadingIcon=music
+        listitem "Song 2" leading=icon leadingIcon=music
+        listitem "Song 3" leading=icon leadingIcon=music
+  screen phone "Library"
+    navbar "Library" leading=menu
+    tabs items=[Downloads, Liked, Playlists] active=0
+    stack padding=16 gap=16
+      list
+        listitem "Downloaded album" leading=image
+        listitem "Downloaded song" leading=icon leadingIcon=music
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Liked icon=heart}, {label=Profile icon=user}] active=2
+```

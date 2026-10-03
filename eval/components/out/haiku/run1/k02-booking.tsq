@@ -1,0 +1,18 @@
+```tsquare
+board "Hotel Booking"
+  screen phone "Booking"
+    navbar "Search Hotels" leading=back
+    stack gap=16 padding=16
+      stack gap=8
+        text "Check-in" size=sm muted
+        input placeholder="Select date"
+      stack gap=8
+        text "Check-out" size=sm muted
+        input placeholder="Select date"
+      stack gap=8
+        text "Guests" size=sm muted
+        select value="2 guests"
+      text "October 2026" bold
+      calendar month="October 2026" range=[12, 18]
+      button primary "Reserve" fullWidth
+```

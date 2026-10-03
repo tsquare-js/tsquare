@@ -1,0 +1,20 @@
+```tsquare
+board "Project settings"
+  screen desktop "Settings"
+    navbar "Project settings" leading=logo actions=[bell, user]
+    stack padding=24 gap=16
+      heading "Settings" level=1
+      card "General" padding=16
+        input "Project name" value="atlas-web"
+        input "Description" multiline=3
+        button primary "Save changes"
+      card "Danger zone" padding=16
+        text "Deleting this project is permanent and cannot be undone."
+        button secondary "Delete project"
+    modal "Delete project" width=440
+      text "This will permanently delete the project and all its data."
+      input "Type atlas-web to confirm" placeholder="atlas-web"
+      stack row gap=8 justify=end
+        button secondary "Cancel"
+        button primary "Delete"
+```

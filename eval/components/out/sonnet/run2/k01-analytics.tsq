@@ -1,0 +1,26 @@
+```tsquare
+board "Analytics"
+  screen desktop "Dashboard" height=800
+    navbar "Analytics" leading=menu actions=[bell, user]
+    stack row gap=12 padding=12
+      card "Revenue" grow
+        heading "$48,200" level=2
+        text sm "+12% vs last month" muted
+      card "Users" grow
+        heading "12,430" level=2
+        text sm "+4%" muted
+      card "Orders" grow
+        heading "1,284" level=2
+        text sm "+8%" muted
+      card "Conversion" grow
+        heading "3.2%" level=2
+        text sm "-0.3%" muted
+    stack padding=12 gap=12
+      card "Revenue over time"
+        chart line height=200
+      stack row gap=12
+        card "Weekly signups" grow
+          chart bar height=200
+        card "Traffic sources" grow
+          chart pie height=200
+```

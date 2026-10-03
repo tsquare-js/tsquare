@@ -37,4 +37,4 @@ board row "Checkout flow" gap=48 accent=blue
 | `columns` | number |  |
 | `gap` | number |  |
 | `padding` | number |  |
-| `accent` | string | The one UI color: primary buttons, solid badges, checked controls, toggles, active tabs, ghost buttons. blue, indigo, violet, pink, red, orange, green, teal, or a hex color like #1a73e8. Omit for grayscale. |
+| `accent` | string | The one UI color: primary buttons, solid badges, checked controls, toggles, sliders, progress, selected days and pages, active tabs, ghost buttons. blue, indigo, violet, pink, red, orange, green, teal, or a hex color like #1a73e8. Omit for grayscale. |

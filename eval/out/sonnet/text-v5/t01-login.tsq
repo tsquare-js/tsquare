@@ -1,0 +1,12 @@
+board "Login"
+  screen phone "Sign in"
+    spacer size=40
+    heading "Welcome back" level=1 align=center
+    text "Sign in to your account" muted align=center
+    spacer size=16
+    input "Email" type=email placeholder="you@example.com"
+    input "Password" type=password placeholder="Enter your password"
+    stack row justify=between
+      checkbox "Remember me"
+      button ghost "Forgot password?"
+    button primary "Sign in" fullWidth

@@ -77,6 +77,28 @@ npm run eval:prompts   # rebuild the prompts (the committed ones are what was te
 | `results.json` | scores per output |
 | `renders/` | PNGs of every output (regenerated, not committed) |
 
+## Component eval (0.4.0)
+
+Do models reach for the 0.4.0 components (chart, calendar, date and code inputs, progress, slider, pagination, bullets) when a screen needs them, and write them correctly? It uses 7 requests (`components/tasks.ts`) that describe the screen without naming components, with two runs per model, using the 0.4.0 prompt (`components/prompt.md`).
+
+| | Sonnet | Haiku |
+|---|---|---|
+| Valid, first try | 14/14 | 12/14 |
+| Checks passed | 32/32 | 30/32 |
+
+The first scoring found two problems in the language, not the models, and both were fixed before release:
+- **Sonnet wrote `{label=Custom domain icon=x muted}`.** An unquoted value in `{…}` can now contain spaces.
+- **Haiku wrote `slider range=[30, 200]` for prices.** The slider now accepts any amounts and scales its track.
+
+Haiku's remaining misses: it wrote the dates as plain inputs once, and garbled one list of objects.
+
+The original 20 requests with the 0.4.0 prompt (`text-v5`): Sonnet 100%, Haiku 65%, within Haiku's usual 55–85%. None of its failures involve the new components, which also showed up unprompted in 6 of the 40 outputs (for example a chart on the dashboard).
+
+```bash
+npx tsx eval/components/score.ts            # score, render to components/renders/
+npx tsx eval/components/score.ts --prompt   # rewrite components/prompt.md and components/tasks.md
+```
+
 ## Color eval
 
 Do models use the three color props (board `accent`, badge `tone`, input `error`) when asked, leave them out when not, and avoid inventing others? It uses 7 requests (`colors/tasks.ts`), including a named brand color, a hex brand color, "a purple theme" (not one of the named accents), colors the props can't express, and a request with no color at all. The prompt is today's model prompt, saved as `colors/prompt.md`.

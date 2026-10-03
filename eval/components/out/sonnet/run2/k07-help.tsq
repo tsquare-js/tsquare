@@ -1,0 +1,11 @@
+```tsquare
+board "Help center"
+  screen desktop "Help article"
+    stack padding=32 gap=16
+      heading "Set up your account" level=1
+      text "A short guide to getting started in a few minutes." muted
+      heading "Setup steps" level=2
+      bullets numbered items=[Create an account, Verify your email, Invite your team, Connect your first integration]
+      heading "Tips" level=2
+      bullets items=[Use a strong password, Enable two-factor authentication, Check the status page for updates]
+```

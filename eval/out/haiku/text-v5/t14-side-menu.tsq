@@ -1,0 +1,17 @@
+board "Mobile Menu"
+  screen phone "Menu Open"
+    navbar "Home" leading=menu
+    drawer left "Menu" size=240
+      stack padding=16 gap=16
+        stack row gap=12 align=center
+          avatar "JD" size=48
+          text "John Doe" bold
+        divider
+        stack gap=8
+          button "Home" ghost fullWidth align=left
+          button "Profile" ghost fullWidth align=left
+          button "Settings" ghost fullWidth align=left
+          button "Notifications" ghost fullWidth align=left
+          button "Help" ghost fullWidth align=left
+        divider
+        button "Log out" ghost fullWidth align=left

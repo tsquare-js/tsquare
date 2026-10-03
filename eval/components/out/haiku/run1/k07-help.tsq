@@ -1,0 +1,14 @@
+```tsquare
+board "Help Article"
+  screen desktop "Setup Guide"
+    navbar "How to Get Started" leading=back
+    stack gap=20 padding=40
+      heading "Getting Started" level=1
+      text "Follow these steps to set up your account and start using our service." size=md
+      stack gap=16
+        heading "Setup Steps" level=2
+        bullets items=[{"label=Step 1: Create your account", "numbered"}, {"label=Step 2: Configure settings", "numbered"}, {"label=Step 3: Invite your team", "numbered"}, {"label=Step 4: Start using", "numbered"}] numbered
+      stack gap=16
+        heading "Tips & Tricks" level=2
+        bullets items=[Tip 1: Save time with shortcuts, Tip 2: Use keyboard commands, "Tip 3: Check the docs", "Tip 4: Join the community"]
+```

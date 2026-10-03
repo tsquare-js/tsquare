@@ -15,8 +15,9 @@ const MODELS = ["sonnet", "haiku"] as const;
 // text-rerun and text-v2-rerun: fresh runs of prompts/text.md and text-v2.md, to see run-to-run variance.
 // text-v3 (two runs): the prompt after comments became whole lines only.
 // text-v4 (two runs): yes/no props listed with the components that have them.
-const FORMATS = ["flat", "nested", "text", "text-rerun", "text-v2", "text-v2-rerun", "text-v3", "text-v3-rerun", "text-v4", "text-v4-rerun"] as const;
-const EXT = { flat: "json", nested: "json", text: "wf", "text-rerun": "wf", "text-v2": "tsq", "text-v2-rerun": "tsq", "text-v3": "tsq", "text-v3-rerun": "tsq", "text-v4": "tsq", "text-v4-rerun": "tsq" } as const;
+// text-v5: the 0.4.0 prompt (new components), to check the old tasks don't regress.
+const FORMATS = ["flat", "nested", "text", "text-rerun", "text-v2", "text-v2-rerun", "text-v3", "text-v3-rerun", "text-v4", "text-v4-rerun", "text-v5"] as const;
+const EXT = { flat: "json", nested: "json", text: "wf", "text-rerun": "wf", "text-v2": "tsq", "text-v2-rerun": "tsq", "text-v3": "tsq", "text-v3-rerun": "tsq", "text-v4": "tsq", "text-v4-rerun": "tsq", "text-v5": "tsq" } as const;
 
 function extractBlock(reply: string) {
   const m = reply.match(/```[\w-]*\n([\s\S]*?)```/);

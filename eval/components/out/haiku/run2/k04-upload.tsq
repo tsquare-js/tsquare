@@ -1,0 +1,26 @@
+```tsquare
+board "File Upload"
+  screen desktop "Upload"
+    navbar "Upload Files" align=center
+    stack padding=32 gap=32
+      stack gap=8
+        text "Upload Progress" bold
+        progress label="Step 2 of 4" value=50 steps=4 step=2
+      stack gap=16 padding=16 fill
+        text "Files Uploading" bold
+        stack gap=12
+          stack row gap=12
+            stack grow
+              text "document.pdf" bold
+              progress value=40
+            text "40%"
+          stack row gap=12
+            stack grow
+              text "presentation.pptx" bold
+              progress value=85
+            text "85%"
+      stack gap=8
+        text "Storage Used" bold
+        progress shape=circle value=72
+        text "5.2 GB of 7.2 GB" sm muted
+```

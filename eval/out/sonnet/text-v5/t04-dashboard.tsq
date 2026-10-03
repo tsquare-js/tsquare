@@ -1,0 +1,29 @@
+board "Analytics dashboard"
+  screen desktop "Dashboard"
+    stack row grow
+      stack column width=240 border=right gap=8 padding=16
+        heading "Acme" level=3
+        button ghost "Dashboard" leadingIcon=layout-dashboard
+        button ghost "Orders" leadingIcon=shopping-cart
+        button ghost "Customers" leadingIcon=users
+        button ghost "Reports" leadingIcon=bar-chart
+        button ghost "Settings" leadingIcon=settings
+      stack column grow gap=16 padding=16
+        stack row gap=12 align=center
+          input search placeholder="Search" grow
+          avatar "AB"
+        stack row gap=12
+          card "Revenue" grow
+            heading "$24,500" level=2
+            text sm "+12%" muted
+          card "Orders" grow
+            heading "1,240" level=2
+            text sm "+5%" muted
+          card "Customers" grow
+            heading "860" level=2
+            text sm "+8%" muted
+          card "Conversion" grow
+            heading "3.2%" level=2
+            text sm "-1%" muted
+        heading "Recent orders" level=3
+        table columns=[Order, Customer, Date, Status, Total] rows=5

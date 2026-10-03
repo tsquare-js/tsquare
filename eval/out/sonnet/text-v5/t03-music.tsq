@@ -1,0 +1,44 @@
+board "Music app"
+  screen phone "Home"
+    navbar "Home" actions=[search, bell]
+    heading "Recently played" level=2
+    grid columns=2 gap=12
+      card padding=10
+        image height=100
+        text "Album one" bold
+        text sm "Artist" muted
+      card padding=10
+        image height=100
+        text "Album two" bold
+        text sm "Artist" muted
+    heading "Made for you" level=2
+    list dividers
+      listitem "Daily mix 1" subtitle="Artist, Artist" leading=image
+      listitem "Daily mix 2" subtitle="Artist, Artist" leading=image
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Library icon=library}, {label=Profile icon=user}] active=0
+  screen phone "Now Playing"
+    navbar leading=back actions=[more-horizontal]
+    image "Album art" height=260
+    heading "Song title" level=2 align=center
+    text "Artist name" muted align=center
+    progress value=40
+    stack row justify=around
+      icon shuffle
+      icon skip-back
+      icon play size=32
+      icon skip-forward
+      icon repeat
+    drawer bottom "Up next" size=280
+      list dividers
+        listitem "Track one" subtitle="Artist" leading=image trailingText="3:24"
+        listitem "Track two" subtitle="Artist" leading=image trailingText="4:02"
+        listitem "Track three" subtitle="Artist" leading=image trailingText="2:58"
+  screen phone "Library"
+    navbar "Library" actions=[search]
+    tabs items=[Playlists, Albums, Artists] active=0
+    list dividers
+      listitem "Liked songs" subtitle="120 songs" leading=image
+      listitem "Road trip" subtitle="45 songs" leading=image
+      listitem "Focus" subtitle="60 songs" leading=image
+      listitem "Workout" subtitle="32 songs" leading=image
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Library icon=library}, {label=Profile icon=user}] active=2
