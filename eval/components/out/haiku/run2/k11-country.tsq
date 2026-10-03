@@ -1,0 +1,11 @@
+board "Shipping Address"
+  screen phone "Address"
+    heading "Shipping Address" level=1
+    input label="Full Name" placeholder="John Doe"
+    input label="Email" type=email placeholder="john@example.com"
+    input label="Street Address" placeholder="123 Main St"
+    stack row gap=12
+      input grow label="City" placeholder="City"
+      input grow label="State" placeholder="ST"
+    input label="Zip Code" placeholder="12345"
+    select open label="Country" value="Mexico" options=[Canada, Mexico, "United States"]

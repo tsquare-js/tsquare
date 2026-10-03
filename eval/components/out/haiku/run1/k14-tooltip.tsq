@@ -1,0 +1,10 @@
+```tsquare
+board "Text Editor"
+  screen desktop "Editor"
+    stack row gap=4 padding=8 border=bottom
+      button ghost size=sm leadingIcon=bold tooltip="Bold (⌘B)"
+      button ghost size=sm leadingIcon=italic tooltip="Italic (⌘I)"
+      button ghost size=sm leadingIcon=link tooltip="Insert link (⌘K)"
+      button ghost size=sm leadingIcon=image tooltip="Insert image"
+    input multiline=10 placeholder="Start typing..."
+```

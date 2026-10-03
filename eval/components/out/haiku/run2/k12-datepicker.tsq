@@ -1,0 +1,8 @@
+board "Flight Search"
+  screen phone "Search"
+    heading "Book a Flight" level=1
+    input label="From" placeholder="Departure city"
+    input label="To" placeholder="Destination city"
+    input open type=date label="Departure Date" value="2026-11-20"
+    calendar "November 2026" selected=20
+    button primary "Search Flights" fullWidth

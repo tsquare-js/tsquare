@@ -210,7 +210,13 @@ export const EXAMPLES: Record<string, string> = {
       button secondary "Back" leadingIcon=chevron-left
       button primary "Next" trailingIcon=chevron-right
     button primary "Full width" fullWidth
-    text "With a board accent, primary buttons fill with it and ghost buttons use it for text." sm muted`,
+    text "With a board accent, primary buttons fill with it and ghost buttons use it for text." sm muted
+  screen custom "menu and open" width=380 height=300
+    stack row justify=between align=center
+      heading "Notes" level=3
+      button ghost leadingIcon=more-horizontal open menu=[{label=Rename icon=pencil}, {label=Duplicate icon=copy}, Share, {label=Delete icon=trash-2}]
+    text lines=3
+    text "menu lists the items; open shows them over the screen." sm muted`,
 
   Input: `board
   screen custom width=420 height=760
@@ -223,7 +229,10 @@ export const EXAMPLES: Record<string, string> = {
       input placeholder="grow fills the row" grow
       button primary "Send"
     input "Check-in" type=date value="Oct 14, 2026"
-    input "Verification code" type=code value="4821" helper="Sent to (555) 010-2400"`,
+    input "Verification code" type=code value="4821" helper="Sent to (555) 010-2400"
+  screen custom "type=date open" width=420 height=440
+    input "Check-in" type=date value="Oct 14, 2026" open
+    input "Check-out" type=date value="Oct 18, 2026"`,
 
   Checkbox: `board
   screen custom width=300 height=100
@@ -252,7 +261,10 @@ export const EXAMPLES: Record<string, string> = {
     select "Size" placeholder="Choose one" width=160
     stack row gap=12
       input "City" placeholder="Monterrey" grow
-      select "State" value="Nuevo León" grow`,
+      select "State" value="Nuevo León" grow
+  screen custom "options and open" width=380 height=260
+    select "Country" value="Mexico" open options=[Canada, Mexico, United States, Spain]
+    input "City" placeholder="Monterrey"`,
 
   Slider: `board
   screen custom width=380 height=200
@@ -280,7 +292,10 @@ export const EXAMPLES: Record<string, string> = {
     navbar "leading=menu" leading=menu actions=[search, bell]
     navbar "leading=back, centered" leading=back align=center actions=[share]
     navbar "leading=close" leading=close
-    navbar "leading=logo" leading=logo actions=[user]`,
+    navbar "leading=logo" leading=logo actions=[user]
+  screen custom "menu and open" width=380 height=240 padding=0 gap=0
+    navbar "Inbox" leading=menu actions=[search] open menu=[Mark all as read, {label=Settings icon=settings}, {label=Sign out icon=log-out}]
+    text lines=4`,
 
   TabBar: `board
   screen phone "Tab bar sits at the bottom"
@@ -318,7 +333,13 @@ export const EXAMPLES: Record<string, string> = {
       listitem "leading=image" subtitle="trailing=badge" leading=image trailing=badge trailingText="3"
       listitem "leading=checkbox" leading=checkbox trailing=toggle
       listitem "trailingIcon=trash-2" trailingIcon=trash-2
-      listitem leading=image trailing=chevron`,
+      listitem leading=image trailing=chevron
+  screen custom "menu and open" width=400 height=330
+    list
+      listitem "Report.pdf" subtitle="2.4 MB" leadingIcon=file-text
+      listitem "Budget.xlsx" subtitle="380 KB" leadingIcon=sheet open menu=[{label=Rename icon=pencil}, {label=Move icon=folder}, {label=Delete icon=trash-2}]
+      listitem "Notes.txt" subtitle="12 KB" leadingIcon=file
+      listitem "Photo.jpg" subtitle="1.1 MB" leadingIcon=image`,
 
   Table: `board
   screen custom width=520 height=400

@@ -1,0 +1,9 @@
+board "Editor"
+  screen desktop "Document"
+    navbar "Untitled Document" actions=[save]
+    stack row gap=8 padding=12 border=bottom
+      button secondary leadingIcon=bold tooltip="Bold (⌘B)"
+      button secondary leadingIcon=italic tooltip="Italic (⌘I)"
+      button secondary leadingIcon=link tooltip="Insert link (⌘K)"
+      button secondary leadingIcon=image tooltip="Insert image"
+    text lines=8

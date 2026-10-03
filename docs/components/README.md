@@ -38,12 +38,12 @@ Every component, grouped as in the playground. Each page has a rendered example,
 
 | Component | What it's for |
 |---|---|
-| [button](button.md) | Button. Primary is filled, secondary is outlined, ghost is text only. |
+| [button](button.md) | Button. Primary is filled, secondary is outlined, ghost is text only. With menu and open, a dropdown menu. |
 | [input](input.md) | Text field with optional label. Set multiline for a textarea. |
 | [checkbox](checkbox.md) | Checkbox with label. |
 | [radio](radio.md) | Radio button with label. |
 | [toggle](toggle.md) | On/off switch with label on the left. |
-| [select](select.md) | Dropdown field (closed state). |
+| [select](select.md) | Dropdown field. With options and open, the list shows below it. |
 | [slider](slider.md) | Slider with one handle, or two with `range`. |
 | [progress](progress.md) | Progress bar, ring (circle), or stepper (steps). |
 | [calendar](calendar.md) | Month calendar. |

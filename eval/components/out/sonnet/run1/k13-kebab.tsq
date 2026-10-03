@@ -1,0 +1,10 @@
+```tsquare
+board "Files"
+  screen desktop "File list"
+    heading "Files" level=2
+    list dividers
+      listitem "Project plan.docx" subtitle="Edited today" leadingIcon=file-text
+      listitem "Budget.xlsx" subtitle="Edited yesterday" leadingIcon=file-spreadsheet menu=[Rename, Move, Share, Delete] open
+      listitem "Photos.zip" subtitle="Edited last week" leadingIcon=file-archive
+      listitem "Notes.txt" subtitle="Edited last month" leadingIcon=file
+```

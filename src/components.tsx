@@ -49,6 +49,55 @@ function Box({ style, children }: { style?: CSSProperties; children?: ReactNode 
   return <div style={clean as CSSProperties}>{children}</div>;
 }
 
+// ── Markers (the measuring pass of anchored overlays, see anchors.tsx) ──
+
+/**
+ * An invisible-in-practice box filling its parent in a unique color. The measuring pass draws one per
+ * anchored element and reads its position back from the SVG; the final render never includes them.
+ */
+function Marker({ color }: { color: string }) {
+  return <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: color }} />;
+}
+
+/** Adds a marker to a component's outer box, looking through helper components to the Box they return. */
+function markRoot(root: ReactNode, color: string): ReactNode {
+  let node = root;
+  while (isValidElement(node) && typeof node.type === "function" && node.type !== Box) node = (node.type as any)(node.props);
+  if (!isValidElement(node)) return root;
+  const kids = Children.toArray((node.props as any).children);
+  return cloneElement(node as any, {}, ...kids, <Marker key="__marker" color={color} />);
+}
+
+/**
+ * A registry for the measuring pass: an element whose props carry `__mark` (a color) gets a marker on
+ * its outer box. Fields and screens place their own (`__markField`, Screen's frame), since an overlay
+ * hangs from the field, not the label, and stays inside the device frame.
+ */
+export function withMarkers(reg: typeof registry): typeof registry {
+  return Object.fromEntries(
+    Object.entries(reg).map(([name, C]) => [
+      name,
+      (props: Props) => {
+        const root = (C as any)(props);
+        const color = props.element?.props?.__mark;
+        return color && name !== "Screen" ? markRoot(root, color) : root;
+      },
+    ]),
+  ) as typeof registry;
+}
+
+/** A registry whose Board also draws `layer` on top of everything (the anchored overlays). */
+export function withTopLayer(reg: typeof registry, layer: ReactNode): typeof registry {
+  return {
+    ...reg,
+    Board: (props: Props) => {
+      const root = (reg.Board as any)(props);
+      if (!isValidElement(root)) return root;
+      return cloneElement(root as any, {}, ...Children.toArray((root.props as any).children), layer);
+    },
+  } as typeof registry;
+}
+
 /** Tell each child which way its parent lays out, so leaves can avoid stretching. */
 /** `aligned`: the parent column sets align=start/center/end, so leaves follow it instead of hugging the left edge. */
 function withDir(children: ReactNode, dir: Dir, stretch = false, aligned = false) {
@@ -243,6 +292,7 @@ function Screen({ element, children }: Props) {
           </Box>
           {bottom}
           {overlays.map((o) => (isValidElement(o) ? cloneElement(o as any, { aboveTabBar: bottom.length > 0 }) : o))}
+          {p.__mark ? <Marker color={p.__mark} /> : null}
         </Box>
       </Box>
     </Box>
@@ -720,7 +770,7 @@ function FieldLabel({ text }: { text?: string | null }) {
   return text ? <Box style={{ fontSize: 13, fontWeight: 600, color: t.text }}>{text}</Box> : null;
 }
 
-function Field({ children, height = 42, top = false, error = false }: { children?: ReactNode; height?: number; top?: boolean; error?: boolean }) {
+function Field({ children, height = 42, top = false, error = false, mark }: { children?: ReactNode; height?: number; top?: boolean; error?: boolean; mark?: string }) {
   return (
     <Box
       style={{
@@ -735,6 +785,7 @@ function Field({ children, height = 42, top = false, error = false }: { children
       }}
     >
       {children}
+      {mark ? <Marker color={mark} /> : null}
     </Box>
   );
 }
@@ -783,7 +834,7 @@ function Input({ element, dir, colors }: Props) {
   return (
     <Box style={{ flexDirection: "column", gap: 6, ...fieldWidth(p.width, dir), ...(p.grow ? { flexGrow: 1 } : {}) }}>
       <FieldLabel text={p.label} />
-      <Field height={rows > 1 ? rows * 22 + 20 : 42} top={rows > 1} error={!!p.error}>
+      <Field height={rows > 1 ? rows * 22 + 20 : 42} top={rows > 1} error={!!p.error} mark={p.__markField}>
         {p.type === "search" ? <IconGlyph name="search" size={18} color={t.muted} /> : null}
         <Box style={{ flexGrow: 1, color: content ? t.ink : t.muted }}>
           {content ?? p.placeholder ?? (isPassword ? "••••••••" : "")}
@@ -801,7 +852,7 @@ function Select({ element, dir }: Props) {
   return (
     <Box style={{ flexDirection: "column", gap: 6, ...fieldWidth(p.width, dir), ...(p.grow ? { flexGrow: 1 } : {}) }}>
       <FieldLabel text={p.label} />
-      <Field>
+      <Field mark={p.__markField}>
         <Box style={{ flexGrow: 1, color: p.value ? t.ink : t.muted }}>{p.value ?? p.placeholder ?? "Select…"}</Box>
         <IconGlyph name="chevron-down" size={18} color={t.text} />
       </Field>
@@ -1057,9 +1108,12 @@ function NavBar({ element }: Props) {
     ) : p.leading && p.leading !== "none" ? (
       <IconGlyph name={LEADING_ICON[p.leading]} size={22} />
     ) : null;
+  // a menu needs something to open from: add ⋮ unless the actions already end with one
+  const icons: string[] = [...(p.actions ?? [])];
+  if (p.menu?.length && !/^(more-|ellipsis)/.test(icons[icons.length - 1] ?? "")) icons.push("more-vertical");
   const actions = (
     <Box style={{ gap: 18, alignItems: "center", justifyContent: "flex-end" }}>
-      {(p.actions ?? []).map((a: string, i: number) => (
+      {icons.map((a: string, i: number) => (
         <IconGlyph key={i} name={a} size={22} />
       ))}
     </Box>
@@ -1229,7 +1283,8 @@ function ListItem({ element, colors }: Props) {
       case "icon":
         return <IconGlyph name={p.trailingIcon ?? "more-horizontal"} size={20} color={t.muted} />;
       default:
-        return null;
+        // a row with a menu shows … to open it from
+        return p.menu?.length ? <IconGlyph name="more-horizontal" size={20} color={t.muted} /> : null;
     }
   })();
   return (

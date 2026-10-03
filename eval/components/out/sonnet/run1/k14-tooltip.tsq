@@ -1,0 +1,10 @@
+```tsquare
+board "Editor"
+  screen desktop "Editor"
+    stack row gap=8 padding=8 border=bottom
+      button ghost leadingIcon=bold
+      button ghost leadingIcon=italic
+      button ghost leadingIcon=link tooltip="Insert link (⌘K)"
+      button ghost leadingIcon=image
+    text lines=6
+```

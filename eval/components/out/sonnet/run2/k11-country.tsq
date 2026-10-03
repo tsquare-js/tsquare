@@ -1,0 +1,11 @@
+```tsquare
+board "Shipping address"
+  screen phone "Shipping"
+    navbar "Shipping address" leading=back
+    input "Full name" placeholder="Jane Doe"
+    input "Street address" placeholder="123 Main St"
+    input "City" placeholder="City"
+    select "Country" value="Mexico" options=[United States, Canada, Mexico, Spain, Brazil] open
+    input "Postal code" placeholder="Postal code"
+    button primary "Save address" fullWidth
+```

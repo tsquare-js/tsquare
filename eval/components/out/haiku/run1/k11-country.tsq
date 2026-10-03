@@ -1,0 +1,15 @@
+```tsquare
+board "Shipping Address Form"
+  screen phone "Address"
+    navbar "Shipping Address" leading=back
+    stack padding=16 gap=16
+      input "Full Name" placeholder="John Doe"
+      input "Email" placeholder="john@example.com" type=email
+      input "Address" placeholder="123 Main St"
+      input "City" placeholder="San Francisco"
+      stack row gap=8
+        input "State" width=120
+        input "ZIP" width=120
+      select "Country" value="Mexico" options=[Canada, Mexico, "United States"] open
+    button primary "Continue" fullWidth
+```

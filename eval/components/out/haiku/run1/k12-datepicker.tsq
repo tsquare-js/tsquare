@@ -1,0 +1,12 @@
+```tsquare
+board "Flight Search"
+  screen phone "Search"
+    navbar "Flights" leading=back
+    stack padding=16 gap=16
+      input "From" placeholder="Departure city" leadingIcon=map-pin
+      input "To" placeholder="Arrival city" leadingIcon=map-pin
+      input "Departure" type=date value="Nov 20, 2026" open
+      input "Return" type=date placeholder="Select date"
+      button primary "Search" fullWidth
+    calendar "November 2026" selected=20
+```

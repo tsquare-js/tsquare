@@ -1,0 +1,8 @@
+board "File Manager"
+  screen desktop "Files"
+    navbar "My Files" leading=menu
+    list dividers
+      listitem title="Project folder" leadingIcon=folder trailingIcon=chevron
+      listitem title="Report.pdf" leadingIcon=file-text
+      listitem title="Budget 2026.xlsx" leadingIcon=file open menu=[Rename, Move, Share, Delete]
+      listitem title="Presentation.pptx" leadingIcon=file-text

@@ -4255,7 +4255,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 30: ListItem: bold is a Text prop, not a ListItem one (bare words it accepts: avatar, image, checkbox, chevron, toggle, text, badge)"
+      "line 30: ListItem: bold is a Text prop, not a ListItem one (bare words it accepts: avatar, image, checkbox, chevron, toggle, text, badge, open)"
     ],
     "categories": [
       "invalid prop"
@@ -4563,8 +4563,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 7: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
+      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 7: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -4650,10 +4650,10 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 17: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
+      "line 17: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -4922,8 +4922,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 7: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
+      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 7: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -5009,10 +5009,10 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 21: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
+      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 21: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -5260,7 +5260,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 4: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow); quote text like \"fullWidth\""
+      "line 4: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow); quote text like \"fullWidth\""
     ],
     "categories": [
       "invalid prop"
@@ -5623,8 +5623,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 5: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
+      "line 5: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -5646,7 +5646,7 @@
     "issues": [
       "line 5: Heading has no prop \"padding\": padding is a Board, Screen, Stack… prop, not a Heading one (its props: text, level, align)",
       "line 10: Heading has no prop \"padding\": padding is a Board, Screen, Stack… prop, not a Heading one (its props: text, level, align)",
-      "line 17: Button has no prop \"padding\": padding is a Board, Screen, Stack… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)"
+      "line 17: Button has no prop \"padding\": padding is a Board, Screen, Stack… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth, menu, open)"
     ],
     "categories": [
       "invalid prop"
@@ -5718,11 +5718,11 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 21: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 22: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
+      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 21: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 22: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -5865,12 +5865,12 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 13: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
-      "line 14: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
-      "line 15: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
-      "line 16: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
-      "line 17: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
-      "line 19: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)"
+      "line 13: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth, menu, open)",
+      "line 14: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth, menu, open)",
+      "line 15: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth, menu, open)",
+      "line 16: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth, menu, open)",
+      "line 17: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth, menu, open)",
+      "line 19: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth, menu, open)"
     ],
     "categories": [
       "invalid prop"
@@ -5992,8 +5992,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 5: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
+      "line 5: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -6079,10 +6079,10 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 14: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 15: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 16: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 17: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 14: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 15: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 16: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 17: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
       "line 22: Modal must be a direct child of a Screen (found in the Stack on line 21)"
     ],
     "categories": [
@@ -6705,8 +6705,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 7: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
+      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 7: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -6801,11 +6801,11 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 15: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 16: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 17: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
+      "line 15: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 16: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 17: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 18: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
       "line 24: Modal must be a direct child of a Screen (found in the Stack on line 23)"
     ],
     "categories": [
@@ -7020,7 +7020,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 20: Button has no prop \"tone\": tone is a Badge prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)"
+      "line 20: Button has no prop \"tone\": tone is a Badge prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth, menu, open)"
     ],
     "categories": [
       "invalid prop"
@@ -7079,8 +7079,8 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 8: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
+      "line 6: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 8: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -7150,7 +7150,7 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 11: Select: fullWidth is a Button prop, not a Select one; a Select already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: grow)",
+      "line 11: Select: fullWidth is a Button prop, not a Select one; a Select already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: open, grow)",
       "line 17: subtitle=…: props go on the same line as their component; move it to the end of line 16",
       "line 18: leading=…: props go on the same line as their component; move it to the end of line 16",
       "line 20: subtitle=…: props go on the same line as their component; move it to the end of line 19",
@@ -7177,10 +7177,10 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 21: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)",
-      "line 22: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, error, grow)"
+      "line 19: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 20: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 21: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 22: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)"
     ],
     "categories": [
       "invalid prop"
@@ -7324,12 +7324,12 @@
     "valid": false,
     "rendered": true,
     "issues": [
-      "line 11: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
-      "line 12: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
-      "line 13: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
-      "line 14: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
-      "line 15: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)",
-      "line 17: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth)"
+      "line 11: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth, menu, open)",
+      "line 12: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth, menu, open)",
+      "line 13: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth, menu, open)",
+      "line 14: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth, menu, open)",
+      "line 15: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth, menu, open)",
+      "line 17: Button has no prop \"align\": align is a Stack, Heading, Text… prop, not a Button one (its props: label, variant, size, leadingIcon, trailingIcon, fullWidth, menu, open)"
     ],
     "categories": [
       "invalid prop"
