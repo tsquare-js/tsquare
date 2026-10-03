@@ -89,7 +89,7 @@ componentTasks.push(
     prompt: "A desktop help page with an FAQ section: five questions, the first one expanded to show its answer, the rest collapsed.",
     checks: [
       ["an open accordion", has("Accordion", (p) => p.open === true)],
-      ["collapsed accordions", (e) => of(e, "Accordion", (p) => !p.open).length >= 3],
+      ["four collapsed accordions", (e) => of(e, "Accordion", (p) => !p.open).length >= 4],
     ],
   },
   {
