@@ -1,0 +1,11 @@
+board "Ride-hailing home"
+  screen phone "Home"
+    image "Map" height=400
+    input search placeholder="Where to?" width=280
+    heading "Recent" level=2
+    stack
+      text "123 Main St"
+      text sm muted "Home"
+    stack
+      text "456 Market Ave"
+      text sm muted "Work"

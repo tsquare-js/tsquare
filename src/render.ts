@@ -106,7 +106,7 @@ export function checkSpec(spec: Spec): string[] {
     if (el.type === "Screen" && !(root.children ?? []).includes(id)) {
       issues.push(`${id}: Screen must be a direct child of the Board`);
     }
-    if (el.type === "Modal" || el.type === "Drawer") {
+    if (el.type === "Modal" || el.type === "Drawer" || el.type === "Toast") {
       const parent = Object.entries(spec.elements).find(([, p]) => p.children?.includes(id));
       if (parent && parent[1].type !== "Screen") {
         issues.push(`${id}: ${el.type} must be a direct child of a Screen (found in ${parent[1].type} "${parent[0]}")`);

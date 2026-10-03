@@ -1,0 +1,11 @@
+board "Help center"
+  screen desktop "Help"
+    navbar "Help center" leading=logo actions=[search]
+    stack padding=32 gap=16
+      heading "Frequently asked questions" level=1
+      accordion "How do I reset my password?" open
+        text "Go to Settings, choose Security, then select Reset password. We will email you a link."
+      accordion "How do I update my billing details?"
+      accordion "Can I cancel my subscription?"
+      accordion "How do I contact support?"
+      accordion "Where can I download my invoices?"

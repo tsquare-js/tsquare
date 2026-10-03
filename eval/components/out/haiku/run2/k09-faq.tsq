@@ -1,0 +1,15 @@
+board "Help: FAQ"
+  screen desktop "FAQ"
+    navbar "Help center"
+    heading "Frequently asked questions" level=1
+    accordion "How do I reset my password?" open
+      text "Visit the login page and click 'Forgot password?' to receive a reset link via email."
+      text "Follow the link and set a new password. You'll be signed in automatically."
+    accordion "What payment methods do you accept?"
+      text lines=2
+    accordion "How long does delivery take?"
+      text lines=2
+    accordion "Can I change my order after placing it?"
+      text lines=2
+    accordion "What is your refund policy?"
+      text lines=2

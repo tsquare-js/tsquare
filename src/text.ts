@@ -50,6 +50,8 @@ export const PRIMARY_PROP: Record<string, string> = {
   ListItem: "title",
   Modal: "title",
   Drawer: "title",
+  Accordion: "title",
+  Toast: "text",
 };
 
 // ── Introspect the Zod schemas so the syntax follows the catalog ────────

@@ -1,0 +1,11 @@
+board "Settings"
+  screen phone "Settings"
+    navbar "Settings" leading=back
+    input label="Display name" value="Alex Morgan"
+    input label="Email" type=email value="alex@example.com"
+    select "Language" value="English"
+    toggle "Email notifications" on
+    toggle "Push notifications"
+    checkbox "Show my profile publicly"
+    button primary "Save changes" fullWidth
+    toast "Settings saved" action="Undo" icon=check

@@ -1,0 +1,7 @@
+board "Ride app"
+  screen phone "Home"
+    image kind=map height=380 label="Pickup: 24 Market St"
+    input search placeholder="Where to?"
+    list dividers
+      listitem "Home" subtitle="Recent destination" leadingIcon=clock trailing=chevron
+      listitem "Office" subtitle="Recent destination" leadingIcon=clock trailing=chevron

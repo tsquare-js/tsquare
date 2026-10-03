@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.4.1
+
+```tsquare
+image map height=200 "Pickup"               # a map placeholder: roads and a pin, instead of the X
+accordion "How long does shipping take?" open
+  text "Orders arrive in 3–5 business days."
+accordion "Can I return an item?"           # closed: only the title row
+toast "Message sent" action="Undo" icon=check   # pinned to the bottom (above a tab bar), or position=top
+```
+
+- **Toast** is an overlay like Modal and Drawer: a direct child of a Screen, listed last.
+- **Measured:** three new requests (a ride map, an FAQ, a "saved" message), two runs per model. All 12 outputs were valid and used the new pieces, except one Haiku run that drew a plain image labeled "Map". The prompt grew by about 195 tokens.
+- **Breadcrumbs** don't need a component: `text "Home / Settings / Profile" sm muted`. The Text docs page now shows this.
+
 ## 0.4.0
 
 ### New components

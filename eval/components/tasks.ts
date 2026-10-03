@@ -77,6 +77,28 @@ export const componentTasks: ComponentTask[] = [
   },
 ];
 
+// 0.4.1: map, accordion, toast (scored in run1/run2 alongside the 0.4.0 tasks; their prompt is prompt-0.4.1.md)
+componentTasks.push(
+  {
+    id: "k08-ride",
+    prompt: "A mobile ride-hailing home screen: a map with the pickup location, a 'Where to?' search field over it, and two recent destinations below.",
+    checks: [["map", has("Image", (p) => p.kind === "map")]],
+  },
+  {
+    id: "k09-faq",
+    prompt: "A desktop help page with an FAQ section: five questions, the first one expanded to show its answer, the rest collapsed.",
+    checks: [
+      ["an open accordion", has("Accordion", (p) => p.open === true)],
+      ["collapsed accordions", (e) => of(e, "Accordion", (p) => !p.open).length >= 3],
+    ],
+  },
+  {
+    id: "k10-saved",
+    prompt: "A mobile settings screen right after the user saved changes: the settings form, and a brief 'Settings saved' confirmation message with an Undo action floating near the bottom.",
+    checks: [["toast with an action", has("Toast", (p) => !!p.action)]],
+  },
+);
+
 export function runComponentChecks(task: ComponentTask, spec: Spec) {
   const els = Object.values(spec.elements) as El[];
   return task.checks.map(([name, test]) => ({ name, pass: test(els) }));

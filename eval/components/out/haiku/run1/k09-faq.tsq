@@ -1,0 +1,13 @@
+board "Help center"
+  screen desktop "FAQ"
+    heading "Frequently asked questions" level=1
+    accordion "How do I reset my password?" open
+      text "Visit your account settings and click 'Reset password'. You'll receive an email with instructions."
+    accordion "How do I contact support?"
+      text lines=2
+    accordion "What payment methods do you accept?"
+      text lines=2
+    accordion "How do I update my profile?"
+      text lines=2
+    accordion "Is my data secure?"
+      text lines=2

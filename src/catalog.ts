@@ -106,6 +106,15 @@ export const componentDefinitions = {
     description: "Bordered container with optional title. Children stack vertically.",
     example: { title: "Revenue", variant: "outline" },
   },
+  Accordion: {
+    props: z.object({
+      title: o(z.string()),
+      open: o(z.boolean()).describe("Show the children. Default closed: only the title row"),
+    }),
+    slots: ["default"],
+    description: "Collapsible section: a title row with a chevron, children below when open. Stack several for an FAQ.",
+    example: { title: "Shipping", open: true },
+  },
   Divider: {
     props: z.object({ vertical: o(z.boolean()) }),
     slots: [],
@@ -161,9 +170,10 @@ export const componentDefinitions = {
       width: o(z.union([z.number(), z.string()])).describe("Default fills the container width"),
       label: o(z.string()),
       rounded: o(z.boolean()),
+      kind: o(z.enum(["photo", "map"])).describe("map draws roads and a pin instead of the X"),
     }),
     slots: [],
-    description: "Image placeholder: a box with an X through it.",
+    description: "Image placeholder: a box with an X through it, or a map.",
     example: { height: 180, label: "Hero photo" },
   },
   Chart: {
@@ -394,6 +404,17 @@ export const componentDefinitions = {
     description:
       "Panel sliding in from an edge: side nav (left), filters/details (right), or bottom sheet. Must be a direct child of a Screen, listed last.",
     example: { side: "left", title: "Menu", size: 300 },
+  },
+  Toast: {
+    props: z.object({
+      text: o(z.string()),
+      action: o(z.string()).describe('A text button, e.g. "Undo"'),
+      icon: o(iconName),
+      position: o(z.enum(["bottom", "top"])).describe("Default bottom, above a TabBar"),
+    }),
+    slots: [],
+    description: "Short message over the screen, e.g. after saving. Must be a direct child of a Screen, listed last.",
+    example: { text: "Message sent", action: "Undo" },
   },
 };
 

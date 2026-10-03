@@ -205,7 +205,7 @@ function Screen({ element, children }: Props) {
     const type = isValidElement(c) ? (c.props as any).element?.type : null;
     if (type === "NavBar") top.push(c);
     else if (type === "TabBar") bottom.push(c);
-    else if (type === "Modal" || type === "Drawer") overlays.push(c);
+    else if (type === "Modal" || type === "Drawer" || type === "Toast") overlays.push(c);
     else body.push(c);
   }
 
@@ -242,7 +242,7 @@ function Screen({ element, children }: Props) {
             {withDir(body, "column")}
           </Box>
           {bottom}
-          {overlays}
+          {overlays.map((o) => (isValidElement(o) ? cloneElement(o as any, { aboveTabBar: bottom.length > 0 }) : o))}
         </Box>
       </Box>
     </Box>
@@ -350,6 +350,19 @@ function Card({ element, children, dir, stretch }: Props) {
     >
       {p.title ? <Box style={{ fontSize: 15, fontWeight: 600 }}>{p.title}</Box> : null}
       {withDir(children, "column")}
+    </Box>
+  );
+}
+
+function Accordion({ element, children }: Props) {
+  const p = element.props;
+  return (
+    <Box style={{ flexDirection: "column", borderBottom: `1px solid ${t.line}` }}>
+      <Box style={{ alignItems: "center", justifyContent: "space-between", gap: 12, padding: "12px 0" }}>
+        <Box style={{ fontSize: 15, fontWeight: 600, color: t.ink }}>{p.title ?? ""}</Box>
+        <IconGlyph name={p.open ? "chevron-up" : "chevron-down"} size={18} color={t.muted} />
+      </Box>
+      {p.open ? <Box style={{ flexDirection: "column", gap: 10, paddingBottom: 14 }}>{withDir(children, "column")}</Box> : null}
     </Box>
   );
 }
@@ -470,6 +483,9 @@ function Bullets({ element }: Props) {
   );
 }
 
+/** A generic street layout for map placeholders: two main roads, then side streets. */
+const MAP_ROADS = ["M0 42 C30 38 60 50 100 44", "M38 0 C42 30 34 60 44 100", "M0 78 L100 70", "M72 0 L80 100", "M0 16 L40 22", "M44 60 L100 92"];
+
 function Image({ element, dir }: Props) {
   const p = element.props;
   const h = p.height ?? 160;
@@ -489,24 +505,44 @@ function Image({ element, dir }: Props) {
         justifyContent: "center",
       }}
     >
-      <svg
-        width="100%"
-        height="100%"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-        style={{ position: "absolute", top: 0, left: 0 }}
-      >
-        <line x1="0" y1="0" x2="100" y2="100" stroke={t.line} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
-        <line x1="100" y1="0" x2="0" y2="100" stroke={t.line} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
-      </svg>
+      {p.kind === "map" ? (
+        <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position: "absolute", top: 0, left: 0 }}>
+          <rect x="0" y="0" width="100" height="100" fill={t.fill2} />
+          <rect x="62" y="8" width="26" height="22" fill={t.fill} />
+          <rect x="8" y="64" width="20" height="26" fill={t.fill} />
+          {MAP_ROADS.map((d, i) => <path key={i} d={d} fill="none" stroke={t.paper} strokeWidth={i < 2 ? 7 : 4} vectorEffect="non-scaling-stroke" />)}
+        </svg>
+      ) : (
+        <svg
+          width="100%"
+          height="100%"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          style={{ position: "absolute", top: 0, left: 0 }}
+        >
+          <line x1="0" y1="0" x2="100" y2="100" stroke={t.line} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+          <line x1="100" y1="0" x2="0" y2="100" stroke={t.line} strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+        </svg>
+      )}
+      {p.kind === "map" ? (
+        <Box style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0, alignItems: "center", justifyContent: "center", paddingBottom: 28 }}>
+          <svg width="28" height="36" viewBox="0 0 24 31">
+            <path d="M12 1C6.5 1 2 5.3 2 10.7 2 18 12 30 12 30s10-12 10-19.3C22 5.3 17.5 1 12 1z" fill={t.ink} />
+            <circle cx="12" cy="10.5" r="3.6" fill={t.paper} />
+          </svg>
+        </Box>
+      ) : null}
       {p.label ? (
         <Box
           style={{
+
             padding: "3px 8px",
             fontSize: 12,
             color: t.muted,
             backgroundColor: t.fill,
             borderRadius: 4,
+            // a map keeps its pin in the middle, so the label goes in the corner
+            ...(p.kind === "map" ? { position: "absolute", left: 8, bottom: 8, backgroundColor: t.paper } : {}),
           }}
         >
           {p.label}
@@ -1342,6 +1378,20 @@ function Drawer({ element, children }: Props) {
   );
 }
 
+function Toast({ element, aboveTabBar }: Props & { aboveTabBar?: boolean }) {
+  const p = element.props;
+  const top = p.position === "top";
+  return (
+    <Box style={{ position: "absolute", left: 16, right: 16, justifyContent: "center", ...(top ? { top: 16 } : { bottom: aboveTabBar ? 92 : 24 }) }}>
+      <Box style={{ alignItems: "center", gap: 12, padding: "12px 16px", borderRadius: 12, backgroundColor: t.ink, color: t.onPrimary, fontSize: 14, boxShadow: "0 6px 20px rgba(0,0,0,0.22)", maxWidth: 420 }}>
+        {p.icon ? <IconGlyph name={p.icon} size={18} color={t.onPrimary} /> : null}
+        <Box style={{ flexShrink: 1 }}>{p.text ?? ""}</Box>
+        {p.action ? <Box style={{ fontWeight: 700, marginLeft: 8, flexShrink: 0 }}>{p.action}</Box> : null}
+      </Box>
+    </Box>
+  );
+}
+
 export const registry = {
   Board,
   Screen,
@@ -1349,6 +1399,7 @@ export const registry = {
   Stack,
   Grid,
   Card,
+  Accordion,
   Divider,
   Spacer,
   Heading,
@@ -1377,4 +1428,5 @@ export const registry = {
   Table,
   Modal,
   Drawer,
+  Toast,
 };

@@ -1,0 +1,9 @@
+board "Ride app"
+  screen phone "Home"
+    image kind=map height=420
+    stack padding=12 gap=12
+      input search placeholder="Where to?"
+      text sm "Pickup: 24 Market Street" muted
+      list dividers
+        listitem "Home" subtitle="12 Oak Avenue" leadingIcon=clock trailing=chevron
+        listitem "Office" subtitle="500 Howard Street" leadingIcon=clock trailing=chevron

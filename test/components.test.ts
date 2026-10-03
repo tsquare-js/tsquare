@@ -21,6 +21,11 @@ test("the calendar lays out the named month", () => {
   assert.deepEqual(monthGrid("Next month"), { start: 3, days: 31 }); // generic when it can't tell
 });
 
+test("toast is an overlay: a direct child of a Screen", () => {
+  assert.deepEqual(problems(board('text "Saved"', 'toast "Saved" action="Undo"')), []);
+  assert.match(problems(board("stack", '  toast "Saved"')).join("\n"), /Toast must be a direct child of a Screen/);
+});
+
 test("pagination shows the ends and the current page's neighbours", () => {
   assert.deepEqual(pageList(5, 2), [1, 2, 3, 4, 5]);
   assert.deepEqual(pageList(12, 6), [1, "…", 5, 6, 7, "…", 12]);

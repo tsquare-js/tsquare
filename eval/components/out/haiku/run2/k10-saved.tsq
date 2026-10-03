@@ -1,0 +1,11 @@
+board "Settings saved"
+  screen phone "Settings"
+    navbar "Settings" leading=back
+    stack padding=16 gap=16
+      heading "Preferences" level=2 align=left
+      toggle "Enable notifications" on
+      toggle "Dark mode" off
+      checkbox "Marketing emails" checked
+      select "Language" value="English"
+      button "Save changes" primary fullWidth
+    toast "Settings saved" action="Undo" position=bottom
