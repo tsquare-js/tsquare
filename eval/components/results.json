@@ -506,8 +506,15 @@
     "model": "haiku",
     "run": "run1",
     "task": "k16-checkout-flow",
-    "valid": true,
-    "issues": [],
+    "valid": false,
+    "issues": [
+      "line 5: unknown component \"title\" (components: board, screen, note, flow, stack, grid, card, accordion, divider, spacer, heading, text, bullets, image, chart, icon, avatar, badge, button, input, checkbox, radio, toggle, select, slider, progress, calendar, navbar, tabbar, tabs, pagination, list, listitem, table, modal, drawer, toast)",
+      "line 6: trailing=…: props go on the same line as their component; move it to the end of line 5",
+      "line 7: unknown component \"trailingtext\" (components: board, screen, note, flow, stack, grid, card, accordion, divider, spacer, heading, text, bullets, image, chart, icon, avatar, badge, button, input, checkbox, radio, toggle, select, slider, progress, calendar, navbar, tabbar, tabs, pagination, list, listitem, table, modal, drawer, toast)",
+      "line 9: unknown component \"title\" (components: board, screen, note, flow, stack, grid, card, accordion, divider, spacer, heading, text, bullets, image, chart, icon, avatar, badge, button, input, checkbox, radio, toggle, select, slider, progress, calendar, navbar, tabbar, tabs, pagination, list, listitem, table, modal, drawer, toast)",
+      "line 10: trailing=…: props go on the same line as their component; move it to the end of line 9",
+      "line 11: unknown component \"trailingtext\" (components: board, screen, note, flow, stack, grid, card, accordion, divider, spacer, heading, text, bullets, image, chart, icon, avatar, badge, button, input, checkbox, radio, toggle, select, slider, progress, calendar, navbar, tabbar, tabs, pagination, list, listitem, table, modal, drawer, toast)"
+    ],
     "passed": 2,
     "total": 2,
     "failed": []
@@ -698,10 +705,8 @@
     "task": "k17-onboarding-flow",
     "valid": true,
     "issues": [],
-    "passed": 1,
+    "passed": 2,
     "total": 2,
-    "failed": [
-      "green arrows"
-    ]
+    "failed": []
   }
 ]

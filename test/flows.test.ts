@@ -6,7 +6,7 @@ import { linePath, route } from "../src/flows.js";
 import { printWireframeText } from "../src/print.js";
 import { boardLayout, renderWireframeSvg } from "../src/render.js";
 import { parseWireframeText } from "../src/text.js";
-import { upgradeWireframe } from "../src/upgrade.js";
+import { decodeWireframe, encodeWireframe } from "../src/share.js";
 import { problems } from "./helpers.js";
 
 const BOARD = [
@@ -98,9 +98,8 @@ test("with flows off, the board is the same as without its flow lines", async ()
   assert.notEqual(on, off);
 });
 
-test("links keep #ids; an old `# comment` still moves to its own line", () => {
-  assert.equal(upgradeWireframe('    button "Go" #cta', { fromLink: true }), '    button "Go" #cta');
-  assert.equal(upgradeWireframe('    button "Go" # cta', { fromLink: true }), '    # cta\n    button "Go"');
+test("links keep #ids and flows", () => {
+  assert.equal(decodeWireframe(encodeWireframe(BOARD)), BOARD, "a link made today keeps its ids and flows");
 });
 
 test("a labeled flow between neighbors widens the gap to fit its label, only when flows are drawn", () => {

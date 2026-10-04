@@ -67,15 +67,15 @@ export function componentReference() {
 }
 
 export const RULES = `## Rules
-1. The top element is a Board. The Board's children are Screens, plus optional Notes beside them.
+1. The top element is a Board. The Board's children are Screens, plus optional Notes beside them and Flow lines after them (rule 10).
 2. Each Screen is one view of the product. Use several Screens to show several views or states.
 3. A Screen lays out its children top to bottom. Use Stack (direction row or column) and Grid to arrange content.
 4. NavBar is pinned to the top of its Screen and TabBar to the bottom.
 5. Modal, Drawer and Toast are overlays. They must be direct children of a Screen.
 6. This is a low-fidelity wireframe. Prefer placeholders (Image boxes, Text with lines) over invented copy unless the copy matters.
 7. Only use the components and props listed below. All props are optional unless marked required.
-8. Wireframes are grayscale. The only UI colors: Board accent (one color for primary buttons, checked controls, toggles, active tabs and ghost buttons), Badge tone (success, warning, danger) and Input error. Only add an accent if the request asks for color or a brand.
-9. Any element except Board, Screen and Note can take tooltip="text" to show a tooltip next to it. Select (with options), Input type=date, and Button, ListItem or NavBar (with menu) take open to show their list, calendar or menu over the screen.
+8. Wireframes are grayscale. The only UI colors: Board accent (one color for primary buttons, checked controls, toggles, active tabs and ghost buttons), Badge tone (success, warning, danger), Input error and Flow color. Only add an accent if the request asks for color or a brand.
+9. Any element except Board, Screen, Note and Flow can take tooltip="text" to show a tooltip next to it. Select (with options), Input type=date, and Button, ListItem or NavBar (with menu) take open to show their list, calendar or menu over the screen.
 10. To show how screens connect, name elements or screens by writing #name after them (button primary "Sign in" #signin, screen phone "Home" #home), then add board-level lines after the screens: flow signin -> home "Tap Sign in".`;
 
 export const TEXT_FORMAT = `## Output format: wireframe text

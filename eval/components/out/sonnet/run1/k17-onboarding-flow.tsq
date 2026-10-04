@@ -1,26 +1,23 @@
 ```tsquare
 board "Onboarding"
-  screen phone "Step 1" #s1
+  screen phone "Welcome" #s1
     stack row justify=end
       button ghost "Skip" #skip
-    image height=240
+    image "Illustration" height=200
     heading "Welcome" level=1 align=center
     text lines=2
-    spacer
-    button primary "Next" fullWidth #next1
-  screen phone "Step 2" #s2
-    image height=240
-    heading "Stay organized" level=1 align=center
+    button primary "Next" fullWidth #n1
+  screen phone "Discover" #s2
+    image "Illustration" height=200
+    heading "Discover" level=1 align=center
     text lines=2
-    spacer
-    button primary "Next" fullWidth #next2
-  screen phone "Step 3" #s3
-    image height=240
+    button primary "Next" fullWidth #n2
+  screen phone "Get started" #s3
+    image "Illustration" height=200
     heading "Get started" level=1 align=center
     text lines=2
-    spacer
-    button primary "Get started" fullWidth
-  flow next1 -> s2 color=green
-  flow next2 -> s3 color=green
+    button primary "Done" fullWidth
+  flow n1 -> s2 color=green
+  flow n2 -> s3 color=green
   flow skip -> s3 line=curved color=green
 ```

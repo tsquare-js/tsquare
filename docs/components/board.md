@@ -2,7 +2,7 @@
 
 `board` · Canvas · [All components](README.md)
 
-Root canvas (artboard). Holds Screens side by side, plus optional Notes. Must be the root element.
+Root canvas (artboard). Holds Screens side by side, plus optional Notes and Flow lines. Must be the root element.
 
 ![Board example](images/board.png)
 

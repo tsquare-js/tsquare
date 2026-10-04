@@ -65,7 +65,7 @@ export const componentDefinitions = {
       ),
     }),
     slots: ["default"],
-    description: "Root canvas (artboard). Holds Screens side by side, plus optional Notes. Must be the root element.",
+    description: "Root canvas (artboard). Holds Screens side by side, plus optional Notes and Flow lines. Must be the root element.",
     example: { title: "Checkout flow", layout: "row", gap: 64 },
   },
   Screen: {

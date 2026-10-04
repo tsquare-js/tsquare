@@ -350,7 +350,7 @@ export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOption
   const { anchors, boxes } = await measureAnchors(spec, flows?.measure ?? []);
   if (!anchors.length && !flows?.list.length) return draw(spec, registry);
   const layers = [];
-  if (anchors.length) layers.push(overlayLayer(spec, anchors, boxes, palette, registry.Calendar as any));
+  // flows first: open menus, pickers and tooltips are part of the screen's UI and stay on top
   if (flows?.list.length) {
     const resolved = flows.list
       // an end that wasn't measured (not drawn) falls back to its screen rather than dropping the arrow
@@ -358,6 +358,7 @@ export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOption
       .filter((f): f is { key: string; ends: FlowBoxes } => !!(f.ends.from && f.ends.to && f.ends.fromScreen && f.ends.toScreen));
     layers.push(flowLayer(spec, resolved, flows.screens, flows.gap, palette, { width, height }));
   }
+  if (anchors.length) layers.push(overlayLayer(spec, anchors, boxes, palette, registry.Calendar as any));
   return draw(spec, withTopLayer(registry, layers));
 }
 

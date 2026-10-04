@@ -1,22 +1,21 @@
-board "Sign-in Flow"
+board "Sign in flow"
   screen phone "Sign in" #signin
-    heading "Sign in" level=1
-    input label="Email" placeholder="you@example.com"
-    input label="Password" type=password
-    button primary "Sign in" #signin-btn fullWidth
-    text center size=sm
-    button ghost "Create an account" #create-link
+    heading "Welcome" level=1
+    input "Email" placeholder="Enter email"
+    input "Password" placeholder="Enter password" type=password
+    button primary "Sign in" #signin-btn
+    divider
+    text "Don't have an account?"
+    button ghost "Create an account" #signup-btn
   screen phone "Home" #home
     navbar "Home" leading=menu
-    heading "Welcome back" level=1
-    text "Dashboard content"
-    button primary "Sign out" #signout-btn
+    text "Welcome back!"
+    button secondary "Sign out" #signout-btn
   screen phone "Sign up" #signup
     heading "Create account" level=1
-    input label="Email" placeholder="you@example.com"
-    input label="Password" type=password
-    input label="Confirm password" type=password
-    button primary "Sign up" fullWidth
-  flow signin-btn -> home "Sign in"
-  flow create-link -> signup "Create account"
+    input "Email" placeholder="Enter email"
+    input "Password" placeholder="Enter password" type=password
+    button primary "Sign up"
+  flow signin-btn -> home "Tap Sign in"
+  flow signup-btn -> signup "Create an account"
   flow signout-btn -> signin "Sign out"

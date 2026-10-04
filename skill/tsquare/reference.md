@@ -3,7 +3,7 @@
 Every component and its props, generated from the catalog. All props are optional unless marked required. "main text" is the prop a quoted string fills.
 
 ### Board
-Root canvas (artboard). Holds Screens side by side, plus optional Notes. Must be the root element.
+Root canvas (artboard). Holds Screens side by side, plus optional Notes and Flow lines. Must be the root element.
 - title: string (main text)
 - layout: "row" | "grid" — row = all screens side by side; grid = wrap every `columns` screens
 - columns: number

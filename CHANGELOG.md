@@ -26,11 +26,15 @@ board "Sign in flow"
 
 ### `#` after an element is now an id
 
-Comments still go on their own line, as in 0.4.0. What changed is a `#word` after an element: it used to be an error ("comments go on their own line"), and now it's an id when it looks like one (`button "Go" #cta`). Anything else after `#` is still an error. `avatar #jd` keeps meaning the initials "#jd". Old share links that had a trailing comment (`button "Go" # cta`) still open as before, with the comment moved onto its own line.
+Comments still go on their own line, as since 0.3.0. What changed is a `#word` after an element: it used to be an error ("comments go on their own line"), and now it's an id when it looks like one (`button "Go" #cta`). Anything else after `#` is still an error. `avatar #jd` keeps meaning the initials "#jd". Old links keep working: see the new link prefix below.
+
+### New link prefix: `y`
+
+Share links and image URLs made by 0.6.0 start with `y` instead of `z`. Before 0.3.0, `#cta` after an element was a comment, and a link can't say which version made it. So `z` links keep their old meaning: a trailing `#word` is a comment and moves onto its own line. `y` links read `#word` as an id. Both prefixes decode. A site that renders tsquare links needs 0.6.0 to read `y` links.
 
 ### Eval
 
-Three new requests for multi-screen flows (sign in, a checkout with a dashed path back, onboarding with a curved skip arrow in green), two runs each for Sonnet and Haiku with the 0.6.0 prompt. See `eval/README.md`.
+Three new requests for multi-screen flows (sign in, a checkout with a dashed path back, onboarding with a curved skip arrow in green), two runs each for Sonnet and Haiku with the final 0.6.0 prompt: every flow was written correctly (24 of 24 checks), and 11 of 12 outputs were valid (the miss was unrelated to flows). See `eval/README.md`.
 
 ## 0.5.1
 
