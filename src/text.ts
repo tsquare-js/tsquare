@@ -113,7 +113,7 @@ for (const [name, def] of Object.entries(componentDefinitions)) {
  * For an error message: where a prop name or bare word that this component doesn't take
  * belongs instead, e.g. fullWidth on an input → "fullWidth is a Button prop". Empty if nowhere.
  */
-export function belongsElsewhere(component: string, word: string, asProp: boolean): string {
+export function belongsElsewhere(component: string, word: string, asProp: boolean, value?: unknown): string {
   const info = COMPONENTS.get(component.toLowerCase());
   if (!info) return "";
   const props: string[] = [], options: string[] = [];
@@ -124,9 +124,12 @@ export function belongsElsewhere(component: string, word: string, asProp: boolea
   }
   const names = (xs: string[]) => xs.length > 3 ? `${xs.slice(0, 3).join(", ")}…` : xs.join(", ").replace(/, ([^,]*)$/, " and $1");
   const a = (name: string) => (/^[AEIOU]/.test(name) ? `an ${name}` : `a ${name}`);
-  let msg = props.length ? `${word} is a ${names(props)} prop, not ${a(info.name)} one`
-    : options.length ? `${word} is a ${names(options)} option, not ${a(info.name)} one`
+  let msg = props.length ? `${word} is ${a(names(props))} prop, not ${a(info.name)} one`
+    : options.length ? `${word} is ${a(names(options))} option, not ${a(info.name)} one`
     : "";
+  // the value is one this component takes under another prop: image type=map → kind=map
+  const right = typeof value === "string" ? info.enumValues.get(value) : undefined;
+  if (asProp && right && right !== word) msg += `${msg ? "; " : ""}for ${a(info.name)}, write ${right}=${value} (or just ${value})`;
   // fullWidth on an input, card…: they already fill their width
   const width = info.props.width;
   if (msg && word === "fullWidth" && /fills the space/i.test(width?.description ?? unwrap(width)?.description ?? "")) {
@@ -365,11 +368,12 @@ export function parseWireframeText(source: string): ParseResult {
             else { parseValue(c); issues.push({ line: lineNo, message: `${info.name}: ${universalPropMessage(info.name, key)}` }); }
             continue;
           }
+          const value = parseValue(c);
           if (!(key in info.props)) {
-            const elsewhere = belongsElsewhere(info.name, key, true);
+            const elsewhere = belongsElsewhere(info.name, key, true, value);
             issues.push({ line: lineNo, message: `${info.name} has no prop "${key}"` + (elsewhere ? `: ${elsewhere}` : "") + ` (its props: ${Object.keys(info.props).join(", ")})` });
           }
-          props[key] = key in info.props ? textWhereExpected(info.props[key], parseValue(c)) : parseValue(c);
+          props[key] = key in info.props ? textWhereExpected(info.props[key], value) : value;
           continue;
         }
         c.next();

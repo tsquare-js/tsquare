@@ -47,3 +47,9 @@ test("a list item kind written as an icon says to use the kind", () => {
 test("a list item value that contradicts its kind is an error", () => {
   assert.match(only(board("list", '  listitem "x" leading=avatar leadingIcon=star')), /leadingIcon only shows with leading=icon/);
 });
+
+test("a value under the wrong prop name points at the right one", () => {
+  assert.match(problems(board("image type=map")).join(), /type is an Input prop, not an Image one; for an Image, write kind=map \(or just map\)/);
+  assert.match(problems(board("input kind=date")).join(), /for an Input, write type=date \(or just date\)/);
+  assert.match(problems(board("chart type=pie")).join(), /for a Chart, write kind=pie/);
+});
