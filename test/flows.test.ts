@@ -4,7 +4,7 @@ import { test } from "node:test";
 import { compileWireframe } from "../src/compile.js";
 import { route } from "../src/flows.js";
 import { printWireframeText } from "../src/print.js";
-import { renderWireframeSvg } from "../src/render.js";
+import { boardLayout, renderWireframeSvg } from "../src/render.js";
 import { parseWireframeText } from "../src/text.js";
 import { upgradeWireframe } from "../src/upgrade.js";
 import { problems } from "./helpers.js";
@@ -89,4 +89,12 @@ test("with flows off, the board is the same as without its flow lines", async ()
 test("links keep #ids; an old `# comment` still moves to its own line", () => {
   assert.equal(upgradeWireframe('    button "Go" #cta', { fromLink: true }), '    button "Go" #cta');
   assert.equal(upgradeWireframe('    button "Go" # cta', { fromLink: true }), '    # cta\n    button "Go"');
+});
+
+test("a labeled flow between neighbors widens the gap to fit its label, only when flows are drawn", () => {
+  const spec = compileWireframe(BOARD).spec!;
+  assert.ok(boardLayout(spec).gap > 64, "room for the label");
+  assert.equal(boardLayout(spec, { flows: false }).gap, 64);
+  assert.equal(boardLayout(compileWireframe(BOARD.replace('board "Flow"', 'board "Flow" gap=40')).spec!).gap, 40, "an explicit gap wins");
+  assert.equal(boardLayout(compileWireframe(BOARD.replace(' "Tap Sign in"', "")).spec!).gap, 64, "no label, no change");
 });

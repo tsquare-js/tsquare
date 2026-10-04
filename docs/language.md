@@ -178,7 +178,7 @@ board "Sign-in flow"
   flow signout -> signin dashed start=dot
 ```
 
-A flow goes from one element or screen to another, with an optional label. Lines stay off screens they don't connect: an arrow to the next screen crosses the gap between the two, and one that skips a screen or goes back past one runs under the screens. Everything after the label is optional:
+A flow goes from one element or screen to another, with an optional label. Lines stay off screens they don't connect: an arrow to the next screen crosses the gap between the two, and one that skips a screen or goes back past one runs under the screens. When a labeled arrow crosses a gap, the gaps between screens widen so the label fits (unless the board sets `gap=`). Everything after the label is optional:
 
 | Option | Values | Default |
 |---|---|---|

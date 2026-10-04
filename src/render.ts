@@ -5,7 +5,7 @@ import { renderToSvg } from "@json-render/image/render";
 import { ID_PATTERN, UNIVERSAL_PROPS, catalog, componentDefinitions, listItemEnds, takesId, takesUniversalProps, universalPropMessage } from "./catalog.js";
 import { monthGrid, withMarkers, withPalette, withTopLayer } from "./components.js";
 import { findAnchors, overlayLayer, readMarkers, tagForMeasuring, type Anchor, type Rect } from "./anchors.js";
-import { flowLayer, flowMargin, type FlowBoxes } from "./flows.js";
+import { flowLabelWidth, flowLayer, flowMargin, type FlowBoxes } from "./flows.js";
 import { paletteFor } from "./colors.js";
 import { closeMatches, unknownComponentMessage } from "./suggest.js";
 import { belongsElsewhere } from "./text.js";
@@ -233,13 +233,15 @@ export interface BoardItem {
  * front) and each screen's and note's box, laid out in rows exactly as the
  * Board component does.
  */
-export function boardLayout(spec: Spec, opts: { flows?: boolean } = {}): { width: number; height: number; items: BoardItem[] } {
+export function boardLayout(spec: Spec, opts: { flows?: boolean } = {}): { width: number; height: number; items: BoardItem[]; gap: number } {
   const board = spec.elements[spec.root];
   const p = (board.props ?? {}) as Record<string, any>;
-  const gap = p.gap ?? BOARD_GAP;
   const pad = p.padding ?? BOARD_PADDING;
   // screens and notes are laid out; flow lines are drawn over them
-  const kids = (board.children ?? []).map((id) => spec.elements[id]).filter((el) => el && (el.type === "Screen" || el.type === "Note"));
+  const laidOut = (board.children ?? []).filter((id) => spec.elements[id]?.type === "Screen" || spec.elements[id]?.type === "Note");
+  const kids = laidOut.map((id) => spec.elements[id]);
+  // a labeled flow between neighboring screens needs a gap its label fits in (unless the board sets gap=)
+  const gap = p.gap ?? (opts.flows !== false ? Math.max(BOARD_GAP, flowLabelGap(spec, laidOut, p.layout === "grid" ? Math.max(1, p.columns ?? 3) : laidOut.length)) : BOARD_GAP);
 
   const boxes = kids.map((el) => {
     const props = (el.props ?? {}) as Record<string, any>;
@@ -272,7 +274,30 @@ export function boardLayout(spec: Spec, opts: { flows?: boolean } = {}): { width
   // room under the screens for backward flows, when flows are drawn
   const flowCount = (board.children ?? []).filter((id) => spec.elements[id]?.type === "Flow").length;
   const flowRoom = opts.flows !== false && flowCount ? flowMargin(flowCount) : 0;
-  return { width: Math.ceil(width + pad * 2), height: Math.ceil(y + pad + flowRoom), items };
+  return { width: Math.ceil(width + pad * 2), height: Math.ceil(y + pad + flowRoom), items, gap };
+}
+
+/** The widest label on a flow between neighboring screens, plus room for its line on each side (0 if none). */
+function flowLabelGap(spec: Spec, laidOut: string[], perRow: number) {
+  const els = spec.elements;
+  const parent = new Map<string, string>();
+  for (const [key, el] of Object.entries(els)) for (const c of el.children ?? []) parent.set(c, key);
+  const ids = new Map<string, string>();
+  for (const [key, el] of Object.entries(els)) if (typeof (el.props as any)?.id === "string") ids.set((el.props as any).id.toLowerCase(), key);
+  const slot = (id: unknown) => {
+    let k = ids.get(String(id).toLowerCase());
+    while (k && els[k]?.type !== "Screen") k = parent.get(k);
+    return k ? laidOut.indexOf(k) : -1;
+  };
+  let widest = 0;
+  for (const key of els[spec.root].children ?? []) {
+    const f = els[key];
+    if (f?.type !== "Flow" || !(f.props as any)?.label) continue;
+    const a = slot((f.props as any).from), b = slot((f.props as any).to);
+    if (a < 0 || b < 0 || Math.abs(a - b) !== 1 || Math.floor(a / perRow) !== Math.floor(b / perRow)) continue;
+    widest = Math.max(widest, flowLabelWidth(String((f.props as any).label)));
+  }
+  return widest ? widest + 32 : 0;
 }
 
 /** The canvas size for a board. */
@@ -295,7 +320,11 @@ export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOption
     if (issues.length) throw new SpecError(issues);
   }
   const flowsOn = opts.flows !== false;
-  const { width, height } = boardSize(spec, { flows: opts.flows });
+  const { width, height, gap } = boardLayout(spec, { flows: opts.flows });
+  // the board's gap may have grown to fit flow labels: the Board component reads it from its props
+  const board = spec.elements[spec.root];
+  if (((board.props ?? {}) as Record<string, any>).gap == null && gap !== BOARD_GAP)
+    spec = { ...spec, elements: { ...spec.elements, [spec.root]: { ...board, props: { ...board.props, gap } } } };
   const palette = paletteFor((spec.elements[spec.root]?.props as any)?.accent);
   const registry = withPalette(palette);
   const draw = async (s: Spec, reg: typeof registry) =>

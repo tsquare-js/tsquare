@@ -165,6 +165,9 @@ function marker(kind: End, p: Pt, out: Pt, color: string, key: string): ReactNod
 
 const GRAY = "#5f6770";
 
+/** A label pill's width, estimated from its text (labels are 12px semibold). */
+export const flowLabelWidth = (label: string) => Math.min(220, Math.ceil(label.length * 7.2) + 20);
+
 /** A flow's line color: gray, an accent name, a hex color, or the board's accent. */
 export function flowColor(color: unknown, palette: Palette) {
   if (color == null) return GRAY;
@@ -232,7 +235,7 @@ export function flowLayer(spec: Spec, flows: { key: string; ends: FlowBoxes }[],
       marker(end, r.points[r.points.length - 1], DIR[r.to], color, `${key}-end`),
     );
     if (p.label) {
-      const w = Math.min(220, Math.ceil(String(p.label).length * 7.2) + 20);
+      const w = flowLabelWidth(String(p.label));
       // the label sits on its line, as near the middle as it can without covering another label
       // or a line's end; when every spot covers something, the one that covers least
       const covers = (c: Pt) =>

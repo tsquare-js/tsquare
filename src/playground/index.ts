@@ -89,7 +89,7 @@ function reference() {
 }
 
 /** Gallery order: simple ones first (the first is also what a first-time visitor sees), then the rest alphabetically. */
-const EXAMPLE_ORDER = ["sign-in", "dashboard", "checkout", "states", "notes-mobile", "notes-web"];
+const EXAMPLE_ORDER = ["sign-in", "dashboard", "checkout", "sign-up-flow", "states", "notes-mobile", "notes-web"];
 const rank = (name: string) => (EXAMPLE_ORDER.indexOf(name) + 1 || EXAMPLE_ORDER.length + 1);
 
 async function examples() {
