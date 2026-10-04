@@ -7,7 +7,7 @@
  * a host page (like tsquare.dev) may forward to its own analytics.
  */
 import { undo } from "@codemirror/commands";
-import { Code, Copy, Download, FileText, Image as ImageIcon, LayoutGrid, Link, Maximize, Minimize, Moon, Share2, Sun, X, ZoomIn, ZoomOut, createElement } from "lucide";
+import { Code, Copy, Download, FileText, Image as ImageIcon, LayoutGrid, Link, Maximize, Minimize, Moon, Share2, Sun, Workflow, X, ZoomIn, ZoomOut, createElement } from "lucide";
 import { createEditor, type Editor } from "./editor.js";
 import type { LanguageData } from "./language-data.js";
 import { upgradeWireframe } from "../upgrade.js";
@@ -43,7 +43,7 @@ function emit(name: string, detail: Record<string, unknown> = {}) {
 
 const ICONS: Record<string, any> = {
   copy: Copy, download: Download, "file-text": FileText, image: ImageIcon, "layout-grid": LayoutGrid, link: Link,
-  maximize: Maximize, minimize: Minimize, moon: Moon, "share-2": Share2, sun: Sun, x: X, "zoom-in": ZoomIn, "zoom-out": ZoomOut, code: Code,
+  maximize: Maximize, minimize: Minimize, moon: Moon, "share-2": Share2, sun: Sun, x: X, "zoom-in": ZoomIn, "zoom-out": ZoomOut, code: Code, workflow: Workflow,
 };
 function setIcon(el: Element, name: string) {
   el.replaceChildren(createElement(ICONS[name], { "aria-hidden": "true" }));
@@ -348,15 +348,27 @@ function showIssues(issues: Issue[]) {
   requestAnimationFrame(() => editor.revealCursor()); // the issue list may have pushed the cursor out of view
 }
 
+// Flow arrows: drawn by default; the toggle (shown only when the board has flow lines) leaves them out
+let showFlows = true;
+const hasFlows = (text: string) => /^[ \t]*flow\b/m.test(text);
+const flowsQuery = () => (showFlows ? "" : "?flows=0");
+$("flows").addEventListener("click", () => {
+  showFlows = !showFlows;
+  $("flows").setAttribute("aria-pressed", String(showFlows));
+  emit("flows_toggled", { on: showFlows });
+  render();
+});
+
 async function render() {
   const mine = ++seq;
   const text = editor.getText();
   store.set("wf.source", text);
+  $("flows").hidden = !hasFlows(text);
   $("doc-title").textContent = boardTitle(text) || "Untitled";
   if (!text.trim()) { showIssues([]); setStatus("", "Empty"); return; }
   setStatus("", "Rendering…");
   try {
-    const res = await fetch("/api/render", { method: "POST", body: text });
+    const res = await fetch(`/api/render${flowsQuery()}`, { method: "POST", body: text });
     const data: RenderResult = await res.json();
     if (mine !== seq) return; // a newer edit is already rendering
     if (!res.ok) throw new Error((data as any).error || res.statusText);
@@ -395,7 +407,7 @@ $("dl-svg").addEventListener("click", () => {
   emit("downloaded", { format: "svg" });
 });
 $("dl-png").addEventListener("click", async () => {
-  const res = await fetch("/api/png?scale=2", { method: "POST", body: editor.getText() });
+  const res = await fetch(`/api/png?scale=2${showFlows ? "" : "&flows=0"}`, { method: "POST", body: editor.getText() });
   if (!res.ok) return toast("Fix the problems first");
   download(await res.blob(), fileName("png"));
   emit("downloaded", { format: "png" });
@@ -417,12 +429,13 @@ menu.querySelectorAll<HTMLButtonElement>("button[data-copy]").forEach((b) =>
     closeMenu();
     const data = await encode(editor.getText());
     const title = boardTitle(editor.getText()) || "Wireframe";
-    const svgUrl = `${BASE}/svg/${data}`;
+    // image links match what's shown: without flow arrows when they're switched off
+    const svgUrl = `${BASE}/svg/${data}${flowsQuery()}`;
     const kind = b.dataset.copy!;
     const text = {
       share: `${BASE}/playground#${data}`,
       svg: svgUrl,
-      png: `${BASE}/png/${data}`,
+      png: `${BASE}/png/${data}${flowsQuery()}`,
       markdown: `![${title.replace(/[[\]]/g, "")}](${svgUrl})`,
       html: `<img src="${svgUrl}" alt="${title.replace(/"/g, "&quot;")}">`,
     }[kind]!;

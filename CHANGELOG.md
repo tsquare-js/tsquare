@@ -16,10 +16,10 @@ board "Sign in flow"
   flow signout -> signin dashed start=dot
 ```
 
-- **Ids:** `#name` after an element or a screen names it (letters, digits, `-` and `_`, starting with a letter). Ids must be unique on the board.
+- **Ids:** `#name` after an element or a screen names it (one word: letters, digits, `-` and `_`, starting with a letter). Ids must be unique on the board and ignore case (`#Home` matches `home`).
 - **Flows:** `flow <from> -> <to> "label"` lines go at the board level, after the screens, and draw an arrow between the two named elements or screens. Lines stay off screens they don't connect: an arrow to a neighboring screen crosses the gap between them (each on its own track), and one that skips a screen runs through its own lane under the screens. An arrow into a screen meets it at the height of the other end, so a button beside it gets a straight line. Labels that would overlap move apart.
 - **Options:** `start=` and `end=` pick each end's marker (`none`, `arrow`, `dot`, `circle`, `bar`; default no marker at the start and an arrow at the end), `line=rounded|hard|curved|straight` (default `rounded`), `dashed`, and `color=` with the 8 accent names, a hex color, or `accent` for the board's accent (default gray).
-- **Off switch:** flows are drawn by default. Turn them off at render time with `--no-flows` on the CLI or `{ flows: false }` in the library; the board is then exactly what it would be without its flow lines.
+- **Off switch:** flows are drawn by default. Turn them off at render time with the playground's **Flows** toggle (shown when a board has flows; image links copied while it's off leave them out too), `--no-flows` on the CLI, or `{ flows: false }` in the library. The board is then exactly what it would be without its flow lines.
 - **Errors** for an unknown id (with close matches), a duplicate id, a flow with the same id at both ends, a flow nested inside a screen, and an id on a note or the board.
 
 ### `#` after an element is now an id

@@ -100,6 +100,8 @@
   .btn.icon-only { padding: 5px 7px; }
   .btn.quiet { border-color: transparent; background: none; }
   .btn.quiet:hover { background: var(--fill); }
+  .btn.toggle[aria-pressed="true"] { background: var(--accent-soft); border-color: transparent; color: var(--ink); }
+  .btn[hidden] { display: none; }
 
   main { flex: 1; min-height: 0; display: flex; }
   .view { flex: 1; min-width: 0; display: none; }
@@ -259,6 +261,7 @@
         <button class="btn icon-only" id="zoom-out" type="button" aria-label="Zoom out" title="Zoom out"><span data-icon="zoom-out"></span></button>
         <button class="btn zoom-level" id="zoom-fit" type="button" title="Fit to the window">100%</button>
         <button class="btn icon-only" id="zoom-in" type="button" aria-label="Zoom in" title="Zoom in"><span data-icon="zoom-in"></span></button>
+        <button class="btn toggle" id="flows" type="button" aria-pressed="true" title="Show or hide the flow arrows" hidden><span data-icon="workflow"></span><span class="label-wide">Flows</span></button>
         <span class="grow"></span>
         <div class="menu-wrap">
           <button class="btn" id="share" type="button" aria-haspopup="menu" aria-expanded="false" title="Copy a link" disabled><span data-icon="link"></span><span class="label-wide">Copy link</span></button>

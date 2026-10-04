@@ -16,6 +16,7 @@
  *   GET  /api/prompt         the model prompt
  *   POST /api/render         wireframe text → { issues, svg?, width?, height?, items? } (items: where each screen sits)
  *   POST /api/png?scale=2    wireframe text → image/png
+ *   (both take ?flows=0 to leave out flow arrows)
  */
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { readFile, readdir } from "node:fs/promises";
@@ -153,15 +154,16 @@ export function createPlaygroundHandler() {
     }
     if (req.method === "POST" && (url.pathname === "/api/render" || url.pathname === "/api/png")) {
       const { spec, issues } = compileWireframe(await readBody(req));
+      const flows = url.searchParams.get("flows") !== "0";
       if (url.pathname === "/api/render") {
         if (!spec || issues.length) return json(res, 200, { issues });
-        const { width, height, items } = boardLayout(spec);
-        return json(res, 200, { issues, svg: await renderWireframeSvg(spec, { skipValidation: true }), width, height, items });
+        const { width, height, items } = boardLayout(spec, { flows });
+        return json(res, 200, { issues, svg: await renderWireframeSvg(spec, { skipValidation: true, flows }), width, height, items });
       }
       if (!spec || issues.length) return json(res, 400, { issues });
       const scale = Math.min(4, Math.max(1, Number(url.searchParams.get("scale") ?? 2)));
       res.writeHead(200, { "content-type": "image/png" });
-      res.end(await renderWireframePng(spec, { skipValidation: true, scale }));
+      res.end(await renderWireframePng(spec, { skipValidation: true, scale, flows }));
       return true;
     }
     return false;

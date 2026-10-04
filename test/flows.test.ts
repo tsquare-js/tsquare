@@ -41,6 +41,12 @@ test("flow mistakes are errors that say how to fix them", () => {
   assert.match(p(BOARD.replace("  flow signout -> signin", "    flow signout -> signin")), /flow lines go at the board level/);
   assert.match(p(BOARD + '\n  note "x" #n'), /Note can't have an id/);
   assert.match(p(BOARD.replace("color=blue", "color=navy")), /navy/);
+  assert.match(p(BOARD.replace("#signout", "#Submit")), /the id #Submit is also used by the Button on line 3 \(as #submit; ids ignore case\)/);
+});
+
+test("ids ignore case", () => {
+  assert.deepEqual(problems(BOARD.replace("#home", "#Home").replace("flow signout -> signin", "flow signout -> SignIn")), []);
+  assert.match(problems(BOARD + "\n  flow Home -> home").join(), /needs two different ends/);
 });
 
 test("avatar #initials stays initials; ids come after the main text", () => {

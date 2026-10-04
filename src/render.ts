@@ -190,27 +190,29 @@ export function checkSpec(spec: Spec): string[] {
       }
     }
   }
-  // Element ids (#name) and the flows that point at them
-  const owners = new Map<string, string>(); // id → element key
+  // Element ids (#name) and the flows that point at them. Ids ignore case: #Home and home match.
+  const owners = new Map<string, { key: string; id: string }>(); // lowercased id → element key, id as written
   for (const [key, el] of Object.entries(spec.elements)) {
     const ref = (el.props as any)?.id;
     if (typeof ref !== "string" || !takesId(el.type)) continue;
-    if (owners.has(ref)) issues.push(`${key}: the id #${ref} is also used by ${spec.elements[owners.get(ref)!].type} "${owners.get(ref)}"; ids must be unique`);
-    else owners.set(ref, key);
+    const other = owners.get(ref.toLowerCase());
+    if (other) issues.push(`${key}: the id #${ref} is also used by ${spec.elements[other.key].type} "${other.key}"${other.id === ref ? "" : ` (as #${other.id}; ids ignore case)`}; ids must be unique`);
+    else owners.set(ref.toLowerCase(), { key, id: ref });
   }
+  const written = [...owners.values()].map((o) => o.id);
   for (const [key, el] of Object.entries(spec.elements)) {
     if (el.type !== "Flow") continue;
     if (!(root.children ?? []).includes(key)) issues.push(`${key}: flow lines go at the board level, after the screens (indented like a screen)`);
     const p = (el.props ?? {}) as Record<string, any>;
     for (const end of ["from", "to"] as const) {
-      if (typeof p[end] !== "string" || owners.has(p[end])) continue;
-      const close = closeMatches(p[end], [...owners.keys()]);
+      if (typeof p[end] !== "string" || owners.has(p[end].toLowerCase())) continue;
+      const close = closeMatches(p[end], written);
       issues.push(
         `${key}: no element has the id #${p[end]}` +
-          (close.length ? ` (did you mean ${close.map((c) => "#" + c).join(", ")}?)` : owners.size ? ` (ids on this board: ${[...owners.keys()].map((c) => "#" + c).join(", ")})` : "; name an element by writing #name after it"),
+          (close.length ? ` (did you mean ${close.map((c) => "#" + c).join(", ")}?)` : owners.size ? ` (ids on this board: ${written.map((c) => "#" + c).join(", ")})` : "; name an element by writing #name after it"),
       );
     }
-    if (p.from && p.from === p.to) issues.push(`${key}: a flow needs two different ends (both are #${p.from})`);
+    if (typeof p.from === "string" && typeof p.to === "string" && p.from.toLowerCase() === p.to.toLowerCase()) issues.push(`${key}: a flow needs two different ends (both are #${p.from})`);
   }
   return issues;
 }
@@ -322,7 +324,7 @@ export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOption
 function flowEnds(spec: Spec) {
   const els = spec.elements;
   const byId = new Map<string, string>(); // #id → element key
-  for (const [key, el] of Object.entries(els)) if (typeof (el.props as any)?.id === "string") byId.set((el.props as any).id, key);
+  for (const [key, el] of Object.entries(els)) if (typeof (el.props as any)?.id === "string") byId.set((el.props as any).id.toLowerCase(), key);
   const parent = new Map<string, string>();
   for (const [key, el] of Object.entries(els)) for (const c of el.children ?? []) parent.set(c, key);
   const screenOf = (key: string): string | undefined => {
@@ -342,7 +344,7 @@ function flowEnds(spec: Spec) {
     .filter((k) => els[k]?.type === "Flow")
     .map((key) => {
       const p = (els[key].props ?? {}) as Record<string, any>;
-      return { key, from: byId.get(p.from), to: byId.get(p.to) };
+      return { key, from: byId.get(String(p.from).toLowerCase()), to: byId.get(String(p.to).toLowerCase()) };
     })
     .filter((f): f is { key: string; from: string; to: string } => !!f.from && !!f.to);
   const measure = [...new Set(list.flatMap((f) => [f.from, f.to]))].filter((k) => els[k].type !== "Screen");
