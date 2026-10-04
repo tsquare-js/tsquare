@@ -1,0 +1,26 @@
+board "Onboarding"
+  screen phone "Welcome" #screen-1
+    navbar "Step 1 of 3"
+    stack padding=20 gap=20 align=center
+      heading "Welcome!" level=1
+      text lines=4
+      spacer
+      button primary "Next" fullWidth #next-1
+      button ghost "Skip" fullWidth #skip-1
+  screen phone "Features" #screen-2
+    navbar "Step 2 of 3"
+    stack padding=20 gap=20 align=center
+      heading "Key features" level=1
+      text lines=4
+      spacer
+      button primary "Next" fullWidth #next-2
+  screen phone "Get started" #screen-3
+    navbar "Step 3 of 3"
+    stack padding=20 gap=20 align=center
+      heading "You're ready!" level=1
+      text "Start using the app"
+      spacer
+      button primary "Get started" fullWidth
+  flow next-1 -> screen-2 "Next"
+  flow next-2 -> screen-3 "Next"
+  flow skip-1 -> screen-3 "Skip" line=curved color=green

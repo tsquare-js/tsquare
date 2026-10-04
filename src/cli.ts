@@ -7,7 +7,7 @@ import { wireframePrompt } from "./prompt.js";
 
 const USAGE = `tsquare — render wireframe text to SVG or PNG
 
-  tsquare render <file.tsq|-> [-o out.svg|out.png] [--scale 2]
+  tsquare render <file.tsq|-> [-o out.svg|out.png] [--scale 2] [--no-flows]
   tsquare check  <file.tsq|->      report problems by line number
   tsquare fmt    <file.tsq|-> [-w] print in canonical form (-w rewrites the file; drops comments)
   tsquare prompt                   print the system prompt for models
@@ -70,7 +70,7 @@ async function main(argv: string[]) {
 
   const out = flag("-o") ?? (file === "-" ? "wireframe.svg" : file.replace(/\.(tsq|wf)$/, "") + ".svg");
   const png = out.endsWith(".png");
-  const data = await renderWireframe(source, { format: png ? "png" : "svg", scale: Number(flag("--scale") ?? 1) });
+  const data = await renderWireframe(source, { format: png ? "png" : "svg", scale: Number(flag("--scale") ?? 1), flows: !rest.includes("--no-flows") });
   await writeFile(out, data);
   console.log(`✓ wrote ${path.relative(process.cwd(), out)}`);
 }

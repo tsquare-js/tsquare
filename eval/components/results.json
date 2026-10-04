@@ -141,6 +141,36 @@
   },
   {
     "model": "sonnet",
+    "run": "run1",
+    "task": "k15-signin-flow",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run1",
+    "task": "k16-checkout-flow",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run1",
+    "task": "k17-onboarding-flow",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
     "run": "run2",
     "task": "k01-analytics",
     "valid": true,
@@ -277,6 +307,36 @@
     "issues": [],
     "passed": 1,
     "total": 1,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k15-signin-flow",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k16-checkout-flow",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k17-onboarding-flow",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
     "failed": []
   },
   {
@@ -434,6 +494,36 @@
   },
   {
     "model": "haiku",
+    "run": "run1",
+    "task": "k15-signin-flow",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run1",
+    "task": "k16-checkout-flow",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run1",
+    "task": "k17-onboarding-flow",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
     "run": "run2",
     "task": "k01-analytics",
     "valid": true,
@@ -581,5 +671,37 @@
     "passed": 1,
     "total": 1,
     "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k15-signin-flow",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k16-checkout-flow",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k17-onboarding-flow",
+    "valid": true,
+    "issues": [],
+    "passed": 1,
+    "total": 2,
+    "failed": [
+      "green arrows"
+    ]
   }
 ]

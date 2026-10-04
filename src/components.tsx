@@ -163,7 +163,8 @@ export function IconGlyph({ name, size = 20, color = t.ink, strokeWidth = 2 }: {
 function Board({ element, children }: Props) {
   const p = element.props;
   const gap = p.gap ?? BOARD_GAP;
-  const items = Children.toArray(children);
+  // flow lines aren't laid out: they're drawn over the board (flows.tsx)
+  const items = Children.toArray(children).filter((c) => !(isValidElement(c) && (c.props as any).element?.type === "Flow"));
   const perRow = p.layout === "grid" ? Math.max(1, p.columns ?? 3) : Math.max(1, items.length);
   const rows: ReactNode[][] = [];
   for (let i = 0; i < items.length; i += perRow) rows.push(items.slice(i, i + perRow));
@@ -1449,8 +1450,14 @@ function Toast({ element, aboveTabBar }: Props & { aboveTabBar?: boolean }) {
   );
 }
 
+/** Flow lines draw nothing in place; flows.tsx draws them over the board. */
+function Flow() {
+  return null;
+}
+
 export const registry = {
   Board,
+  Flow,
   Screen,
   Note,
   Stack,

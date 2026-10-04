@@ -11,6 +11,7 @@ Any element inside a screen can also take `tooltip="…"`; see [Tooltips and ope
 | [board](board.md) | Root canvas (artboard). Holds Screens side by side, plus optional Notes. Must be the root element. |
 | [screen](screen.md) | One view of the product in a device frame. Children stack vertically. |
 | [note](note.md) | Sticky-note annotation. Put it on the Board beside screens, or inside a Screen next to what it explains. |
+| [flow](flow.md) | An arrow between two elements or screens, named with #id. Written at the board level after the screens: flow signin -> home "Tap Sign in". |
 
 ## Layout
 

@@ -48,6 +48,13 @@ export function printWireframeText(spec: Spec, indentUnit = "  "): string {
     const el = spec.elements[id];
     const props = { ...(el.props ?? {}) } as Record<string, unknown>;
     const parts: string[] = [el.type.toLowerCase()];
+    if (el.type === "Flow") {
+      parts.push(`${props.from} -> ${props.to}`);
+      delete props.from;
+      delete props.to;
+    }
+    const elementId = typeof props.id === "string" ? props.id : null;
+    delete props.id;
     const enums = bareEnums(el.type);
     const bools = booleans(el.type);
     const primary = PRIMARY_PROP[el.type];
@@ -65,6 +72,7 @@ export function printWireframeText(spec: Spec, indentUnit = "  "): string {
       if (v === true && bools.has(k)) parts.push(k);
       else parts.push(`${k}=${fmt(v)}`);
     }
+    if (elementId) parts.push(`#${elementId}`);
     out.push(indentUnit.repeat(depth) + parts.join(" "));
     for (const c of el.children ?? []) walk(c, depth + 1);
   };

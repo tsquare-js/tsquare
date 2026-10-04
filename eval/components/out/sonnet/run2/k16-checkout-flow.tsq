@@ -1,0 +1,37 @@
+```tsquare
+board "Checkout"
+  screen phone "Cart" #cart
+    navbar "Cart" leading=back
+    list dividers
+      listitem title="Product one" subtitle="Qty 1" leading=image trailingText="$20"
+      listitem title="Product two" subtitle="Qty 2" leading=image trailingText="$35"
+    spacer
+    button primary "Continue" fullWidth #cartnext
+  screen phone "Shipping" #shipping
+    navbar "Shipping" leading=back
+    input label="Full name"
+    input label="Address"
+    select "Country" placeholder="Select"
+    spacer
+    button primary "Continue" fullWidth #shipnext
+  screen phone "Payment" #payment
+    navbar "Payment" leading=back
+    input label="Card number"
+    stack row gap=8
+      input label="Expiry" placeholder="MM/YY" grow
+      input label="CVC" grow
+    spacer
+    button ghost "Edit cart" fullWidth
+    button primary "Pay now" fullWidth #paynext
+  screen phone "Confirmation" #confirm
+    stack align=center gap=12 padding=24
+      icon "circle-check" size=64
+      heading "Order confirmed" level=2
+      text "Thanks for your purchase" muted
+    spacer
+    button primary "Done" fullWidth
+  flow cartnext -> shipping "Continue"
+  flow shipnext -> payment "Continue"
+  flow paynext -> confirm "Pay"
+  flow payment -> cart "Edit cart" dashed
+```

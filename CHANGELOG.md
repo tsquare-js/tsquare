@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.6.0
+
+### Flow arrows
+
+```tsquare
+board "Sign in flow"
+  screen phone "Sign in" #signin
+    button primary "Sign in" #submit
+  screen phone "Home" #home
+    heading "Welcome back"
+    text lines=3
+    button secondary "Sign out" #signout
+  flow submit -> home "Sign in"
+  flow signout -> signin dashed start=dot
+```
+
+- **Ids:** `#name` after an element or a screen names it (letters, digits, `-` and `_`, starting with a letter). Ids must be unique on the board.
+- **Flows:** `flow <from> -> <to> "label"` lines go at the board level, after the screens, and draw an arrow between the two named elements or screens. Lines stay off screens they don't connect: an arrow to a neighboring screen crosses the gap between them (each on its own track), and one that skips a screen runs through its own lane under the screens. An arrow into a screen meets it at the height of the other end, so a button beside it gets a straight line. Labels that would overlap move apart.
+- **Options:** `start=` and `end=` pick each end's marker (`none`, `arrow`, `dot`, `circle`, `bar`; default no marker at the start and an arrow at the end), `line=rounded|hard|curved|straight` (default `rounded`), `dashed`, and `color=` with the 8 accent names, a hex color, or `accent` for the board's accent (default gray).
+- **Off switch:** flows are drawn by default. Turn them off at render time with `--no-flows` on the CLI or `{ flows: false }` in the library; the board is then exactly what it would be without its flow lines.
+- **Errors** for an unknown id (with close matches), a duplicate id, a flow with the same id at both ends, a flow nested inside a screen, and an id on a note or the board.
+
+### `#` after an element is now an id
+
+Comments still go on their own line, as in 0.4.0. What changed is a `#word` after an element: it used to be an error ("comments go on their own line"), and now it's an id when it looks like one (`button "Go" #cta`). Anything else after `#` is still an error. `avatar #jd` keeps meaning the initials "#jd". Old share links that had a trailing comment (`button "Go" # cta`) still open as before, with the comment moved onto its own line.
+
+### Eval
+
+Three new requests for multi-screen flows (sign in, a checkout with a dashed path back, onboarding with a curved skip arrow in green), two runs each for Sonnet and Haiku with the 0.6.0 prompt. See `eval/README.md`.
+
 ## 0.5.1
 
 Docs only: tooltips are easier to find.

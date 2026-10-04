@@ -1,0 +1,20 @@
+board "Onboarding Flow" accent=green
+  screen phone "Welcome" #welcome
+    heading "Welcome" level=1
+    text lines=4
+    spacer size=24
+    button primary "Next" #welcome-next fullWidth
+    button ghost "Skip" #skip-link
+  screen phone "Features" #features
+    heading "Key Features" level=1
+    text lines=4
+    spacer size=24
+    button primary "Next" #features-next fullWidth
+  screen phone "Get Started" #getstarted
+    heading "All set!" level=1
+    text "You're ready to go"
+    spacer size=24
+    button primary "Begin" fullWidth
+  flow welcome-next -> features "Next" color=green
+  flow features-next -> getstarted "Next" color=green
+  flow skip-link -> getstarted "Skip" line=curved color=green

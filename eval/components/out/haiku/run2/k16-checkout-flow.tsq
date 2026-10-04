@@ -1,0 +1,37 @@
+board "Checkout"
+  screen phone "Cart" #cart
+    navbar "Cart"
+    stack padding=16 gap=12
+      list
+        listitem title="Item 1" trailingText="$50"
+        listitem title="Item 2" trailingText="$30"
+      text "Total: $80" bold
+      spacer
+      button primary "Continue" fullWidth #continue-1
+  screen phone "Shipping" #shipping
+    navbar "Shipping"
+    stack padding=16 gap=12
+      input label="Address" placeholder="Street address"
+      input label="City" placeholder="City"
+      select label="State" value="NY"
+      spacer
+      button primary "Continue" fullWidth #continue-2
+      button ghost "Edit cart" fullWidth #edit-cart
+  screen phone "Payment" #payment
+    navbar "Payment"
+    stack padding=16 gap=12
+      input label="Card number" placeholder="1234 5678 9012 3456"
+      stack row gap=8
+        input label="Expiry" width=80 placeholder="MM/YY"
+        input label="CVC" width=80 placeholder="123"
+      spacer
+      button primary "Complete order" fullWidth #continue-3
+  screen phone "Confirmation" #confirmation
+    navbar "Order placed"
+    stack padding=20 gap=16 align=center
+      heading "Thank you!" level=2
+      text "Your order has been confirmed."
+  flow continue-1 -> shipping "Continue to shipping"
+  flow continue-2 -> payment "Continue to payment"
+  flow continue-3 -> confirmation "Complete order"
+  flow edit-cart -> cart "Edit cart" dashed

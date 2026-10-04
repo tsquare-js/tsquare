@@ -46,7 +46,8 @@ export function upgradeWireframe(text: string, options: UpgradeOptions = {}): st
     // Now comments are whole lines, so move it onto its own line above, at the same indent.
     let comment = "";
     if (options.fromLink) {
-      const hash = tokens.find((t) => t.kind === "word" && t.depth === 0 && upgraded[t.start] === "#" && !t.afterEquals);
+      // since 0.6.0 `#name` after an element is its id; an old comment is `#` followed by a space or symbol
+      const hash = tokens.find((t) => t.kind === "word" && t.depth === 0 && upgraded[t.start] === "#" && !t.afterEquals && !/^#[A-Za-z][\w-]*$/.test(t.text));
       if (hash && !fillsMainText(component, tokens, hash)) {
         comment = upgraded.slice(hash.start).trimEnd();
         upgraded = upgraded.slice(0, hash.start).trimEnd();

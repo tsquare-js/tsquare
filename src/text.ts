@@ -21,7 +21,7 @@
  */
 import type { Spec } from "@json-render/core";
 import { z } from "zod";
-import { UNIVERSAL_PROPS, componentDefinitions, takesUniversalProps, universalPropMessage } from "./catalog.js";
+import { ID_PATTERN, UNIVERSAL_PROPS, componentDefinitions, takesId, takesUniversalProps, universalPropMessage } from "./catalog.js";
 import { unknownComponentMessage } from "./suggest.js";
 
 /** Which prop a quoted string fills, per component. */
@@ -51,6 +51,7 @@ export const PRIMARY_PROP: Record<string, string> = {
   Modal: "title",
   Drawer: "title",
   Accordion: "title",
+  Flow: "label",
   Toast: "text",
 };
 
@@ -338,8 +339,20 @@ export function parseWireframeText(source: string): ParseResult {
     if (!info) { issues.push({ line: lineNo, message: unknownComponentMessage(m[1], [...COMPONENTS.keys()]) }); return; }
 
     const props: Record<string, unknown> = {};
+    let rest = m[2];
+    // flow <from> -> <to> …: the two ids come first, then the usual arguments
+    if (info.name === "Flow") {
+      const ends = rest.match(/^\s*#?([A-Za-z][\w-]*)\s*->\s*#?([A-Za-z][\w-]*)(?=\s|$)(.*)$/);
+      if (!ends) {
+        issues.push({ line: lineNo, message: `a flow line looks like: flow <from> -> <to> "label", where from and to are ids written #name after an element or screen` });
+        return;
+      }
+      props.from = ends[1];
+      props.to = ends[2];
+      rest = ends[3];
+    }
     try {
-      const c = new Cursor(tokenize(m[2]), m[2]);
+      const c = new Cursor(tokenize(rest), rest);
       while (!c.done()) {
         c.skipCommas();
         if (c.done()) break;
@@ -375,6 +388,12 @@ export function parseWireframeText(source: string): ParseResult {
           props[ANTONYMS[t.value]] = false; // `toggle off`, `checkbox unchecked`
         } else if (t.kind === "word" && WORD_PRIMARY.has(info.name) && !(PRIMARY_PROP[info.name] in props)) {
           props[PRIMARY_PROP[info.name]] = t.value; // `icon search`, `avatar JD`
+        } else if (t.kind === "word" && t.value.startsWith("#") && ID_PATTERN.test(t.value.slice(1)) && takesId(info.name)) {
+          // #name: the element's id, for flow arrows
+          if (props.id != null) issues.push({ line: lineNo, message: `two ids (#${props.id} and ${t.value}); an element has one` });
+          else props.id = t.value.slice(1);
+        } else if (t.kind === "word" && t.value.startsWith("#") && ID_PATTERN.test(t.value.slice(1))) {
+          issues.push({ line: lineNo, message: `${info.name} can't have an id (${t.value}); ids name elements and screens for flow arrows` });
         } else if (t.kind === "word" && t.value.startsWith("#")) {
           // Comments used to be allowed after a line's content; say so instead of "don't know what #"
           issues.push({ line: lineNo, message: `"${t.value}": a comment must be on its own line, starting with #; to show # as text, quote it` });

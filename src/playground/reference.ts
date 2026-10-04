@@ -6,7 +6,7 @@
  */
 
 export const GROUPS: { name: string; components: string[] }[] = [
-  { name: "Canvas", components: ["Board", "Screen", "Note"] },
+  { name: "Canvas", components: ["Board", "Screen", "Note", "Flow"] },
   { name: "Layout", components: ["Stack", "Grid", "Card", "Accordion", "Divider", "Spacer"] },
   { name: "Content", components: ["Heading", "Text", "Bullets", "Image", "Chart", "Icon", "Avatar", "Badge"] },
   { name: "Controls", components: ["Button", "Input", "Checkbox", "Radio", "Toggle", "Select", "Slider", "Progress", "Calendar"] },
@@ -44,6 +44,24 @@ export const EXAMPLES: Record<string, string> = {
   note "blue" color=blue width=130
   note "pink" color=pink width=130
   note "green" color=green width=130`,
+
+  Flow: `board "Sign-in flow"
+  screen custom "Sign in" width=260 height=300 #signin
+    heading "Welcome back" level=3
+    input "Email"
+    button primary "Sign in" fullWidth #submit
+  screen custom "Home" width=260 height=300 #home
+    stack row justify=between align=center
+      heading "Home" level=3
+      button ghost leadingIcon=settings #gear
+    text lines=3
+  screen custom "Settings" width=260 height=300 #settings
+    heading "Settings" level=3
+    toggle "Notifications" on
+    button secondary "Sign out" #signout
+  flow submit -> home "Sign in"
+  flow gear -> settings
+  flow signout -> signin "Sign out" dashed start=dot`,
 
   Stack: `board
   screen custom width=560 height=300 padding=0
