@@ -165,6 +165,26 @@ function marker(kind: End, p: Pt, out: Pt, color: string, key: string): ReactNod
 
 const GRAY = "#5f6770";
 
+/**
+ * The SVG path for a routed flow, and a point a fraction along it (for the label). `pts` are the
+ * route's points, trimmed for the markers. "straight" and "curved" only cut across when the route
+ * stays beside its screens; a route through the lane under the screens keeps its corners (plain for
+ * straight, softened for curved), so it never crosses a screen it doesn't connect.
+ */
+export function linePath(r: Route, pts: Pt[], line: string): { d: string; at: (t: number) => Pt } {
+  const s0 = pts[0], e0 = pts[pts.length - 1];
+  if (r.lane == null && line === "straight") {
+    return { d: `M${s0.x} ${s0.y} L${e0.x} ${e0.y}`, at: (t) => ({ x: s0.x + (e0.x - s0.x) * t, y: s0.y + (e0.y - s0.y) * t }) };
+  }
+  if (r.lane == null && line === "curved") {
+    const k = Math.max(40, Math.hypot(e0.x - s0.x, e0.y - s0.y) * 0.4);
+    const c1 = add(s0, DIR[r.from], k), c2 = add(e0, DIR[r.to], k);
+    const bez = (a: number, b: number, c: number, e: number, t: number) => (1 - t) ** 3 * a + 3 * (1 - t) ** 2 * t * b + 3 * (1 - t) * t ** 2 * c + t ** 3 * e;
+    return { d: `M${s0.x} ${s0.y} C${c1.x} ${c1.y} ${c2.x} ${c2.y} ${e0.x} ${e0.y}`, at: (t) => ({ x: bez(s0.x, c1.x, c2.x, e0.x, t), y: bez(s0.y, c1.y, c2.y, e0.y, t) }) };
+  }
+  return { d: polylinePath(pts, line === "curved" ? 40 : line === "rounded" ? 14 : 0), at: (t) => along(pts, t) };
+}
+
 /** A label pill's width, estimated from its text (labels are 12px semibold). */
 export const flowLabelWidth = (label: string) => Math.min(220, Math.ceil(label.length * 7.2) + 20);
 
@@ -211,24 +231,7 @@ export function flowLayer(spec: Spec, flows: { key: string; ends: FlowBoxes }[],
     const pts = [...r.points];
     pts[0] = add(pts[0], DIR[r.from], INSET[start]);
     pts[pts.length - 1] = add(pts[pts.length - 1], DIR[r.to], INSET[end]);
-    const line = p.line ?? "rounded";
-    let d: string;
-    let at: (t: number) => Pt; // a point along the drawn line, for the label
-    const s0 = pts[0], e0 = pts[pts.length - 1];
-    if (line === "straight") {
-      d = `M${s0.x} ${s0.y} L${e0.x} ${e0.y}`;
-      at = (t) => ({ x: s0.x + (e0.x - s0.x) * t, y: s0.y + (e0.y - s0.y) * t });
-    } else if (line === "curved" && r.lane == null) {
-      const k = Math.max(40, Math.hypot(e0.x - s0.x, e0.y - s0.y) * 0.4);
-      const c1 = add(s0, DIR[r.from], k), c2 = add(e0, DIR[r.to], k);
-      d = `M${s0.x} ${s0.y} C${c1.x} ${c1.y} ${c2.x} ${c2.y} ${e0.x} ${e0.y}`;
-      const bez = (a: number, b: number, c: number, e: number, t: number) => (1 - t) ** 3 * a + 3 * (1 - t) ** 2 * t * b + 3 * (1 - t) * t ** 2 * c + t ** 3 * e;
-      at = (t) => ({ x: bez(s0.x, c1.x, c2.x, e0.x, t), y: bez(s0.y, c1.y, c2.y, e0.y, t) });
-    } else {
-      // through the lane, a single curve would cut across screens: "curved" softens the corners instead
-      d = polylinePath(pts, line === "curved" ? 40 : line === "rounded" ? 14 : 0);
-      at = (t) => along(pts, t);
-    }
+    const { d, at } = linePath(r, pts, p.line ?? "rounded");
     shapes.push(
       <path key={`${key}-line`} d={d} fill="none" stroke={color} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" {...(p.dashed ? { strokeDasharray: "7 6" } : {})} />,
       marker(start, r.points[0], DIR[r.from], color, `${key}-start`),

@@ -127,6 +127,13 @@ componentTasks.push(
 );
 
 // 0.6.0: flow arrows (prompt-0.6.0.md)
+/** A hex color that reads as green: its green channel clearly leads red and blue. */
+const isGreenHex = (c: unknown) => {
+  const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(String(c ?? ""));
+  if (!m) return false;
+  const [r, g, b] = m.slice(1).map((h) => parseInt(h, 16));
+  return g > r + 30 && g > b + 30;
+};
 const flows = (e: El[]) => e.filter((x) => x.type === "Flow");
 componentTasks.push(
   {
@@ -150,7 +157,7 @@ componentTasks.push(
     prompt: "Three mobile onboarding screens whose Next buttons are linked to the following screen by arrows, plus a Skip link on the first screen that jumps straight to the third screen with a curved arrow. Draw the arrows in green.",
     checks: [
       ["a curved flow", (e) => flows(e).some((f) => f.props.line === "curved")],
-      ["green arrows", (e) => flows(e).length > 0 && flows(e).every((f) => f.props.color === "green" || /^#/.test(String(f.props.color ?? "")))],
+      ["green arrows", (e) => flows(e).length > 0 && flows(e).every((f) => f.props.color === "green" || isGreenHex(f.props.color))],
     ],
   },
 );

@@ -28,7 +28,7 @@ board "Sign-in flow"
 
 ## Writing it
 
-- A quoted string sets **label**: `flow "…"`.
+- After the two ends, a quoted string sets **label**: `flow submit -> home "…"`.
 - Bare words set **line**: `rounded`, `hard`, `curved`, `straight`.
 - `none`, `arrow`, `dot`, `circle`, `bar` are options of **start** and **end**, so write which one you mean: `start=none` or `end=none`.
 - `dashed` turns **dashed** on; `no-dashed` turns it off.

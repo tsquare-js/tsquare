@@ -127,7 +127,9 @@ function writingIt(name: string, props: { name: string; main: boolean; type: str
     lines.push(
       words.wordPrimary
         ? `A word or quoted string sets **${main.name}**: ${code(`${slug(name)} search`)} or ${code(`${slug(name)} "arrow-left"`)}.`
-        : `A quoted string sets **${main.name}**: ${code(`${slug(name)} "…"`)}.`,
+        : name === "Flow" // its two ends come first: flow <from> -> <to> "label"
+          ? `After the two ends, a quoted string sets **${main.name}**: ${code('flow submit -> home "…"')}.`
+          : `A quoted string sets **${main.name}**: ${code(`${slug(name)} "…"`)}.`,
     );
   }
   const byProp = new Map<string, string[]>();

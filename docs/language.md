@@ -183,7 +183,7 @@ A flow goes from one element or screen to another, with an optional label. Lines
 | Option | Values | Default |
 |---|---|---|
 | `start=`, `end=` | `none`, `arrow`, `dot`, `circle`, `bar` | `start=none`, `end=arrow` |
-| `line=` | `rounded`, `hard` (right angles), `curved`, `straight` | `rounded` |
+| `line=` | `rounded`, `hard` (right angles), `curved`, `straight` (a curve or a direct line where the arrow stays beside its screens; under the screens they keep their corners) | `rounded` |
 | `dashed` | | solid |
 | `color=` | an accent name, a hex color, or `accent` for the board's | gray |
 

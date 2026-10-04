@@ -200,12 +200,26 @@ export function checkSpec(spec: Spec): string[] {
     else owners.set(ref.toLowerCase(), { key, id: ref });
   }
   const written = [...owners.values()].map((o) => o.id);
+  const parentOf = new Map<string, string>();
+  for (const [k, el] of Object.entries(spec.elements)) for (const c of el.children ?? []) parentOf.set(c, k);
   for (const [key, el] of Object.entries(spec.elements)) {
     if (el.type !== "Flow") continue;
     if (!(root.children ?? []).includes(key)) issues.push(`${key}: flow lines go at the board level, after the screens (indented like a screen)`);
     const p = (el.props ?? {}) as Record<string, any>;
     for (const end of ["from", "to"] as const) {
-      if (typeof p[end] !== "string" || owners.has(p[end].toLowerCase())) continue;
+      if (typeof p[end] !== "string") continue;
+      const owner = owners.get(p[end].toLowerCase());
+      if (owner) {
+        // a closed accordion doesn't draw its contents, so an arrow can't point at them
+        for (let k = parentOf.get(owner.key); k; k = parentOf.get(k)) {
+          const el = spec.elements[k];
+          if (el?.type === "Accordion" && !(el.props as any)?.open) {
+            issues.push(`${key}: #${owner.id} is inside Accordion "${k}", which is closed, so it isn't drawn; add open to the accordion, or give the accordion the id instead`);
+            break;
+          }
+        }
+        continue;
+      }
       const close = closeMatches(p[end], written);
       issues.push(
         `${key}: no element has the id #${p[end]}` +
@@ -339,7 +353,8 @@ export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOption
   if (anchors.length) layers.push(overlayLayer(spec, anchors, boxes, palette, registry.Calendar as any));
   if (flows?.list.length) {
     const resolved = flows.list
-      .map(({ key, from, to }) => ({ key, ends: { from: flows.box(from, boxes), to: flows.box(to, boxes), fromScreen: flows.screenBox(from), toScreen: flows.screenBox(to) } }))
+      // an end that wasn't measured (not drawn) falls back to its screen rather than dropping the arrow
+      .map(({ key, from, to }) => ({ key, ends: { from: flows.box(from, boxes) ?? flows.screenBox(from), to: flows.box(to, boxes) ?? flows.screenBox(to), fromScreen: flows.screenBox(from), toScreen: flows.screenBox(to) } }))
       .filter((f): f is { key: string; ends: FlowBoxes } => !!(f.ends.from && f.ends.to && f.ends.fromScreen && f.ends.toScreen));
     layers.push(flowLayer(spec, resolved, flows.screens, flows.gap, palette, { width, height }));
   }
