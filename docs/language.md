@@ -158,6 +158,37 @@ List items and the navbar take a menu too. A row's menu opens right-aligned unde
 
 `open` without anything to show (no `options` or `menu`) is an error that says what to add.
 
+## Flows
+
+Arrows show how screens connect. Name an element or a screen by writing `#name` after it, then add `flow` lines at the board level, after the screens. An id is one word (letters, digits, `-` and `_`, starting with a letter), must be unique on the board, and ignores case, so `#Home` and `flow … -> home` match.
+
+```tsquare
+board "Sign-in flow"
+  screen phone "Sign in" #signin
+    button primary "Sign in" #submit
+    button ghost "Create an account" #create
+  screen phone "Home" #home
+    heading "Welcome back"
+    text lines=3
+    button secondary "Sign out" #signout
+  screen phone "Sign up" #signup
+    heading "Sign up"
+  flow submit -> home "Tap Sign in"
+  flow create -> signup "New user" line=curved color=green
+  flow signout -> signin dashed start=dot
+```
+
+A flow goes from one element or screen to another, with an optional label. Lines stay off screens they don't connect: an arrow to the next screen crosses the gap between the two, and one that skips a screen or goes back past one runs under the screens. When a labeled arrow crosses a gap, the gaps between screens widen so the label fits (unless the board sets `gap=`). Everything after the label is optional:
+
+| Option | Values | Default |
+|---|---|---|
+| `start=`, `end=` | `none`, `arrow`, `dot`, `circle`, `bar` | `start=none`, `end=arrow` |
+| `line=` | `rounded`, `hard` (right angles), `curved`, `straight` (a curve or a direct line where the arrow stays beside its screens; under the screens they keep their corners) | `rounded` |
+| `dashed` | | solid |
+| `color=` | an accent name, a hex color, or `accent` for the board's | gray |
+
+To show the same board without arrows, switch off **Flows** in the playground, or use `tsquare render --no-flows`, the `{ flows: false }` option, or `?flows=0` on an image link.
+
 ## Checking and errors
 
 `tsquare check file.tsq` reports every problem with its line number, and suggests a fix where it can:

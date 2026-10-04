@@ -16,6 +16,8 @@ const iconName = z
 
 const day = z.number().int().min(1).max(31);
 const percent = z.number().min(0).max(100);
+const flowEnd = z.enum(["none", "arrow", "dot", "circle", "bar"]);
+
 /** A menu item: text, or {label icon}. */
 const menuItem = z.union([z.string(), z.strictObject({ label: z.string(), icon: o(iconName) })]);
 
@@ -26,8 +28,15 @@ const menuItem = z.union([z.string(), z.strictObject({ label: z.string(), icon: 
 export const UNIVERSAL_PROPS = {
   tooltip: z.string().describe("Show a tooltip with this text next to the element"),
 } as const;
+/**
+ * An element's id, written `#name` after it in text: what flow arrows point at. Any element can
+ * have one except the Board, Notes and Flows themselves; Screens can.
+ */
+export const ID_PATTERN = /^[A-Za-z][\w-]*$/;
+export const takesId = (type: string) => type !== "Board" && type !== "Note" && type !== "Flow";
+
 /** Not the canvas (Board, Screen) or its annotations (Note): a tooltip there would be meaningless. */
-export const takesUniversalProps = (type: string) => type !== "Board" && type !== "Screen" && type !== "Note";
+export const takesUniversalProps = (type: string) => type !== "Board" && type !== "Screen" && type !== "Note" && type !== "Flow";
 
 /** Why a universal prop isn't allowed here, and what to do instead. */
 export function universalPropMessage(type: string, key: string) {
@@ -56,7 +65,7 @@ export const componentDefinitions = {
       ),
     }),
     slots: ["default"],
-    description: "Root canvas (artboard). Holds Screens side by side, plus optional Notes. Must be the root element.",
+    description: "Root canvas (artboard). Holds Screens side by side, plus optional Notes and Flow lines. Must be the root element.",
     example: { title: "Checkout flow", layout: "row", gap: 64 },
   },
   Screen: {
@@ -82,6 +91,24 @@ export const componentDefinitions = {
     slots: [],
     description: "Sticky-note annotation. Put it on the Board beside screens, or inside a Screen next to what it explains.",
     example: { text: "Empty state TBD", color: "yellow" },
+  },
+  Flow: {
+    props: z.object({
+      from: z.string().describe("The id where the arrow starts (written before ->)"),
+      to: z.string().describe("The id it points at (written after ->)"),
+      label: o(z.string()),
+      start: o(flowEnd).describe("Default none"),
+      end: o(flowEnd).describe("Default arrow"),
+      line: o(z.enum(["rounded", "hard", "curved", "straight"])).describe("Default rounded: right angles with rounded corners"),
+      dashed: o(z.boolean()),
+      color: o(z.string().refine((v) => v === "accent" || isAccent(v), { error: (iss) => `${accentMessage(String(iss.input))}, or accent for the board's` })).describe(
+        `Default gray. ${Object.keys(ACCENTS).join(", ")}, a hex color, or accent for the board's`,
+      ),
+    }),
+    slots: [],
+    description:
+      'An arrow between two elements or screens, named with #id. Written at the board level after the screens: flow signin -> home "Tap Sign in".',
+    example: { from: "signin", to: "home", label: "Tap Sign in" },
   },
 
   // ── Layout ────────────────────────────────────────────────────────────

@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.6.0
+
+### Flow arrows
+
+```tsquare
+board "Sign in flow"
+  screen phone "Sign in" #signin
+    button primary "Sign in" #submit
+  screen phone "Home" #home
+    heading "Welcome back"
+    text lines=3
+    button secondary "Sign out" #signout
+  flow submit -> home "Sign in"
+  flow signout -> signin dashed start=dot
+```
+
+- **Ids:** `#name` after an element or a screen names it (one word: letters, digits, `-` and `_`, starting with a letter). Ids must be unique on the board and ignore case (`#Home` matches `home`).
+- **Flows:** `flow <from> -> <to> "label"` lines go at the board level, after the screens, and draw an arrow between the two named elements or screens. Lines stay off screens they don't connect: an arrow to a neighboring screen crosses the gap between them (each on its own track), and one that skips a screen runs through its own lane under the screens. An arrow into a screen meets it at the height of the other end, so a button beside it gets a straight line. Labels stay on their line, clear of other labels and line ends, and the gaps between screens widen to fit labels on arrows between neighbors (unless the board sets `gap=`; with flows off the gaps are unchanged).
+- **Options:** `start=` and `end=` pick each end's marker (`none`, `arrow`, `dot`, `circle`, `bar`; default no marker at the start and an arrow at the end), `line=rounded|hard|curved|straight` (default `rounded`), `dashed`, and `color=` with the 8 accent names, a hex color, or `accent` for the board's accent (default gray).
+- **Off switch:** flows are drawn by default. Turn them off at render time with the playground's **Flows** switch (shown when a board has flows; image links copied while it's off leave them out too), `--no-flows` on the CLI, or `{ flows: false }` in the library. The board is then exactly what it would be without its flow lines.
+- **Errors** for an unknown id (with close matches), a duplicate id, a flow with the same id at both ends, a flow nested inside a screen, a flow pointing into a closed accordion (its contents aren't drawn), and an id on a note or the board.
+
+- **New example:** `examples/sign-up-flow.tsq` (create an account, verify the email with a code, welcome), with a dashed arrow back for "Wrong email?". It's in the playground's examples.
+
+### `#` after an element is now an id
+
+Comments still go on their own line, as since 0.3.0. What changed is a `#word` after an element: it used to be an error ("comments go on their own line"), and now it's an id when it looks like one (`button "Go" #cta`). Anything else after `#` is still an error. `avatar #jd` keeps meaning the initials "#jd". Old links keep working: see the new link prefix below.
+
+### New link prefix: `y`
+
+Share links and image URLs made by 0.6.0 start with `y` instead of `z`. Before 0.3.0, `#cta` after an element was a comment, and a link can't say which version made it. So `z` links keep their old meaning: a trailing `#word` is a comment and moves onto its own line. `y` links read `#word` as an id. Both prefixes decode. A site that renders tsquare links needs 0.6.0 to read `y` links.
+
+### Eval
+
+Three new requests for multi-screen flows (sign in, a checkout with a dashed path back, onboarding with a curved skip arrow in green), two runs each for Sonnet and Haiku with the final 0.6.0 prompt: every flow was written correctly (24 of 24 checks), and 11 of 12 outputs were valid (the miss was unrelated to flows). See `eval/README.md`.
+
 ## 0.5.1
 
 Docs only: tooltips are easier to find.

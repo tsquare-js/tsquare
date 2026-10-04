@@ -1,0 +1,35 @@
+```tsquare
+board "Checkout Flow"
+  screen phone "Cart" #cart
+    navbar "Cart"
+    heading "Your items" level=1
+    list dividers
+      listitem "Blue widget" trailing=text trailingText="$10"
+      listitem "Red widget" trailing=text trailingText="$15"
+    text "Total: $25" bold
+    button primary "Continue" fullWidth #continueCart
+  screen phone "Shipping" #shipping
+    navbar "Shipping" leading=back
+    heading "Delivery address" level=1
+    input "Address" placeholder="Enter address"
+    input "City" placeholder="City"
+    button primary "Continue" fullWidth #continueShip
+  screen phone "Payment" #payment
+    navbar "Payment" leading=back
+    heading "Payment method" level=1
+    input "Card number" placeholder="1234 5678 9012 3456"
+    stack row gap=8
+      input "MM/YY" placeholder="MM/YY" width=100
+      input "CVV" placeholder="CVV" width=100
+    button primary "Continue" fullWidth #continuePay
+    button ghost "Edit cart" #editCart
+  screen phone "Confirmation" #confirm
+    navbar "Confirmation"
+    heading "Order confirmed" level=1
+    text "Your order has been placed"
+    badge outline "Order #12345"
+  flow continueCart -> shipping "Continue"
+  flow continueShip -> payment "Continue"
+  flow continuePay -> confirm "Continue"
+  flow editCart -> cart "Edit cart" dashed
+```

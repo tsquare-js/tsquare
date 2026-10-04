@@ -1,0 +1,20 @@
+board "Onboarding flow"
+  screen phone "Welcome" #onboard-1
+    heading "Welcome" level=1
+    text "Let's get started with a quick tour"
+    image height=150
+    button primary "Next" #onboard-next-1
+    button ghost "Skip" #onboard-skip
+  screen phone "Features" #onboard-2
+    heading "Key features" level=1
+    text "Here's what you can do with this app"
+    image height=150
+    button primary "Next" #onboard-next-2
+  screen phone "Ready" #onboard-3
+    heading "You're all set!" level=1
+    text "Start exploring now"
+    image height=150
+    button primary "Get started"
+  flow onboard-next-1 -> onboard-2 "Next" color=green
+  flow onboard-next-2 -> onboard-3 "Next" color=green
+  flow onboard-skip -> onboard-3 "Skip" line=curved color=green

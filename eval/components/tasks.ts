@@ -126,6 +126,42 @@ componentTasks.push(
   },
 );
 
+// 0.6.0: flow arrows (prompt-0.6.0.md)
+/** A hex color that reads as green: its green channel clearly leads red and blue. */
+const isGreenHex = (c: unknown) => {
+  const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(String(c ?? ""));
+  if (!m) return false;
+  const [r, g, b] = m.slice(1).map((h) => parseInt(h, 16));
+  return g > r + 30 && g > b + 30;
+};
+const flows = (e: El[]) => e.filter((x) => x.type === "Flow");
+componentTasks.push(
+  {
+    id: "k15-signin-flow",
+    prompt: "A three-screen mobile sign-in flow (Sign in, Home, Sign up) with arrows showing that the Sign in button leads to Home, 'Create an account' leads to Sign up, and Sign out on Home goes back to Sign in.",
+    checks: [
+      ["three flows", (e) => flows(e).length >= 3],
+      ["flows start at elements, not only screens", (e) => flows(e).some((f) => e.some((x) => x.props.id === f.props.from && x.type !== "Screen"))],
+    ],
+  },
+  {
+    id: "k16-checkout-flow",
+    prompt: "A 4-step mobile checkout (Cart, Shipping, Payment, Confirmation) with labeled arrows from each step's continue button to the next screen, and a dashed arrow from Payment back to Cart labeled 'Edit cart'.",
+    checks: [
+      ["three labeled flows forward", (e) => flows(e).filter((f) => f.props.label && !f.props.dashed).length >= 3],
+      ["a dashed flow back", (e) => flows(e).some((f) => f.props.dashed === true)],
+    ],
+  },
+  {
+    id: "k17-onboarding-flow",
+    prompt: "Three mobile onboarding screens whose Next buttons are linked to the following screen by arrows, plus a Skip link on the first screen that jumps straight to the third screen with a curved arrow. Draw the arrows in green.",
+    checks: [
+      ["a curved flow", (e) => flows(e).some((f) => f.props.line === "curved")],
+      ["green arrows", (e) => flows(e).length > 0 && flows(e).every((f) => f.props.color === "green" || isGreenHex(f.props.color))],
+    ],
+  },
+);
+
 export function runComponentChecks(task: ComponentTask, spec: Spec) {
   const els = Object.values(spec.elements) as El[];
   return task.checks.map(([name, test]) => ({ name, pass: test(els) }));

@@ -80,24 +80,25 @@ function download(blob: Blob, name: string) {
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 
-// ── Link encoding: "z" + base64url(deflate-raw(text)), same as the library ─
+// ── Link encoding: "y" + base64url(deflate-raw(text)), same as the library (see share.ts) ─
 
 async function encode(text: string) {
   const stream = new Blob([text]).stream().pipeThrough(new CompressionStream("deflate-raw"));
   const bytes = new Uint8Array(await new Response(stream).arrayBuffer());
   let bin = "";
   for (const b of bytes) bin += String.fromCharCode(b);
-  return "z" + btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  return "y" + btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
 async function decode(data: string) {
-  if (!data.startsWith("z")) throw new Error("unknown link format");
+  const prefix = data.slice(0, 1);
+  if (prefix !== "y" && prefix !== "z") throw new Error("unknown link format");
   const b64 = data.slice(1).replace(/-/g, "+").replace(/_/g, "/");
   const bin = atob(b64 + "=".repeat((4 - (b64.length % 4)) % 4));
   const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
   const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
   // Same as the library's decodeWireframe: a link from an older version opens in today's syntax.
-  return upgradeWireframe(await new Response(stream).text(), { fromLink: true });
+  return upgradeWireframe(await new Response(stream).text(), { fromLink: prefix === "z" });
 }
 
 // ── Theme ───────────────────────────────────────────────────────────────
@@ -348,15 +349,27 @@ function showIssues(issues: Issue[]) {
   requestAnimationFrame(() => editor.revealCursor()); // the issue list may have pushed the cursor out of view
 }
 
+// Flow arrows: drawn by default; the toggle (shown only when the board has flow lines) leaves them out
+let showFlows = true;
+const hasFlows = (text: string) => /^[ \t]*flow\b/im.test(text); // component names ignore case
+const flowsQuery = () => (showFlows ? "" : "?flows=0");
+$("flows").addEventListener("click", () => {
+  showFlows = !showFlows;
+  $("flows").setAttribute("aria-checked", String(showFlows));
+  emit("flows_toggled", { on: showFlows });
+  render();
+});
+
 async function render() {
   const mine = ++seq;
   const text = editor.getText();
   store.set("wf.source", text);
+  $("flows").hidden = !hasFlows(text);
   $("doc-title").textContent = boardTitle(text) || "Untitled";
   if (!text.trim()) { showIssues([]); setStatus("", "Empty"); return; }
   setStatus("", "Rendering…");
   try {
-    const res = await fetch("/api/render", { method: "POST", body: text });
+    const res = await fetch(`/api/render${flowsQuery()}`, { method: "POST", body: text });
     const data: RenderResult = await res.json();
     if (mine !== seq) return; // a newer edit is already rendering
     if (!res.ok) throw new Error((data as any).error || res.statusText);
@@ -395,7 +408,7 @@ $("dl-svg").addEventListener("click", () => {
   emit("downloaded", { format: "svg" });
 });
 $("dl-png").addEventListener("click", async () => {
-  const res = await fetch("/api/png?scale=2", { method: "POST", body: editor.getText() });
+  const res = await fetch(`/api/png?scale=2${showFlows ? "" : "&flows=0"}`, { method: "POST", body: editor.getText() });
   if (!res.ok) return toast("Fix the problems first");
   download(await res.blob(), fileName("png"));
   emit("downloaded", { format: "png" });
@@ -417,12 +430,13 @@ menu.querySelectorAll<HTMLButtonElement>("button[data-copy]").forEach((b) =>
     closeMenu();
     const data = await encode(editor.getText());
     const title = boardTitle(editor.getText()) || "Wireframe";
-    const svgUrl = `${BASE}/svg/${data}`;
+    // image links match what's shown: without flow arrows when they're switched off
+    const svgUrl = `${BASE}/svg/${data}${flowsQuery()}`;
     const kind = b.dataset.copy!;
     const text = {
       share: `${BASE}/playground#${data}`,
       svg: svgUrl,
-      png: `${BASE}/png/${data}`,
+      png: `${BASE}/png/${data}${flowsQuery()}`,
       markdown: `![${title.replace(/[[\]]/g, "")}](${svgUrl})`,
       html: `<img src="${svgUrl}" alt="${title.replace(/"/g, "&quot;")}">`,
     }[kind]!;

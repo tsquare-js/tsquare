@@ -1,0 +1,23 @@
+```tsquare
+board "Onboarding"
+  screen phone "Welcome" #s1
+    stack row justify=end
+      button ghost "Skip" #skip
+    image "Illustration" height=200
+    heading "Welcome" level=1 align=center
+    text lines=2
+    button primary "Next" fullWidth #n1
+  screen phone "Discover" #s2
+    image "Illustration" height=200
+    heading "Discover" level=1 align=center
+    text lines=2
+    button primary "Next" fullWidth #n2
+  screen phone "Get started" #s3
+    image "Illustration" height=200
+    heading "Get started" level=1 align=center
+    text lines=2
+    button primary "Done" fullWidth
+  flow n1 -> s2 color=green
+  flow n2 -> s3 color=green
+  flow skip -> s3 line=curved color=green
+```

@@ -2,11 +2,12 @@ import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
 import type { Spec } from "@json-render/core";
 import { renderToSvg } from "@json-render/image/render";
-import { UNIVERSAL_PROPS, catalog, componentDefinitions, listItemEnds, takesUniversalProps, universalPropMessage } from "./catalog.js";
+import { ID_PATTERN, UNIVERSAL_PROPS, catalog, componentDefinitions, listItemEnds, takesId, takesUniversalProps, universalPropMessage } from "./catalog.js";
 import { monthGrid, withMarkers, withPalette, withTopLayer } from "./components.js";
-import { findAnchors, overlayLayer, readMarkers, tagForMeasuring } from "./anchors.js";
+import { findAnchors, overlayLayer, readMarkers, tagForMeasuring, type Anchor, type Rect } from "./anchors.js";
+import { flowLabelWidth, flowLayer, flowMargin, type FlowBoxes } from "./flows.js";
 import { paletteFor } from "./colors.js";
-import { unknownComponentMessage } from "./suggest.js";
+import { closeMatches, unknownComponentMessage } from "./suggest.js";
 import { belongsElsewhere } from "./text.js";
 import { upgradeSpec } from "./upgrade.js";
 import {
@@ -95,6 +96,11 @@ export function checkSpec(spec: Spec): string[] {
       }
       // Zod drops unknown keys silently; report them so the author (or model) hears about it.
       for (const key of Object.keys(el.props ?? {})) {
+        if (key === "id" && takesId(el.type)) {
+          const v = (el.props as any).id;
+          if (typeof v !== "string" || !ID_PATTERN.test(v)) issues.push(`${id}: the id "${v}" should be a word: letters, digits, - and _, starting with a letter`);
+          continue;
+        }
         if (key in UNIVERSAL_PROPS) {
           if (!takesUniversalProps(el.type)) issues.push(`${id}: ${universalPropMessage(el.type, key)}`);
           else {
@@ -184,6 +190,44 @@ export function checkSpec(spec: Spec): string[] {
       }
     }
   }
+  // Element ids (#name) and the flows that point at them. Ids ignore case: #Home and home match.
+  const owners = new Map<string, { key: string; id: string }>(); // lowercased id → element key, id as written
+  for (const [key, el] of Object.entries(spec.elements)) {
+    const ref = (el.props as any)?.id;
+    if (typeof ref !== "string" || !takesId(el.type)) continue;
+    const other = owners.get(ref.toLowerCase());
+    if (other) issues.push(`${key}: the id #${ref} is also used by ${spec.elements[other.key].type} "${other.key}"${other.id === ref ? "" : ` (as #${other.id}; ids ignore case)`}; ids must be unique`);
+    else owners.set(ref.toLowerCase(), { key, id: ref });
+  }
+  const written = [...owners.values()].map((o) => o.id);
+  const parentOf = new Map<string, string>();
+  for (const [k, el] of Object.entries(spec.elements)) for (const c of el.children ?? []) parentOf.set(c, k);
+  for (const [key, el] of Object.entries(spec.elements)) {
+    if (el.type !== "Flow") continue;
+    if (!(root.children ?? []).includes(key)) issues.push(`${key}: flow lines go at the board level, after the screens (indented like a screen)`);
+    const p = (el.props ?? {}) as Record<string, any>;
+    for (const end of ["from", "to"] as const) {
+      if (typeof p[end] !== "string") continue;
+      const owner = owners.get(p[end].toLowerCase());
+      if (owner) {
+        // a closed accordion doesn't draw its contents, so an arrow can't point at them
+        for (let k = parentOf.get(owner.key); k; k = parentOf.get(k)) {
+          const el = spec.elements[k];
+          if (el?.type === "Accordion" && !(el.props as any)?.open) {
+            issues.push(`${key}: #${owner.id} is inside Accordion "${k}", which is closed, so it isn't drawn; add open to the accordion, or give the accordion the id instead`);
+            break;
+          }
+        }
+        continue;
+      }
+      const close = closeMatches(p[end], written);
+      issues.push(
+        `${key}: no element has the id #${p[end]}` +
+          (close.length ? ` (did you mean ${close.map((c) => "#" + c).join(", ")}?)` : owners.size ? ` (ids on this board: ${written.map((c) => "#" + c).join(", ")})` : "; name an element by writing #name after it"),
+      );
+    }
+    if (typeof p.from === "string" && typeof p.to === "string" && p.from.toLowerCase() === p.to.toLowerCase()) issues.push(`${key}: a flow needs two different ends (both are #${p.from})`);
+  }
   return issues;
 }
 
@@ -203,12 +247,15 @@ export interface BoardItem {
  * front) and each screen's and note's box, laid out in rows exactly as the
  * Board component does.
  */
-export function boardLayout(spec: Spec): { width: number; height: number; items: BoardItem[] } {
+export function boardLayout(spec: Spec, opts: { flows?: boolean } = {}): { width: number; height: number; items: BoardItem[]; gap: number } {
   const board = spec.elements[spec.root];
   const p = (board.props ?? {}) as Record<string, any>;
-  const gap = p.gap ?? BOARD_GAP;
   const pad = p.padding ?? BOARD_PADDING;
-  const kids = (board.children ?? []).map((id) => spec.elements[id]).filter(Boolean);
+  // screens and notes are laid out; flow lines are drawn over them
+  const laidOut = (board.children ?? []).filter((id) => spec.elements[id]?.type === "Screen" || spec.elements[id]?.type === "Note");
+  const kids = laidOut.map((id) => spec.elements[id]);
+  // a labeled flow between neighboring screens needs a gap its label fits in (unless the board sets gap=)
+  const gap = p.gap ?? (opts.flows !== false ? Math.max(BOARD_GAP, flowLabelGap(spec, laidOut, p.layout === "grid" ? Math.max(1, p.columns ?? 3) : laidOut.length)) : BOARD_GAP);
 
   const boxes = kids.map((el) => {
     const props = (el.props ?? {}) as Record<string, any>;
@@ -238,18 +285,46 @@ export function boardLayout(spec: Spec): { width: number; height: number; items:
     width = Math.max(width, row.reduce((sum, b) => sum + (b?.w ?? 0), 0) + gap * (row.length - 1));
     y += Math.max(...row.map((b) => b?.h ?? 0));
   }
-  return { width: Math.ceil(width + pad * 2), height: Math.ceil(y + pad), items };
+  // room under the screens for backward flows, when flows are drawn
+  const flowCount = (board.children ?? []).filter((id) => spec.elements[id]?.type === "Flow").length;
+  const flowRoom = opts.flows !== false && flowCount ? flowMargin(flowCount) : 0;
+  return { width: Math.ceil(width + pad * 2), height: Math.ceil(y + pad + flowRoom), items, gap };
+}
+
+/** The widest label on a flow between neighboring screens, plus room for its line on each side (0 if none). */
+function flowLabelGap(spec: Spec, laidOut: string[], perRow: number) {
+  const els = spec.elements;
+  const parent = new Map<string, string>();
+  for (const [key, el] of Object.entries(els)) for (const c of el.children ?? []) parent.set(c, key);
+  const ids = new Map<string, string>();
+  for (const [key, el] of Object.entries(els)) if (typeof (el.props as any)?.id === "string") ids.set((el.props as any).id.toLowerCase(), key);
+  const slot = (id: unknown) => {
+    let k = ids.get(String(id).toLowerCase());
+    while (k && els[k]?.type !== "Screen") k = parent.get(k);
+    return k ? laidOut.indexOf(k) : -1;
+  };
+  let widest = 0;
+  for (const key of els[spec.root].children ?? []) {
+    const f = els[key];
+    if (f?.type !== "Flow" || !(f.props as any)?.label) continue;
+    const a = slot((f.props as any).from), b = slot((f.props as any).to);
+    if (a < 0 || b < 0 || Math.abs(a - b) !== 1 || Math.floor(a / perRow) !== Math.floor(b / perRow)) continue;
+    widest = Math.max(widest, flowLabelWidth(String((f.props as any).label)));
+  }
+  return widest ? widest + 32 : 0;
 }
 
 /** The canvas size for a board. */
-export function boardSize(spec: Spec) {
-  const { width, height } = boardLayout(spec);
+export function boardSize(spec: Spec, opts: { flows?: boolean } = {}) {
+  const { width, height } = boardLayout(spec, opts);
   return { width, height };
 }
 
 export interface RenderWireframeOptions {
   /** Skip validation (e.g. while a spec is still streaming in). */
   skipValidation?: boolean;
+  /** Draw flow arrows (default true). Off, the board looks exactly as if it had no flow lines. */
+  flows?: boolean;
 }
 
 export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOptions = {}) {
@@ -258,31 +333,90 @@ export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOption
     const issues = checkSpec(spec);
     if (issues.length) throw new SpecError(issues);
   }
-  const { width, height } = boardSize(spec);
+  const flowsOn = opts.flows !== false;
+  const { width, height, gap } = boardLayout(spec, { flows: opts.flows });
+  // the board's gap may have grown to fit flow labels: the Board component reads it from its props
+  const board = spec.elements[spec.root];
+  if (((board.props ?? {}) as Record<string, any>).gap == null && gap !== BOARD_GAP)
+    spec = { ...spec, elements: { ...spec.elements, [spec.root]: { ...board, props: { ...board.props, gap } } } };
   const palette = paletteFor((spec.elements[spec.root]?.props as any)?.accent);
   const registry = withPalette(palette);
   const draw = async (s: Spec, reg: typeof registry) =>
     renderToSvg(s, { registry: reg as any, includeStandard: false, fonts: await loadFonts(), width, height });
 
-  // Anchored overlays (open selects and date pickers, menus, tooltips) need element positions,
-  // which Satori doesn't report: measure in a first pass, then draw them on top. See anchors.tsx.
-  const { anchors, boxes } = await measureAnchors(spec);
-  if (!anchors.length) return draw(spec, registry);
-  return draw(spec, withTopLayer(registry, overlayLayer(spec, anchors, boxes, palette, registry.Calendar as any)));
+  // Anchored overlays (open selects and date pickers, menus, tooltips) and flow arrows need element
+  // positions, which Satori doesn't report: measure in a first pass, then draw them on top.
+  const flows = flowsOn ? flowEnds(spec) : null;
+  const { anchors, boxes } = await measureAnchors(spec, flows?.measure ?? []);
+  if (!anchors.length && !flows?.list.length) return draw(spec, registry);
+  const layers = [];
+  // flows first: open menus, pickers and tooltips are part of the screen's UI and stay on top
+  if (flows?.list.length) {
+    const resolved = flows.list
+      // an end that wasn't measured (not drawn) falls back to its screen rather than dropping the arrow
+      .map(({ key, from, to }) => ({ key, ends: { from: flows.box(from, boxes) ?? flows.screenBox(from), to: flows.box(to, boxes) ?? flows.screenBox(to), fromScreen: flows.screenBox(from), toScreen: flows.screenBox(to) } }))
+      .filter((f): f is { key: string; ends: FlowBoxes } => !!(f.ends.from && f.ends.to && f.ends.fromScreen && f.ends.toScreen));
+    layers.push(flowLayer(spec, resolved, flows.screens, flows.gap, palette, { width, height }));
+  }
+  if (anchors.length) layers.push(overlayLayer(spec, anchors, boxes, palette, registry.Calendar as any));
+  return draw(spec, withTopLayer(registry, layers));
+}
+
+/**
+ * The flows on a board and how to find their ends: element ends are measured (`measure`), screen
+ * ends come from the board layout. `box(key, boxes)` gives an end's box once measured.
+ */
+function flowEnds(spec: Spec) {
+  const els = spec.elements;
+  const byId = new Map<string, string>(); // #id → element key
+  for (const [key, el] of Object.entries(els)) if (typeof (el.props as any)?.id === "string") byId.set((el.props as any).id.toLowerCase(), key);
+  const parent = new Map<string, string>();
+  for (const [key, el] of Object.entries(els)) for (const c of el.children ?? []) parent.set(c, key);
+  const screenOf = (key: string): string | undefined => {
+    let k: string | undefined = key;
+    while (k && els[k]?.type !== "Screen") k = parent.get(k);
+    return k;
+  };
+  // screen frames, from the layout (screens and notes are laid out in board order)
+  const { items } = boardLayout(spec);
+  const laidOut = (els[spec.root].children ?? []).filter((k) => els[k]?.type === "Screen" || els[k]?.type === "Note");
+  const screenRects = new Map<string, Rect>();
+  laidOut.forEach((k, i) => {
+    const it = items[i];
+    if (it && els[k].type === "Screen") screenRects.set(k, { x: it.x, y: it.y + LABEL_H, w: it.width, h: it.height - LABEL_H });
+  });
+  const list = (els[spec.root].children ?? [])
+    .filter((k) => els[k]?.type === "Flow")
+    .map((key) => {
+      const p = (els[key].props ?? {}) as Record<string, any>;
+      return { key, from: byId.get(String(p.from).toLowerCase()), to: byId.get(String(p.to).toLowerCase()) };
+    })
+    .filter((f): f is { key: string; from: string; to: string } => !!f.from && !!f.to);
+  const measure = [...new Set(list.flatMap((f) => [f.from, f.to]))].filter((k) => els[k].type !== "Screen");
+  return {
+    list,
+    measure,
+    screens: [...screenRects.values()],
+    screenBox: (key: string) => screenRects.get(screenOf(key) ?? ""),
+    gap: ((els[spec.root].props ?? {}) as Record<string, any>).gap ?? BOARD_GAP,
+    box: (key: string, boxes: Record<string, Rect>) => (els[key].type === "Screen" ? screenRects.get(key) : boxes[key]),
+  };
 }
 
 /**
  * The measuring pass: the board's anchored elements (and their screens) and their boxes on the
  * canvas, keyed by element id (`<id>#field` for a field). No render at all when there are none.
  */
-export async function measureAnchors(spec: Spec) {
+export async function measureAnchors(spec: Spec, extra: string[] = []) {
   const anchors = findAnchors(spec);
-  if (!anchors.length) return { anchors, boxes: {} as Record<string, { x: number; y: number; w: number; h: number }> };
+  // other elements to measure (flow ends): tagged like a tooltip's element, as their own "screen"
+  const extras: Anchor[] = extra.map((id) => ({ id, screen: id, kind: "tooltip", field: false }));
+  if (!anchors.length && !extras.length) return { anchors, boxes: {} as Record<string, Rect> };
   const { width, height } = boardSize(spec);
   // Measured without the accent: color never changes layout, and a custom accent could otherwise
   // share a marker's color (#feXXXX). No theme color starts with #fe.
   const registry = withPalette(paletteFor());
-  const { tagged, colors } = tagForMeasuring(spec, anchors);
+  const { tagged, colors } = tagForMeasuring(spec, [...anchors, ...extras]);
   const svg = await renderToSvg(tagged, { registry: withMarkers(registry) as any, includeStandard: false, fonts: await loadFonts(), width, height });
   return { anchors, boxes: readMarkers(svg, colors) };
 }

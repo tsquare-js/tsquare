@@ -1,0 +1,35 @@
+board "Checkout flow"
+  screen phone "Cart" #cart
+    heading "Your cart" level=1
+    listitem
+      title "Product 1"
+      trailing=text
+      trailingtext "$99"
+    listitem
+      title "Product 2"
+      trailing=text
+      trailingtext "$49"
+    text "Total: $148" bold
+    button primary "Continue" #cart-continue
+  screen phone "Shipping" #shipping
+    heading "Shipping" level=1
+    radio "Standard (5-7 days)"
+    radio "Express (2-3 days)" checked
+    button primary "Continue" #shipping-continue
+  screen phone "Payment" #payment
+    heading "Payment" level=1
+    input "Card number" placeholder="1234 5678 9012 3456"
+    stack row gap=8
+      input "MM" width=60
+      input "YY" width=60
+      input "CVC" width=60
+    button primary "Complete order" #payment-continue
+    button ghost "Edit cart" #edit-cart
+  screen phone "Confirmation" #confirmation
+    heading "Order confirmed" level=1
+    text "You will receive a confirmation email shortly."
+    button primary "Continue shopping"
+  flow cart-continue -> shipping "Continue"
+  flow shipping-continue -> payment "Continue"
+  flow payment-continue -> confirmation "Complete order"
+  flow edit-cart -> cart "Edit cart" dashed

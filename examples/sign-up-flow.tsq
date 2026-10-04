@@ -1,0 +1,26 @@
+board "Sign-up flow" accent=blue
+  screen phone "Create account" #signup
+    navbar "Create account" leading=back
+    input email "Email" value="ana@example.com"
+    input password "Password"
+    checkbox "I agree to the terms" checked
+    spacer
+    button primary lg "Continue" fullWidth #continue
+  screen phone "Verify email" #verify
+    navbar "Verify email" leading=back
+    text "We sent a 6-digit code to ana@example.com." muted
+    input type=code digits=6 value="4821"
+    button ghost "Wrong email?" #wrong
+    spacer
+    button primary lg "Verify" fullWidth #confirm
+  screen phone "Welcome" #welcome
+    spacer
+    icon circle-check size=48
+    heading "You're all set" level=1
+    text "Your account is ready." muted
+    spacer
+    button primary lg "Get started" fullWidth
+  flow continue -> verify "Code sent"
+  flow confirm -> welcome "Code matches" color=accent
+  flow wrong -> signup "Change email" dashed start=dot
+  note "The code expires after 10 minutes; show a Resend link after 30 seconds" width=200

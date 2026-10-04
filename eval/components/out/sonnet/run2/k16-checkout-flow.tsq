@@ -1,0 +1,43 @@
+```tsquare
+board "Checkout flow"
+  screen phone "Cart" #cart
+    navbar "Cart" leading=back
+    list dividers
+      listitem "Item one" subtitle="Qty 1" leading=image trailingText="$24"
+      listitem "Item two" subtitle="Qty 2" leading=image trailingText="$40"
+    divider
+    stack row justify=between
+      text "Total" bold
+      text "$64" bold
+    spacer
+    button primary "Continue to shipping" fullWidth #cartnext
+  screen phone "Shipping" #shipping
+    navbar "Shipping" leading=back
+    progress steps=4 step=2
+    input "Full name"
+    input "Address"
+    stack row gap=8
+      input "City" grow
+      input "ZIP" width=100
+    button primary "Continue to payment" fullWidth #shipnext
+  screen phone "Payment" #payment
+    navbar "Payment" leading=back
+    progress steps=4 step=3
+    input "Card number" placeholder="0000 0000 0000 0000"
+    stack row gap=8
+      input "Expiry" placeholder="MM/YY" grow
+      input "CVC" width=100
+    button ghost "Edit cart" #editcart
+    button primary "Place order" fullWidth #paynext
+  screen phone "Confirmation" #confirm
+    navbar "Confirmation"
+    stack align=center gap=12 padding=16
+      icon check-circle size=48
+      heading "Order placed" level=2
+      text "Thanks for your purchase." muted
+      button primary "Back to shop"
+  flow cartnext -> shipping "Continue"
+  flow shipnext -> payment "Continue"
+  flow paynext -> confirm "Place order"
+  flow payment -> cart "Edit cart" dashed
+```

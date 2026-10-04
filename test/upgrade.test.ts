@@ -4,9 +4,13 @@
  */
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { deflateRawSync } from "node:zlib";
 import { decodeWireframe, encodeWireframe } from "../src/share.js";
 import { upgradeSpec, upgradeWireframe } from "../src/upgrade.js";
 import { list, read } from "./helpers.js";
+
+/** A link as versions before 0.6.0 made it ("z" prefix). */
+const zLink = (text: string) => "z" + deflateRawSync(Buffer.from(text, "utf8")).toString("base64url");
 
 test("renamed props are rewritten in place, on the right components only", () => {
   assert.equal(upgradeWireframe('button "Get" icon=download'), 'button "Get" leadingIcon=download');
@@ -44,13 +48,19 @@ test("text without fromLink keeps trailing comments (they're an error for new te
   assert.equal(upgradeWireframe('  screen phone "Home"   # main'), '  screen phone "Home"   # main');
 });
 
-test("current text is unchanged, even as a link", () => {
-  for (const f of list("examples", ".tsq")) assert.equal(upgradeWireframe(read(f), { fromLink: true }), read(f), f);
+test("current text is unchanged as a link", () => {
+  for (const f of list("examples", ".tsq")) assert.equal(decodeWireframe(encodeWireframe(read(f))), read(f), f);
 });
 
-test("decodeWireframe upgrades old links", () => {
+test("decodeWireframe upgrades old (z) links", () => {
   const old = 'board\n  screen phone "Home"   # main\n    button "Get" icon=download\n';
-  assert.equal(decodeWireframe(encodeWireframe(old)), 'board\n  # main\n  screen phone "Home"\n    button "Get" leadingIcon=download\n');
+  assert.equal(decodeWireframe(zLink(old)), 'board\n  # main\n  screen phone "Home"\n    button "Get" leadingIcon=download\n');
+});
+
+test("in a z link, #word is a comment, as it was then; in a y link it's an id", () => {
+  const text = 'board\n  screen phone\n    button "Go" #todo fix later\n    button "Stop" #todo';
+  assert.equal(decodeWireframe(zLink(text)), 'board\n  screen phone\n    #todo fix later\n    button "Go"\n    #todo\n    button "Stop"');
+  assert.equal(decodeWireframe(encodeWireframe('    button "Go" #cta')), '    button "Go" #cta');
 });
 
 test("upgradeSpec renames props in JSON specs", () => {

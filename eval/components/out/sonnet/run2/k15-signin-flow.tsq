@@ -1,0 +1,29 @@
+```tsquare
+board "Sign-in flow"
+  screen phone "Sign in" #signinscreen
+    navbar "Welcome"
+    heading "Sign in" level=1
+    input "Email" placeholder="you@example.com" type=email
+    input "Password" type=password
+    button primary "Sign in" fullWidth #signin
+    button ghost "Create an account" fullWidth #create
+  screen phone "Home" #home
+    navbar "Home" leading=menu actions=[bell]
+    heading "Welcome back" level=2
+    card title="Recent activity"
+      text lines=3
+    card title="Shortcuts"
+      text lines=2
+    button secondary "Sign out" fullWidth #signout
+    tabbar items=[{label=Home icon=home}, {label=Search icon=search}, {label=Profile icon=user}] active=0
+  screen phone "Sign up" #signup
+    navbar "Create account" leading=back
+    input "Name" placeholder="Full name"
+    input "Email" placeholder="you@example.com" type=email
+    input "Password" type=password
+    checkbox "I agree to the terms"
+    button primary "Sign up" fullWidth
+  flow signin -> home "Tap Sign in"
+  flow create -> signup "Tap Create an account"
+  flow signout -> signinscreen "Tap Sign out"
+```

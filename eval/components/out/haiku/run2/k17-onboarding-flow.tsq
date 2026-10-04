@@ -1,0 +1,24 @@
+```tsquare
+board "Onboarding Flow"
+  screen phone "Welcome" #screen1
+    navbar "Welcome" align=center
+    heading "Welcome to the app" level=1
+    text lines=3
+    image height=120
+    button primary "Next" fullWidth #next1
+    button ghost "Skip" #skip
+  screen phone "Features" #screen2
+    navbar "Features" align=center
+    heading "Great features" level=1
+    text lines=3
+    bullets items=["Feature one", "Feature two", "Feature three"]
+    button primary "Next" fullWidth #next2
+  screen phone "Get started" #screen3
+    navbar "Get started" align=center
+    heading "You're all set" level=1
+    text "Start exploring"
+    button primary "Open app" fullWidth
+  flow next1 -> screen2 "Next" color=green
+  flow next2 -> screen3 "Next" color=green
+  flow skip -> screen3 "Skip" color=green line=curved
+```

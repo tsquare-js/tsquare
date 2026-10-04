@@ -29,11 +29,11 @@ test("boardLayout places each screen inside the board", () => {
 test("link encoding round-trips text, including non-ASCII", () => {
   const text = 'board "Café ☕"\n  screen phone "Ünïcode — ok"\n    text "日本語"\n';
   const data = encodeWireframe(text);
-  assert.match(data, /^z[A-Za-z0-9_-]+$/);
+  assert.match(data, /^y[A-Za-z0-9_-]+$/);
   assert.equal(decodeWireframe(data), text);
 });
 
 test("links reject an unknown prefix and oversized text", () => {
-  assert.throws(() => decodeWireframe("yABC"), /unknown encoding/);
+  assert.throws(() => decodeWireframe("xABC"), /unknown encoding/);
   assert.throws(() => decodeWireframe(encodeWireframe("x".repeat(MAX_SHARED_TEXT + 1))));
 });

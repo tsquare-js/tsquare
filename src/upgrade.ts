@@ -27,7 +27,7 @@ export const RENAMED_PROPS: Record<string, Record<string, string>> = {
 const RENAMED_BY_WORD = new Map(Object.entries(RENAMED_PROPS).map(([type, renames]) => [type.toLowerCase(), renames]));
 
 export interface UpgradeOptions {
-  /** The text came from a link (share link or render URL), which may predate 0.3.0. */
+  /** The text came from a "z" link (share link or render URL, before 0.6.0), which may predate 0.3.0. */
   fromLink?: boolean;
 }
 
@@ -46,6 +46,7 @@ export function upgradeWireframe(text: string, options: UpgradeOptions = {}): st
     // Now comments are whole lines, so move it onto its own line above, at the same indent.
     let comment = "";
     if (options.fromLink) {
+      // "z" links predate ids (0.6.0, "y" links), so here `#word` is a comment too
       const hash = tokens.find((t) => t.kind === "word" && t.depth === 0 && upgraded[t.start] === "#" && !t.afterEquals);
       if (hash && !fillsMainText(component, tokens, hash)) {
         comment = upgraded.slice(hash.start).trimEnd();

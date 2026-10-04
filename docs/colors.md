@@ -1,6 +1,6 @@
 # Colors
 
-Wireframes are grayscale, so they read as structure rather than design. There are three deliberate exceptions in the UI, and no other UI color props. Sticky [notes](#notes) have their own colors, because they annotate the wireframe rather than being part of it.
+Wireframes are grayscale, so they read as structure rather than design. There are three deliberate exceptions in the UI, and no other UI color props. Sticky [notes](#notes) and [flow arrows](language.md#flows) (`color=`, gray by default) have their own colors, because they annotate the wireframe rather than being part of it.
 
 ## Accent
 

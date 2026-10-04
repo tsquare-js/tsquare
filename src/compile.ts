@@ -57,10 +57,10 @@ export class WireframeError extends Error {
 }
 
 /** Compile and render wireframe text. Throws WireframeError (with line-numbered issues) if it's invalid. */
-export async function renderWireframe(source: string, opts: { format?: "svg" | "png"; scale?: number } = {}) {
+export async function renderWireframe(source: string, opts: { format?: "svg" | "png"; scale?: number; flows?: boolean } = {}) {
   const { spec, issues } = compileWireframe(source);
   if (!spec || issues.length) throw new WireframeError(issues);
   return opts.format === "png"
-    ? renderWireframePng(spec, { skipValidation: true, scale: opts.scale })
-    : renderWireframeSvg(spec, { skipValidation: true });
+    ? renderWireframePng(spec, { skipValidation: true, scale: opts.scale, flows: opts.flows })
+    : renderWireframeSvg(spec, { skipValidation: true, flows: opts.flows });
 }
