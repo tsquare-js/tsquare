@@ -7,7 +7,7 @@
  * a host page (like tsquare.dev) may forward to its own analytics.
  */
 import { undo } from "@codemirror/commands";
-import { Code, Copy, Download, FileText, Image as ImageIcon, LayoutGrid, Link, Maximize, Minimize, Moon, Share2, Sun, Workflow, X, ZoomIn, ZoomOut, createElement } from "lucide";
+import { Code, Copy, Download, FileText, Image as ImageIcon, LayoutGrid, Link, Maximize, Minimize, Moon, Share2, Sun, X, ZoomIn, ZoomOut, createElement } from "lucide";
 import { createEditor, type Editor } from "./editor.js";
 import type { LanguageData } from "./language-data.js";
 import { upgradeWireframe } from "../upgrade.js";
@@ -43,7 +43,7 @@ function emit(name: string, detail: Record<string, unknown> = {}) {
 
 const ICONS: Record<string, any> = {
   copy: Copy, download: Download, "file-text": FileText, image: ImageIcon, "layout-grid": LayoutGrid, link: Link,
-  maximize: Maximize, minimize: Minimize, moon: Moon, "share-2": Share2, sun: Sun, x: X, "zoom-in": ZoomIn, "zoom-out": ZoomOut, code: Code, workflow: Workflow,
+  maximize: Maximize, minimize: Minimize, moon: Moon, "share-2": Share2, sun: Sun, x: X, "zoom-in": ZoomIn, "zoom-out": ZoomOut, code: Code,
 };
 function setIcon(el: Element, name: string) {
   el.replaceChildren(createElement(ICONS[name], { "aria-hidden": "true" }));
@@ -354,7 +354,7 @@ const hasFlows = (text: string) => /^[ \t]*flow\b/m.test(text);
 const flowsQuery = () => (showFlows ? "" : "?flows=0");
 $("flows").addEventListener("click", () => {
   showFlows = !showFlows;
-  $("flows").setAttribute("aria-pressed", String(showFlows));
+  $("flows").setAttribute("aria-checked", String(showFlows));
   emit("flows_toggled", { on: showFlows });
   render();
 });
