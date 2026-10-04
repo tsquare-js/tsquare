@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+### MCP tools
+
+- **Hosted MCP server at `https://tsquare.dev/mcp`** (in the site repo), with three tools: `wireframe_guide` (the language plus a write → render → fix → share workflow), `render_wireframe` (a PNG for the model to look at, at most 1600px on its longest side, or line-numbered problems) and `share_wireframe` (SVG, PNG, playground and Markdown links). Setup for Claude, Claude Code, Cursor and VS Code is in [Using it with AI](docs/ai.md#connect-over-mcp).
+- **The tools live in the library** as plain functions with no MCP SDK, so a local server can reuse them: `mcpTools` (names, descriptions, Zod input schemas, annotations), `MCP_INSTRUCTIONS`, `wireframeGuide()`, `renderWireframeTool()`, `shareWireframeTool()` and `callMcpTool(name, args)`. Results use the MCP tool-result shape; problems come back as `isError` results, not exceptions, so the model can read and fix them. Share links drop a surrounding code fence.
+- `wireframePrompt()` is unchanged; its language part is now shared with the guide.
+
 ## 0.6.1
 
 - **Fix: the playground opens 0.6.0 share links.** 0.6.0 made share links with the new `y` prefix, but its playground only opened links starting with `z`. Opening a new share link left the editor on whatever it showed before. The prefixes now live in one place that both the library and the playground use, and a test guards it. Links themselves didn't change: every `y` link made by 0.6.0 opens correctly now.

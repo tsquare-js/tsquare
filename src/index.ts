@@ -4,6 +4,7 @@ export { renderWireframe, compileWireframe, formatIssues, WireframeError, type C
 export { wireframePrompt, repairPrompt } from "./prompt.js";
 export { printWireframeText as formatWireframe } from "./print.js";
 export { encodeWireframe, decodeWireframe, MAX_SHARED_TEXT } from "./share.js";
+export { mcpTools, MCP_INSTRUCTIONS, wireframeGuide, renderWireframeTool, shareWireframeTool, callMcpTool, type ToolResult, type ToolContent, type ToolOptions, type McpToolName } from "./mcp.js";
 export { upgradeWireframe, upgradeSpec, RENAMED_PROPS, type UpgradeOptions } from "./upgrade.js";
 
 // Lower level: the compiled spec and the pieces used to render it.

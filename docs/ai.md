@@ -2,6 +2,32 @@
 
 tsquare is built for models to write. The pieces below are all generated from the component catalog, so they always match what the renderer accepts.
 
+## Connect over MCP
+
+tsquare.dev runs an MCP server, so a chat app or coding tool can write wireframes, render them, see the result and fix it, without installing anything:
+
+```
+https://tsquare.dev/mcp
+```
+
+Add it as a remote MCP server (Streamable HTTP, no sign-in):
+
+- **Claude** (claude.ai and the desktop app): Settings → Connectors → Add custom connector, and paste the URL.
+- **Claude Code:** `claude mcp add --transport http tsquare https://tsquare.dev/mcp`
+- **Cursor:** in `~/.cursor/mcp.json`, add `{ "mcpServers": { "tsquare": { "url": "https://tsquare.dev/mcp" } } }`.
+- **VS Code:** in `.vscode/mcp.json`, add `{ "servers": { "tsquare": { "type": "http", "url": "https://tsquare.dev/mcp" } } }`.
+- **ChatGPT and others:** anywhere that accepts a remote MCP server URL.
+
+It has three tools:
+
+- `wireframe_guide`: the language (the same reference as the prompt below), plus the workflow: write, render, fix, share.
+- `render_wireframe`: checks the text and returns a PNG of the board for the model to look at, or the problems by line number, with the same messages as `tsquare check`.
+- `share_wireframe`: image links (SVG and PNG), a playground link and a Markdown image, for the model to give you.
+
+Then ask for a wireframe as usual: "Wireframe a two-screen sign-in flow for a banking app."
+
+The wireframe text is sent to tsquare.dev to be rendered. It isn't stored or logged, but don't send anything secret, and remember that share links contain the text. See the [privacy page](https://tsquare.dev/privacy). To keep everything on your machine, use the prompt or the Claude skill below with the CLI.
+
 ## The prompt
 
 `tsquare prompt` prints a system prompt that teaches a model the language: the syntax, the rules, a worked example, and every component with its props. Give it to the model as its system prompt, then ask for a wireframe:

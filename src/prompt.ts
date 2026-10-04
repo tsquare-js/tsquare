@@ -102,6 +102,13 @@ export function wireframePrompt() {
     "You write low-fidelity UI wireframes as specs that a renderer turns into images.",
     "Reply with only the spec in a single code block, with no explanation.",
     "",
+    languageReference(),
+  ].join("\n");
+}
+
+/** The language itself: format, rules, a worked example and every component. Shared by the prompt and the MCP guide. */
+export function languageReference() {
+  return [
     TEXT_FORMAT,
     "",
     RULES,
