@@ -110,7 +110,7 @@ export function checkSpec(spec: Spec): string[] {
           continue;
         }
         if (!(key in def.props.shape)) {
-          const elsewhere = belongsElsewhere(el.type, key, true);
+          const elsewhere = belongsElsewhere(el.type, key, true, (el.props as any)[key]);
           issues.push(`${id}.props: ${el.type} has no prop "${key}"${elsewhere ? `: ${elsewhere}` : ""}`);
         }
       }
