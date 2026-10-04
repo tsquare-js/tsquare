@@ -15,13 +15,14 @@
  * CompressionStream); any raw-deflate stream decodes the same way.
  */
 import { deflateRawSync, inflateRawSync } from "node:zlib";
+import { LEGACY_LINK_PREFIX, LINK_PREFIX, isLinkData } from "./link-prefix.js";
 import { upgradeWireframe } from "./upgrade.js";
 
 /** Largest decoded text accepted, in bytes. Plenty for a board; stops a tiny URL from inflating into megabytes. */
 export const MAX_SHARED_TEXT = 64_000;
 
 export function encodeWireframe(text: string): string {
-  return "y" + deflateRawSync(Buffer.from(text, "utf8"), { level: 9 }).toString("base64url");
+  return LINK_PREFIX + deflateRawSync(Buffer.from(text, "utf8"), { level: 9 }).toString("base64url");
 }
 
 /**
@@ -30,7 +31,7 @@ export function encodeWireframe(text: string): string {
  */
 export function decodeWireframe(data: string): string {
   const prefix = data.slice(0, 1);
-  if (prefix !== "y" && prefix !== "z") throw new Error(`unknown encoding "${prefix}" (expected a "y" or "z" prefix)`);
+  if (!isLinkData(data)) throw new Error(`unknown encoding "${prefix}" (expected a "${LINK_PREFIX}" or "${LEGACY_LINK_PREFIX}" prefix)`);
   const text = inflateRawSync(Buffer.from(data.slice(1), "base64url"), { maxOutputLength: MAX_SHARED_TEXT }).toString("utf8");
-  return upgradeWireframe(text, { fromLink: prefix === "z" });
+  return upgradeWireframe(text, { fromLink: prefix === LEGACY_LINK_PREFIX });
 }

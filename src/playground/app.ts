@@ -10,6 +10,7 @@ import { undo } from "@codemirror/commands";
 import { Code, Copy, Download, FileText, Image as ImageIcon, LayoutGrid, Link, Maximize, Minimize, Moon, Share2, Sun, X, ZoomIn, ZoomOut, createElement } from "lucide";
 import { createEditor, type Editor } from "./editor.js";
 import type { LanguageData } from "./language-data.js";
+import { LEGACY_LINK_PREFIX, LINK_PREFIX, isLinkData } from "../link-prefix.js";
 import { upgradeWireframe } from "../upgrade.js";
 
 interface Issue { line: number; message: string }
@@ -80,25 +81,25 @@ function download(blob: Blob, name: string) {
   setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 }
 
-// ── Link encoding: "y" + base64url(deflate-raw(text)), same as the library (see share.ts) ─
+// ── Link encoding: prefix + base64url(deflate-raw(text)), same as the library (see share.ts) ─
 
 async function encode(text: string) {
   const stream = new Blob([text]).stream().pipeThrough(new CompressionStream("deflate-raw"));
   const bytes = new Uint8Array(await new Response(stream).arrayBuffer());
   let bin = "";
   for (const b of bytes) bin += String.fromCharCode(b);
-  return "y" + btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  return LINK_PREFIX + btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
 async function decode(data: string) {
   const prefix = data.slice(0, 1);
-  if (prefix !== "y" && prefix !== "z") throw new Error("unknown link format");
+  if (!isLinkData(data)) throw new Error("unknown link format");
   const b64 = data.slice(1).replace(/-/g, "+").replace(/_/g, "/");
   const bin = atob(b64 + "=".repeat((4 - (b64.length % 4)) % 4));
   const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
   const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
   // Same as the library's decodeWireframe: a link from an older version opens in today's syntax.
-  return upgradeWireframe(await new Response(stream).text(), { fromLink: prefix === "z" });
+  return upgradeWireframe(await new Response(stream).text(), { fromLink: prefix === LEGACY_LINK_PREFIX });
 }
 
 // ── Theme ───────────────────────────────────────────────────────────────
@@ -597,10 +598,10 @@ async function start() {
   ]);
   examples = list;
 
-  // A share link (#z…) wins, then the last session, then the first example.
+  // A share link (#y… or an older #z…) wins, then the last session, then the first example.
   let doc = store.get("wf.source") || examples[0]?.source || BLANK;
   let fromShare = false;
-  if (location.hash.startsWith("#z")) {
+  if (isLinkData(location.hash.slice(1))) {
     try {
       doc = await decode(location.hash.slice(1));
       fromShare = true;
@@ -613,7 +614,7 @@ async function start() {
   editor = createEditor($("code"), { doc, data, onChange: scheduleRender });
   // A share link opened in a tab that already has the playground: only the hash changes, so no reload.
   addEventListener("hashchange", async () => {
-    if (!location.hash.startsWith("#z")) return;
+    if (!isLinkData(location.hash.slice(1))) return;
     try {
       loadDoc(await decode(location.hash.slice(1)), "the shared wireframe");
       emit("share_link_opened");

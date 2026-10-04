@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1
+
+- **Fix: the playground opens 0.6.0 share links.** 0.6.0 made share links with the new `y` prefix, but its playground only opened links starting with `z`. Opening a new share link left the editor on whatever it showed before. The prefixes now live in one place that both the library and the playground use, and a test guards it. Links themselves didn't change: every `y` link made by 0.6.0 opens correctly now.
+
 ## 0.6.0
 
 ### Flow arrows
