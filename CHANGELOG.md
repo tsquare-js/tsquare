@@ -8,6 +8,11 @@
 - **The tools live in the library** as plain functions with no MCP SDK, so a local server can reuse them: `mcpTools` (names, descriptions, Zod input schemas, annotations), `MCP_INSTRUCTIONS`, `wireframeGuide()`, `renderWireframeTool()`, `shareWireframeTool()` and `callMcpTool(name, args)`. Results use the MCP tool-result shape; problems come back as `isError` results, not exceptions, so the model can read and fix them. Share links drop a surrounding code fence.
 - `wireframePrompt()` is unchanged; its language part is now shared with the guide.
 
+### Errors
+
+- **A value under the wrong prop points at the right one:** `image type=map` now says "for an Image, write kind=map (or just map)"; likewise `input kind=date` → `type=date` and `chart type=pie` → `kind=pie`.
+- Grammar: "a Input" → "an Input" in error messages.
+
 ## 0.6.1
 
 - **Fix: the playground opens 0.6.0 share links.** 0.6.0 made share links with the new `y` prefix, but its playground only opened links starting with `z`. Opening a new share link left the editor on whatever it showed before. The prefixes now live in one place that both the library and the playground use, and a test guards it. Links themselves didn't change: every `y` link made by 0.6.0 opens correctly now.

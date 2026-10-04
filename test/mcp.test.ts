@@ -50,6 +50,15 @@ test("share links decode to the text without its code fence", () => {
   assert.match(textOf(shareWireframeTool({ text: valid }, { base: "http://localhost:3000/" })), /^Image \(PNG\): http:\/\/localhost:3000\/png\/y\S+$/m);
 });
 
+test("share gives no links for text the decoder would reject", () => {
+  // under the schema's character limit, but over the decoder's byte limit, and compresses to a short link
+  const long = ["board", "  screen phone height=99999", ...Array.from({ length: 2200 }, () => '    text "日本語のテキスト日本語のテキスト"')].join("\n");
+  const r = shareWireframeTool({ text: long });
+  assert.equal(r.isError, true);
+  assert.match(textOf(r), /too long to share/);
+  assert.doesNotMatch(textOf(r), /tsquare\.dev/);
+});
+
 test("share refuses invalid text", () => {
   assert.equal(shareWireframeTool({ text: board("bogus") }).isError, true);
 });

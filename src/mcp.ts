@@ -111,7 +111,11 @@ export function shareWireframeTool(args: { text: string; flows?: boolean }, opts
   if (!spec || issues.length) return problems(issues);
   const base = (opts.base ?? DEFAULT_BASE).replace(/\/+$/, "");
   // links carry the bare text: a fence line is skipped by the parser, but would show up in the playground
-  const data = encodeWireframe(args.text.replace(/^[ \t]*```.*(\r?\n|$)/gm, "").trim() + "\n");
+  const bare = args.text.replace(/^[ \t]*```.*(\r?\n|$)/gm, "").trim() + "\n";
+  // decodeWireframe caps the text in UTF-8 bytes, which the schema's character limit doesn't bound
+  if (Buffer.byteLength(bare, "utf8") > MAX_SHARED_TEXT)
+    return { content: [text(`This wireframe is too long to share as a link (over ${MAX_SHARED_TEXT / 1000} KB of text). Split it into smaller boards.`)], isError: true };
+  const data = encodeWireframe(bare);
   const query = args.flows === false ? "?flows=0" : "";
   const title = String((spec.elements[spec.root]?.props as Record<string, unknown> | undefined)?.title ?? "Wireframe").replace(/[[\]\n]/g, " ");
   const playground = `${base}/playground#${data}`;
