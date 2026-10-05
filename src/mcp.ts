@@ -59,7 +59,7 @@ const linksInput = z
   .min(1)
   .optional()
   .describe(
-    "Which links to return; ask only for what the user needs, since each link is long. share: open and edit it in the playground. svg: an image link to view or embed. png: an image link for tools that don't show SVG. markdown: an image for READMEs and docs. html: an <img> tag for web pages. Default [svg, share].",
+    "Which links to return; ask only for what the user needs, since each link is long. share: open and edit it in the playground. svg: an image link to view or embed (Notion, GitHub, docs). png: an image link for tools that don't show SVG. markdown: an image for READMEs and docs. html: an <img> tag for web pages. Default [svg, share].",
   );
 
 const GUIDE_HEADER = `# Writing tsquare wireframes
