@@ -42,13 +42,33 @@ const textInput = z
   .describe("The wireframe in tsquare text (a ```tsquare code fence around it is fine).");
 const flowsInput = z.boolean().optional().describe("Draw flow arrows (default true). false leaves them out, as if there were no flow lines.");
 
+/** The link kinds share_wireframe offers: the playground's Copy link menu, with the same names. */
+export const LINK_KINDS = ["share", "svg", "png", "markdown", "html"] as const;
+export type LinkKind = (typeof LINK_KINDS)[number];
+/** What a plain "share it" gets: one image link and the link to edit it. */
+export const DEFAULT_LINKS: LinkKind[] = ["svg", "share"];
+const LINK_LABELS: Record<LinkKind, string> = {
+  share: "Share link (opens it in the playground to view and edit)",
+  svg: "Image link (SVG)",
+  png: "Image link (PNG)",
+  markdown: "Markdown",
+  html: "HTML",
+};
+const linksInput = z
+  .array(z.enum(LINK_KINDS))
+  .min(1)
+  .optional()
+  .describe(
+    "Which links to return; ask only for what the user needs, since each link is long. share: open and edit it in the playground. svg: an image link to view or embed. png: an image link for tools that don't show SVG. markdown: an image for READMEs and docs. html: an <img> tag for web pages. Default [svg, share].",
+  );
+
 const GUIDE_HEADER = `# Writing tsquare wireframes
 
 Workflow:
 1. Write the wireframe text for the user's request, following the language below.
 2. Call render_wireframe with it. If it reports problems, fix every line it names and render again.
 3. Look at the image for what the checker can't see: content cut off at the bottom of a screen (make the screen taller with height=… or remove content), cramped rows, text that wraps badly. Fix and render again.
-4. Call share_wireframe and give the user the links: the image link to look at or embed, and the playground link to edit. Show the wireframe text too, in a \`\`\`tsquare code block, so they can keep it.
+4. Call share_wireframe with only the links the user needs (links=[…]; by default an image link and the share link to edit it), and give them to the user exactly as returned: each link carries the whole wireframe, so one changed character breaks it. Show the wireframe text too, in a \`\`\`tsquare code block, so they can keep it.
 `;
 
 export const mcpTools = {
@@ -69,8 +89,8 @@ export const mcpTools = {
   share_wireframe: {
     title: "Share a wireframe",
     description:
-      "Links for valid tsquare wireframe text: an image link (SVG or PNG) to show or embed in Markdown, Notion or docs, and a playground link to edit it. The links contain the wireframe text itself (compressed), so anyone with a link can read it.",
-    inputSchema: z.object({ text: textInput, flows: flowsInput }),
+      "Links for valid tsquare wireframe text, the same kinds as the playground's Copy link menu: a share link to edit it in the playground, image links (SVG, PNG), Markdown and HTML. Ask only for the links the user needs (default: an SVG image link and the share link). Each link contains the whole wireframe text (compressed), so anyone with a link can read it.",
+    inputSchema: z.object({ text: textInput, flows: flowsInput, links: linksInput }),
     annotations: { readOnlyHint: true, openWorldHint: false },
   },
 } as const;
@@ -106,7 +126,7 @@ export async function renderWireframeTool(args: { text: string; flows?: boolean 
 }
 
 /** The share_wireframe tool: image and playground links, computed locally (nothing is sent anywhere). */
-export function shareWireframeTool(args: { text: string; flows?: boolean }, opts: ToolOptions = {}): ToolResult {
+export function shareWireframeTool(args: { text: string; flows?: boolean; links?: LinkKind[] }, opts: ToolOptions = {}): ToolResult {
   const { spec, issues } = compileWireframe(args.text);
   if (!spec || issues.length) return problems(issues);
   const base = (opts.base ?? DEFAULT_BASE).replace(/\/+$/, "");
@@ -117,26 +137,29 @@ export function shareWireframeTool(args: { text: string; flows?: boolean }, opts
     return { content: [text(`This wireframe is too long to share as a link (over ${MAX_SHARED_TEXT / 1000} KB of text). Split it into smaller boards.`)], isError: true };
   const data = encodeWireframe(bare);
   const query = args.flows === false ? "?flows=0" : "";
-  const title = String((spec.elements[spec.root]?.props as Record<string, unknown> | undefined)?.title ?? "Wireframe").replace(/[[\]\n]/g, " ");
-  const playground = `${base}/playground#${data}`;
-  if (data.length > MAX_IMAGE_LINK_DATA)
-    return { content: [text(`Playground (to view and edit): ${playground}\n\nThis wireframe is too long for an image link; the playground link still works. To get image links, split it into smaller boards.`)] };
+  const title = String((spec.elements[spec.root]?.props as Record<string, unknown> | undefined)?.title ?? "Wireframe");
+  const kinds = [...new Set(args.links?.length ? args.links : DEFAULT_LINKS)];
+  const share = `${base}/playground#${data}`;
+  const lines: string[] = [];
+  const notes = ["Give each link exactly as written: it carries the whole wireframe, so anyone with it can read the wireframe, and one changed character breaks it."];
+  if (data.length > MAX_IMAGE_LINK_DATA && kinds.some((k) => k !== "share")) {
+    // the site's render URLs cap the data; the playground's #fragment has no such limit
+    if (!kinds.includes("share")) kinds.unshift("share");
+    notes.unshift("This wireframe is too long for an image link, so only the share link is included. To get image links, split it into smaller boards.");
+  }
   const svg = `${base}/svg/${data}${query}`;
-  const png = `${base}/png/${data}${query}`;
-  return {
-    content: [
-      text(
-        [
-          `Image (SVG): ${svg}`,
-          `Image (PNG): ${png}`,
-          `Playground (to view and edit): ${playground}`,
-          `Markdown: ![${title}](${svg})`,
-          "",
-          "The links contain the wireframe text, so anyone with a link can read it.",
-        ].join("\n"),
-      ),
-    ],
-  };
+  for (const kind of kinds) {
+    if (kind !== "share" && data.length > MAX_IMAGE_LINK_DATA) continue;
+    const link = {
+      share,
+      svg,
+      png: `${base}/png/${data}${query}`,
+      markdown: `![${title.replace(/[[\]\n]/g, " ")}](${svg})`,
+      html: `<img src="${svg}" alt="${title.replace(/["\n]/g, (c) => (c === '"' ? "&quot;" : " "))}">`,
+    }[kind];
+    lines.push(`${LINK_LABELS[kind]}: ${link}`);
+  }
+  return { content: [text([...lines, "", ...notes].join("\n"))] };
 }
 
 /** Run a tool by name, for servers that dispatch by name. Unknown names come back as an error result. */

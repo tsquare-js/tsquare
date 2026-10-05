@@ -22,7 +22,7 @@ It has three tools:
 
 - `wireframe_guide`: the language (the same reference as the prompt below), plus the workflow: write, render, fix, share.
 - `render_wireframe`: checks the text and returns a PNG of the board for the model to look at, or the problems by line number, with the same messages as `tsquare check`.
-- `share_wireframe`: image links (SVG and PNG), a playground link and a Markdown image, for the model to give you.
+- `share_wireframe`: the links from the playground's Copy link menu (share link, SVG or PNG image link, Markdown, HTML), for the model to give you. It returns only the kinds the model asks for, by default an image link and the share link. Ask for the one you need: "give me a Markdown image for our README".
 
 Then ask for a wireframe as usual: "Wireframe a two-screen sign-in flow for a banking app."
 

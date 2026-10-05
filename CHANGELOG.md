@@ -2,6 +2,8 @@
 
 ## 0.7.1
 
+- **`share_wireframe` returns only the links asked for.** A new `links` option takes the kinds from the playground's Copy link menu, with the same names: `share`, `svg`, `png`, `markdown`, `html`. The default is `["svg", "share"]`, an image link and the link to edit it; before, every call returned four links. Each link carries the whole wireframe (about 1,200 characters for a three-screen board), and the model has to write out every link it passes on, exactly, so fewer links means less to write and fewer chances to break one. A wireframe too long for an image link gets its share link instead, with a note saying why. New exports: `LINK_KINDS`, `DEFAULT_LINKS`, `LinkKind`.
+
 - **Invalid values name the prop and the value.** A wrong `key=value` used to come back as Zod's bare message, which didn't say which prop on the line was wrong: `Input: Invalid option: expected one of "text"|"password"|…`. Now: `Input: type=otp isn't an option; use one of text, password, search, email, date, code`. Likewise `level=4 isn't an option; use one of 1, 2, 3`, `height=tall should be a number`, `columns=Name should be a list like [a, b]`, `range=[1] needs at least 2 items`, `columns=0 is too small (at least 1)`. This matters most in the MCP repair loop, where the model fixes what the messages say.
 - **One wrong value is one error.** A check that uses a prop's value is skipped when that value is already invalid: `input type=otp digits=6` no longer also says "digits only applies to type=code". Checks that only notice a prop is set still run (`leadingIcon` on an avatar item is wrong whatever the icon's name).
 
