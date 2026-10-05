@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.1
+
+- **Invalid values name the prop and the value.** A wrong `key=value` used to come back as Zod's bare message, which didn't say which prop on the line was wrong: `Input: Invalid option: expected one of "text"|"password"|…`. Now: `Input: type=otp isn't an option; use one of text, password, search, email, date, code`. Likewise `level=4 isn't an option; use one of 1, 2, 3`, `height=tall should be a number`, `columns=Name should be a list like [a, b]`, `range=[1] needs at least 2 items`, `columns=0 is too small (at least 1)`. This matters most in the MCP repair loop, where the model fixes what the messages say.
+- **One wrong value is one error.** A check that uses a prop's value is skipped when that value is already invalid: `input type=otp digits=6` no longer also says "digits only applies to type=code". Checks that only notice a prop is set still run (`leadingIcon` on an avatar item is wrong whatever the icon's name).
+
 ## 0.7.0
 
 ### MCP tools

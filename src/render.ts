@@ -59,6 +59,47 @@ function listItemKindHint(el: { type: string; props?: Record<string, unknown> },
   return `${value} is a ${side} kind, not an icon name: write ${side}=${value} instead of ${prop}=${value}`;
 }
 
+/** A prop value as it would be written: otp, "two words", 3, [a, b]. */
+function written(v: unknown): string {
+  if (typeof v === "string") return /^[^\s"[\]{}=,]+$/.test(v) ? v : JSON.stringify(v);
+  if (Array.isArray(v)) return `[${v.map(written).join(", ")}]`;
+  return JSON.stringify(v) ?? String(v);
+}
+
+/**
+ * Zod's message for an invalid prop, rewritten to name the prop and the value it got: the parser
+ * strips the path when it maps errors to lines, and "Invalid option" alone doesn't say which prop
+ * on the line is wrong. Messages written for one prop (an accent's "did you mean") are kept as they are.
+ */
+function propIssueMessage(props: Record<string, unknown>, issue: any): string {
+  const path: PropertyKey[] = issue.path ?? [];
+  if (!path.length || issue.code === "custom") return issue.message;
+  const key = path.map(String).join(".");
+  const value = path.reduce<any>((v, k) => (v == null ? v : v[k as any]), props);
+  const given = `${key}=${written(value)}`;
+  switch (issue.code) {
+    case "invalid_value":
+      return `${given} isn't an option; use one of ${(issue.values ?? []).map(written).join(", ")}`;
+    case "invalid_union": {
+      // a union of literals (Heading level 1 | 2 | 3): list what each branch accepts
+      const options = (issue.errors ?? []).flat().flatMap((e: any) => (e.code === "invalid_value" ? e.values : []));
+      if (options.length) return `${given} isn't an option; use one of ${options.map(written).join(", ")}`;
+      return `${given} isn't a valid value`;
+    }
+    case "invalid_type":
+      return `${given} should be ${issue.expected === "array" ? "a list like [a, b]" : `a ${issue.expected}`}`;
+    case "too_small":
+    case "too_big": {
+      const [bound, n] = issue.code === "too_small" ? ["at least", issue.minimum] : ["at most", issue.maximum];
+      if (issue.origin === "array") return `${given} needs ${bound} ${n} item${n == 1 ? "" : "s"}`;
+      if (issue.origin === "string") return `${given} needs ${bound} ${n} character${n == 1 ? "" : "s"}`;
+      return `${given} is too ${issue.code === "too_small" ? "small" : "large"} (${bound} ${n})`;
+    }
+    default:
+      return `${given}: ${issue.message}`;
+  }
+}
+
 /** Catalog validation plus the structural rules the renderer depends on. */
 export function checkSpec(spec: Spec): string[] {
   upgradeSpec(spec as any); // older JSON is fine (icon → leadingIcon); see upgrade.ts
@@ -85,13 +126,19 @@ export function checkSpec(spec: Spec): string[] {
     // catalog.validate checks the spec's shape but not each element's props,
     // so validate props against the component's Zod schema here.
     const def = (componentDefinitions as Record<string, { props: any }>)[el.type];
+    // Props that failed validation: a check that uses one of their values is skipped below, so one
+    // wrong value (type=otp) is one error, not also "digits only applies to type=code". Checks that
+    // only see that a prop is set (an icon on an avatar item) still run: fixing the value won't fix them.
+    const bad = new Set<string>();
+    const failed = (...keys: string[]) => keys.some((k) => bad.has(k));
     if (!def) {
       issues.push(`${id}: ${unknownComponentMessage(el.type, Object.keys(componentDefinitions))}`);
     } else {
       const parsed = def.props.safeParse(el.props ?? {});
       if (!parsed.success) {
         for (const i of parsed.error.issues) {
-          issues.push(`${id}.props${i.path.length ? "." + i.path.join(".") : ""}: ${listItemKindHint(el, i.path) ?? i.message}`);
+          if (i.path.length) bad.add(String(i.path[0]));
+          issues.push(`${id}.props${i.path.length ? "." + i.path.join(".") : ""}: ${listItemKindHint(el, i.path) ?? propIssueMessage(el.props ?? {}, i)}`);
         }
       }
       // Zod drops unknown keys silently; report them so the author (or model) hears about it.
@@ -133,40 +180,41 @@ export function checkSpec(spec: Spec): string[] {
       const { leading, trailing } = listItemEnds(p);
       const conflict = (prop: string, needs: string, kind: string, has: string) =>
         issues.push(`${id}: ${prop} only shows with ${needs} (this item has ${kind}=${has}); remove one of them`);
-      if (p.leadingIcon && leading !== "icon") conflict("leadingIcon", "leading=icon", "leading", leading!);
-      if (p.trailingIcon && trailing !== "icon") conflict("trailingIcon", "trailing=icon", "trailing", trailing!);
-      if (p.trailingText && trailing !== "text" && trailing !== "badge") conflict("trailingText", "trailing=text or badge", "trailing", trailing!);
+      if (p.leadingIcon && leading !== "icon" && !failed("leading")) conflict("leadingIcon", "leading=icon", "leading", leading!);
+      if (p.trailingIcon && trailing !== "icon" && !failed("trailing")) conflict("trailingIcon", "trailing=icon", "trailing", trailing!);
+      if (p.trailingText && trailing !== "text" && trailing !== "badge" && !failed("trailing")) conflict("trailingText", "trailing=text or badge", "trailing", trailing!);
     }
     // Values that contradict each other would draw something odd rather than fail; say which.
     {
       const p = (el.props ?? {}) as Record<string, any>;
-      const say = (msg: string) => issues.push(`${id}: ${msg}`); // compile adds the component name
+      // reads: the props whose values a check uses; it's skipped if one of them already failed validation
+      const say = (msg: string, ...reads: string[]) => !failed(...reads) && issues.push(`${id}: ${msg}`); // compile adds the component name
       const backwards = (r: unknown) => Array.isArray(r) && r.length === 2 && r[0] > r[1];
       if (el.type === "Progress") {
         if (p.step != null && p.steps == null) say(`step only shows with steps (e.g. steps=4 step=${p.step})`);
-        if (p.step != null && p.steps != null && p.step > p.steps) say(`step=${p.step} is past the last step (steps=${p.steps})`);
-        if (p.steps != null && p.shape === "circle") say("a stepper (steps) can't also be a circle; remove one of them");
+        if (p.step != null && p.steps != null && p.step > p.steps) say(`step=${p.step} is past the last step (steps=${p.steps})`, "step", "steps");
+        if (p.steps != null && p.shape === "circle") say("a stepper (steps) can't also be a circle; remove one of them", "shape");
       }
       if (el.type === "Pagination" && p.current != null && p.pages != null && p.current > p.pages) {
-        say(`current=${p.current} is past the last page (pages=${p.pages})`);
+        say(`current=${p.current} is past the last page (pages=${p.pages})`, "current", "pages");
       }
-      if (el.type === "Slider" && backwards(p.range)) say(`range=[${p.range.join(", ")}] goes backwards; write the smaller number first`);
+      if (el.type === "Slider" && backwards(p.range)) say(`range=[${p.range.join(", ")}] goes backwards; write the smaller number first`, "range");
       if (el.type === "Slider" && p.range && p.value != null) say("a slider has value (one handle) or range (two), not both");
       if (el.type === "Calendar") {
         const { days } = monthGrid(p.month);
         const all = [p.selected, ...(p.range ?? []), ...(p.marked ?? [])].filter((d) => typeof d === "number");
         const late = all.find((d: number) => d > days);
-        if (late) say(`day ${late} isn't in ${p.month ?? "the month"} (it has ${days} days)`);
-        if (backwards(p.range)) say(`range=[${p.range.join(", ")}] goes backwards; write the earlier day first`);
+        if (late) say(`day ${late} isn't in ${p.month ?? "the month"} (it has ${days} days)`, "month", "selected", "range", "marked");
+        if (backwards(p.range)) say(`range=[${p.range.join(", ")}] goes backwards; write the earlier day first`, "range");
         if (p.range && p.selected != null) say("a calendar has selected (one day) or range (several), not both");
       }
       if (el.type === "Input" && p.type === "code" && p.value != null && String(p.value).length > (p.digits ?? 6)) {
-        say(`value has ${String(p.value).length} characters but the code has ${p.digits ?? 6} boxes (digits)`);
+        say(`value has ${String(p.value).length} characters but the code has ${p.digits ?? 6} boxes (digits)`, "type", "value", "digits");
       }
-      if (el.type === "Input" && p.digits != null && p.type !== "code") say("digits only applies to type=code");
-      if (el.type === "Input" && p.open && p.type !== "date") say("open shows a date picker, so it needs type=date");
-      if ((el.type === "Button" || el.type === "ListItem" || el.type === "NavBar") && p.open && !(Array.isArray(p.menu) && p.menu.length)) say("open shows the menu; add menu=[…] with its items");
-      if (el.type === "Select" && p.open && !(Array.isArray(p.options) && p.options.length)) say("open shows the options list; add options=[…] with the choices");
+      if (el.type === "Input" && p.digits != null && p.type !== "code") say("digits only applies to type=code", "type");
+      if (el.type === "Input" && p.open && p.type !== "date") say("open shows a date picker, so it needs type=date", "type");
+      if ((el.type === "Button" || el.type === "ListItem" || el.type === "NavBar") && p.open && !(Array.isArray(p.menu) && p.menu.length)) say("open shows the menu; add menu=[…] with its items", "menu");
+      if (el.type === "Select" && p.open && !(Array.isArray(p.options) && p.options.length)) say("open shows the options list; add options=[…] with the choices", "options");
     }
     // The renderer would silently drop extra cells. Usually the cause is an unquoted
     // cell with a space, which the text syntax splits into two.

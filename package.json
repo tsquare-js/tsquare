@@ -1,6 +1,6 @@
 {
   "name": "tsquare",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Wireframes in plain text: easy for LLMs to write, fast to render as SVG or PNG.",
   "keywords": [
     "wireframe",
