@@ -1,58 +1,74 @@
 name: Release
 
 # Publishes tsquare to npm, tags the published commit v<version> and creates the GitHub
-# release, when package.json on main has a version that isn't on npm yet. Most pushes to
-# main don't change the version: then there's nothing to do and the run succeeds.
-# How to cut a release: RELEASING.md.
+# release. Runs on every push to main; how to cut a release is in RELEASING.md.
 #
-# Safe to rerun. Each piece (npm, tag, release) is checked first and only the missing ones
-# are done, so a rerun after a partial failure finishes the job:
-# - Not on npm yet: check, build, publish, tag, release.
-# - On npm, tag missing (an earlier run failed after publishing): tag only if npm says the
-#   version was published from this exact commit, which is true when that run is rerun.
-#   Otherwise stop and say what to do; the workflow never guesses which commit to tag.
-# - On npm and tagged, release missing: create the release.
-# An existing tag is never moved: it's created through the API, which refuses an existing
-# ref, and the repository's tag ruleset blocks updates to v* tags.
+# What a run can change, for the version in package.json:
+# - Not on npm yet: build, publish, tag, release.
+# - Already on npm: nothing is published. A missing tag is created only if npm says the
+#   version was published from this run's commit (gitHead); otherwise the run stops and
+#   says what to do. A missing release is created on the existing tag.
+# - On npm, tagged and released (most pushes): nothing; the run succeeds.
+# An existing tag is never moved: tags are created through the API, which refuses an
+# existing ref, and the repository's tag ruleset blocks updates to v* tags.
+#
+# Jobs, each with only the permissions it needs:
+# - state (read-only): what's missing, and the release notes from CHANGELOG.md.
+# - build (read-only, no OIDC): npm ci, typecheck, tests, npm pack. This is the only job
+#   that runs dependency code (install scripts, the build), so it never holds a token
+#   that can publish or write to the repository.
+# - publish (OIDC): publishes the packed tarball with --ignore-scripts. No checkout and
+#   no npm ci, so no dependency code runs while the OIDC token is available.
+# - tag-release (contents: write): the tag and the GitHub release.
+#
+# Safe to rerun: publish and tag-release check npm, the tag and the release again when
+# they start, and only do what's still missing, so a rerun after a partial failure
+# finishes the job without publishing twice. A failed build or publish never tags.
+#
+# Concurrency is per version, on the jobs that act (publish, tag-release): runs for the
+# same version take turns, and runs for different versions never wait for or cancel each
+# other. (GitHub keeps one waiting job per group, so with three or more runs of the same
+# version in flight a waiting job can be cancelled. If that leaves the version untagged,
+# the next run says so and names the commit to tag; rerunning the run that published
+# also finishes it.)
 
 on:
   push:
     branches: [main]
   workflow_dispatch: # manual rerun, e.g. after fixing the trusted publisher settings on npm
 
-# Never two release runs at once. A run in progress isn't cancelled (it could stop between
-# publishing and tagging); a newer run waits for it to finish. If several pile up, GitHub
-# keeps only the newest waiting one, which is fine: it checks everything again from its commit.
-concurrency:
-  group: release
-  cancel-in-progress: false
+permissions: {} # nothing by default; each job asks for what it needs
+
+defaults:
+  run:
+    shell: bash # -e and -o pipefail
 
 jobs:
-  release:
-    name: Publish, tag and release
+  state:
+    name: Check what's missing
     # Only main in this repository: a manual run on another branch, or a fork's main, never publishes.
     if: github.repository == 'tsquare-js/tsquare' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
-      contents: write # create the tag and the GitHub release
-      id-token: write # npm trusted publishing: npm trades a GitHub OIDC token for a short-lived one
-    defaults:
-      run:
-        shell: bash # -e and -o pipefail
+      contents: read
+    outputs:
+      name: ${{ steps.state.outputs.name }}
+      version: ${{ steps.state.outputs.version }}
+      tag: ${{ steps.state.outputs.tag }}
+      publish: ${{ steps.state.outputs.publish }}
+      tag_missing: ${{ steps.state.outputs.tag_missing }}
+      release_missing: ${{ steps.state.outputs.release_missing }}
+      notes: ${{ steps.notes.outputs.notes }}
     steps:
       - uses: actions/checkout@v4
         with:
-          # Dependency install scripts run in this job, so don't leave a write token in
-          # .git/config. The tag is created through the API with GH_TOKEN instead of git push.
           persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          registry-url: https://registry.npmjs.org
-          # No dependency cache (unlike CI): npm advises against caching in release builds.
 
-      - name: Check what's missing for this version
+      - name: Check npm, the tag and the release
         id: state
         env:
           GH_TOKEN: ${{ github.token }}
@@ -94,13 +110,6 @@ jobs:
             echo "Nothing to do: $name@$version is on npm, tagged $tag and released." | tee -a "$GITHUB_STEP_SUMMARY"
           fi
 
-          # The tag must end up on the commit that gets published. If someone already created
-          # it on another commit, stop now, before publishing, rather than tag the wrong one.
-          if [ "$publish" = true ] && [ -n "$tag_sha" ] && [ "$tag_sha" != "$GITHUB_SHA" ]; then
-            echo "::error::Tag $tag already exists on $tag_sha, but this run would publish $GITHUB_SHA, and tags are never moved. If the tag is wrong, delete it (the \"release tags\" ruleset has to allow that first) and rerun this workflow."
-            exit 1
-          fi
-
           {
             echo "name=$name"
             echo "version=$version"
@@ -111,19 +120,29 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Release notes from CHANGELOG.md
+        id: notes
         if: steps.state.outputs.publish == 'true' || steps.state.outputs.release_missing == 'true'
         env:
           VERSION: ${{ steps.state.outputs.version }}
         run: |
           # The notes are the body of the "## <version>" section, up to the next "## " heading.
-          # The heading must match the whole line, so 0.8.0 never matches 0.8.01, and a line
-          # inside a ``` code block is never a heading. Leading and trailing blank lines are dropped.
+          # The heading must match the whole line, so 0.8.0 never matches 0.8.01. Lines inside
+          # a fenced code block are never headings: a fence is 3 or more backticks or tildes
+          # after at most 3 spaces, and it closes only on the same character, a run at least
+          # as long, and nothing else on the line. Leading and trailing blank lines are dropped.
           awk -v heading="## $VERSION" '
-            /^```/ { in_code = !in_code }
-            !in_code && /^## / {
+            {
+              # The run of backticks or tildes the line starts with, after up to 3 spaces.
+              line = $0; sub(/^ ? ? ?/, "", line)
+              char = substr(line, 1, 1); run = 0
+              if (char == "`" || char == "~") while (substr(line, run + 1, 1) == char) run++
+              if (!fence_len && run >= 3) { fence_char = char; fence_len = run }
+              else if (fence_len && char == fence_char && run >= fence_len && substr(line, run + 1) ~ /^[ \t]*$/) fence_len = 0
+            }
+            !fence_len && /^## / {
               if (found) exit
-              line = $0; sub(/[ \t\r]+$/, "", line)
-              if (line == heading) found = 1
+              title = $0; sub(/[ \t\r]+$/, "", title)
+              if (title == heading) found = 1
               next
             }
             found && NF      { printf "%s", blank_lines; blank_lines = ""; print; started = 1; next }
@@ -137,10 +156,84 @@ jobs:
           fi
           cat "$RUNNER_TEMP/notes.md"
 
+          # Multiline output for the tag-release job, with a delimiter that can't be in the notes.
+          delimiter="NOTES_$(openssl rand -hex 16)"
+          { echo "notes<<$delimiter"; cat "$RUNNER_TEMP/notes.md"; echo "$delimiter"; } >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Check and pack
+    needs: state
+    if: needs.state.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      tarball: ${{ steps.pack.outputs.tarball }}
+      sha256: ${{ steps.pack.outputs.sha256 }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      # No dependency cache (unlike CI): npm advises against caching in release builds.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      # The same checks as CI.
+      - name: Install (runs the build through "prepare")
+        run: npm ci
+      - name: Typecheck
+        run: npx tsc
+      - name: Test
+        run: npm test
+
+      - name: Pack
+        id: pack
+        env:
+          NAME: ${{ needs.state.outputs.name }}
+          VERSION: ${{ needs.state.outputs.version }}
+        run: |
+          # npm records gitHead (the commit a version was published from) when publishing from
+          # a git checkout, but not from a tarball, so write it into the packed package.json.
+          # tag-release relies on it to tell which commit a version was published from.
+          npm pkg set gitHead="$GITHUB_SHA"
+          mkdir -p "$RUNNER_TEMP/package"
+          npm pack --pack-destination "$RUNNER_TEMP/package"
+          tarball="$NAME-$VERSION.tgz"
+          test -f "$RUNNER_TEMP/package/$tarball"
+          echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
+          echo "sha256=$(sha256sum "$RUNNER_TEMP/package/$tarball" | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: npm-package
+          path: ${{ runner.temp }}/package/${{ steps.pack.outputs.tarball }}
+          if-no-files-found: error
+          overwrite: true # a rerun of this job replaces the earlier tarball
+
+  publish:
+    name: Publish to npm
+    needs: [state, build]
+    if: needs.state.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # npm trusted publishing: npm trades a GitHub OIDC token for a short-lived one
+    concurrency:
+      group: release-${{ needs.state.outputs.version }}
+      cancel-in-progress: false
+    outputs:
+      published: ${{ steps.publish.outputs.published }}
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
       # Trusted publishing needs npm 11.5.1 or later (and Node 22.14.0 or later). Node 24.5.0
       # and later ship with it; an older runner image gets npm 11 installed.
       - name: Use npm 11.5.1 or later
-        if: steps.state.outputs.publish == 'true'
         run: |
           need=11.5.1
           have=$(npm --version)
@@ -150,55 +243,156 @@ jobs:
           fi
           npm --version
 
-      # The same checks as CI.
-      - name: Install (runs the build through "prepare")
-        if: steps.state.outputs.publish == 'true'
-        run: npm ci
-      - name: Typecheck
-        if: steps.state.outputs.publish == 'true'
-        run: npx tsc
-      - name: Test
-        if: steps.state.outputs.publish == 'true'
-        run: npm test
+      - uses: actions/download-artifact@v4
+        with:
+          name: npm-package
+          path: ${{ runner.temp }}/package
 
-      # No npm token: npm authenticates through OIDC (id-token: write) and, for a public
-      # package from a public repository, adds a provenance attestation by itself.
-      - name: Publish to npm
+      - name: Check the tarball
+        env:
+          NAME: ${{ needs.state.outputs.name }}
+          VERSION: ${{ needs.state.outputs.version }}
+          TARBALL: ${{ needs.build.outputs.tarball }}
+          SHA256: ${{ needs.build.outputs.sha256 }}
+        run: |
+          # Exactly the file the build job packed, for this version and this commit.
+          cd "$RUNNER_TEMP/package"
+          echo "$SHA256  $TARBALL" | sha256sum -c -
+          packed=$(tar -xzOf "$TARBALL" package/package.json | jq -r '"\(.name)@\(.version) \(.gitHead)"')
+          if [ "$packed" != "$NAME@$VERSION $GITHUB_SHA" ]; then
+            echo "::error::The tarball is $packed, expected $NAME@$VERSION $GITHUB_SHA."
+            exit 1
+          fi
+
+      - name: Publish
         id: publish
-        if: steps.state.outputs.publish == 'true'
-        run: npm publish
+        env:
+          NAME: ${{ needs.state.outputs.name }}
+          VERSION: ${{ needs.state.outputs.version }}
+          TAG: ${{ needs.state.outputs.tag }}
+          TARBALL: ${{ needs.build.outputs.tarball }}
+        run: |
+          # Check npm again: another run for this version may have published it since the
+          # state job looked. Then this run publishes nothing, and its tag-release job only
+          # finishes what that run left (published=false means it won't tag this commit).
+          if found=$(npm view "$NAME@$VERSION" version --prefer-online 2> "$RUNNER_TEMP/npm-view.log"); then
+            if [ "$found" = "$VERSION" ]; then
+              echo "$NAME@$VERSION is already on npm; not publishing."
+              echo "published=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+          elif ! grep -q E404 "$RUNNER_TEMP/npm-view.log"; then
+            cat "$RUNNER_TEMP/npm-view.log"
+            echo "::error::Couldn't ask npm whether $NAME@$VERSION is published."
+            exit 1
+          fi
+
+          # The tag must end up on the commit that gets published. If someone already created
+          # it on another commit, stop before publishing rather than leave the two apart.
+          tag_sha=$(git ls-remote "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "refs/tags/$TAG" "refs/tags/$TAG^{}" | tail -n 1 | cut -f 1)
+          if [ -n "$tag_sha" ] && [ "$tag_sha" != "$GITHUB_SHA" ]; then
+            echo "::error::Tag $TAG already exists on $tag_sha, but this run would publish $GITHUB_SHA, and tags are never moved. If the tag is wrong, delete it (the \"release tags\" ruleset has to allow that first) and rerun this workflow."
+            exit 1
+          fi
+
+          # No npm token: npm authenticates through OIDC and, for a public package from a
+          # public repository, adds a provenance attestation by itself. Publishing a tarball
+          # runs no lifecycle scripts; --ignore-scripts makes sure of it.
+          npm publish "$RUNNER_TEMP/package/$TARBALL" --ignore-scripts
+          echo "published=true" >> "$GITHUB_OUTPUT"
+
+  tag-release:
+    name: Tag and release
+    needs: [state, publish]
+    # When this version had to be published: only after a successful publish job, so a failed
+    # build or publish never tags. When it was already on npm: whenever the tag or release is
+    # missing (build and publish are skipped then; !cancelled() keeps this job from being
+    # skipped with them).
+    if: >-
+      ${{ !cancelled() && needs.state.result == 'success' && (
+        needs.publish.result == 'success' ||
+        (needs.state.outputs.publish == 'false' &&
+          (needs.state.outputs.tag_missing == 'true' || needs.state.outputs.release_missing == 'true'))) }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create the tag and the GitHub release
+    concurrency:
+      group: release-${{ needs.state.outputs.version }}
+      cancel-in-progress: false
+    env:
+      NAME: ${{ needs.state.outputs.name }}
+      VERSION: ${{ needs.state.outputs.version }}
+      TAG: ${{ needs.state.outputs.tag }}
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
 
       - name: Tag the published commit
-        if: steps.state.outputs.tag_missing == 'true'
+        id: tag
         env:
           GH_TOKEN: ${{ github.token }}
-          NAME: ${{ steps.state.outputs.name }}
-          VERSION: ${{ steps.state.outputs.version }}
-          TAG: ${{ steps.state.outputs.tag }}
-          PUBLISHED_NOW: ${{ steps.publish.outcome == 'success' }}
+          PUBLISHED_NOW: ${{ needs.publish.outputs.published == 'true' }}
         run: |
+          # Check again: the state job's answer may be out of date (an earlier attempt of this
+          # job, or another run for this version, may have tagged since).
+          tag_sha=$(git ls-remote "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "refs/tags/$TAG" "refs/tags/$TAG^{}" | tail -n 1 | cut -f 1)
+          if [ -n "$tag_sha" ]; then
+            echo "Tag $TAG already exists on $tag_sha; leaving it as it is."
+            exit 0
+          fi
+
           if [ "$PUBLISHED_NOW" != true ]; then
-            # The version was already on npm when this run started: an earlier run published it
-            # and failed before tagging, or someone published by hand. npm records the commit a
-            # version was published from (gitHead). Tag only if that's the commit this run is on,
-            # as it is when the failed run is rerun; anything else needs a person to decide.
+            # This run didn't publish the version: an earlier run did and failed before tagging,
+            # or someone published by hand. npm records the commit a version was published from
+            # (gitHead). Tag only if that's the commit this run is on, as it is when the run that
+            # published is rerun; anything else needs a person to decide.
             published_from=$(npm view "$NAME@$VERSION" gitHead --prefer-online)
             if [ "$published_from" != "$GITHUB_SHA" ]; then
               echo "::error::$NAME@$VERSION is on npm but tag $TAG is missing. npm says it was published from ${published_from:-an unknown commit}, and this run is on $GITHUB_SHA, so it won't guess. Rerun the workflow run for the published commit, or tag that commit by hand (git tag $TAG ${published_from:-<commit>} && git push origin $TAG). Then run this workflow again to create the release."
               exit 1
             fi
           fi
+
           # Creating a ref fails if it already exists, so this can't move a tag.
           gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" -f ref="refs/tags/$TAG" -f sha="$GITHUB_SHA" --silent
           echo "Tagged $GITHUB_SHA as $TAG"
+          echo "created=true" >> "$GITHUB_OUTPUT"
 
       - name: Create the GitHub release
-        if: steps.state.outputs.release_missing == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          TAG: ${{ steps.state.outputs.tag }}
+          NOTES: ${{ needs.state.outputs.notes }}
+          TAG_CREATED: ${{ steps.tag.outputs.created == 'true' }}
         run: |
+          # Check again, as for the tag.
+          if gh release view "$TAG" --json tagName > /dev/null 2> "$RUNNER_TEMP/gh-release.log"; then
+            echo "Release $TAG already exists."
+            exit 0
+          elif ! grep -q "release not found" "$RUNNER_TEMP/gh-release.log"; then
+            cat "$RUNNER_TEMP/gh-release.log"
+            echo "::error::Couldn't check for the GitHub release $TAG."
+            exit 1
+          fi
+          if [ -z "$NOTES" ]; then
+            echo "::error::No release notes: the release was there when the state job looked. Run this workflow again."
+            exit 1
+          fi
+
+          # A tag this run didn't create may be on a different commit from the one npm says was
+          # published (v0.8.0's tag is). Warn, but create the release anyway: the release adds no
+          # new mismatch, tags are never moved, and failing would fail every later push to main
+          # until someone fixed the tag by hand.
+          if [ "$TAG_CREATED" != true ]; then
+            tag_sha=$(git ls-remote "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "refs/tags/$TAG" "refs/tags/$TAG^{}" | tail -n 1 | cut -f 1)
+            published_from=$(npm view "$NAME@$VERSION" gitHead --prefer-online)
+            if [ "$published_from" != "$tag_sha" ]; then
+              echo "::warning::Tag $TAG is on $tag_sha, but npm says $NAME@$VERSION was published from ${published_from:-an unknown commit}. Creating the release on the existing tag anyway."
+            fi
+          fi
+
+          printf '%s\n' "$NOTES" > "$RUNNER_TEMP/notes.md"
           # --verify-tag: fail if the tag doesn't exist, instead of letting gh create it on the tip of main.
           gh release create "$TAG" --verify-tag --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md"
           echo "Released $TAG: $(gh release view "$TAG" --json url --jq .url)" | tee -a "$GITHUB_STEP_SUMMARY"
