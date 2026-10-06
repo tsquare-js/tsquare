@@ -1,0 +1,204 @@
+name: Release
+
+# Publishes tsquare to npm, tags the published commit v<version> and creates the GitHub
+# release, when package.json on main has a version that isn't on npm yet. Most pushes to
+# main don't change the version: then there's nothing to do and the run succeeds.
+# How to cut a release: RELEASING.md.
+#
+# Safe to rerun. Each piece (npm, tag, release) is checked first and only the missing ones
+# are done, so a rerun after a partial failure finishes the job:
+# - Not on npm yet: check, build, publish, tag, release.
+# - On npm, tag missing (an earlier run failed after publishing): tag only if npm says the
+#   version was published from this exact commit, which is true when that run is rerun.
+#   Otherwise stop and say what to do; the workflow never guesses which commit to tag.
+# - On npm and tagged, release missing: create the release.
+# An existing tag is never moved: it's created through the API, which refuses an existing
+# ref, and the repository's tag ruleset blocks updates to v* tags.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # manual rerun, e.g. after fixing the trusted publisher settings on npm
+
+# Never two release runs at once. A run in progress isn't cancelled (it could stop between
+# publishing and tagging); a newer run waits for it to finish. If several pile up, GitHub
+# keeps only the newest waiting one, which is fine: it checks everything again from its commit.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Publish, tag and release
+    # Only main in this repository: a manual run on another branch, or a fork's main, never publishes.
+    if: github.repository == 'tsquare-js/tsquare' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create the tag and the GitHub release
+      id-token: write # npm trusted publishing: npm trades a GitHub OIDC token for a short-lived one
+    defaults:
+      run:
+        shell: bash # -e and -o pipefail
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Dependency install scripts run in this job, so don't leave a write token in
+          # .git/config. The tag is created through the API with GH_TOKEN instead of git push.
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          # No dependency cache (unlike CI): npm advises against caching in release builds.
+
+      - name: Check what's missing for this version
+        id: state
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          name=$(node -p "require('./package.json').name")
+          version=$(node -p "require('./package.json').version")
+          tag="v$version"
+
+          # Is this exact version on npm? E404 means not yet. Any other failure stops the run,
+          # so a registry outage is never taken for "not published".
+          publish=true
+          if found=$(npm view "$name@$version" version --prefer-online 2> "$RUNNER_TEMP/npm-view.log"); then
+            if [ "$found" = "$version" ]; then publish=false; fi
+          elif ! grep -q E404 "$RUNNER_TEMP/npm-view.log"; then
+            cat "$RUNNER_TEMP/npm-view.log"
+            echo "::error::Couldn't ask npm whether $name@$version is published."
+            exit 1
+          fi
+
+          # Does the tag exist, and on which commit? For an annotated tag, ls-remote also
+          # prints the peeled "^{}" line, which is the commit; it sorts last.
+          tag_sha=$(git ls-remote origin "refs/tags/$tag" "refs/tags/$tag^{}" | tail -n 1 | cut -f 1)
+
+          # Is there a GitHub release? "release not found" means no; any other failure stops the run.
+          release_missing=false
+          if ! gh release view "$tag" --json tagName > /dev/null 2> "$RUNNER_TEMP/gh-release.log"; then
+            if grep -q "release not found" "$RUNNER_TEMP/gh-release.log"; then
+              release_missing=true
+            else
+              cat "$RUNNER_TEMP/gh-release.log"
+              echo "::error::Couldn't check for the GitHub release $tag."
+              exit 1
+            fi
+          fi
+
+          echo "$name@$version: publish to npm: $publish; tag $tag: ${tag_sha:-missing}; release missing: $release_missing"
+          if [ "$publish" = false ] && [ -n "$tag_sha" ] && [ "$release_missing" = false ]; then
+            echo "Nothing to do: $name@$version is on npm, tagged $tag and released." | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
+
+          # The tag must end up on the commit that gets published. If someone already created
+          # it on another commit, stop now, before publishing, rather than tag the wrong one.
+          if [ "$publish" = true ] && [ -n "$tag_sha" ] && [ "$tag_sha" != "$GITHUB_SHA" ]; then
+            echo "::error::Tag $tag already exists on $tag_sha, but this run would publish $GITHUB_SHA, and tags are never moved. If the tag is wrong, delete it (the \"release tags\" ruleset has to allow that first) and rerun this workflow."
+            exit 1
+          fi
+
+          {
+            echo "name=$name"
+            echo "version=$version"
+            echo "tag=$tag"
+            echo "publish=$publish"
+            echo "tag_missing=$([ -z "$tag_sha" ] && echo true || echo false)"
+            echo "release_missing=$release_missing"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Release notes from CHANGELOG.md
+        if: steps.state.outputs.publish == 'true' || steps.state.outputs.release_missing == 'true'
+        env:
+          VERSION: ${{ steps.state.outputs.version }}
+        run: |
+          # The notes are the body of the "## <version>" section, up to the next "## " heading.
+          # The heading must match the whole line, so 0.8.0 never matches 0.8.01, and a line
+          # inside a ``` code block is never a heading. Leading and trailing blank lines are dropped.
+          awk -v heading="## $VERSION" '
+            /^```/ { in_code = !in_code }
+            !in_code && /^## / {
+              if (found) exit
+              line = $0; sub(/[ \t\r]+$/, "", line)
+              if (line == heading) found = 1
+              next
+            }
+            found && NF      { printf "%s", blank_lines; blank_lines = ""; print; started = 1; next }
+            found && started { blank_lines = blank_lines "\n" }
+          ' CHANGELOG.md > "$RUNNER_TEMP/notes.md"
+
+          # Fails before anything is published, so a version never goes out without notes.
+          if ! grep -q '[^[:space:]]' "$RUNNER_TEMP/notes.md"; then
+            echo "::error file=CHANGELOG.md::CHANGELOG.md has no \"## $VERSION\" section, or it's empty. Add the release notes for $VERSION there."
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/notes.md"
+
+      # Trusted publishing needs npm 11.5.1 or later (and Node 22.14.0 or later). Node 24.5.0
+      # and later ship with it; an older runner image gets npm 11 installed.
+      - name: Use npm 11.5.1 or later
+        if: steps.state.outputs.publish == 'true'
+        run: |
+          need=11.5.1
+          have=$(npm --version)
+          if [ "$(printf '%s\n' "$need" "$have" | sort -V | head -n 1)" != "$need" ]; then
+            echo "npm $have is too old for trusted publishing; installing npm 11"
+            npm install --global npm@11
+          fi
+          npm --version
+
+      # The same checks as CI.
+      - name: Install (runs the build through "prepare")
+        if: steps.state.outputs.publish == 'true'
+        run: npm ci
+      - name: Typecheck
+        if: steps.state.outputs.publish == 'true'
+        run: npx tsc
+      - name: Test
+        if: steps.state.outputs.publish == 'true'
+        run: npm test
+
+      # No npm token: npm authenticates through OIDC (id-token: write) and, for a public
+      # package from a public repository, adds a provenance attestation by itself.
+      - name: Publish to npm
+        id: publish
+        if: steps.state.outputs.publish == 'true'
+        run: npm publish
+
+      - name: Tag the published commit
+        if: steps.state.outputs.tag_missing == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NAME: ${{ steps.state.outputs.name }}
+          VERSION: ${{ steps.state.outputs.version }}
+          TAG: ${{ steps.state.outputs.tag }}
+          PUBLISHED_NOW: ${{ steps.publish.outcome == 'success' }}
+        run: |
+          if [ "$PUBLISHED_NOW" != true ]; then
+            # The version was already on npm when this run started: an earlier run published it
+            # and failed before tagging, or someone published by hand. npm records the commit a
+            # version was published from (gitHead). Tag only if that's the commit this run is on,
+            # as it is when the failed run is rerun; anything else needs a person to decide.
+            published_from=$(npm view "$NAME@$VERSION" gitHead --prefer-online)
+            if [ "$published_from" != "$GITHUB_SHA" ]; then
+              echo "::error::$NAME@$VERSION is on npm but tag $TAG is missing. npm says it was published from ${published_from:-an unknown commit}, and this run is on $GITHUB_SHA, so it won't guess. Rerun the workflow run for the published commit, or tag that commit by hand (git tag $TAG ${published_from:-<commit>} && git push origin $TAG). Then run this workflow again to create the release."
+              exit 1
+            fi
+          fi
+          # Creating a ref fails if it already exists, so this can't move a tag.
+          gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" -f ref="refs/tags/$TAG" -f sha="$GITHUB_SHA" --silent
+          echo "Tagged $GITHUB_SHA as $TAG"
+
+      - name: Create the GitHub release
+        if: steps.state.outputs.release_missing == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ steps.state.outputs.tag }}
+        run: |
+          # --verify-tag: fail if the tag doesn't exist, instead of letting gh create it on the tip of main.
+          gh release create "$TAG" --verify-tag --title "$TAG" --notes-file "$RUNNER_TEMP/notes.md"
+          echo "Released $TAG: $(gh release view "$TAG" --json url --jq .url)" | tee -a "$GITHUB_STEP_SUMMARY"
