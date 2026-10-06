@@ -28,7 +28,7 @@ Sticky-note annotation. Put it on the Board beside screens, or inside a Screen n
 - width: number
 
 ### Flow
-An arrow between two elements or screens, named with #id. Written at the board level after the screens: flow signin -> home "Tap Sign in".
+An arrow between two elements or screens, named with #id. Write each flow on its own line after the screens, indented like a screen (not inside one): flow signin -> home "Tap Sign in".
 - from (required): string — The id where the arrow starts (written before ->)
 - to (required): string — The id it points at (written after ->)
 - label: string (main text)

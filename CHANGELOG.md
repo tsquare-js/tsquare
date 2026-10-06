@@ -14,6 +14,10 @@
 - The logos come from [Simple Icons](https://simpleicons.org) 16.34.0 (CC0), a new dependency pinned exactly like Lucide, since a release can change or remove logos. Simple Icons has no Slack, LinkedIn or Microsoft logo, so tsquare doesn't either.
 - **Prompt:** rule 11 names the logos and the `apple`/`x` trap. The skill and the docs (Icons page, Icon component) are regenerated.
 
+### Flow wording
+
+- **"Board level" is gone.** The Flow description, prompt rule 10, the docs and the error for a flow written inside a screen now say what to do: write each flow on its own line after the screens, indented like a screen (not inside one). The error used to read "flow lines go at the board level, after the screens (indented like a screen)". A clarification only: what's valid hasn't changed.
+
 ## 0.7.1
 
 - **`share_wireframe` returns only the links asked for.** A new `links` option takes the kinds from the playground's Copy link menu, with the same names: `share`, `svg`, `png`, `markdown`, `html`. The default is `["svg", "share"]`, an image link and the link to edit it; before, every call returned four links. Each link carries the whole wireframe (about 1,200 characters for a three-screen board), and the model has to write out every link it passes on, exactly, so fewer links means less to write and fewer chances to break one. A wireframe too long for an image link gets its share link instead, with a note saying why. New exports: `LINK_KINDS`, `DEFAULT_LINKS`, `LinkKind`.

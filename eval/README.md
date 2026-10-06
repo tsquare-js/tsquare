@@ -112,6 +112,7 @@ The original 20 requests with the 0.4.0 prompt (`text-v5`): Sonnet 100%, Haiku 6
 - **Every one of the 12 outputs used the right logo names**, and none used `apple` or `x` for a logo.
 - **Sonnet: 6 of 6 valid. Haiku: 3 of 6.** None of Haiku's misses involve logos. They're slips it has made before: `fullWidth` on an input, props written on the lines below their component, and `trailingIcon=toggle` (a trailing kind used as an icon name; the error says to write `trailing=toggle`). One of the invalid outputs fails its logo checks only because it doesn't parse; its logo names are right.
 - These outputs came from subagents, like the earlier component runs.
+- After this run, 0.8.0 also reworded rule 10 (flows): "add board-level lines after the screens" became "write each flow on its own line after the screens, indented like a screen (not inside one)". It's a clarification of the same rule, so the flow requests weren't rerun. `components/prompt-0.8.0.md` keeps the wording that was tested.
 
 ```bash
 npx tsx eval/components/score.ts            # score, render to components/renders/
