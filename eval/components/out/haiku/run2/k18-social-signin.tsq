@@ -1,0 +1,7 @@
+board "Sign in"
+  screen phone "Sign in"
+    heading "Sign in" level=1
+    input email label="Email" placeholder="you@example.com"
+    input password label="Password" placeholder="••••••••"
+    button primary fullWidth "Continue with Google" leadingIcon=brand-google
+    button primary fullWidth "Continue with Apple" leadingIcon=brand-apple

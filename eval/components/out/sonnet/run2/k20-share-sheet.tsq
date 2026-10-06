@@ -1,0 +1,12 @@
+```tsquare
+board "Share sheet"
+  screen phone "Article"
+    navbar leading=back actions=[share]
+    image "Article photo" height=180
+    heading "Article title" level=2
+    text lines=4
+    drawer bottom "Share" size=260
+      button secondary "Share on X" leadingIcon=brand-x fullWidth
+      button secondary "Share on Facebook" leadingIcon=brand-facebook fullWidth
+      button secondary "Copy link" leadingIcon=link fullWidth
+```

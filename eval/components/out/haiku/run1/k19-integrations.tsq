@@ -1,0 +1,20 @@
+```tsquare
+board "Settings"
+  screen desktop "Connected Integrations"
+    heading "Integrations" level=1
+    list
+      listitem "GitHub"
+        leading=icon
+        leadingIcon=brand-github
+        trailing=toggle
+      listitem "Notion"
+        leading=icon
+        leadingIcon=brand-notion
+        trailing=toggle
+        trailingText=on
+      listitem "Stripe"
+        leading=icon
+        leadingIcon=brand-stripe
+        trailing=toggle
+        trailingText=on
+```

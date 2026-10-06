@@ -108,7 +108,10 @@ Haiku's remaining misses: it wrote the dates as plain inputs once, and garbled o
 
 The original 20 requests with the 0.4.0 prompt (`text-v5`): Sonnet 100%, Haiku 65%, within Haiku's usual 55–85%. None of its failures involve the new components, which also showed up unprompted in 6 of the 40 outputs (for example a chart on the dashboard).
 
-**0.8.0** adds rule 11 to the prompt (brand logos, 65 tokens) and three requests that name brands but not the syntax: a Google and Apple sign-in, GitHub/Notion/Stripe integrations, and an X and Facebook share sheet (`k18`–`k20`). The checks ask for the `brand-…` names, and for the Apple logo not to be Lucide's `apple` (the fruit). Not run yet: the stored results list these three as missing.
+**0.8.0** adds rule 11 to the prompt (brand logos, 65 tokens) and three requests that name brands but not the syntax: a Google and Apple sign-in, GitHub/Notion/Stripe integrations, and an X and Facebook share sheet (`k18`–`k20`). The checks ask for the `brand-…` names, and for the Apple logo not to be Lucide's `apple` (the fruit). They ran with the 0.8.0 prompt (`components/prompt-0.8.0.md`), two runs per model.
+- **Every one of the 12 outputs used the right logo names**, and none used `apple` or `x` for a logo.
+- **Sonnet: 6 of 6 valid. Haiku: 3 of 6.** None of Haiku's misses involve logos. They're slips it has made before: `fullWidth` on an input, props written on the lines below their component, and `trailingIcon=toggle` (a trailing kind used as an icon name; the error says to write `trailing=toggle`). One of the invalid outputs fails its logo checks only because it doesn't parse; its logo names are right.
+- These outputs came from subagents, like the earlier component runs.
 
 ```bash
 npx tsx eval/components/score.ts            # score, render to components/renders/

@@ -1,0 +1,11 @@
+```tsquare
+board "Share"
+  screen phone "Article"
+    image height=200
+    heading "Article Title" level=1
+    text "Article excerpt with details about the content."
+    drawer bottom "Share" size=180
+      button "Share on X" secondary fullWidth leadingIcon=brand-x
+      button "Share on Facebook" secondary fullWidth leadingIcon=brand-facebook
+      button "Copy link" secondary fullWidth leadingIcon=link
+```

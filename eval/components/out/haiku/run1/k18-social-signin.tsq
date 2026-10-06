@@ -1,0 +1,9 @@
+```tsquare
+board "Sign In"
+  screen phone "Sign In"
+    heading "Sign in" level=1
+    input "Email" placeholder="you@example.com" type=email fullWidth
+    input "Password" placeholder="••••••••" type=password fullWidth
+    button "Continue with Google" primary fullWidth leadingIcon=brand-google
+    button "Continue with Apple" primary fullWidth leadingIcon=brand-apple
+```
