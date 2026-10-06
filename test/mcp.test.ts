@@ -66,6 +66,9 @@ test("share returns only the links asked for, in that order", () => {
   assert.match(links.HTML, /^<img src="http:\/\/localhost:3000\/svg\/y\S+" alt="Sign in">$/);
   const quoted = linksOf(shareWireframeTool({ text: valid.replace('"Sign in"', '"Say \\"hi\\""'), links: ["html"] }));
   assert.match(quoted.HTML, /alt="Say &quot;hi&quot;"/);
+  // & is escaped first, so a title with an entity in it reads back as written
+  const amp = linksOf(shareWireframeTool({ text: valid.replace('"Sign in"', '"Tom &amp; <Jerry>"'), links: ["html"] }));
+  assert.match(amp.HTML, /alt="Tom &amp;amp; &lt;Jerry&gt;">$/);
 });
 
 test("a wireframe too long for an image link gets the share link instead", () => {

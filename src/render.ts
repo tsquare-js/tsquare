@@ -191,7 +191,7 @@ export function checkSpec(spec: Spec): string[] {
       const say = (msg: string, ...reads: string[]) => !failed(...reads) && issues.push(`${id}: ${msg}`); // compile adds the component name
       const backwards = (r: unknown) => Array.isArray(r) && r.length === 2 && r[0] > r[1];
       if (el.type === "Progress") {
-        if (p.step != null && p.steps == null) say(`step only shows with steps (e.g. steps=4 step=${p.step})`);
+        if (p.step != null && p.steps == null) say(`step only shows with steps (e.g. steps=4 step=${typeof p.step === "number" ? p.step : 2})`);
         if (p.step != null && p.steps != null && p.step > p.steps) say(`step=${p.step} is past the last step (steps=${p.steps})`, "step", "steps");
         if (p.steps != null && p.shape === "circle") say("a stepper (steps) can't also be a circle; remove one of them", "shape");
       }

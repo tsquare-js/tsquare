@@ -10,6 +10,7 @@ import { undo } from "@codemirror/commands";
 import { Code, Copy, Download, FileText, Image as ImageIcon, LayoutGrid, Link, Maximize, Minimize, Moon, Share2, Sun, X, ZoomIn, ZoomOut, createElement } from "lucide";
 import { createEditor, type Editor } from "./editor.js";
 import type { LanguageData } from "./language-data.js";
+import { escapeAttr } from "../escape.js";
 import { LEGACY_LINK_PREFIX, LINK_PREFIX, isLinkData } from "../link-prefix.js";
 import { upgradeWireframe } from "../upgrade.js";
 
@@ -439,7 +440,7 @@ menu.querySelectorAll<HTMLButtonElement>("button[data-copy]").forEach((b) =>
       svg: svgUrl,
       png: `${BASE}/png/${data}${flowsQuery()}`,
       markdown: `![${title.replace(/[[\]]/g, "")}](${svgUrl})`,
-      html: `<img src="${svgUrl}" alt="${title.replace(/"/g, "&quot;")}">`,
+      html: `<img src="${svgUrl}" alt="${escapeAttr(title)}">`,
     }[kind]!;
     const message = { share: "Share link copied", svg: "Image link copied", png: "PNG link copied", markdown: "Markdown copied", html: "HTML copied" }[kind]!;
     if (await copyText(text, message)) emit("link_copied", { kind });

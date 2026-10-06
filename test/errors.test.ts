@@ -78,3 +78,10 @@ test("a value that failed doesn't also trip the checks that read it", () => {
     "line 3: Progress: step only shows with steps (e.g. steps=4 step=2)",
   ]);
 });
+
+test("an example in a message never repeats the invalid value", () => {
+  assert.deepEqual(problems(board("progress step=two")), [
+    "line 3: Progress: step=two should be a number",
+    "line 3: Progress: step only shows with steps (e.g. steps=4 step=2)",
+  ]);
+});

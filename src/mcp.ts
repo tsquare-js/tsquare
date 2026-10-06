@@ -10,6 +10,7 @@ import { z } from "zod";
 import { compileWireframe, formatIssues } from "./compile.js";
 import { languageReference } from "./prompt.js";
 import { boardSize, renderWireframePng } from "./render.js";
+import { escapeAttr } from "./escape.js";
 import { encodeWireframe, MAX_SHARED_TEXT } from "./share.js";
 
 export type ToolContent = { type: "text"; text: string } | { type: "image"; data: string; mimeType: string };
@@ -155,7 +156,7 @@ export function shareWireframeTool(args: { text: string; flows?: boolean; links?
       svg,
       png: `${base}/png/${data}${query}`,
       markdown: `![${title.replace(/[[\]\n]/g, " ")}](${svg})`,
-      html: `<img src="${svg}" alt="${title.replace(/["\n]/g, (c) => (c === '"' ? "&quot;" : " "))}">`,
+      html: `<img src="${svg}" alt="${escapeAttr(title)}">`,
     }[kind];
     lines.push(`${LINK_LABELS[kind]}: ${link}`);
   }
