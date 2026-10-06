@@ -38,7 +38,7 @@ test("flow mistakes are errors that say how to fix them", () => {
   assert.match(p(BOARD.replace("#signout", "#submit")), /the id #submit is also used by the Button on line 3; ids must be unique/);
   assert.match(p(BOARD + "\n  flow home -> home"), /needs two different ends/);
   assert.match(p(BOARD + "\n  flow nope"), /a flow line looks like: flow <from> -> <to>/);
-  assert.match(p(BOARD.replace("  flow signout -> signin", "    flow signout -> signin")), /flow lines go at the board level/);
+  assert.match(p(BOARD.replace("  flow signout -> signin", "    flow signout -> signin")), /write each flow on its own line after the screens, indented like a screen \(not inside one\)/);
   assert.match(p(BOARD + '\n  note "x" #n'), /Note can't have an id/);
   assert.match(p(BOARD.replace("color=blue", "color=navy")), /navy/);
   assert.match(p(BOARD.replace("#signout", "#Submit")), /the id #Submit is also used by the Button on line 3 \(as #submit; ids ignore case\)/);

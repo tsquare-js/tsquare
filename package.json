@@ -1,6 +1,6 @@
 {
   "name": "tsquare",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Wireframes in plain text: easy for LLMs to write, fast to render as SVG or PNG.",
   "keywords": [
     "wireframe",
@@ -75,6 +75,7 @@
     "@types/react": "^19.3.0",
     "lucide": "1.48.0",
     "react": "^19.3.0",
+    "simple-icons": "16.34.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {

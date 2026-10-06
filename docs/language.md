@@ -160,7 +160,7 @@ List items and the navbar take a menu too. A row's menu opens right-aligned unde
 
 ## Flows
 
-Arrows show how screens connect. Name an element or a screen by writing `#name` after it, then add `flow` lines at the board level, after the screens. An id is one word (letters, digits, `-` and `_`, starting with a letter), must be unique on the board, and ignores case, so `#Home` and `flow … -> home` match.
+Arrows show how screens connect. Name an element or a screen by writing `#name` after it, then write each `flow` on its own line after the screens, indented like a screen (not inside one). An id is one word (letters, digits, `-` and `_`, starting with a letter), must be unique on the board, and ignores case, so `#Home` and `flow … -> home` match.
 
 ```tsquare
 board "Sign-in flow"

@@ -1,0 +1,10 @@
+board "Share article"
+  screen phone "Article"
+    navbar leading=back actions=[share]
+    heading "Article Title" level=1
+    text lines=4
+    drawer bottom "Share" size=200 handle
+      stack gap=12 padding=16
+        button secondary fullWidth "Share on X" leadingIcon=brand-x
+        button secondary fullWidth "Share on Facebook" leadingIcon=brand-facebook
+        button secondary fullWidth "Copy link"

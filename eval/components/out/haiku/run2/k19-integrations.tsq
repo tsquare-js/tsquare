@@ -1,0 +1,7 @@
+board "Integrations"
+  screen desktop "Integrations"
+    navbar "Connected Integrations"
+    list dividers
+      listitem title="GitHub" leadingIcon=brand-github trailing=toggle trailingIcon=toggle
+      listitem title="Notion" leadingIcon=brand-notion trailing=toggle trailingIcon=toggle
+      listitem title="Stripe" leadingIcon=brand-stripe trailing=toggle trailingIcon=toggle

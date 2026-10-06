@@ -85,3 +85,12 @@ test("an example in a message never repeats the invalid value", () => {
     "line 3: Progress: step only shows with steps (e.g. steps=4 step=2)",
   ]);
 });
+
+test("brand logos are icons named brand-…, and a bare brand name points at them", () => {
+  assert.deepEqual(problems(board('button "Continue with Google" leadingIcon=brand-google', "icon brand-x", 'listitem "Repo" leadingIcon=brand-github')), []);
+  assert.match(only(board("icon github")), /unknown icon "github" \(did you mean brand-github/);
+  assert.match(only(board("icon twitter")), /did you mean brand-x/);
+  assert.equal(only(board("icon brand-slack")), 'line 3: Icon: unknown icon "brand-slack"; the brand logos are brand-apple, brand-facebook, brand-github, brand-google, brand-notion, brand-stripe, brand-x');
+  // apple and x stay Lucide's fruit and close icon
+  assert.deepEqual(problems(board("icon apple", "icon x")), []);
+});

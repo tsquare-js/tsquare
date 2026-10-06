@@ -2,7 +2,7 @@
 
 `icon` · Content · [All components](README.md)
 
-Line icon from Lucide.
+Line icon from Lucide, or a brand logo (brand-google, brand-apple, …).
 
 ![Icon example](images/icon.png)
 

@@ -1,7 +1,7 @@
 import React, { Children, cloneElement, isValidElement, type CSSProperties, type ReactNode } from "react";
 import { listItemEnds } from "./catalog.js";
 import { paletteFor, TONES, type Palette } from "./colors.js";
-import { iconNode } from "./icons.js";
+import { brandPath, iconNode } from "./icons.js";
 import type { ComponentRenderProps } from "@json-render/image";
 import {
   BOARD_GAP,
@@ -136,6 +136,15 @@ export function IconGlyph({ name, size = 20, color = t.ink, strokeWidth = 2 }: {
   color?: string;
   strokeWidth?: number;
 }) {
+  // brand logos are filled shapes edge to edge on the grid; the wider viewBox gives them the
+  // margin a Lucide outline has, so they sit at the same visual size
+  const brand = name ? brandPath(name) : undefined;
+  if (brand)
+    return (
+      <svg width={size} height={size} viewBox="-2 -2 28 28" fill={color} style={{ flexShrink: 0 }}>
+        <path d={brand} />
+      </svg>
+    );
   const node = name ? iconNode(name) : null;
   return (
     <svg

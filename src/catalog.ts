@@ -107,7 +107,7 @@ export const componentDefinitions = {
     }),
     slots: [],
     description:
-      'An arrow between two elements or screens, named with #id. Written at the board level after the screens: flow signin -> home "Tap Sign in".',
+      'An arrow between two elements or screens, named with #id. Write each flow on its own line after the screens, indented like a screen (not inside one): flow signin -> home "Tap Sign in".',
     example: { from: "signin", to: "home", label: "Tap Sign in" },
   },
 
@@ -239,7 +239,7 @@ export const componentDefinitions = {
       size: o(z.number()),
     }),
     slots: [],
-    description: "Line icon from Lucide.",
+    description: "Line icon from Lucide, or a brand logo (brand-google, brand-apple, …).",
     example: { name: "search", size: 20 },
   },
   Avatar: {

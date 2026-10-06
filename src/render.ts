@@ -252,7 +252,7 @@ export function checkSpec(spec: Spec): string[] {
   for (const [k, el] of Object.entries(spec.elements)) for (const c of el.children ?? []) parentOf.set(c, k);
   for (const [key, el] of Object.entries(spec.elements)) {
     if (el.type !== "Flow") continue;
-    if (!(root.children ?? []).includes(key)) issues.push(`${key}: flow lines go at the board level, after the screens (indented like a screen)`);
+    if (!(root.children ?? []).includes(key)) issues.push(`${key}: write each flow on its own line after the screens, indented like a screen (not inside one)`);
     const p = (el.props ?? {}) as Record<string, any>;
     for (const end of ["from", "to"] as const) {
       if (typeof p[end] !== "string") continue;

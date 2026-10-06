@@ -1,0 +1,12 @@
+```tsquare
+board "Integrations"
+  screen desktop "Settings"
+    stack padding=24 gap=16
+      heading "Integrations" level=1
+      text "Connected services" muted
+      card padding=8
+        list dividers
+          listitem "GitHub" leadingIcon=brand-github trailing=toggle
+          listitem "Notion" leadingIcon=brand-notion trailing=toggle
+          listitem "Stripe" leadingIcon=brand-stripe trailing=toggle
+```

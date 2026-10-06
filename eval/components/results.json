@@ -171,6 +171,36 @@
   },
   {
     "model": "sonnet",
+    "run": "run1",
+    "task": "k18-social-signin",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run1",
+    "task": "k19-integrations",
+    "valid": true,
+    "issues": [],
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run1",
+    "task": "k20-share-sheet",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
     "run": "run2",
     "task": "k01-analytics",
     "valid": true,
@@ -333,6 +363,36 @@
     "model": "sonnet",
     "run": "run2",
     "task": "k17-onboarding-flow",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k18-social-signin",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k19-integrations",
+    "valid": true,
+    "issues": [],
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k20-share-sheet",
     "valid": true,
     "issues": [],
     "passed": 2,
@@ -531,6 +591,55 @@
   },
   {
     "model": "haiku",
+    "run": "run1",
+    "task": "k18-social-signin",
+    "valid": false,
+    "issues": [
+      "line 4: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)",
+      "line 5: Input: fullWidth is a Button prop, not an Input one; an Input already fills its width (width=… sets a fixed one), so remove it (bare words it accepts: text, password, search, email, date, code, open, error, grow)"
+    ],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run1",
+    "task": "k19-integrations",
+    "valid": false,
+    "issues": [
+      "line 6: leading=…: props go on the same line as their component; move it to the end of line 5",
+      "line 7: leadingIcon=…: props go on the same line as their component; move it to the end of line 5",
+      "line 8: trailing=…: props go on the same line as their component; move it to the end of line 5",
+      "line 10: leading=…: props go on the same line as their component; move it to the end of line 9",
+      "line 11: leadingIcon=…: props go on the same line as their component; move it to the end of line 9",
+      "line 12: trailing=…: props go on the same line as their component; move it to the end of line 9",
+      "line 13: trailingText=…: props go on the same line as their component; move it to the end of line 9",
+      "line 15: leading=…: props go on the same line as their component; move it to the end of line 14",
+      "line 16: leadingIcon=…: props go on the same line as their component; move it to the end of line 14",
+      "line 17: trailing=…: props go on the same line as their component; move it to the end of line 14",
+      "line 18: trailingText=…: props go on the same line as their component; move it to the end of line 14"
+    ],
+    "passed": 0,
+    "total": 3,
+    "failed": [
+      "GitHub logo",
+      "Notion logo",
+      "Stripe logo"
+    ]
+  },
+  {
+    "model": "haiku",
+    "run": "run1",
+    "task": "k20-share-sheet",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
     "run": "run2",
     "task": "k01-analytics",
     "valid": true,
@@ -703,6 +812,43 @@
     "model": "haiku",
     "run": "run2",
     "task": "k17-onboarding-flow",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k18-social-signin",
+    "valid": true,
+    "issues": [],
+    "passed": 2,
+    "total": 2,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k19-integrations",
+    "valid": false,
+    "issues": [
+      "line 5: ListItem: toggle is a trailing kind, not an icon name: write trailing=toggle instead of trailingIcon=toggle",
+      "line 5: ListItem: trailingIcon only shows with trailing=icon (this item has trailing=toggle); remove one of them",
+      "line 6: ListItem: toggle is a trailing kind, not an icon name: write trailing=toggle instead of trailingIcon=toggle",
+      "line 6: ListItem: trailingIcon only shows with trailing=icon (this item has trailing=toggle); remove one of them",
+      "line 7: ListItem: toggle is a trailing kind, not an icon name: write trailing=toggle instead of trailingIcon=toggle",
+      "line 7: ListItem: trailingIcon only shows with trailing=icon (this item has trailing=toggle); remove one of them"
+    ],
+    "passed": 3,
+    "total": 3,
+    "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k20-share-sheet",
     "valid": true,
     "issues": [],
     "passed": 2,

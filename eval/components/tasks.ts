@@ -162,6 +162,39 @@ componentTasks.push(
   },
 );
 
+// 0.8.0: brand logos (rule 11). The requests name brands, never the brand-… syntax.
+/** Every icon-valued prop on an element, so a check sees leadingIcon, icon, actions and tab-bar icons alike. */
+const iconsIn = (e: El[]) =>
+  e.flatMap((x) => [x.props.name, x.props.leadingIcon, x.props.trailingIcon, x.props.icon, ...(x.props.actions ?? []), ...(x.props.items ?? []).map((i: any) => i?.icon)]).filter((v): v is string => typeof v === "string");
+const usesIcon = (name: string) => (e: El[]) => iconsIn(e).includes(name);
+componentTasks.push(
+  {
+    id: "k18-social-signin",
+    prompt: "A mobile sign-in screen with email and password, then 'Continue with Google' and 'Continue with Apple' buttons, each with the company's logo.",
+    checks: [
+      ["Google logo", usesIcon("brand-google")],
+      ["Apple logo, not the fruit", (e) => usesIcon("brand-apple")(e) && !usesIcon("apple")(e)],
+    ],
+  },
+  {
+    id: "k19-integrations",
+    prompt: "A desktop settings page listing connected integrations, GitHub, Notion and Stripe, each row showing the service's logo, its name and an on/off toggle.",
+    checks: [
+      ["GitHub logo", usesIcon("brand-github")],
+      ["Notion logo", usesIcon("brand-notion")],
+      ["Stripe logo", usesIcon("brand-stripe")],
+    ],
+  },
+  {
+    id: "k20-share-sheet",
+    prompt: "A mobile share sheet for an article, with share buttons for X and Facebook showing their logos, plus a 'Copy link' button.",
+    checks: [
+      ["X logo, not the close icon", (e) => usesIcon("brand-x")(e)],
+      ["Facebook logo", usesIcon("brand-facebook")],
+    ],
+  },
+);
+
 export function runComponentChecks(task: ComponentTask, spec: Spec) {
   const els = Object.values(spec.elements) as El[];
   return task.checks.map(([name, test]) => ({ name, pass: test(els) }));

@@ -1,0 +1,22 @@
+board "Integrations"
+  screen desktop "Settings"
+    heading "Integrations" level=1
+    text "Connected services" muted
+    card padding=16
+      stack row gap=12 align=center
+        icon brand-github size=24
+        text "GitHub" bold
+        spacer
+        toggle on
+      divider
+      stack row gap=12 align=center
+        icon brand-notion size=24
+        text "Notion" bold
+        spacer
+        toggle on
+      divider
+      stack row gap=12 align=center
+        icon brand-stripe size=24
+        text "Stripe" bold
+        spacer
+        toggle off
