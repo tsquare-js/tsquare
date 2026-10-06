@@ -53,6 +53,7 @@ If a bare word could mean more than one prop, write it as key=value.
 8. Wireframes are grayscale. The only UI colors: Board accent (one color for primary buttons, checked controls, toggles, active tabs and ghost buttons), Badge tone (success, warning, danger), Input error and Flow color. Only add an accent if the request asks for color or a brand.
 9. Any element except Board, Screen, Note and Flow can take tooltip="text" to show a tooltip next to it. Select (with options), Input type=date, and Button, ListItem or NavBar (with menu) take open to show their list, calendar or menu over the screen.
 10. To show how screens connect, name elements or screens by writing #name after them (button primary "Sign in" #signin, screen phone "Home" #home), then add board-level lines after the screens: flow signin -> home "Tap Sign in".
+11. Icons are Lucide names, plus brand logos named brand-…: brand-google, brand-apple, brand-github, brand-facebook, brand-x, brand-notion, brand-stripe (button "Continue with Google" leadingIcon=brand-google). Plain apple is a fruit and x is a close icon.
 
 ## Example
 

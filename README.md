@@ -95,7 +95,7 @@ Sticky notes beside the wireframe have their own colors, since they're annotatio
 |---|---|
 | Canvas | board, screen (`phone` 390×844, `tablet` 820×1180, `desktop` 1280×800, `custom`), note |
 | Layout | stack, grid, card, divider, spacer |
-| Content | heading, text (`lines=3` draws placeholder lines), image (X-box placeholder), icon (any [Lucide](https://lucide.dev/icons) name, see [Icons](docs/icons.md)), avatar, badge |
+| Content | heading, text (`lines=3` draws placeholder lines), image (X-box placeholder), icon (any [Lucide](https://lucide.dev/icons) name or a brand logo such as `brand-google`, see [Icons](docs/icons.md)), avatar, badge |
 | Controls | button, input (`multiline=4` for a textarea), checkbox, radio, toggle, select |
 | Navigation & data | navbar, tabbar, tabs, list, listitem, table |
 | Overlays | modal, drawer (`left`, `right`, `bottom` sheet) |
@@ -158,4 +158,4 @@ How it was measured, the tasks, every model output, and the scripts: [`eval/`](e
 
 ## License
 
-MIT. The Inter font comes from the `@fontsource/inter` dependency, under the SIL Open Font License 1.1. Icons are from [Lucide](https://lucide.dev), under the ISC license.
+MIT. The Inter font comes from the `@fontsource/inter` dependency, under the SIL Open Font License 1.1. Icons are from [Lucide](https://lucide.dev), under the ISC license. Brand logos are from [Simple Icons](https://simpleicons.org) (CC0); the logos themselves are trademarks of their owners.

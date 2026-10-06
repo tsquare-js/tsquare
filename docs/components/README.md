@@ -33,7 +33,7 @@ Any element inside a screen can also take `tooltip="…"`; see [Tooltips and ope
 | [bullets](bullets.md) | Bulleted, numbered or icon list of short lines. |
 | [image](image.md) | Image placeholder: a box with an X through it, or a map. |
 | [chart](chart.md) | Chart placeholder: a generic line, bar, area, pie or donut shape, no data. |
-| [icon](icon.md) | Line icon from Lucide. |
+| [icon](icon.md) | Line icon from Lucide, or a brand logo (brand-google, brand-apple, …). |
 | [avatar](avatar.md) | Round avatar with initials or a person silhouette. |
 | [badge](badge.md) | Small pill label for counts or statuses. |
 

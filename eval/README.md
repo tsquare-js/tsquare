@@ -108,6 +108,8 @@ Haiku's remaining misses: it wrote the dates as plain inputs once, and garbled o
 
 The original 20 requests with the 0.4.0 prompt (`text-v5`): Sonnet 100%, Haiku 65%, within Haiku's usual 55–85%. None of its failures involve the new components, which also showed up unprompted in 6 of the 40 outputs (for example a chart on the dashboard).
 
+**0.8.0** adds rule 11 to the prompt (brand logos, 65 tokens) and three requests that name brands but not the syntax: a Google and Apple sign-in, GitHub/Notion/Stripe integrations, and an X and Facebook share sheet (`k18`–`k20`). The checks ask for the `brand-…` names, and for the Apple logo not to be Lucide's `apple` (the fruit). Not run yet: the stored results list these three as missing.
+
 ```bash
 npx tsx eval/components/score.ts            # score, render to components/renders/
 npx tsx eval/components/score.ts --prompt   # rewrite components/prompt.md and components/tasks.md

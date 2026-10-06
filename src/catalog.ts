@@ -239,7 +239,7 @@ export const componentDefinitions = {
       size: o(z.number()),
     }),
     slots: [],
-    description: "Line icon from Lucide.",
+    description: "Line icon from Lucide, or a brand logo (brand-google, brand-apple, …).",
     example: { name: "search", size: 20 },
   },
   Avatar: {

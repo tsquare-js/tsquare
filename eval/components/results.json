@@ -171,6 +171,24 @@
   },
   {
     "model": "sonnet",
+    "run": "run1",
+    "task": "k18-social-signin",
+    "missing": true
+  },
+  {
+    "model": "sonnet",
+    "run": "run1",
+    "task": "k19-integrations",
+    "missing": true
+  },
+  {
+    "model": "sonnet",
+    "run": "run1",
+    "task": "k20-share-sheet",
+    "missing": true
+  },
+  {
+    "model": "sonnet",
     "run": "run2",
     "task": "k01-analytics",
     "valid": true,
@@ -338,6 +356,24 @@
     "passed": 2,
     "total": 2,
     "failed": []
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k18-social-signin",
+    "missing": true
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k19-integrations",
+    "missing": true
+  },
+  {
+    "model": "sonnet",
+    "run": "run2",
+    "task": "k20-share-sheet",
+    "missing": true
   },
   {
     "model": "haiku",
@@ -531,6 +567,24 @@
   },
   {
     "model": "haiku",
+    "run": "run1",
+    "task": "k18-social-signin",
+    "missing": true
+  },
+  {
+    "model": "haiku",
+    "run": "run1",
+    "task": "k19-integrations",
+    "missing": true
+  },
+  {
+    "model": "haiku",
+    "run": "run1",
+    "task": "k20-share-sheet",
+    "missing": true
+  },
+  {
+    "model": "haiku",
     "run": "run2",
     "task": "k01-analytics",
     "valid": true,
@@ -708,5 +762,23 @@
     "passed": 2,
     "total": 2,
     "failed": []
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k18-social-signin",
+    "missing": true
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k19-integrations",
+    "missing": true
+  },
+  {
+    "model": "haiku",
+    "run": "run2",
+    "task": "k20-share-sheet",
+    "missing": true
   }
 ]

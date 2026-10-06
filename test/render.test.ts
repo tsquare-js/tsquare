@@ -4,7 +4,7 @@ import { test } from "node:test";
 import { compileWireframe, renderWireframe } from "../src/compile.js";
 import { boardLayout } from "../src/render.js";
 import { MAX_SHARED_TEXT, decodeWireframe, encodeWireframe } from "../src/share.js";
-import { list, read } from "./helpers.js";
+import { board, list, read } from "./helpers.js";
 
 test("every example renders to SVG and PNG", async () => {
   for (const f of list("examples", ".tsq")) {
@@ -36,4 +36,11 @@ test("link encoding round-trips text, including non-ASCII", () => {
 test("links reject an unknown prefix and oversized text", () => {
   assert.throws(() => decodeWireframe("xABC"), /unknown encoding/);
   assert.throws(() => decodeWireframe(encodeWireframe("x".repeat(MAX_SHARED_TEXT + 1))));
+});
+
+test("brand logos draw their own shape, not a Lucide icon or the fallback", async () => {
+  const draw = async (line: string) => String(await renderWireframe(board(line)));
+  const [github, x, lucideX] = await Promise.all([draw("icon brand-github size=40"), draw("icon brand-x size=40"), draw("icon x size=40")]);
+  assert.notEqual(github, x);
+  assert.notEqual(x, lucideX); // brand-x is the logo, x stays the close icon
 });

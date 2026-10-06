@@ -1,5 +1,20 @@
 import { icons } from "lucide";
+import { siApple, siFacebook, siGithub, siGoogle, siNotion, siStripe, siX } from "simple-icons";
 import { editDistance } from "./suggest.js";
+
+/**
+ * Brand logos, from Simple Icons (CC0; pinned exactly, like lucide). Filled shapes on a 24×24 grid,
+ * named brand-… so they can't collide with Lucide: `apple` is Lucide's fruit and `x` its close icon.
+ * Imported one by one so a browser bundle carries only these. Simple Icons has no Slack, LinkedIn or
+ * Microsoft logo (removed); don't draw our own.
+ */
+export const BRAND_ICONS: Record<string, { title: string; path: string }> = Object.fromEntries(
+  [siApple, siFacebook, siGithub, siGoogle, siNotion, siStripe, siX].map((i) => [`brand-${i.slug}`, { title: i.title, path: i.path }]),
+);
+export const brandIconNames = Object.keys(BRAND_ICONS).sort();
+
+/** The SVG path of a brand-… logo, or undefined. */
+export const brandPath = (name: string): string | undefined => BRAND_ICONS[name.toLowerCase()]?.path;
 
 // Lucide exports icons in PascalCase (BarChart2); wireframes use kebab-case (bar-chart-2).
 const pascal = (s: string) => s.replace(/(^|[-_ ])(\w)/g, (_, __, c) => c.toUpperCase());
@@ -12,15 +27,15 @@ const kebab = (s: string) =>
 
 const table = icons as Record<string, any>;
 
-/** Kebab-case names for every Lucide icon (including Lucide's aliases, e.g. home and house). */
-export const iconNames: string[] = Object.keys(table).map(kebab);
+/** Kebab-case names for every Lucide icon (including Lucide's aliases, e.g. home and house), then the brand logos. */
+export const iconNames: string[] = [...Object.keys(table).map(kebab), ...brandIconNames];
 
 /** The Lucide icon node for a kebab-case name, or undefined if there's no such icon. */
 export function iconNode(name: string): any {
   return table[pascal(name)];
 }
 
-export const isIcon = (name: string) => iconNode(name) !== undefined;
+export const isIcon = (name: string) => iconNode(name) !== undefined || brandPath(name) !== undefined;
 
 /**
  * Names models guess that aren't Lucide names, with what they meant. Lucide ships no
@@ -37,6 +52,7 @@ const GUESSES: Record<string, string[]> = {
   profile: ["user", "circle-user"],
   envelope: ["mail"],
   close: ["x"],
+  twitter: ["brand-x"],
 };
 
 /** Among equally close matches, the common directions first: chevron → chevron-right, not chevron-first. */
@@ -52,7 +68,8 @@ const directionRank = (n: string) => {
  */
 export function suggestIcons(name: string, limit = 4): string[] {
   const q = name.toLowerCase().replace(/[_ ]/g, "-");
-  const guessed = GUESSES[q] ?? [];
+  // a brand name without the prefix (github → brand-github) comes first
+  const guessed = [...(BRAND_ICONS[`brand-${q}`] ? [`brand-${q}`] : []), ...(GUESSES[q] ?? [])];
   const words = q.split("-").filter((w) => w.length > 2);
   const maxEdits = Math.max(1, Math.floor(q.length / 3));
   const scored: [string, number][] = [];
@@ -74,6 +91,7 @@ export function suggestIcons(name: string, limit = 4): string[] {
 }
 
 export function unknownIconMessage(name: string) {
+  if (/^brand-/i.test(name)) return `unknown icon "${name}"; the brand logos are ${brandIconNames.join(", ")}`;
   const close = suggestIcons(name);
   return close.length
     ? `unknown icon "${name}" (did you mean ${close.join(", ")}?)`

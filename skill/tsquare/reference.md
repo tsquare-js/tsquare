@@ -116,7 +116,7 @@ Chart placeholder: a generic line, bar, area, pie or donut shape, no data.
 - width: number | string — Default fills the container width
 
 ### Icon
-Line icon from Lucide.
+Line icon from Lucide, or a brand logo (brand-google, brand-apple, …).
 - name: string (main text) — Lucide icon name in kebab-case, e.g. menu, search, arrow-left, settings, bell, user
 - size: number
 
