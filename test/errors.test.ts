@@ -53,3 +53,35 @@ test("a value under the wrong prop name points at the right one", () => {
   assert.match(problems(board("input kind=date")).join(), /for an Input, write type=date \(or just date\)/);
   assert.match(problems(board("chart type=pie")).join(), /for a Chart, write kind=pie/);
 });
+
+test("an invalid value names the prop, the value and the options", () => {
+  assert.equal(only(board("input type=otp")), "line 3: Input: type=otp isn't an option; use one of text, password, search, email, date, code");
+  assert.equal(only(board('heading "Hi" level=4')), "line 3: Heading: level=4 isn't an option; use one of 1, 2, 3");
+  assert.equal(only(board("image height=tall")), "line 3: Image: height=tall should be a number");
+  assert.equal(only(board("table columns=Name")), "line 3: Table: columns=Name should be a list like [a, b]");
+  assert.equal(only(board("slider range=[1]")), "line 3: Slider: range=[1] needs at least 2 items");
+  assert.equal(only(board("grid columns=0")), "line 3: Grid: columns=0 is too small (at least 1)");
+});
+
+test("a value that failed doesn't also trip the checks that read it", () => {
+  // digits=6 is right for a code input: the only problem is the type
+  assert.equal(only(board("input type=otp digits=6")), "line 3: Input: type=otp isn't an option; use one of text, password, search, email, date, code");
+  assert.match(only(board('listitem "A" leading=avatr leadingIcon=star')), /leading=avatr isn't an option/);
+  // a check that only sees a prop is set still runs: an avatar item can't show any leading icon
+  assert.deepEqual(problems(board('listitem "A" leading=avatar leadingIcon=person')), [
+    'line 3: ListItem: unknown icon "person" (did you mean user, person-standing?)',
+    "line 3: ListItem: leadingIcon only shows with leading=icon (this item has leading=avatar); remove one of them",
+  ]);
+  // checks that don't use the failed value still run
+  assert.deepEqual(problems(board("progress shape=square step=2")), [
+    "line 3: Progress: shape=square isn't an option; use one of bar, circle",
+    "line 3: Progress: step only shows with steps (e.g. steps=4 step=2)",
+  ]);
+});
+
+test("an example in a message never repeats the invalid value", () => {
+  assert.deepEqual(problems(board("progress step=two")), [
+    "line 3: Progress: step=two should be a number",
+    "line 3: Progress: step only shows with steps (e.g. steps=4 step=2)",
+  ]);
+});

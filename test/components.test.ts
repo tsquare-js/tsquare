@@ -40,7 +40,7 @@ test("values that contradict each other are errors that say why", () => {
     ["progress circle steps=3", /can't also be a circle/],
     ["pagination pages=5 current=9", /current=9 is past the last page/],
     ["slider range=[80, 20]", /range=\[80, 20\] goes backwards/],
-    ["slider value=-5", /Too small/],
+    ["slider value=-5", /value=-5 is too small \(at least 0\)/],
     ["slider value=10 range=[20, 80]", /value \(one handle\) or range \(two\), not both/],
     ['calendar "February 2026" selected=30', /day 30 isn't in February 2026 \(it has 28 days\)/],
     ['calendar "October 2026" range=[18, 12]', /goes backwards/],
