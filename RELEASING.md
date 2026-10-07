@@ -3,7 +3,7 @@
 [`.github/workflows/release.yml`](.github/workflows/release.yml) publishes `tsquare` to npm, tags the commit and creates the GitHub release. It runs on every push to `main` and looks only at the `version` in `package.json`:
 
 - **Not on npm yet:** it checks, builds and publishes that version, tags the commit it published `v<version>`, and creates the GitHub release.
-- **Already on npm:** it never publishes. If the tag or the release for that version is missing, it creates it. It only creates a missing tag when npm says the version was published from the commit the run is on. Otherwise it stops and names the commit to tag. A missing release is created on the existing tag, with a warning if that tag isn't on the commit npm says was published.
+- **Already on npm:** it never publishes. If the tag or the release for that version is missing, it creates it. A missing tag goes on the commit npm says the version was published from, when that's the run's commit or an earlier commit on `main`. Otherwise it stops and says what to do. A missing release is created on the existing tag, with a warning if that tag isn't on the commit npm says was published.
 - **On npm, tagged and released** (most pushes): nothing happens, and the run reports "Nothing to do".
 
 It never moves or deletes a tag, and never touches older versions.
@@ -20,7 +20,7 @@ The workflow then runs the typecheck, tests and build (as CI does) and packs the
 
 Fix the cause and rerun it (Actions → Release → the failed run → Re-run failed jobs, or Re-run all jobs). Either way, a rerun never publishes twice: the publish and tag jobs check npm, the tag and the release again, and do only what's still missing. A failed build or publish never tags.
 
-If the version is on npm but has no tag, and the run isn't on the commit npm says it was published from (for example, a later push to `main`), it stops and names that commit instead of guessing. Rerun the run that published, or tag that commit by hand.
+If the version is on npm but has no tag (the run that published failed before tagging, or a later run's job cancelled its waiting tag job), any later run tags the commit npm says was published, as long as that commit is on `main`. If npm doesn't say, or names a commit that isn't on `main`, the run stops instead of guessing; tag the right commit by hand.
 
 A publish that fails with `ENEEDAUTH` or a 404 usually means the trusted publisher settings below don't match: every field is case-sensitive.
 

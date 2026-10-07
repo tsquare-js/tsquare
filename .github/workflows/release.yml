@@ -5,9 +5,10 @@ name: Release
 #
 # What a run can change, for the version in package.json:
 # - Not on npm yet: build, publish, tag, release.
-# - Already on npm: nothing is published. A missing tag is created only if npm says the
-#   version was published from this run's commit (gitHead); otherwise the run stops and
-#   says what to do. A missing release is created on the existing tag.
+# - Already on npm: nothing is published. A missing tag goes on the commit npm says the
+#   version was published from (gitHead), if that's this run's commit or an earlier one on
+#   main; otherwise the run stops and says what to do. A missing release is created on the
+#   existing tag.
 # - On npm, tagged and released (most pushes): nothing; the run succeeds.
 # An existing tag is never moved: tags are created through the API, which refuses an
 # existing ref, and the repository's tag ruleset blocks updates to v* tags.
@@ -27,10 +28,9 @@ name: Release
 #
 # Concurrency is per version, on the jobs that act (publish, tag-release): runs for the
 # same version take turns, and runs for different versions never wait for or cancel each
-# other. (GitHub keeps one waiting job per group, so with three or more runs of the same
-# version in flight a waiting job can be cancelled. If that leaves the version untagged,
-# the next run says so and names the commit to tag; rerunning the run that published
-# also finishes it.)
+# other. GitHub keeps only one waiting job per group, so with two runs of the same version
+# in flight, the later run's job can cancel the earlier run's waiting tag job. That's fine:
+# the later run (or any run after it) tags the commit npm says was published.
 
 on:
   push:
@@ -353,21 +353,37 @@ jobs:
             exit 0
           fi
 
+          target=$GITHUB_SHA
           if [ "$PUBLISHED_NOW" != true ]; then
-            # This run didn't publish the version: an earlier run did and failed before tagging,
-            # or someone published by hand. npm records the commit a version was published from
-            # (gitHead). Tag only if that's the commit this run is on, as it is when the run that
-            # published is rerun; anything else needs a person to decide.
+            # This run didn't publish the version: an earlier run did and didn't tag (it failed,
+            # or a later run's job took its place in the concurrency group and cancelled its tag
+            # job). npm records the commit a version was published from (gitHead); the publish
+            # job checks it's the commit that run was on. Tag that commit if it's this one or an
+            # earlier commit on main (this workflow only runs on main), so any later run
+            # finishes the job. Anything else needs a person to decide.
             published_from=$(npm view "$NAME@$VERSION" gitHead --prefer-online)
-            if [ "$published_from" != "$GITHUB_SHA" ]; then
-              echo "::error::$NAME@$VERSION is on npm but tag $TAG is missing. npm says it was published from ${published_from:-an unknown commit}, and this run is on $GITHUB_SHA, so it won't guess. Rerun the workflow run for the published commit, or tag that commit by hand (git tag $TAG ${published_from:-<commit>} && git push origin $TAG). Then run this workflow again to create the release."
+            if [ -z "$published_from" ]; then
+              echo "::error::$NAME@$VERSION is on npm but tag $TAG is missing, and npm doesn't say which commit it was published from, so this run won't guess. Tag that commit by hand (git tag $TAG <commit> && git push origin $TAG), then run this workflow again to create the release."
               exit 1
+            fi
+            if [ "$published_from" != "$GITHUB_SHA" ]; then
+              # "ahead": this run's commit comes after published_from, so published_from is on main.
+              # (On an error, gh prints the error body to stdout, so don't keep it as the status.)
+              if ! status=$(gh api "repos/$GITHUB_REPOSITORY/compare/$published_from...$GITHUB_SHA" --jq .status 2> "$RUNNER_TEMP/compare.log"); then
+                status=""
+              fi
+              if [ "$status" != ahead ]; then
+                cat "$RUNNER_TEMP/compare.log"
+                echo "::error::$NAME@$VERSION is on npm but tag $TAG is missing. npm says it was published from $published_from, which isn't an earlier commit on main (compare: ${status:-failed}), so this run won't tag it. Tag the right commit by hand (git tag $TAG <commit> && git push origin $TAG), then run this workflow again to create the release."
+                exit 1
+              fi
+              target=$published_from
             fi
           fi
 
           # Creating a ref fails if it already exists, so this can't move a tag.
-          gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" -f ref="refs/tags/$TAG" -f sha="$GITHUB_SHA" --silent
-          echo "Tagged $GITHUB_SHA as $TAG"
+          gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" -f ref="refs/tags/$TAG" -f sha="$target" --silent
+          echo "Tagged $target as $TAG"
           echo "created=true" >> "$GITHUB_OUTPUT"
 
       - name: Create the GitHub release
