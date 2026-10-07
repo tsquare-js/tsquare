@@ -338,6 +338,14 @@ jobs:
           # job, or another run for this version, may have tagged since).
           tag_sha=$(git ls-remote "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" "refs/tags/$TAG" "refs/tags/$TAG^{}" | tail -n 1 | cut -f 1)
           if [ -n "$tag_sha" ]; then
+            # The publish job checked the tag just before publishing, but someone could have
+            # created it on another commit since. Then the package and its tag disagree for good
+            # (tags are never moved), so fail rather than release on that tag. For a version
+            # published earlier, the release step warns instead.
+            if [ "$PUBLISHED_NOW" = true ] && [ "$tag_sha" != "$GITHUB_SHA" ]; then
+              echo "::error::$NAME@$VERSION was just published from $GITHUB_SHA, but tag $TAG was created on $tag_sha in the meantime. Tags are never moved, so this needs a person: delete the tag (the \"release tags\" ruleset has to allow that first), recreate it on $GITHUB_SHA, then rerun this workflow to create the release."
+              exit 1
+            fi
             echo "Tag $TAG already exists on $tag_sha; leaving it as it is."
             exit 0
           fi
