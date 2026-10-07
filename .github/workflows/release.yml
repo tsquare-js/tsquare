@@ -229,19 +229,22 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+          # the latest Node 24 rather than an older one cached on the runner, so npm is new enough
+          check-latest: true
           registry-url: https://registry.npmjs.org
 
       # Trusted publishing needs npm 11.5.1 or later (and Node 22.14.0 or later). Node 24.5.0
-      # and later ship with it; an older runner image gets npm 11 installed.
-      - name: Use npm 11.5.1 or later
+      # and later ship with it. If npm is older anyway, fail: installing npm here would run
+      # code from the registry in the job that holds the OIDC token.
+      - name: Check for npm 11.5.1 or later
         run: |
           need=11.5.1
           have=$(npm --version)
           if [ "$(printf '%s\n' "$need" "$have" | sort -V | head -n 1)" != "$need" ]; then
-            echo "npm $have is too old for trusted publishing; installing npm 11"
-            npm install --global npm@11
+            echo "::error::npm $have is too old for trusted publishing (needs $need or later). This job doesn't install npm while it holds the OIDC token; use a Node version that ships a newer npm."
+            exit 1
           fi
-          npm --version
+          echo "npm $have"
 
       - uses: actions/download-artifact@v4
         with:
