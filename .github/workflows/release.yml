@@ -1,0 +1,122 @@
+name: Release
+
+# Publishes tsquare to npm and creates the GitHub release when a v* tag is pushed.
+# How to cut a release is in RELEASING.md.
+#
+# The build job runs dependency code (npm ci, the build, tests) without any token that can
+# publish. The publish job holds the npm OIDC token and only publishes the packed tarball.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions: {} # nothing by default; each job asks for what it needs
+
+jobs:
+  build:
+    name: Check and pack
+    if: github.repository == 'tsquare-js/tsquare'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history, to check the tagged commit is on main
+          persist-credentials: false
+
+      # No dependency cache (unlike CI): npm advises against caching in release builds.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Check the tag, the version and the changelog
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if [ "$GITHUB_REF_NAME" != "v$version" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME doesn't match the version in package.json ($version)."
+            exit 1
+          fi
+          if ! git merge-base --is-ancestor HEAD origin/main; then
+            echo "::error::$GITHUB_REF_NAME is on a commit that isn't on main. Merge the release PR first, then tag main."
+            exit 1
+          fi
+
+          # The release notes are the "## <version>" section of CHANGELOG.md, up to the next
+          # "## " heading outside a code block.
+          mkdir -p "$RUNNER_TEMP/release"
+          awk -v heading="## $version" '
+            /^```/ { fence = !fence }
+            !fence && /^## / { if (found) exit; found = ($0 == heading); next }
+            found
+          ' CHANGELOG.md > "$RUNNER_TEMP/release/notes.md"
+          if ! grep -q '[^[:space:]]' "$RUNNER_TEMP/release/notes.md"; then
+            echo "::error file=CHANGELOG.md::CHANGELOG.md has no \"## $version\" section, or it's empty."
+            exit 1
+          fi
+
+      - run: npm ci # runs the build through "prepare"
+      - run: npx tsc
+      - run: npm test
+
+      - name: Pack
+        run: |
+          # npm records gitHead (the commit a version came from) only when publishing from a
+          # git checkout, not from a tarball. The site fetches its docs at that commit.
+          npm pkg set gitHead="$(git rev-parse HEAD)"
+          npm pack --pack-destination "$RUNNER_TEMP/release"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release
+          path: ${{ runner.temp }}/release/
+          if-no-files-found: error
+
+  publish:
+    name: Publish to npm
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # trusted publishing: npm trades a GitHub OIDC token for a short-lived one
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          check-latest: true # trusted publishing needs npm 11.5.1+, which Node 24.5.0+ ships
+          registry-url: https://registry.npmjs.org
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: release
+          path: ${{ runner.temp }}/release
+
+      # No checkout and no npm ci: no dependency code runs while the OIDC token is available.
+      # npm adds provenance on its own for a public package from a public repository.
+      - name: Publish
+        run: |
+          version=${GITHUB_REF_NAME#v}
+          # Already there when a rerun follows a failed release job.
+          if [ "$(npm view "tsquare@$version" version 2> /dev/null)" = "$version" ]; then
+            echo "tsquare@$version is already on npm."
+            exit 0
+          fi
+          npm publish "$RUNNER_TEMP/release/tsquare-$version.tgz" --ignore-scripts
+
+  release:
+    name: GitHub release
+    needs: publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release
+          path: ${{ runner.temp }}/release
+
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file "$RUNNER_TEMP/release/notes.md"
