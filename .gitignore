@@ -5,6 +5,7 @@
 
 !/.gitignore
 !/README.md
+!/RELEASING.md
 !/.github/workflows/*.yml
 !/test/*.ts
 !/CHANGELOG.md
