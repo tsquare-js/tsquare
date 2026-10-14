@@ -3,13 +3,22 @@
  * published as `tsquare/viewer`: the playground page uses it, and so does the
  * VS Code extension's preview. Each brings its own markup and controls and
  * passes the elements in; the board comes from renderWireframeSvg + boardLayout.
+ *
+ * The viewer sets the styles its math depends on (see structuralStyles), so
+ * the host styles only looks: size the stage, and optionally style the
+ * "panning", "animate" and "stale" classes it toggles on the stage.
  */
 import type { BoardItem } from "../render.js";
 
 export type { BoardItem };
 
 export interface ViewerElements {
-  /** The visible area; gets the "panning", "animate" and "stale" classes. */
+  /**
+   * The visible area; give it a size. It gets these classes, for optional styling:
+   * "panning" while dragging (cursor: grabbing), "animate" while zooming to a
+   * screen or fitting (transition the canvas's transform), and "stale" from
+   * setStale (dim the image).
+   */
   stage: HTMLElement;
   /** Inside the stage; holds the board image and is transformed. */
   canvas: HTMLElement;
@@ -33,8 +42,22 @@ export interface Viewer {
   zoomOut(): void;
 }
 
+/**
+ * What the fit and zoom math and the gestures depend on, set on the elements
+ * so a host can't leave them out: the canvas is placed at the stage's top-left
+ * and scales from its own top-left; the stage clips it and takes touch gestures
+ * itself (pinch zooms the board, not the page).
+ */
+function structuralStyles(stage: HTMLElement, canvas: HTMLElement) {
+  if (getComputedStyle(stage).position === "static") stage.style.position = "relative"; // keep a host's absolute/fixed
+  stage.style.overflow = "hidden";
+  stage.style.touchAction = "none";
+  Object.assign(canvas.style, { position: "absolute", left: "0px", top: "0px", transformOrigin: "0 0" });
+}
+
 export function createViewer(el: ViewerElements, opts: { onScreenZoom?: () => void; onZoom?: (scale: number) => void } = {}): Viewer {
   const { stage, canvas } = el;
+  structuralStyles(stage, canvas);
   let img: HTMLImageElement | null = null;
   let size = { width: 0, height: 0 };
   let items: BoardItem[] = [];

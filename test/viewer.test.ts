@@ -47,7 +47,7 @@ beforeEach(() => {
   w.URL.revokeObjectURL = () => {};
   w.ResizeObserver = class { observe() {} disconnect() {} };
   w.HTMLElement.prototype.setPointerCapture = () => {};
-  Object.assign(globalThis, { document: w.document, URL: w.URL, Blob: w.Blob, ResizeObserver: w.ResizeObserver });
+  Object.assign(globalThis, { document: w.document, URL: w.URL, Blob: w.Blob, ResizeObserver: w.ResizeObserver, getComputedStyle: w.getComputedStyle.bind(w) });
   const stage = $("stage");
   Object.defineProperty(stage, "clientWidth", { value: STAGE.width });
   Object.defineProperty(stage, "clientHeight", { value: STAGE.height });
@@ -152,4 +152,17 @@ test("renamed screens rebuild the chips and fit the board; one screen gets no ch
 
   viewer.show("<svg/>", 400, 800, [screen("Only", 0)]);
   assert.deepEqual(chips(), []);
+});
+
+test("the viewer sets the styles its math needs, so a page with no CSS for it still works", () => {
+  // the stage and canvas in beforeEach have no CSS at all
+  const stage = $("stage").style, canvas = $("canvas").style;
+  assert.deepEqual([stage.position, stage.overflow, stage.touchAction], ["relative", "hidden", "none"]);
+  assert.deepEqual([canvas.position, canvas.left, canvas.top, canvas.transformOrigin], ["absolute", "0px", "0px", "0 0"]);
+
+  // a host's own positioning of the stage is kept
+  const host = dom.window.document.createElement("div");
+  host.style.position = "fixed";
+  createViewer({ stage: host, canvas: dom.window.document.createElement("div"), screens: dom.window.document.createElement("div") });
+  assert.equal(host.style.position, "fixed");
 });

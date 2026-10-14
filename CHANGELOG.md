@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- **`tsquare/viewer`:** the playground's zoomable board (zoom, pan, pinch, a chip per screen, dimmed while the text has problems) as a browser module with no dependencies, for showing boards in your own page. Give `createViewer` the elements, then `show()` the SVG from `renderWireframeSvg` with the size and screens from `boardLayout`. The playground uses it too. Made for the VS Code extension's preview.
+- **`tsquare/viewer`:** the playground's zoomable board (zoom, pan, pinch, a chip per screen, dimmed while the text has problems) as a browser module with no dependencies, for showing boards in your own page. Give `createViewer` the elements, then `show()` the SVG from `renderWireframeSvg` with the size and screens from `boardLayout`. The playground uses it too. It sets the styles its zoom math depends on itself, so a page only gives the stage a size (and can style the `panning`, `animate` and `stale` classes). Made for the VS Code extension's preview.
 - **`require("tsquare")` works** in Node versions that can load ES modules from CommonJS (20.19+, 22.12+): every export now has a `default` condition next to `import`. The package is still ESM only.
 - **`languageData()`** is exported from `tsquare`: every component with its props, option words and description, plus icon names and accents. It's what the playground's highlighting and autocomplete use, now available to editors.
 
