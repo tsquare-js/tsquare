@@ -1,6 +1,8 @@
 ---
 name: tsquare
 description: Create low-fidelity UI wireframes and mockups (app screens, several devices side by side, boards for specs and docs) as tsquare text, then render them to PNG or SVG with the tsquare CLI. Use when asked to wireframe, mock up or sketch a UI screen, page or flow, or to add a UI mockup to a document.
+license: MIT
+compatibility: Needs Node.js 20 or newer to run the tsquare CLI (installed, or through npx).
 ---
 
 # tsquare wireframes
