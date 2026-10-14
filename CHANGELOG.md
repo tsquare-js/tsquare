@@ -1,11 +1,19 @@
 # Changelog
 
-## Unreleased
+## 0.9.0
 
-- **Fix: pinch zoom and two-finger pan on touch screens** (the playground, and `tsquare/viewer`). Touch screens report each finger's movement separately, and each one was handled as a zoom around a different point, so the board drifted out from under the fingers while pinching, and moving two fingers together zoomed out and back in and moved the board the wrong way. Now each move pans by how far the point between the fingers moved, then zooms around it, so the part of the board between your fingers stays there. Trackpad pinch and mouse dragging were already right.
-- **`tsquare/viewer`:** the playground's zoomable board (zoom, pan, pinch, a chip per screen, dimmed while the text has problems) as a browser module with no dependencies, for showing boards in your own page. Give `createViewer` the elements, then `show()` the SVG from `renderWireframeSvg` with the size and screens from `boardLayout`. The playground uses it too. It sets the styles its zoom math depends on itself, so a page only gives the stage a size (and can style the `panning`, `animate` and `stale` classes). Made for the VS Code extension's preview.
-- **`require("tsquare")` works** in Node versions that can load ES modules from CommonJS (20.19+, 22.12+): every export now has a `default` condition next to `import`. The package is still ESM only.
+The language and the renderer haven't changed: every wireframe renders exactly as in 0.8.0, and render URLs give the same images.
+
+### For editors and your own pages
+
+- **`tsquare/viewer`:** the playground's zoomable board (zoom, pan, pinch, a chip per screen, dimmed while the text has problems) as a browser module with no dependencies, for showing boards in your own page. Give `createViewer` the elements, then `show()` the SVG from `renderWireframeSvg` with the size and screens from `boardLayout`. It sets the styles its zoom math depends on itself, so a page only gives the stage a size (and can style the `panning`, `animate` and `stale` classes). The playground uses it, and so will the VS Code extension's preview.
 - **`languageData()`** is exported from `tsquare`: every component with its props, option words and description, plus icon names and accents. It's what the playground's highlighting and autocomplete use, now available to editors.
+- **`require("tsquare")` works** in Node versions that can load ES modules from CommonJS (20.19+, 22.12+): every export now has a `default` condition next to `import`. The package is still ESM only.
+
+### Playground
+
+- **Fix: pinch zoom and two-finger pan on touch screens.** Touch screens report each finger's movement separately, and each one was handled as a zoom around a different point, so the board drifted out from under the fingers while pinching, and moving two fingers together zoomed out and back in and moved the board the wrong way. Now each move pans by how far the point between the fingers moved, then zooms around it, so the part of the board between your fingers stays there. Trackpad pinch and mouse dragging were already right.
+- **Tests for the playground,** which had none: every endpoint through a real HTTP server (render, PNG, language, prompt, examples, reference, the page), the page's markup against its script and against what tsquare.dev's build expects, and the viewer in jsdom (fitting, zooming to a screen, wheel and buttons, dragging, pinching and two-finger panning).
 
 ## 0.8.0
 
