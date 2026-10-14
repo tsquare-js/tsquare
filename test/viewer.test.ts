@@ -166,3 +166,59 @@ test("the viewer sets the styles its math needs, so a page with no CSS for it st
   createViewer({ stage: host, canvas: dom.window.document.createElement("div"), screens: dom.window.document.createElement("div") });
   assert.equal(host.style.position, "fixed");
 });
+
+// Two fingers. Touch screens send one pointermove per finger, one after the other,
+// so these move one finger at a time, like a real pinch or two-finger pan.
+const touch = (type: string, id: number, x: number, y = 300) =>
+  $("stage").dispatchEvent(new dom.window.PointerEvent(type, { pointerId: id, clientX: x, clientY: y, bubbles: true }));
+/** The board point (in board pixels) under a point on the stage. */
+function boardPointAt(px: number, py: number) {
+  const [x, y, scale] = transform();
+  return [(px - x) / scale, (py - y) / scale];
+}
+const fingers: Record<number, [number, number]> = {};
+function move(id: number, x: number, y = 300) { fingers[id] = [x, y]; touch("pointermove", id, x, y); }
+const midpoint = (): [number, number] => [(fingers[1][0] + fingers[2][0]) / 2, (fingers[1][1] + fingers[2][1]) / 2];
+
+for (const first of [1, 2]) {
+  test(`a pinch keeps the board point between the fingers under them (finger ${first} moves first)`, () => {
+    const [, , s0] = transform();
+    fingers[1] = [300, 300]; fingers[2] = [400, 300];
+    touch("pointerdown", 1, 300); touch("pointerdown", 2, 400);
+    const under = boardPointAt(...midpoint());
+    // spread from 100px apart to 200px, symmetrically around x = 350
+    for (let step = 1; step <= 5; step++) {
+      for (const id of first === 1 ? [1, 2] : [2, 1]) {
+        move(id, id === 1 ? 300 - step * 10 : 400 + step * 10);
+        close(boardPointAt(...midpoint()), under);
+      }
+    }
+    assert.ok(Math.abs(transform()[2] - s0 * 2) < 1e-9, "twice as close");
+    touch("pointerup", 1, fingers[1][0]); touch("pointerup", 2, fingers[2][0]);
+  });
+}
+
+test("two fingers moving together pan the board, without zooming", () => {
+  const [x0, y0, s0] = transform();
+  fingers[1] = [300, 300]; fingers[2] = [400, 300];
+  touch("pointerdown", 1, 300); touch("pointerdown", 2, 400);
+  const under = boardPointAt(...midpoint());
+  for (let step = 1; step <= 10; step++) {
+    move(1, 300 + step * 10, 300 + step * 5);
+    close(boardPointAt(...midpoint()), under);
+    move(2, 400 + step * 10, 300 + step * 5);
+    close(boardPointAt(...midpoint()), under);
+    assert.ok(Math.abs(transform()[2] - s0) < 1e-9, `the scale is back after both fingers moved (step ${step})`);
+  }
+  close(transform(), [x0 + 100, y0 + 50, s0]);
+});
+
+test("lifting one finger, the other drags from where it is", () => {
+  fingers[1] = [300, 300]; fingers[2] = [400, 300];
+  touch("pointerdown", 1, 300); touch("pointerdown", 2, 400);
+  move(1, 280); move(2, 420);
+  touch("pointerup", 2, 420);
+  const [x, y, s] = transform();
+  move(1, 310, 320);
+  close(transform(), [x + 30, y + 20, s]);
+});
