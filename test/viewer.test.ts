@@ -222,3 +222,24 @@ test("lifting one finger, the other drags from where it is", () => {
   move(1, 310, 320);
   close(transform(), [x + 30, y + 20, s]);
 });
+
+test("fingers on the same spot pan without zooming (no divide by zero)", () => {
+  const [x0, y0, s0] = transform();
+  fingers[1] = [350, 300]; fingers[2] = [350, 300];
+  touch("pointerdown", 1, 350); touch("pointerdown", 2, 350);
+  move(1, 360); // the fingers part: from 0px apart to 10px, the midpoint moves 5px
+  close(transform(), [x0 + 5, y0, s0]);
+  move(2, 360); // and meet again: 10px apart to 0, the midpoint moves 5px more
+  close(transform(), [x0 + 10, y0, s0]);
+});
+
+test("three fingers, then one lifted: the other two pinch from where they are", () => {
+  fingers[1] = [300, 300]; fingers[2] = [400, 300];
+  touch("pointerdown", 1, 300); touch("pointerdown", 2, 400); touch("pointerdown", 3, 600);
+  touch("pointerup", 3, 600);
+  const [, , s0] = transform();
+  const under = boardPointAt(...midpoint());
+  move(1, 250); move(2, 450);
+  close(boardPointAt(...midpoint()), under);
+  assert.ok(Math.abs(transform()[2] - s0 * 2) < 1e-9);
+});
