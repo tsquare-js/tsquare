@@ -1,0 +1,155 @@
+/**
+ * tsquare/viewer (src/playground/viewer.ts) in jsdom: screen chips, fitting,
+ * zooming, panning and the stale state. jsdom has no layout, so the stage's
+ * size is set by hand, and the three browser APIs it lacks are stubbed:
+ * URL.createObjectURL, ResizeObserver and setPointerCapture.
+ */
+import { beforeEach, test } from "node:test";
+import assert from "node:assert/strict";
+import { JSDOM } from "jsdom";
+import { createViewer, type BoardItem, type Viewer } from "../src/playground/viewer.js";
+
+const STAGE = { width: 800, height: 600 };
+const PAD = 16; // the viewer's margin around a fitted board
+const BOARD = { width: 2000, height: 1000 };
+const screen = (name: string, x: number): BoardItem => ({ type: "Screen", name, x, y: 100, width: 400, height: 800 });
+const ITEMS: BoardItem[] = [screen("Sign in", 100), screen("Home", 700), { type: "Note", name: "a note", x: 1300, y: 100, width: 200, height: 100 }, screen("Profile", 1500)];
+
+let dom: JSDOM;
+let viewer: Viewer;
+let screenZooms: number;
+let zooms: number[];
+const $ = (id: string) => dom.window.document.getElementById(id)!;
+const chips = () => [...$("screens").querySelectorAll("button")];
+const pressed = () => chips().filter((b) => b.getAttribute("aria-pressed") === "true").map((b) => b.textContent);
+/** The canvas transform as numbers: [x, y, scale]. */
+function transform() {
+  const m = $("canvas").style.transform.match(/translate\((-?[\d.]+)px, (-?[\d.]+)px\) scale\(([\d.]+)\)/);
+  assert.ok(m, `transform: ${$("canvas").style.transform}`);
+  return m.slice(1).map(Number);
+}
+/** Where fitting this rectangle into the stage should put it. */
+function fitted(r: { x: number; y: number; width: number; height: number }) {
+  const w = STAGE.width - PAD * 2, h = STAGE.height - PAD * 2;
+  const scale = Math.min(w / r.width, h / r.height, 4);
+  return [PAD + (w - r.width * scale) / 2 - r.x * scale, PAD + (h - r.height * scale) / 2 - r.y * scale, scale];
+}
+const close = (actual: number[], expected: number[]) =>
+  actual.forEach((v, i) => assert.ok(Math.abs(v - expected[i]) < 0.01, `${actual} ≈ ${expected}`));
+
+beforeEach(() => {
+  dom = new JSDOM(`<div id="screens"></div>
+    <div id="stage"><div id="canvas"></div><div id="empty">Nothing rendered yet</div></div>
+    <button id="zoom-in"></button><button id="zoom-out"></button><button id="zoom-fit">100%</button>`);
+  const w = dom.window as any;
+  let blobs = 0;
+  w.URL.createObjectURL = () => `blob:test/${++blobs}`;
+  w.URL.revokeObjectURL = () => {};
+  w.ResizeObserver = class { observe() {} disconnect() {} };
+  w.HTMLElement.prototype.setPointerCapture = () => {};
+  Object.assign(globalThis, { document: w.document, URL: w.URL, Blob: w.Blob, ResizeObserver: w.ResizeObserver });
+  const stage = $("stage");
+  Object.defineProperty(stage, "clientWidth", { value: STAGE.width });
+  Object.defineProperty(stage, "clientHeight", { value: STAGE.height });
+  stage.getBoundingClientRect = () => ({ left: 0, top: 0, width: STAGE.width, height: STAGE.height }) as DOMRect;
+  screenZooms = 0;
+  zooms = [];
+  viewer = createViewer(
+    { stage, canvas: $("canvas"), screens: $("screens"), empty: $("empty"), zoomIn: $("zoom-in"), zoomOut: $("zoom-out"), zoomFit: $("zoom-fit") },
+    { onScreenZoom: () => screenZooms++, onZoom: (s) => zooms.push(s) },
+  );
+  viewer.show("<svg/>", BOARD.width, BOARD.height, ITEMS);
+});
+
+test("show() puts the board in, fitted to the stage, with a chip per screen (notes get none)", () => {
+  assert.equal($("empty"), null, "the placeholder is gone");
+  const img = $("canvas").querySelector("img")!;
+  assert.equal(img.src, "blob:test/1");
+  assert.deepEqual([img.width, img.height], [BOARD.width, BOARD.height]);
+  assert.deepEqual(chips().map((b) => b.textContent), ["All", "Sign in", "Home", "Profile"]);
+  assert.deepEqual(pressed(), ["All"]);
+  close(transform(), fitted({ x: 0, y: 0, ...BOARD }));
+  assert.equal($("zoom-fit").textContent, `${Math.round(fitted({ x: 0, y: 0, ...BOARD })[2] * 100)}%`);
+  assert.equal(zooms.at(-1), fitted({ x: 0, y: 0, ...BOARD })[2], "onZoom reports the scale");
+});
+
+test("a screen chip zooms to that screen; All and double-click fit the board again", () => {
+  chips()[2].click(); // Home
+  close(transform(), fitted(ITEMS[1]));
+  assert.deepEqual(pressed(), ["Home"]);
+  assert.equal(screenZooms, 1);
+  assert.ok($("stage").classList.contains("animate"), "zooming to a screen animates");
+
+  chips()[0].click();
+  close(transform(), fitted({ x: 0, y: 0, ...BOARD }));
+  assert.deepEqual(pressed(), ["All"]);
+
+  chips()[3].click();
+  $("stage").dispatchEvent(new dom.window.MouseEvent("dblclick"));
+  assert.deepEqual(pressed(), ["All"]);
+});
+
+test("zoom buttons zoom around the center; the fit button shows the level and fits", () => {
+  const [, , fit] = transform();
+  $("zoom-in").click();
+  const [x, y, scale] = transform();
+  assert.ok(Math.abs(scale - fit * 1.25) < 1e-9);
+  assert.deepEqual(pressed(), [], "a manual zoom is neither All nor a screen");
+  assert.equal($("zoom-fit").textContent, `${Math.round(scale * 100)}%`);
+  // the point under the stage's center stays put
+  const [fx, fy] = fitted({ x: 0, y: 0, ...BOARD });
+  const cx = STAGE.width / 2, cy = STAGE.height / 2;
+  assert.ok(Math.abs((cx - x) / scale - (cx - fx) / fit) < 1e-6 && Math.abs((cy - y) / scale - (cy - fy) / fit) < 1e-6);
+
+  $("zoom-out").click();
+  assert.ok(Math.abs(transform()[2] - fit) < 1e-9, "out undoes in");
+  $("zoom-fit").click();
+  assert.deepEqual(pressed(), ["All"]);
+});
+
+test("ctrl/⌘ + wheel zooms around the pointer; a plain wheel pans", () => {
+  const [x0, y0, s0] = transform();
+  $("stage").dispatchEvent(new dom.window.WheelEvent("wheel", { deltaY: -100, ctrlKey: true, clientX: 200, clientY: 150, cancelable: true }));
+  const [x1, y1, s1] = transform();
+  assert.ok(s1 > s0, "zoomed in");
+  assert.ok(Math.abs((200 - x1) / s1 - (200 - x0) / s0) < 1e-6 && Math.abs((150 - y1) / s1 - (150 - y0) / s0) < 1e-6, "the point under the pointer stays put");
+
+  $("stage").dispatchEvent(new dom.window.WheelEvent("wheel", { deltaX: 30, deltaY: 40, cancelable: true }));
+  close(transform(), [x1 - 30, y1 - 40, s1]);
+});
+
+test("dragging pans", () => {
+  const [x0, y0, s0] = transform();
+  const pointer = (type: string, clientX: number, clientY: number) =>
+    $("stage").dispatchEvent(new dom.window.PointerEvent(type, { pointerId: 1, clientX, clientY, bubbles: true }));
+  pointer("pointerdown", 100, 100);
+  assert.ok($("stage").classList.contains("panning"));
+  pointer("pointermove", 160, 130);
+  pointer("pointerup", 160, 130);
+  assert.ok(!$("stage").classList.contains("panning"));
+  close(transform(), [x0 + 60, y0 + 30, s0]);
+});
+
+test("setStale dims the board; a new board with the same screens keeps the zoomed screen", () => {
+  viewer.setStale(true);
+  assert.ok($("stage").classList.contains("stale"));
+  viewer.setStale(false);
+  assert.ok(!$("stage").classList.contains("stale"));
+
+  chips()[3].click(); // Profile
+  const before = chips();
+  viewer.show("<svg/>", BOARD.width, BOARD.height, ITEMS);
+  assert.equal($("canvas").querySelector("img")!.src, "blob:test/2", "the new board replaced the old one");
+  assert.deepEqual(chips(), before, "same screens: the chips stay");
+  assert.deepEqual(pressed(), ["Profile"]);
+});
+
+test("renamed screens rebuild the chips and fit the board; one screen gets no chips", () => {
+  chips()[2].click();
+  viewer.show("<svg/>", BOARD.width, BOARD.height, [screen("Sign in", 100), screen("Dashboard", 700)]);
+  assert.deepEqual(chips().map((b) => b.textContent), ["All", "Sign in", "Dashboard"]);
+  assert.deepEqual(pressed(), ["All"]);
+
+  viewer.show("<svg/>", 400, 800, [screen("Only", 0)]);
+  assert.deepEqual(chips(), []);
+});
