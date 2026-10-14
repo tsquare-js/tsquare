@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.1
+
+- **Fix: `tsquare/viewer` keeps the board at its size on pages that cap images.** VS Code's webviews, Tailwind's base styles and many CSS resets set `img { max-width: 100% }`. The viewer draws the board image at its own size and zooms it with a transform, so the cap squeezed the board to the width of its frame while it kept its height: it showed up small, centered in a tall empty box. The viewer now sets the image's size itself. The playground wasn't affected; rendering and render URLs are unchanged.
+
 ## 0.9.0
 
 The language and the renderer haven't changed: every wireframe renders exactly as in 0.8.0, and render URLs give the same images.

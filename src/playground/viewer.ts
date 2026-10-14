@@ -4,9 +4,10 @@
  * VS Code extension's preview. Each brings its own markup and controls and
  * passes the elements in; the board comes from renderWireframeSvg + boardLayout.
  *
- * The viewer sets the styles its math depends on (see structuralStyles), so
- * the host only needs to size the stage and optionally style the
- * "panning", "animate" and "stale" classes it toggles on the stage.
+ * The viewer sets the styles its math depends on (structuralStyles, and the
+ * board image's size in show()), so the host only needs to size the stage and
+ * optionally style the "panning", "animate" and "stale" classes it toggles on
+ * the stage.
  */
 import type { BoardItem } from "../render.js";
 
@@ -119,6 +120,10 @@ export function createViewer(el: ViewerElements, opts: { onScreenZoom?: () => vo
     size = { width, height };
     img.width = width;
     img.height = height;
+    // The board is drawn at its own size and scaled by the canvas transform. Common resets
+    // (VS Code's webview styles, Tailwind's base) cap images at max-width: 100%, which squeezes
+    // the board into the stage's width while it keeps its height.
+    Object.assign(img.style, { width: `${width}px`, height: `${height}px`, maxWidth: "none", maxHeight: "none" });
     const screens = list.filter((i) => i.type === "Screen");
     if (screens.map((s) => s.name).join("\n") !== items.filter((i) => i.type === "Screen").map((s) => s.name).join("\n")) {
       if (typeof mode === "number") mode = "fit";
