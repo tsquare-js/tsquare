@@ -123,7 +123,7 @@ const { issues } = compileWireframe(source);           // problems by line, empt
 const png = await renderWireframe(source, { format: "png", scale: 2 });
 ```
 
-`tsquare/playground` exports the playground's request handler, for hosting it inside your own Node server. See [Using it with AI](docs/ai.md) for the prompt and the repair loop.
+`tsquare/playground` exports the playground's request handler, for hosting it inside your own Node server. `tsquare/viewer` is the playground's zoomable board (zoom, pan, pinch, a chip per screen) for your own page: pass it the elements, then `show()` the SVG from `renderWireframeSvg` with the size and screens from `boardLayout`. `languageData()` lists every component, prop, option word, icon and accent, for editor highlighting and autocomplete. See [Using it with AI](docs/ai.md) for the prompt and the repair loop.
 
 ## Using it with Claude (skill)
 

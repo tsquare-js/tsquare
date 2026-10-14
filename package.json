@@ -26,11 +26,18 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./playground": {
       "types": "./dist/playground/index.d.ts",
-      "import": "./dist/playground/index.js"
+      "import": "./dist/playground/index.js",
+      "default": "./dist/playground/index.js"
+    },
+    "./viewer": {
+      "types": "./dist/playground/viewer.d.ts",
+      "import": "./dist/playground/viewer.js",
+      "default": "./dist/playground/viewer.js"
     },
     "./package.json": "./package.json"
   },
