@@ -153,25 +153,34 @@ export function createViewer(el: ViewerElements, opts: { onScreenZoom?: () => vo
     else { x -= e.deltaX; y -= e.deltaY; mode = "manual"; apply(); markScreens(); }
   }, { passive: false });
 
-  // Drag to pan; two fingers pinch.
+  // Drag to pan; two fingers pinch and pan. Touch screens send one pointermove per
+  // finger, so each move pans by how far the fingers' midpoint moved, then zooms
+  // by the change in their distance around the new midpoint: the board point
+  // between the fingers stays under them.
   const pointers = new Map<number, { x: number; y: number }>();
-  let pinchDist = 0;
+  let pinch: { mid: { x: number; y: number }; dist: number } | null = null;
+  const twoFingers = () => {
+    const [a, b] = [...pointers.values()];
+    return { mid: { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }, dist: Math.hypot(a.x - b.x, a.y - b.y) };
+  };
   stage.addEventListener("pointerdown", (e) => {
     stage.setPointerCapture(e.pointerId);
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     stage.classList.add("panning");
-    if (pointers.size === 2) { const [a, b] = [...pointers.values()]; pinchDist = Math.hypot(a.x - b.x, a.y - b.y); }
+    pinch = pointers.size === 2 ? twoFingers() : null;
   });
   stage.addEventListener("pointermove", (e) => {
     const prev = pointers.get(e.pointerId);
     if (!prev) return;
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-    if (pointers.size === 2) {
-      const [a, b] = [...pointers.values()];
-      const dist = Math.hypot(a.x - b.x, a.y - b.y);
+    if (pointers.size === 2 && pinch) {
+      const now = twoFingers();
       const r = stage.getBoundingClientRect();
-      if (pinchDist) zoomAt(dist / pinchDist, (a.x + b.x) / 2 - r.left, (a.y + b.y) / 2 - r.top);
-      pinchDist = dist;
+      x += now.mid.x - pinch.mid.x;
+      y += now.mid.y - pinch.mid.y;
+      if (pinch.dist && now.dist) zoomAt(now.dist / pinch.dist, now.mid.x - r.left, now.mid.y - r.top);
+      else { mode = "manual"; apply(); markScreens(); } // fingers on the same spot: pan only
+      pinch = now;
     } else {
       x += e.clientX - prev.x;
       y += e.clientY - prev.y;
@@ -182,7 +191,7 @@ export function createViewer(el: ViewerElements, opts: { onScreenZoom?: () => vo
   });
   const release = (e: PointerEvent) => {
     pointers.delete(e.pointerId);
-    pinchDist = 0;
+    pinch = pointers.size === 2 ? twoFingers() : null;
     if (!pointers.size) stage.classList.remove("panning");
   };
   stage.addEventListener("pointerup", release);
