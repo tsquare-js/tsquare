@@ -5,7 +5,7 @@
  * passes the elements in; the board comes from renderWireframeSvg + boardLayout.
  *
  * The viewer sets the styles its math depends on (see structuralStyles), so
- * the host styles only looks: size the stage, and optionally style the
+ * the host only needs to size the stage and optionally style the
  * "panning", "animate" and "stale" classes it toggles on the stage.
  */
 import type { BoardItem } from "../render.js";
