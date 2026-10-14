@@ -243,3 +243,14 @@ test("three fingers, then one lifted: the other two pinch from where they are", 
   close(boardPointAt(...midpoint()), under);
   assert.ok(Math.abs(transform()[2] - s0 * 2) < 1e-9);
 });
+
+test("the board image keeps its size under a page's img rules (VS Code's webview styles, Tailwind's base)", () => {
+  const style = dom.window.document.createElement("style");
+  style.textContent = "img, video { max-width: 100%; max-height: 100%; height: auto; }";
+  dom.window.document.head.appendChild(style);
+  const img = $("canvas").querySelector("img")!;
+  const sizeOf = () => { const c = dom.window.getComputedStyle(img); return [c.width, c.height, c.maxWidth, c.maxHeight]; };
+  assert.deepEqual(sizeOf(), [`${BOARD.width}px`, `${BOARD.height}px`, "none", "none"]);
+  viewer.show("<svg/>", 1200, 900, ITEMS); // a new board size updates it
+  assert.deepEqual(sizeOf(), ["1200px", "900px", "none", "none"]);
+});
