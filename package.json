@@ -26,11 +26,18 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./playground": {
       "types": "./dist/playground/index.d.ts",
-      "import": "./dist/playground/index.js"
+      "import": "./dist/playground/index.js",
+      "default": "./dist/playground/index.js"
+    },
+    "./viewer": {
+      "types": "./dist/playground/viewer.d.ts",
+      "import": "./dist/playground/viewer.js",
+      "default": "./dist/playground/viewer.js"
     },
     "./package.json": "./package.json"
   },
@@ -87,8 +94,10 @@
     "@codemirror/state": "^6.7.6",
     "@codemirror/view": "^6.43.13",
     "@lezer/highlight": "^1.2.5",
+    "@types/jsdom": "^30.0.0",
     "esbuild": "^0.28.2",
     "gpt-tokenizer": "^4.0.0",
+    "jsdom": "^29.1.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   }

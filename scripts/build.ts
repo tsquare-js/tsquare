@@ -5,6 +5,7 @@
  *   dist/playground/index.js  the playground handler (import … from "tsquare/playground")
  *   dist/playground/index.html
  *   dist/playground/playground.js   the page's script (browser bundle)
+ *   dist/playground/viewer.js  the zoomable board, for the browser (import … from "tsquare/viewer")
  *   dist/**\/*.d.ts           type declarations
  *
  *   npm run build
@@ -54,6 +55,8 @@ mkdirSync("dist/playground", { recursive: true });
 copyFileSync("src/playground/index.html", "dist/playground/index.html");
 // The playground page's script: CodeMirror and the UI, for the browser
 await build({ ...PLAYGROUND_BUNDLE, entryPoints: ["src/playground/app.ts"], outfile: "dist/playground/playground.js", logLevel: "warning" });
+// The viewer on its own, for other hosts (the VS Code extension's preview); it has no dependencies
+await build({ entryPoints: ["src/playground/viewer.ts"], outfile: "dist/playground/viewer.js", bundle: true, format: "esm", platform: "browser", target: "es2022", logLevel: "warning" });
 
 execFileSync("npx", ["tsc", "-p", "tsconfig.build.json"], { stdio: "inherit" });
 console.log("built dist/");

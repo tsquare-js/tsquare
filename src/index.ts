@@ -13,3 +13,5 @@ export { parseWireframeText, type TextIssue, type ParseResult } from "./text.js"
 export { catalog, componentDefinitions } from "./catalog.js";
 export { registry } from "./components.js";
 export { theme, DEVICES } from "./layout.js";
+// For editors: what highlighting and autocomplete need, derived from the catalog.
+export { languageData, type LanguageData, type ComponentInfo, type PropInfo } from "./playground/language-data.js";
