@@ -1,6 +1,7 @@
 /**
  * Builds the published package into dist/:
  *   dist/index.js             the library (import { renderWireframe } from "tsquare")
+ *   dist/browser/index.js     the library for browsers (SVG only; the package's "browser" condition)
  *   dist/cli.js               the CLI (bin/tsquare.js runs it)
  *   dist/playground/index.js  the playground handler (import … from "tsquare/playground")
  *   dist/playground/index.html
@@ -11,13 +12,15 @@
  *   npm run build
  */
 import { execFileSync } from "node:child_process";
-import { copyFileSync, mkdirSync, rmSync } from "node:fs";
-import { build } from "esbuild";
+import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync } from "node:fs";
+import { join, resolve } from "node:path";
+import { build, type Plugin } from "esbuild";
 import { componentDefinitions } from "../src/catalog";
 import { PLAYGROUND_BUNDLE, checkReferenceExamples } from "../src/playground/index";
 import { bareWords } from "../src/text";
 import { PLAIN_WORD_MAIN_TEXT } from "../src/upgrade";
 
+const pkg = JSON.parse(readFileSync("package.json", "utf8"));
 const problems = checkReferenceExamples();
 // upgrade.ts keeps its own copy of which components take their main text as a plain word
 // (so the browser bundle stays small); it must match the parser, and they must have no option words.
@@ -48,6 +51,38 @@ await build({
   packages: "external", // dependencies are installed alongside, not bundled
   jsx: "automatic",
   chunkNames: "chunks/[name]-[hash]",
+  logLevel: "warning",
+});
+
+// The library for browsers (the package's "browser" condition: Obsidian, web pages). Same API, SVG only:
+// a file X.browser.ts replaces X.ts (fonts embedded as bytes; share links and PNG throw "needs Node").
+// Bundled: @json-render/image, so its PNG path's import of the native @resvg/resvg-js can be stubbed,
+// and satori, which reads process.env (set here to its defaults: the yoga build embedded as wasm;
+// import.meta.url only locates a separate wasm file, so it's dropped: CommonJS bundles warn about it).
+// The other dependencies stay external, as in the Node build.
+const browserVariants: Plugin = {
+  name: "browser-variants",
+  setup(b) {
+    b.onResolve({ filter: /^\.\/.*\.js$/ }, (args) => {
+      const variant = join(args.resolveDir, args.path.replace(/\.js$/, ".browser.ts"));
+      return args.resolveDir.startsWith(resolve("src")) && existsSync(variant) ? { path: variant } : undefined;
+    });
+  },
+};
+const bundledForBrowser = ["@fontsource/inter", "@json-render/image", "@resvg/resvg-js", "satori", "@types/node", "@types/react"];
+await build({
+  entryPoints: ["src/index.ts"],
+  outfile: "dist/browser/index.js",
+  bundle: true,
+  format: "esm",
+  platform: "browser",
+  target: "es2022",
+  jsx: "automatic",
+  external: Object.keys(pkg.dependencies).filter((d) => !bundledForBrowser.includes(d)),
+  alias: { "@resvg/resvg-js": "./src/resvg.browser.ts" },
+  define: { "process.env.SATORI_STANDALONE": '"0"', "process.env.JEST_WORKER_ID": "undefined", "import.meta.url": "undefined" },
+  loader: { ".woff": "binary" },
+  plugins: [browserVariants],
   logLevel: "warning",
 });
 

@@ -14,7 +14,7 @@
  * The playground has a browser version of encode and decode (it uses
  * CompressionStream); any raw-deflate stream decodes the same way.
  */
-import { deflateRawSync, inflateRawSync } from "node:zlib";
+import { deflateToBase64url, inflateFromBase64url } from "./deflate.js";
 import { LEGACY_LINK_PREFIX, LINK_PREFIX, isLinkData } from "./link-prefix.js";
 import { upgradeWireframe } from "./upgrade.js";
 
@@ -22,7 +22,7 @@ import { upgradeWireframe } from "./upgrade.js";
 export const MAX_SHARED_TEXT = 64_000;
 
 export function encodeWireframe(text: string): string {
-  return LINK_PREFIX + deflateRawSync(Buffer.from(text, "utf8"), { level: 9 }).toString("base64url");
+  return LINK_PREFIX + deflateToBase64url(text);
 }
 
 /**
@@ -32,6 +32,6 @@ export function encodeWireframe(text: string): string {
 export function decodeWireframe(data: string): string {
   const prefix = data.slice(0, 1);
   if (!isLinkData(data)) throw new Error(`unknown encoding "${prefix}" (expected a "${LINK_PREFIX}" or "${LEGACY_LINK_PREFIX}" prefix)`);
-  const text = inflateRawSync(Buffer.from(data.slice(1), "base64url"), { maxOutputLength: MAX_SHARED_TEXT }).toString("utf8");
+  const text = inflateFromBase64url(data.slice(1), MAX_SHARED_TEXT);
   return upgradeWireframe(text, { fromLink: prefix === LEGACY_LINK_PREFIX });
 }
