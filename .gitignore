@@ -20,6 +20,7 @@
 !/src/**/*.html
 !/scripts/*.ts
 !/tsconfig.build.json
+!/licenses/*.txt
 !/skill/*.ts
 !/skill/tsquare/*.md
 !/docs/*.ts

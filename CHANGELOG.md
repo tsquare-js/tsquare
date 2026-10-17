@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- **tsquare runs in browsers.** The package has a `browser` build that bundlers pick automatically (esbuild, Vite, webpack, and the Obsidian plugin template): `renderWireframe`, `renderWireframeSvg`, `compileWireframe`, `boardLayout` and the rest work the same, with Inter embedded as bytes, so nothing is read from disk and no build settings are needed. It renders exactly the same SVG as Node (checked byte for byte on every example, in a test and in Chrome). PNG output and share links (`encodeWireframe`, `decodeWireframe`) still need Node and throw an error saying so. Node users get the same build as before, and renders are unchanged.
+- `satori` is now a direct dependency, pinned exactly like the other renderer dependencies: a new version can change how boards are drawn.
+- The browser build bundles satori, `@json-render/image` and the Inter font, so it ships their license notices in `dist/browser/THIRD_PARTY_LICENSES.txt`.
+
 ## 0.9.1
 
 - **Fix: `tsquare/viewer` keeps the board at its size on pages that cap images.** VS Code's webviews, Tailwind's base styles and many CSS resets set `img { max-width: 100% }`. The viewer draws the board image at its own size and zooms it with a transform, so the cap squeezed the board to the width of its frame while it kept its height: it showed up small, centered in a tall empty box. The viewer now sets the image's size itself. The playground wasn't affected; rendering and render URLs are unchanged.
