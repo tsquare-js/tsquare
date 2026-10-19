@@ -6,6 +6,8 @@ export { printWireframeText as formatWireframe } from "./print.js";
 export { encodeWireframe, decodeWireframe, MAX_SHARED_TEXT } from "./share.js";
 export { mcpTools, MCP_INSTRUCTIONS, LINK_KINDS, DEFAULT_LINKS, type LinkKind, wireframeGuide, renderWireframeTool, shareWireframeTool, callMcpTool, type ToolResult, type ToolContent, type ToolOptions, type McpToolName } from "./mcp.js";
 export { upgradeWireframe, upgradeSpec, RENAMED_PROPS, type UpgradeOptions } from "./upgrade.js";
+// In a browser: replace the page's ```tsquare code blocks with their boards (what the standalone script runs on load).
+export { renderAll, DEFAULT_SELECTOR, type RenderAllOptions, type RenderAllResult } from "./dom.js";
 
 // Lower level: the compiled spec and the pieces used to render it.
 export { renderWireframeSvg, renderWireframePng, checkSpec, boardSize, boardLayout, type BoardItem, type RenderWireframeOptions } from "./render.js";

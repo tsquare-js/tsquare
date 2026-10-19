@@ -61,6 +61,20 @@ board "Sign in"
 
 Alternatively, commit the `.tsq` file and a rendered SVG next to it (see the next section).
 
+## Pages written in Markdown
+
+If your site turns Markdown into HTML (MkDocs, Hugo, Jekyll, Docsify, VitePress, a static site generator, or your own), add tsquare's script to the page, and every ```` ```tsquare ```` code block becomes its wireframe, the way Mermaid's script draws its diagrams:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/tsquare@0.11/dist/tsquare.min.js"></script>
+```
+
+Put it at the end of the page, or anywhere with `defer`. It draws the blocks once the page has loaded, in the reader's browser: nothing is sent to tsquare.dev. A block with a mistake shows its problems by line instead. It finds the HTML that Markdown renderers make of a fence (`<pre><code class="language-tsquare">`, Jekyll's `<div class="language-tsquare">`, Hugo's `data-lang="tsquare"`), and `<pre class="tsquare">` or `<div class="tsquare">` written by hand.
+
+The script is 1.8 MB (510 KB compressed), loaded once and then cached. To draw blocks you add later, for example after loading content, call it yourself: give the script tag `data-start="manual"` and run `tsquare.renderAll()` when the blocks are on the page. It takes `{ root, selector }` to limit where it looks. Each board is a `<figure class="tsquare-board">` holding an `<img>`, and problems are a `<div class="tsquare-problems">`; their default styles are easy to override from your own CSS.
+
+`@0.11` picks up fixes in 0.11.x; pin an exact version (`tsquare@0.11.0`) if your pages must never change. To host it yourself, copy `dist/tsquare.min.js` from the npm package.
+
 ## Your own site
 
 For a static page, the **HTML** item works as is:
