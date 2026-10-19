@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.10.0
+
+The language and the renderer haven't changed: every wireframe renders exactly as in 0.9.1, and render URLs give the same images.
 
 - **tsquare runs in browsers.** The package has a `browser` build that bundlers pick automatically (esbuild, Vite, webpack, and the Obsidian plugin template): `renderWireframe`, `renderWireframeSvg`, `compileWireframe`, `boardLayout` and the rest work the same, with Inter embedded as bytes, so nothing is read from disk and no build settings are needed. It renders exactly the same SVG as Node (checked byte for byte on every example, in a test and in Chrome). PNG output and share links (`encodeWireframe`, `decodeWireframe`) still need Node and throw an error saying so. Node users get the same build as before, and renders are unchanged.
 - `satori` is now a direct dependency, pinned exactly like the other renderer dependencies: a new version can change how boards are drawn.
