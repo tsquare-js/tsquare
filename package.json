@@ -23,6 +23,9 @@
     "url": "https://github.com/tsquare-js/tsquare/issues"
   },
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

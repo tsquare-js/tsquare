@@ -1,0 +1,56 @@
+{
+  "name": "@tsquare-js/react",
+  "version": "0.1.0",
+  "description": "React component for tsquare wireframes: render wireframe text, or the ```tsquare blocks in react-markdown, including while a model's reply is still streaming in.",
+  "keywords": [
+    "tsquare",
+    "wireframe",
+    "react",
+    "react-markdown",
+    "llm",
+    "chat",
+    "svg"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsquare-js/tsquare.git",
+    "directory": "packages/react"
+  },
+  "homepage": "https://tsquare.dev/docs/react",
+  "bugs": {
+    "url": "https://github.com/tsquare-js/tsquare/issues"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "tsx --test test/*.test.tsx",
+    "typecheck": "tsc --noEmit",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "tsquare": "^0.10.1"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@types/react-dom": "^19.3.0",
+    "react-dom": "^19.3.1",
+    "react-markdown": "^10.1.0"
+  }
+}

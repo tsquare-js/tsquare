@@ -21,6 +21,18 @@
 !/scripts/*.ts
 !/tsconfig.build.json
 !/licenses/*.txt
+
+# packages/: the other npm packages (workspaces), each with its own package.json
+!/packages/*/package.json
+!/packages/*/README.md
+!/packages/*/CHANGELOG.md
+!/packages/*/LICENSE
+!/packages/*/build.mjs
+!/packages/*/tsconfig*.json
+!/packages/*/src/**/*.ts
+!/packages/*/src/**/*.tsx
+!/packages/*/test/*.ts
+!/packages/*/test/*.tsx
 !/skill/*.ts
 !/skill/tsquare/*.md
 !/docs/*.ts

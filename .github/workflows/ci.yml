@@ -21,6 +21,10 @@ jobs:
       - run: npm ci # runs the build through "prepare"
       - run: npx tsc
       - run: npm test
+      # the other packages (packages/*, npm workspaces)
+      - run: npm run build --workspaces
+      - run: npm run typecheck --workspaces
+      - run: npm test --workspaces
 
   generated:
     name: Eval scores, docs and skill are up to date
