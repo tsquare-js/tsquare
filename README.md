@@ -158,4 +158,4 @@ How it was measured, the tasks, every model output, and the scripts: [`eval/`](e
 
 ## License
 
-MIT. The Inter font comes from the `@fontsource/inter` dependency, under the SIL Open Font License 1.1. Icons are from [Lucide](https://lucide.dev), under the ISC license. Brand logos are from [Simple Icons](https://simpleicons.org) (CC0); the logos themselves are trademarks of their owners.
+MIT. The Inter font comes from the `@fontsource/inter` dependency, under the SIL Open Font License 1.1. Icons are from [Lucide](https://lucide.dev), under the ISC license. Brand logos are from [Simple Icons](https://simpleicons.org) (CC0); the logos themselves are trademarks of their owners. The browser build (`dist/browser/`) bundles some dependencies, Inter and satori (MPL-2.0) among them; their notices are in `dist/browser/THIRD_PARTY_LICENSES.txt`.
