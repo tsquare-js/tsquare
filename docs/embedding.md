@@ -5,6 +5,8 @@ A wireframe goes anywhere an image goes. There are two ways to get one there:
 - **An image link** from tsquare.dev, such as `https://tsquare.dev/svg/z…`. The wireframe text is inside the link, so nothing is stored anywhere, and the link always draws the same wireframe.
 - **A file** you render yourself with the CLI or the library, with no dependency on tsquare.dev.
 
+In Obsidian you don't need either: the plugin draws ```` ```tsquare ```` code blocks right in your notes (see [Obsidian](#obsidian)).
+
 The playground's **Copy link** menu makes every kind of link:
 
 | Menu item | What you get | Use it for |
@@ -25,6 +27,21 @@ Image links are compressed, **not encrypted**: anyone with the link can read the
 The PNG link works just as well and looks the same. SVG stays sharp at any zoom; PNG is drawn at 2×.
 
 To change the wireframe, open the share link (or paste the text into the playground), edit, and replace the image with the new link. Each link always draws the same picture, so an old one never changes under you.
+
+## Obsidian
+
+Install **tsquare** from Obsidian's community plugins (**Settings → Community plugins → Browse**, search "tsquare"), or see [its listing](https://community.obsidian.md/plugins/tsquare). Then write the wireframe in a code block:
+
+````markdown
+```tsquare
+board "Sign in"
+  screen phone
+    heading "Welcome back"
+    button primary "Sign in" fullWidth
+```
+````
+
+The note shows the board, sized to fit. Select it to open it full size, with zoom and a button per screen. If the text has a mistake, the block lists each problem with its line number. Boards are drawn on your device, so this works offline and on mobile, and nothing is sent to tsquare.dev.
 
 ## GitHub
 
