@@ -52,6 +52,11 @@ A wireframe can be embedded anywhere an image works (Notion, GitHub, docs sites)
 
 The playground's **Copy link** menu makes these; [Embedding](docs/embedding.md) has the steps for Notion, GitHub and your own site. The text is compressed into the URL, not encrypted, so anyone with the link can read it; see [privacy](https://tsquare.dev/privacy). `encodeWireframe` and `decodeWireframe` in the library produce and read the same links.
 
+## In your editor and notes
+
+- **VS Code** (and Cursor, VSCodium, Windsurf): the [tsquare extension](https://marketplace.visualstudio.com/items?itemName=tsquare-js.tsquare-vscode) gives `.tsq` files a live preview, problems as you type, highlighting and autocomplete. Also on [Open VSX](https://open-vsx.org/extension/tsquare-js/tsquare-vscode).
+- **Obsidian**: the [tsquare plugin](https://community.obsidian.md/plugins/tsquare) draws ```` ```tsquare ```` code blocks in your notes, on desktop and mobile. See [Embedding](docs/embedding.md#obsidian).
+
 ## The language
 
 One element per line; children are indented two spaces under their parent. The first line is the board.
