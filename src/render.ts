@@ -1,5 +1,3 @@
-import { readFile } from "node:fs/promises";
-import { createRequire } from "node:module";
 import type { Spec } from "@json-render/core";
 import { renderToSvg } from "@json-render/image/render";
 import { ID_PATTERN, UNIVERSAL_PROPS, catalog, componentDefinitions, listItemEnds, takesId, takesUniversalProps, universalPropMessage } from "./catalog.js";
@@ -7,6 +5,7 @@ import { monthGrid, withMarkers, withPalette, withTopLayer } from "./components.
 import { findAnchors, overlayLayer, readMarkers, tagForMeasuring, type Anchor, type Rect } from "./anchors.js";
 import { flowLabelWidth, flowLayer, flowMargin, type FlowBoxes } from "./flows.js";
 import { paletteFor } from "./colors.js";
+import { loadFonts } from "./fonts.js";
 import { closeMatches, unknownComponentMessage } from "./suggest.js";
 import { belongsElsewhere } from "./text.js";
 import { upgradeSpec } from "./upgrade.js";
@@ -19,23 +18,6 @@ import {
   estimateNoteHeight,
   screenSize,
 } from "./layout.js";
-
-// Inter from @fontsource/inter, pinned to an exact version: a font change shifts
-// text metrics and line wraps, so treat a bump like a renderer change.
-const fontFile = (name: string) =>
-  createRequire(import.meta.url).resolve(`@fontsource/inter/files/${name}`);
-
-let fontCache: Promise<any[]> | null = null;
-function loadFonts() {
-  fontCache ??= Promise.all([
-    readFile(fontFile("inter-latin-400-normal.woff")),
-    readFile(fontFile("inter-latin-600-normal.woff")),
-  ]).then(([regular, semibold]) => [
-    { name: "Inter", data: regular, weight: 400, style: "normal" },
-    { name: "Inter", data: semibold, weight: 600, style: "normal" },
-  ]);
-  return fontCache;
-}
 
 export class SpecError extends Error {
   constructor(public issues: string[]) {

@@ -26,6 +26,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "browser": "./dist/browser/index.js",
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
@@ -82,6 +83,7 @@
     "@types/react": "^19.3.0",
     "lucide": "1.48.0",
     "react": "^19.3.0",
+    "satori": "0.19.3",
     "simple-icons": "16.34.0",
     "zod": "^4.6.5"
   },

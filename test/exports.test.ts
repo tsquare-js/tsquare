@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import * as tsquare from "../src/index.js";
+import { list, read } from "./helpers.js";
 
 test("languageData is exported, for editors", () => {
   const data = tsquare.languageData();
@@ -23,4 +24,24 @@ test("every export has a default condition, so require() works too (Node's requi
     if (typeof value === "string") continue;
     assert.equal(value.default, value.import, `${key}`);
   }
+});
+
+test("the browser build (the \"browser\" condition) imports nothing from Node and renders the same SVG (needs npm run build)", async () => {
+  const pkg = JSON.parse(readFileSync("package.json", "utf8"));
+  assert.equal(pkg.exports["."].browser, "./dist/browser/index.js");
+  const source = readFileSync("dist/browser/index.js", "utf8");
+  const packageName = (spec: string) => spec.split("/").slice(0, spec.startsWith("@") ? 2 : 1).join("/");
+  const imports = [...source.matchAll(/^import .* from "([^"]+)";$/gm)].map((m) => packageName(m[1]));
+  assert.deepEqual(imports.filter((i) => !(i in pkg.dependencies)), [], "only package dependencies");
+  // Node built-ins, native PNG, satori (bundled, its process.env reads set) and import.meta (CommonJS consumers warn)
+  assert.doesNotMatch(source, /from "node:|import\("node:|"@resvg\/resvg-js"|from "satori"|import\.meta|process\.env\.(SATORI|JEST)/);
+
+  const browserBuild = "../dist/browser/index.js";
+  const browser: typeof tsquare = await import(browserBuild);
+  for (const file of list("examples", ".tsq")) {
+    const text = read(file);
+    assert.equal(await browser.renderWireframe(text), await tsquare.renderWireframe(text), file);
+  }
+  assert.throws(() => browser.encodeWireframe("board"), /need Node/);
+  await assert.rejects(browser.renderWireframe("board\n  screen phone", { format: "png" }), /PNG rendering needs Node/);
 });
