@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.10.1
+
+Docs and license only: the code is the same as 0.10.0, and every wireframe renders the same.
+
+- **`LICENSE` is the plain MIT text**, so GitHub recognizes it (it showed "Other"). The note about the Inter font's license is in the README's License section, which also points to the browser build's `THIRD_PARTY_LICENSES.txt`.
+- **Obsidian:** the [tsquare plugin](https://tsquare.dev/docs/obsidian) draws ```` ```tsquare ```` code blocks in your notes, on desktop and mobile. The README links it and the VS Code extension, and the embedding guide links it.
+
 ## 0.10.0
 
 The language and the renderer haven't changed: every wireframe renders exactly as in 0.9.1, and render URLs give the same images.
