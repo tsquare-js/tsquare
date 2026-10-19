@@ -30,18 +30,7 @@ To change the wireframe, open the share link (or paste the text into the playgro
 
 ## Obsidian
 
-Install **tsquare** from Obsidian's community plugins (**Settings → Community plugins → Browse**, search "tsquare"), or see [its listing](https://community.obsidian.md/plugins/tsquare). Then write the wireframe in a code block:
-
-````markdown
-```tsquare
-board "Sign in"
-  screen phone
-    heading "Welcome back"
-    button primary "Sign in" fullWidth
-```
-````
-
-The note shows the board, sized to fit. Select it to open it full size, with zoom and a button per screen. If the text has a mistake, the block lists each problem with its line number. Boards are drawn on your device, so this works offline and on mobile, and nothing is sent to tsquare.dev.
+The [tsquare plugin](https://tsquare.dev/docs/obsidian) draws ```` ```tsquare ```` code blocks as wireframes in your notes, on desktop and mobile.
 
 ## GitHub
 

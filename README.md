@@ -55,7 +55,7 @@ The playground's **Copy link** menu makes these; [Embedding](docs/embedding.md) 
 ## In your editor and notes
 
 - **VS Code** (and Cursor, VSCodium, Windsurf): the [tsquare extension](https://marketplace.visualstudio.com/items?itemName=tsquare-js.tsquare-vscode) gives `.tsq` files a live preview, problems as you type, highlighting and autocomplete. Also on [Open VSX](https://open-vsx.org/extension/tsquare-js/tsquare-vscode).
-- **Obsidian**: the [tsquare plugin](https://community.obsidian.md/plugins/tsquare) draws ```` ```tsquare ```` code blocks in your notes, on desktop and mobile. See [Embedding](docs/embedding.md#obsidian).
+- **Obsidian**: the [tsquare plugin](https://community.obsidian.md/plugins/tsquare) draws ```` ```tsquare ```` code blocks in your notes, on desktop and mobile. See [the Obsidian page](https://tsquare.dev/docs/obsidian).
 
 ## The language
 
