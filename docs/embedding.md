@@ -63,7 +63,7 @@ Alternatively, commit the `.tsq` file and a rendered SVG next to it (see the nex
 
 ## Pages written in Markdown
 
-If your site turns Markdown into HTML (MkDocs, Hugo, Jekyll, Docsify, VitePress, a static site generator, or your own), add tsquare's script to the page, and every ```` ```tsquare ```` code block becomes its wireframe, the way Mermaid's script draws its diagrams:
+If your site turns Markdown into HTML (MkDocs, Hugo, Jekyll, Docsify, VitePress, a static site generator, or your own), add tsquare's script to the page, and every ```` ```tsquare ```` code block becomes its wireframe:
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/tsquare@0.11/dist/tsquare.min.js"></script>

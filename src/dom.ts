@@ -1,12 +1,12 @@
 /**
- * renderAll(): replaces the wireframe code blocks on a page with their boards, the way Mermaid's
- * script does for its diagrams. Browser code; the standalone script (dist/tsquare.min.js) runs it
- * on load. It finds the HTML that markdown renderers make of a ```tsquare fence:
+ * renderAll(): replaces the wireframe code blocks on a page with their boards. Browser code; the
+ * standalone script (dist/tsquare.min.js) runs it on load. It finds the HTML that markdown
+ * renderers make of a ```tsquare fence:
  *
  *   <pre><code class="language-tsquare">…</code></pre>      marked, markdown-it, remark/rehype, Hugo
  *   <div class="language-tsquare highlighter-rouge">…</div>  Jekyll
  *   <code data-lang="tsquare">…</code>                      Hugo's highlighter
- *   <pre class="tsquare">…</pre>, <div class="tsquare">…</div>   written by hand, as with Mermaid
+ *   <pre class="tsquare">…</pre>, <div class="tsquare">…</div>   written by hand
  *
  * Each becomes <figure class="tsquare-board"><img …></figure>, or, when the text has problems,
  * <div class="tsquare-problems"> listing them by line. Running it again skips what's done.
