@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.12.0
+
+The language and the renderer haven't changed: every wireframe renders exactly as in 0.11.0, and render URLs give the same images.
 
 - **`tsquare/editor`:** the playground's code editor for your own page (highlighting, autocomplete from `languageData()`, problems underlined by line), with CodeMirror bundled in so it imports nothing. `createEditor(element, { doc, data, onChange, lineNumbers, ariaLabel })` returns `getText`, `setText`, `setIssues`, `goToLine`, `focus`, `dom` and `destroy`. Its colors are `--tsquare-editor-*` and `--tsquare-syntax-*` CSS variables, light or dark by the page's color scheme; the playground maps its own colors onto them and looks exactly as before. See the README.
 - **`tsquare/viewer` has `destroy()`:** it removes the viewer's listeners, stops watching the stage's size and releases the board image, for pages that remove a viewer (a React component unmounting).
