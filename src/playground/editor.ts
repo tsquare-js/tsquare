@@ -1,9 +1,11 @@
 /**
- * The playground's code editor: CodeMirror 6 with tsquare highlighting,
- * autocomplete from the catalog (via /api/language), and errors underlined by
- * line. Runs in the browser; bundled into playground.js by the build.
+ * The code editor: CodeMirror 6 with tsquare highlighting, autocomplete from the catalog
+ * (languageData()), and problems underlined by line. Runs in the browser: the playground uses
+ * it, and it's published as `tsquare/editor` (src/editor.ts, with CodeMirror bundled in).
  *
- * Colors come from CSS variables (--syn-*), so the light/dark switch is pure CSS.
+ * Colors come from CSS variables, so a page restyles it and switches light/dark with CSS alone:
+ * --tsquare-editor-* for the editor and its popups, --tsquare-syntax-* for the highlighting.
+ * Unset, they default to the playground's colors, light or dark by the element's color-scheme.
  */
 import { autocompletion, closeBrackets, closeBracketsKeymap, completionKeymap, type Completion, type CompletionContext, type CompletionResult } from "@codemirror/autocomplete";
 import { defaultKeymap, history, historyKeymap, indentWithTab } from "@codemirror/commands";
@@ -13,6 +15,7 @@ import { highlightSelectionMatches, searchKeymap } from "@codemirror/search";
 import { EditorSelection, EditorState, type Extension } from "@codemirror/state";
 import { EditorView, drawSelection, highlightActiveLine, highlightActiveLineGutter, keymap, lineNumbers, type Command } from "@codemirror/view";
 import { tags } from "@lezer/highlight";
+import type { EditorOptions } from "./editor-options.js";
 import type { ComponentInfo, LanguageData, PropInfo } from "./language-data.js";
 
 // ── Highlighting ────────────────────────────────────────────────────────
@@ -66,31 +69,35 @@ const tsquareLanguage = StreamLanguage.define<LineState>({
   languageData: { commentTokens: { line: "#" } },
 });
 
+/** A themable color: the page's variable if it sets one, else the default for light or dark. */
+const v = (name: string, light: string, dark: string) => `var(--tsquare-${name}, light-dark(${light}, ${dark}))`;
+
 const highlight = HighlightStyle.define([
-  { tag: tags.typeName, color: "var(--syn-component)", fontWeight: "600" },
-  { tag: tags.string, color: "var(--syn-string)" },
-  { tag: tags.propertyName, color: "var(--syn-prop)" },
-  { tag: [tags.number, tags.bool], color: "var(--syn-number)" },
-  { tag: tags.atom, color: "var(--syn-word)" },
-  { tag: tags.color, color: "var(--syn-color)" },
-  { tag: tags.comment, color: "var(--syn-comment)", fontStyle: "italic" },
-  { tag: [tags.operator, tags.bracket, tags.punctuation], color: "var(--syn-punct)" },
+  { tag: tags.typeName, color: v("syntax-component", "#0b3d91", "#8ab4ff"), fontWeight: "600" },
+  { tag: tags.string, color: v("syntax-string", "#17754a", "#7ee2a8") },
+  { tag: tags.propertyName, color: v("syntax-prop", "#6d28d9", "#c4a7ff") },
+  { tag: [tags.number, tags.bool], color: v("syntax-number", "#b45309", "#f5b971") },
+  { tag: tags.atom, color: v("syntax-word", "#0e7490", "#67d4e8") },
+  { tag: tags.color, color: v("syntax-color", "#be185d", "#f49ac1") },
+  { tag: tags.comment, color: v("syntax-comment", "#8b95a5", "#6f7a8a"), fontStyle: "italic" },
+  { tag: [tags.operator, tags.bracket, tags.punctuation], color: v("syntax-punct", "#5b6472", "#9aa4b2") },
 ]);
 
+const ink = v("editor-fg", "#1f2328", "#e6ebf2");
 const theme = EditorView.theme({
-  "&": { height: "100%", fontSize: "13px", backgroundColor: "var(--editor-bg)", color: "var(--editor-ink)" },
-  ".cm-scroller": { fontFamily: "var(--mono)", lineHeight: "20px" },
-  ".cm-content": { caretColor: "var(--editor-ink)", padding: "12px 0" },
-  ".cm-cursor": { borderLeftColor: "var(--editor-ink)" },
-  ".cm-gutters": { backgroundColor: "var(--editor-bg)", color: "var(--muted)", border: "none" },
-  ".cm-activeLine, .cm-activeLineGutter": { backgroundColor: "var(--editor-active)" },
-  "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, ::selection": { backgroundColor: "var(--editor-selection) !important" },
-  ".cm-tooltip": { backgroundColor: "var(--panel)", border: "1px solid var(--line)", borderRadius: "8px", overflow: "hidden" },
-  ".cm-tooltip-autocomplete > ul > li[aria-selected]": { backgroundColor: "var(--accent-soft)", color: "var(--ink)" },
-  ".cm-completionDetail": { color: "var(--muted)", fontStyle: "normal", marginLeft: "8px" },
-  ".cm-completionInfo": { maxWidth: "320px", padding: "8px 10px", fontFamily: "var(--sans)", fontSize: "12.5px", lineHeight: "1.45" },
-  ".cm-diagnostic": { fontFamily: "var(--sans)", fontSize: "12.5px" },
-  ".cm-lintRange-error": { backgroundImage: "none", textDecoration: "underline wavy var(--error)", textUnderlineOffset: "3px" },
+  "&": { height: "100%", fontSize: "var(--tsquare-editor-font-size, 13px)", backgroundColor: v("editor-bg", "#ffffff", "#111821"), color: ink },
+  ".cm-scroller": { fontFamily: 'var(--tsquare-editor-font, ui-monospace, "SF Mono", Menlo, Consolas, monospace)', lineHeight: "20px" },
+  ".cm-content": { caretColor: ink, padding: "12px 0" },
+  ".cm-cursor": { borderLeftColor: ink },
+  ".cm-gutters": { backgroundColor: v("editor-bg", "#ffffff", "#111821"), color: v("editor-gutter", "#6f7782", "#8b95a5"), border: "none" },
+  ".cm-activeLine, .cm-activeLineGutter": { backgroundColor: v("editor-active-line", "rgba(31, 111, 214, 0.045)", "rgba(255, 255, 255, 0.035)") },
+  "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, ::selection": { backgroundColor: `${v("editor-selection", "rgba(31, 111, 214, 0.26)", "rgba(80, 150, 255, 0.36)")} !important` },
+  ".cm-tooltip": { backgroundColor: v("editor-popup-bg", "#ffffff", "#151c25"), color: ink, border: `1px solid ${v("editor-popup-border", "#dfe2e6", "#253041")}`, borderRadius: "8px", overflow: "hidden" },
+  ".cm-tooltip-autocomplete > ul > li[aria-selected]": { backgroundColor: v("editor-popup-selected", "rgba(59, 153, 251, 0.16)", "rgba(59, 153, 251, 0.22)"), color: ink },
+  ".cm-completionDetail": { color: v("editor-gutter", "#6f7782", "#8b95a5"), fontStyle: "normal", marginLeft: "8px" },
+  ".cm-completionInfo": { maxWidth: "320px", padding: "8px 10px", fontFamily: "var(--tsquare-editor-ui-font, system-ui, sans-serif)", fontSize: "12.5px", lineHeight: "1.45" },
+  ".cm-diagnostic": { fontFamily: "var(--tsquare-editor-ui-font, system-ui, sans-serif)", fontSize: "12.5px" },
+  ".cm-lintRange-error": { backgroundImage: "none", textDecoration: `underline wavy ${v("editor-error", "#c2362b", "#ff7b70")}`, textUnderlineOffset: "3px" },
 });
 
 // ── Autocomplete ────────────────────────────────────────────────────────
@@ -198,12 +205,13 @@ export interface Editor {
   goToLine(line: number): void;
   /** Scroll the cursor back into view (after the panels around the editor change size). */
   revealCursor(): void;
+  /** Remove the editor and its listeners. */
+  destroy(): void;
 }
 
-export function createEditor(parent: HTMLElement, opts: { doc: string; data: LanguageData; onChange: (text: string) => void }): Editor {
+export function createEditor(parent: HTMLElement, opts: EditorOptions = {}): Editor {
   const extensions: Extension[] = [
-    lineNumbers(),
-    highlightActiveLineGutter(),
+    opts.lineNumbers === false ? [] : [lineNumbers(), highlightActiveLineGutter()],
     highlightActiveLine(),
     drawSelection(),
     history(),
@@ -213,15 +221,15 @@ export function createEditor(parent: HTMLElement, opts: { doc: string; data: Lan
     lintGutter(),
     tsquareLanguage,
     syntaxHighlighting(highlight),
-    autocompletion({ override: [completions(opts.data)], icons: false, activateOnTyping: true }),
+    opts.data ? autocompletion({ override: [completions(opts.data)], icons: false, activateOnTyping: true }) : [],
     EditorState.tabSize.of(2),
     keymap.of([{ key: "Enter", run: newlineKeepIndent }, ...closeBracketsKeymap, ...completionKeymap, ...searchKeymap, ...historyKeymap, indentWithTab, ...defaultKeymap]),
     theme,
     pasteFencedBlock,
-    EditorView.contentAttributes.of({ "aria-label": "Wireframe text", spellcheck: "false", autocapitalize: "off" }),
-    EditorView.updateListener.of((u) => { if (u.docChanged) opts.onChange(u.state.doc.toString()); }),
+    EditorView.contentAttributes.of({ "aria-label": opts.ariaLabel ?? "Wireframe text", spellcheck: "false", autocapitalize: "off" }),
+    EditorView.updateListener.of((u) => { if (u.docChanged) opts.onChange?.(u.state.doc.toString()); }),
   ];
-  const view = new EditorView({ parent, state: EditorState.create({ doc: opts.doc, extensions }) });
+  const view = new EditorView({ parent, state: EditorState.create({ doc: opts.doc ?? "", extensions }) });
 
   return {
     view,
@@ -248,5 +256,6 @@ export function createEditor(parent: HTMLElement, opts: { doc: string; data: Lan
       view.dispatch({ selection: { anchor: line.from, head: line.to }, scrollIntoView: true });
       view.focus();
     },
+    destroy: () => view.destroy(),
   };
 }

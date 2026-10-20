@@ -41,6 +41,8 @@ export interface Viewer {
   fit(): void;
   zoomIn(): void;
   zoomOut(): void;
+  /** Stop: remove the viewer's listeners and release the board image. For hosts that remove the viewer (a React component unmounting). */
+  destroy(): void;
 }
 
 /**
@@ -59,6 +61,8 @@ function structuralStyles(stage: HTMLElement, canvas: HTMLElement) {
 export function createViewer(el: ViewerElements, opts: { onScreenZoom?: () => void; onZoom?: (scale: number) => void } = {}): Viewer {
   const { stage, canvas } = el;
   structuralStyles(stage, canvas);
+  const stop = new AbortController(); // every listener below is removed by destroy()
+  const signal = stop.signal;
   let img: HTMLImageElement | null = null;
   let size = { width: 0, height: 0 };
   let items: BoardItem[] = [];
@@ -142,7 +146,7 @@ export function createViewer(el: ViewerElements, opts: { onScreenZoom?: () => vo
       const b = document.createElement("button");
       b.type = "button";
       b.textContent = text;
-      b.addEventListener("click", onClick);
+      b.addEventListener("click", onClick, { signal });
       bar.appendChild(b);
     };
     chip("All", fit);
@@ -156,7 +160,7 @@ export function createViewer(el: ViewerElements, opts: { onScreenZoom?: () => vo
     const r = stage.getBoundingClientRect();
     if (e.ctrlKey || e.metaKey) zoomAt(Math.exp(-e.deltaY * 0.01), e.clientX - r.left, e.clientY - r.top);
     else { x -= e.deltaX; y -= e.deltaY; mode = "manual"; apply(); markScreens(); }
-  }, { passive: false });
+  }, { passive: false, signal });
 
   // Drag to pan; two fingers pinch and pan. Touch screens send one pointermove per
   // finger, so each move pans by how far the fingers' midpoint moved, then zooms
@@ -173,7 +177,7 @@ export function createViewer(el: ViewerElements, opts: { onScreenZoom?: () => vo
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     stage.classList.add("panning");
     pinch = pointers.size === 2 ? twoFingers() : null;
-  });
+  }, { signal });
   stage.addEventListener("pointermove", (e) => {
     const prev = pointers.get(e.pointerId);
     if (!prev) return;
@@ -193,20 +197,21 @@ export function createViewer(el: ViewerElements, opts: { onScreenZoom?: () => vo
       apply();
       markScreens();
     }
-  });
+  }, { signal });
   const release = (e: PointerEvent) => {
     pointers.delete(e.pointerId);
     pinch = pointers.size === 2 ? twoFingers() : null;
     if (!pointers.size) stage.classList.remove("panning");
   };
-  stage.addEventListener("pointerup", release);
-  stage.addEventListener("pointercancel", release);
-  stage.addEventListener("dblclick", fit);
-  new ResizeObserver(() => refresh()).observe(stage);
+  stage.addEventListener("pointerup", release, { signal });
+  stage.addEventListener("pointercancel", release, { signal });
+  stage.addEventListener("dblclick", fit, { signal });
+  const resize = new ResizeObserver(() => refresh());
+  resize.observe(stage);
 
-  el.zoomIn?.addEventListener("click", () => zoomAt(1.25));
-  el.zoomOut?.addEventListener("click", () => zoomAt(0.8));
-  el.zoomFit?.addEventListener("click", fit);
+  el.zoomIn?.addEventListener("click", () => zoomAt(1.25), { signal });
+  el.zoomOut?.addEventListener("click", () => zoomAt(0.8), { signal });
+  el.zoomFit?.addEventListener("click", fit, { signal });
 
   return {
     show,
@@ -215,5 +220,10 @@ export function createViewer(el: ViewerElements, opts: { onScreenZoom?: () => vo
     fit,
     zoomIn: () => zoomAt(1.25),
     zoomOut: () => zoomAt(0.8),
+    destroy() {
+      stop.abort();
+      resize.disconnect();
+      if (img?.src.startsWith("blob:")) URL.revokeObjectURL(img.src);
+    },
   };
 }

@@ -18,6 +18,8 @@ const ITEMS: BoardItem[] = [screen("Sign in", 100), screen("Home", 700), { type:
 let dom: JSDOM;
 let viewer: Viewer;
 let screenZooms: number;
+let revoked: string[];
+let disconnected: number;
 let zooms: number[];
 const $ = (id: string) => dom.window.document.getElementById(id)!;
 const chips = () => [...$("screens").querySelectorAll("button")];
@@ -44,10 +46,12 @@ beforeEach(() => {
   const w = dom.window as any;
   let blobs = 0;
   w.URL.createObjectURL = () => `blob:test/${++blobs}`;
-  w.URL.revokeObjectURL = () => {};
-  w.ResizeObserver = class { observe() {} disconnect() {} };
+  revoked = [];
+  disconnected = 0;
+  w.URL.revokeObjectURL = (url: string) => { revoked.push(url); };
+  w.ResizeObserver = class { observe() {} disconnect() { disconnected++; } };
   w.HTMLElement.prototype.setPointerCapture = () => {};
-  Object.assign(globalThis, { document: w.document, URL: w.URL, Blob: w.Blob, ResizeObserver: w.ResizeObserver, getComputedStyle: w.getComputedStyle.bind(w) });
+  Object.assign(globalThis, { document: w.document, URL: w.URL, Blob: w.Blob, ResizeObserver: w.ResizeObserver, AbortController: w.AbortController, getComputedStyle: w.getComputedStyle.bind(w) });
   const stage = $("stage");
   Object.defineProperty(stage, "clientWidth", { value: STAGE.width });
   Object.defineProperty(stage, "clientHeight", { value: STAGE.height });
@@ -253,4 +257,17 @@ test("the board image keeps its size under a page's img rules (VS Code's webview
   assert.deepEqual(sizeOf(), [`${BOARD.width}px`, `${BOARD.height}px`, "none", "none"]);
   viewer.show("<svg/>", 1200, 900, ITEMS); // a new board size updates it
   assert.deepEqual(sizeOf(), ["1200px", "900px", "none", "none"]);
+});
+
+test("destroy() stops the viewer: its listeners go, the resize watch stops, the board image is released", () => {
+  const before = transform();
+  const img = $("canvas").querySelector("img")!;
+  viewer.destroy();
+  assert.equal(disconnected, 1, "the ResizeObserver is disconnected");
+  assert.deepEqual(revoked, [img.src], "the board's blob: URL is revoked");
+  $("zoom-in").click();
+  $("stage").dispatchEvent(new dom.window.WheelEvent("wheel", { deltaY: -100, ctrlKey: true, clientX: 200, clientY: 150, cancelable: true }));
+  $("stage").dispatchEvent(new dom.window.MouseEvent("dblclick"));
+  chips()[2].click();
+  assert.deepEqual(transform(), before, "zoom buttons, wheel, double-click and chips no longer do anything");
 });

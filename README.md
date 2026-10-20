@@ -128,7 +128,33 @@ const { issues } = compileWireframe(source);           // problems by line, empt
 const png = await renderWireframe(source, { format: "png", scale: 2 });
 ```
 
-`tsquare/playground` exports the playground's request handler, for hosting it inside your own Node server. `tsquare/viewer` is the playground's zoomable board (zoom, pan, pinch, a chip per screen) for your own page: pass it the elements, then `show()` the SVG from `renderWireframeSvg` with the size and screens from `boardLayout`. It sets the styles its zoom math needs itself; give the stage a size, and optionally style the classes it toggles on the stage: `panning` (while dragging), `animate` (while fitting or zooming to a screen, e.g. `.animate > * { transition: transform .25s }`) and `stale` (from `setStale`, e.g. `.stale img { opacity: .35 }`). `languageData()` lists every component, prop, option word, icon and accent, for editor highlighting and autocomplete. In a browser bundle (esbuild, Vite, webpack) the same imports render SVG with no setup; PNG and share links need Node. On a page without a build step, `<script src="https://cdn.jsdelivr.net/npm/tsquare@0.11/dist/tsquare.min.js"></script>` draws every ```` ```tsquare ```` code block on the page (see [Embedding](docs/embedding.md#pages-written-in-markdown)). See [Using it with AI](docs/ai.md) for the prompt and the repair loop.
+`tsquare/playground` exports the playground's request handler, for hosting it inside your own Node server. `tsquare/viewer` is the playground's zoomable board (zoom, pan, pinch, a chip per screen) for your own page: pass it the elements, then `show()` the SVG from `renderWireframeSvg` with the size and screens from `boardLayout`. It sets the styles its zoom math needs itself; give the stage a size, and optionally style the classes it toggles on the stage: `panning` (while dragging), `animate` (while fitting or zooming to a screen, e.g. `.animate > * { transition: transform .25s }`) and `stale` (from `setStale`, e.g. `.stale img { opacity: .35 }`). Call `destroy()` when you remove it. `languageData()` lists every component, prop, option word, icon and accent, for editor highlighting and autocomplete. In a browser bundle (esbuild, Vite, webpack) the same imports render SVG with no setup; PNG and share links need Node. On a page without a build step, `<script src="https://cdn.jsdelivr.net/npm/tsquare@0.11/dist/tsquare.min.js"></script>` draws every ```` ```tsquare ```` code block on the page (see [Embedding](docs/embedding.md#pages-written-in-markdown)). See [Using it with AI](docs/ai.md) for the prompt and the repair loop.
+
+### The editor: `tsquare/editor`
+
+The playground's code editor for your own page: highlighting, autocomplete for components, props, option words, icons and accents, problems underlined on their lines, Enter keeping the indentation, and pasting a whole model reply keeps just its code block. CodeMirror is bundled inside (about 125 KB compressed once your bundler minifies it), so it imports nothing and can't clash with a CodeMirror your page already has.
+
+```ts
+import { createEditor } from "tsquare/editor";
+import { compileWireframe, languageData } from "tsquare";
+
+const editor = createEditor(document.getElementById("code")!, {
+  doc: "board\n  screen phone",
+  data: languageData(), // autocomplete; leave it out for none
+  onChange: (text) => editor.setIssues(compileWireframe(text).issues),
+});
+```
+
+Give the element a height; the editor fills it. Options: `doc`, `data`, `onChange`, `lineNumbers` (default `true`) and `ariaLabel` (default "Wireframe text"). The editor has `getText()`, `setText(text)` (one undoable step), `setIssues(issues)`, `goToLine(n)`, `focus()`, `dom` and `destroy()`.
+
+Its colors are CSS variables, light or dark by the page's `color-scheme`, defaulting to the playground's:
+
+| Variables | |
+|---|---|
+| `--tsquare-editor-bg`, `--tsquare-editor-fg`, `--tsquare-editor-gutter`, `--tsquare-editor-active-line`, `--tsquare-editor-selection`, `--tsquare-editor-error` | the editor |
+| `--tsquare-editor-popup-bg`, `--tsquare-editor-popup-border`, `--tsquare-editor-popup-selected` | autocomplete and problem popups |
+| `--tsquare-editor-font`, `--tsquare-editor-font-size`, `--tsquare-editor-ui-font` | code font and size (13px), popup text font |
+| `--tsquare-syntax-component`, `--tsquare-syntax-string`, `--tsquare-syntax-prop`, `--tsquare-syntax-number`, `--tsquare-syntax-word`, `--tsquare-syntax-color`, `--tsquare-syntax-comment`, `--tsquare-syntax-punct` | highlighting |
 
 ## Using it with Claude (skill)
 
