@@ -75,6 +75,28 @@
     --syn-punct: #9aa4b2;
     color-scheme: dark;
   }
+  /* the editor (tsquare/editor) reads these: the playground's own colors, light or dark */
+  :root {
+    --tsquare-editor-bg: var(--editor-bg);
+    --tsquare-editor-fg: var(--editor-ink);
+    --tsquare-editor-gutter: var(--muted);
+    --tsquare-editor-active-line: var(--editor-active);
+    --tsquare-editor-selection: var(--editor-selection);
+    --tsquare-editor-error: var(--error);
+    --tsquare-editor-popup-bg: var(--panel);
+    --tsquare-editor-popup-border: var(--line);
+    --tsquare-editor-popup-selected: var(--accent-soft);
+    --tsquare-editor-font: var(--mono);
+    --tsquare-editor-ui-font: var(--sans);
+    --tsquare-syntax-component: var(--syn-component);
+    --tsquare-syntax-string: var(--syn-string);
+    --tsquare-syntax-prop: var(--syn-prop);
+    --tsquare-syntax-number: var(--syn-number);
+    --tsquare-syntax-word: var(--syn-word);
+    --tsquare-syntax-color: var(--syn-color);
+    --tsquare-syntax-comment: var(--syn-comment);
+    --tsquare-syntax-punct: var(--syn-punct);
+  }
   * { box-sizing: border-box; }
   html, body { height: 100%; margin: 0; }
   body { background: var(--bg); color: var(--ink); font: 14px/1.45 var(--sans); display: flex; flex-direction: column; }

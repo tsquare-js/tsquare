@@ -40,6 +40,11 @@
       "import": "./dist/playground/viewer.js",
       "default": "./dist/playground/viewer.js"
     },
+    "./editor": {
+      "types": "./dist/editor.d.ts",
+      "import": "./dist/editor.js",
+      "default": "./dist/editor.js"
+    },
     "./package.json": "./package.json"
   },
   "jsdelivr": "dist/tsquare.min.js",

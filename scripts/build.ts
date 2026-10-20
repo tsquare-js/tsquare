@@ -9,6 +9,7 @@
  *   dist/playground/index.html
  *   dist/playground/playground.js   the page's script (browser bundle)
  *   dist/playground/viewer.js  the zoomable board, for the browser (import … from "tsquare/viewer")
+ *   dist/editor.js            the code editor, for the browser, CodeMirror bundled (import … from "tsquare/editor")
  *   dist/**\/*.d.ts           type declarations
  *
  *   npm run build
@@ -144,6 +145,20 @@ copyFileSync("src/playground/index.html", "dist/playground/index.html");
 await build({ ...PLAYGROUND_BUNDLE, entryPoints: ["src/playground/app.ts"], outfile: "dist/playground/playground.js", logLevel: "warning" });
 // The viewer on its own, for other hosts (the VS Code extension's preview); it has no dependencies
 await build({ entryPoints: ["src/playground/viewer.ts"], outfile: "dist/playground/viewer.js", bundle: true, format: "esm", platform: "browser", target: "es2022", logLevel: "warning" });
+// The editor on its own (tsquare/editor): CodeMirror bundled in, so it imports nothing and can't
+// clash with a CodeMirror the page has. Its notices go next to it, like the browser build's.
+const editorBuild = await build({
+  entryPoints: ["src/editor.ts"],
+  outfile: "dist/editor.js",
+  banner: { js: "// tsquare/editor. Bundles CodeMirror: see editor.THIRD_PARTY_LICENSES.txt next to this file." },
+  bundle: true,
+  format: "esm",
+  platform: "browser",
+  target: "es2022",
+  metafile: true,
+  logLevel: "warning",
+});
+writeFileSync("dist/editor.THIRD_PARTY_LICENSES.txt", thirdPartyLicenses(editorBuild.metafile!, "dist/editor.js (tsquare/editor) bundles the packages below."));
 
 execFileSync("npx", ["tsc", "-p", "tsconfig.build.json"], { stdio: "inherit" });
 console.log("built dist/");
