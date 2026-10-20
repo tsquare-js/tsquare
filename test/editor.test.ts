@@ -62,6 +62,22 @@ test("setIssues underlines the problem lines and lists them in the gutter; [] cl
   editor.destroy();
 });
 
+test("lineWrapping wraps long lines, continuation rows indented 4 past their line's indentation; off by default", async () => {
+  const createEditor = await load();
+  const plain = createEditor(host(), { doc: "board" });
+  assert.ok(!plain.dom.querySelector(".cm-content")!.classList.contains("cm-lineWrapping"), "off by default (the playground)");
+  plain.destroy();
+
+  const editor = createEditor(host(), { doc: 'board\n  screen phone\n    button "Go"', lineWrapping: true });
+  assert.ok(editor.dom.querySelector(".cm-content")!.classList.contains("cm-lineWrapping"));
+  const indents = () => [...editor.dom.querySelectorAll<HTMLElement>(".cm-line")].map((l) => l.style.textIndent);
+  assert.deepEqual(indents(), ["-4ch", "-6ch", "-8ch"], "indentation + 4");
+  assert.match(editor.dom.querySelector<HTMLElement>(".cm-line")!.style.paddingLeft, /4ch/);
+  editor.setText("board\n      deep");
+  assert.deepEqual(indents(), ["-4ch", "-10ch"], "follows edits");
+  editor.destroy();
+});
+
 test("destroy removes the editor from the page", async () => {
   const createEditor = await load();
   const el = host();
