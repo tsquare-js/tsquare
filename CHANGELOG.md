@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- **A script for any web page:** `<script src="https://cdn.jsdelivr.net/npm/tsquare@0.11/dist/tsquare.min.js"></script>` draws every ```` ```tsquare ```` code block on the page once it has loaded, so wireframes work on Markdown sites (MkDocs, Hugo, Jekyll, Docsify, VitePress, …) with no build step. It finds the HTML Markdown renderers make of a fence, lists a block's problems by line in its place, and sets `window.tsquare` with the whole API. Rendering happens in the reader's browser and matches Node byte for byte. `data-start="manual"` on the script tag leaves it to you to call `tsquare.renderAll()`.
+- **`renderAll()`** is exported for pages that bundle tsquare themselves: it does the same for a document or part of one (`{ root, selector }`).
+
 ## 0.10.1
 
 Docs and license only: the code is the same as 0.10.0, and every wireframe renders the same.

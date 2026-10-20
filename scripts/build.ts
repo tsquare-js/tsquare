@@ -3,6 +3,7 @@
  *   dist/index.js             the library (import { renderWireframe } from "tsquare")
  *   dist/browser/index.js     the library for browsers (SVG only; the package's "browser" condition)
  *   dist/browser/THIRD_PARTY_LICENSES.txt   notices for what that build bundles
+ *   dist/tsquare.min.js       the standalone script for a <script> tag: window.tsquare, renders the page's blocks
  *   dist/cli.js               the CLI (bin/tsquare.js runs it)
  *   dist/playground/index.js  the playground handler (import … from "tsquare/playground")
  *   dist/playground/index.html
@@ -13,9 +14,9 @@
  *   npm run build
  */
 import { execFileSync } from "node:child_process";
-import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { appendFileSync, copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { build, type Metafile, type Plugin } from "esbuild";
+import { build, type BuildOptions, type Metafile, type Plugin } from "esbuild";
 import { componentDefinitions } from "../src/catalog";
 import { PLAYGROUND_BUNDLE, checkReferenceExamples } from "../src/playground/index";
 import { bareWords } from "../src/text";
@@ -71,33 +72,51 @@ const browserVariants: Plugin = {
   },
 };
 const bundledForBrowser = ["@fontsource/inter", "@json-render/image", "@resvg/resvg-js", "satori", "@types/node", "@types/react"];
-const browserBuild = await build({
-  entryPoints: ["src/index.ts"],
-  outfile: "dist/browser/index.js",
-  banner: { js: "// tsquare for browsers. Bundles third-party code: see THIRD_PARTY_LICENSES.txt next to this file." },
-  metafile: true,
+const forBrowsers = {
   bundle: true,
-  format: "esm",
   platform: "browser",
   target: "es2022",
   jsx: "automatic",
-  external: Object.keys(pkg.dependencies).filter((d) => !bundledForBrowser.includes(d)),
   alias: { "@resvg/resvg-js": "./src/resvg.browser.ts" },
   define: { "process.env.SATORI_STANDALONE": '"0"', "process.env.JEST_WORKER_ID": "undefined", "import.meta.url": "undefined" },
   loader: { ".woff": "binary" },
   plugins: [browserVariants],
+  metafile: true,
   logLevel: "warning",
+} satisfies BuildOptions;
+const browserBuild = await build({
+  ...forBrowsers,
+  entryPoints: ["src/index.ts"],
+  outfile: "dist/browser/index.js",
+  banner: { js: "// tsquare for browsers. Bundles third-party code: see THIRD_PARTY_LICENSES.txt next to this file." },
+  format: "esm",
+  external: Object.keys(pkg.dependencies).filter((d) => !bundledForBrowser.includes(d)),
 });
-writeFileSync("dist/browser/THIRD_PARTY_LICENSES.txt", thirdPartyLicenses(browserBuild.metafile!));
+writeFileSync("dist/browser/THIRD_PARTY_LICENSES.txt", thirdPartyLicenses(browserBuild.metafile!, "dist/browser/index.js (tsquare's browser build) bundles the packages below. The rest of tsquare's dependencies are imported, not bundled."));
+
+// The standalone script for a <script> tag (CDN or self-hosted): the browser build with every
+// dependency bundled and minified, `window.tsquare`, and renderAll() on load (src/standalone.ts).
+// A CDN serves just this file, so the bundled packages' notices go at its end.
+const standalone = await build({
+  ...forBrowsers,
+  entryPoints: ["src/standalone.ts"],
+  outfile: "dist/tsquare.min.js",
+  format: "iife",
+  globalName: "tsquare",
+  minify: true,
+  define: { ...forBrowsers.define, "process.env.NODE_ENV": '"production"' },
+  banner: { js: `/*! tsquare ${pkg.version} | MIT | https://tsquare.dev | bundled packages' licenses are at the end of this file */` },
+});
+appendFileSync("dist/tsquare.min.js", `\n/*\n${thirdPartyLicenses(standalone.metafile!, "tsquare.min.js bundles the packages below.").replaceAll("*/", "* /")}*/\n`);
 
 /**
- * The license of every package bundled into the browser build, for the notices their licenses ask
+ * The license of every package bundled into a browser bundle, for the notices their licenses ask
  * to ship with copies (satori's MPL-2.0 also asks to say where its source is; Apache-2.0 packages'
  * NOTICE files go too). One section per installed copy. A package that ships no license file needs
  * a vendored notice in licenses/<name>.txt, with where it comes from; otherwise the build stops.
  * The same approach as the VS Code extension's build.
  */
-function thirdPartyLicenses(meta: Metafile) {
+function thirdPartyLicenses(meta: Metafile, heading: string) {
   const packages = new Map<string, string>(); // directory → name
   for (const input of Object.keys(meta.inputs)) {
     const m = input.match(/^(.*node_modules\/((?:@[^/]+\/)?[^/]+))\//);
@@ -116,7 +135,7 @@ function thirdPartyLicenses(meta: Metafile) {
     return { name, version: p.version as string, text: `${name} ${p.version} (${p.license})\n${source}\n${"-".repeat(72)}\n${text}${notice}\n` };
   });
   sections.sort((a, b) => a.name.localeCompare(b.name) || a.version.localeCompare(b.version, undefined, { numeric: true }));
-  return `dist/browser/index.js (tsquare's browser build) bundles the packages below. The rest of tsquare's dependencies are imported, not bundled.\n\n${sections.map((s) => s.text).join("\n\n")}`;
+  return `${heading}\n\n${sections.map((s) => s.text).join("\n\n")}`;
 }
 
 mkdirSync("dist/playground", { recursive: true });

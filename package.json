@@ -42,6 +42,8 @@
     },
     "./package.json": "./package.json"
   },
+  "jsdelivr": "dist/tsquare.min.js",
+  "unpkg": "dist/tsquare.min.js",
   "bin": {
     "tsquare": "bin/tsquare.js"
   },
