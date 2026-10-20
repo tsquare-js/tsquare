@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- **`tsquare/editor` can wrap long lines:** `lineWrapping: true` wraps instead of scrolling sideways, with each wrapped line's continuation rows indented 4 spaces past its own indentation (2 would look like a child element). Off by default, so the playground is unchanged; `@tsquare-js/react` turns it on, because its editors are often narrow.
+
 ## 0.12.0
 
 The language and the renderer haven't changed: every wireframe renders exactly as in 0.11.0, and render URLs give the same images.

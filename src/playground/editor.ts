@@ -12,8 +12,8 @@ import { defaultKeymap, history, historyKeymap, indentWithTab } from "@codemirro
 import { HighlightStyle, StreamLanguage, bracketMatching, syntaxHighlighting, type StringStream } from "@codemirror/language";
 import { lintGutter, setDiagnostics, type Diagnostic } from "@codemirror/lint";
 import { highlightSelectionMatches, searchKeymap } from "@codemirror/search";
-import { EditorSelection, EditorState, type Extension } from "@codemirror/state";
-import { EditorView, drawSelection, highlightActiveLine, highlightActiveLineGutter, keymap, lineNumbers, type Command } from "@codemirror/view";
+import { EditorSelection, EditorState, RangeSetBuilder, type Extension } from "@codemirror/state";
+import { Decoration, EditorView, ViewPlugin, drawSelection, highlightActiveLine, highlightActiveLineGutter, keymap, lineNumbers, type Command, type DecorationSet, type ViewUpdate } from "@codemirror/view";
 import { tags } from "@lezer/highlight";
 import type { EditorOptions } from "./editor-options.js";
 import type { ComponentInfo, LanguageData, PropInfo } from "./language-data.js";
@@ -196,6 +196,35 @@ const pasteFencedBlock = EditorView.domEventHandlers({
   },
 });
 
+/**
+ * Wrapping long lines: a wrapped line's continuation rows start 4 spaces deeper than the line's own
+ * indentation (2 deeper would look like a child element). Each visible line gets its indentation
+ * as a hanging indent: padding for every row, minus the same on the first, which starts with the
+ * spaces themselves.
+ */
+const CONTINUATION = 4;
+const hangingIndent = ViewPlugin.fromClass(
+  class {
+    decorations: DecorationSet;
+    constructor(view: EditorView) { this.decorations = this.build(view); }
+    update(u: ViewUpdate) { if (u.docChanged || u.viewportChanged) this.decorations = this.build(u.view); }
+    build(view: EditorView) {
+      const builder = new RangeSetBuilder<Decoration>();
+      for (const { from, to } of view.visibleRanges) {
+        for (let pos = from; pos <= to; ) {
+          const line = view.state.doc.lineAt(pos);
+          const indent = line.text.match(/^ */)![0].length;
+          builder.add(line.from, line.from, Decoration.line({ attributes: { style: `padding-left: calc(6px + ${indent + CONTINUATION}ch); text-indent: -${indent + CONTINUATION}ch` } }));
+          pos = line.to + 1;
+        }
+      }
+      return builder.finish();
+    }
+  },
+  { decorations: (p) => p.decorations },
+);
+const wrapping = [EditorView.lineWrapping, hangingIndent];
+
 export interface Editor {
   view: EditorView;
   getText(): string;
@@ -226,6 +255,7 @@ export function createEditor(parent: HTMLElement, opts: EditorOptions = {}): Edi
     keymap.of([{ key: "Enter", run: newlineKeepIndent }, ...closeBracketsKeymap, ...completionKeymap, ...searchKeymap, ...historyKeymap, indentWithTab, ...defaultKeymap]),
     theme,
     pasteFencedBlock,
+    opts.lineWrapping ? wrapping : [],
     EditorView.contentAttributes.of({ "aria-label": opts.ariaLabel ?? "Wireframe text", spellcheck: "false", autocapitalize: "off" }),
     EditorView.updateListener.of((u) => { if (u.docChanged) opts.onChange?.(u.state.doc.toString()); }),
   ];

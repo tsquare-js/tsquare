@@ -145,7 +145,7 @@ const editor = createEditor(document.getElementById("code")!, {
 });
 ```
 
-Give the element a height; the editor fills it. Options: `doc`, `data`, `onChange`, `lineNumbers` (default `true`) and `ariaLabel` (default "Wireframe text"). The editor has `getText()`, `setText(text)` (one undoable step), `setIssues(issues)`, `goToLine(n)`, `focus()`, `dom` and `destroy()`.
+Give the element a height; the editor fills it. Options: `doc`, `data`, `onChange`, `lineNumbers` (default `true`), `lineWrapping` (default `false`: wrap long lines instead of scrolling sideways, continuation rows indented 4 spaces past their line's indentation, so they don't look like a child element) and `ariaLabel` (default "Wireframe text"). The editor has `getText()`, `setText(text)` (one undoable step), `setIssues(issues)`, `goToLine(n)`, `focus()`, `dom` and `destroy()`.
 
 Its colors are CSS variables, light or dark by the page's `color-scheme`, defaulting to the playground's:
 

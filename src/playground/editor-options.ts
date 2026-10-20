@@ -10,6 +10,8 @@ export interface EditorOptions {
   onChange?: (text: string) => void;
   /** Line numbers in a gutter. Default true. */
   lineNumbers?: boolean;
+  /** Wrap long lines instead of scrolling sideways; continuation rows are indented under their line. Default false. */
+  lineWrapping?: boolean;
   /** The editable area's accessible name. Default "Wireframe text". */
   ariaLabel?: string;
 }
