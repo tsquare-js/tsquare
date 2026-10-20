@@ -8,7 +8,7 @@
  *   <code data-lang="tsquare">…</code>                      Hugo's highlighter
  *   <pre class="tsquare">…</pre>, <div class="tsquare">…</div>   written by hand
  *
- * Each becomes <figure class="tsquare-board"><img …></figure>, or, when the text has problems,
+ * Each becomes <figure class="tsquare-board"><img src="data:…"></figure>, or, when the text has problems,
  * <div class="tsquare-problems"> listing them by line. Running it again skips what's done.
  */
 import { compileWireframe } from "./compile.js";
@@ -41,17 +41,19 @@ export async function renderAll(opts: RenderAllOptions = {}): Promise<RenderAllR
   const root = opts.root ?? document;
   const doc = (root as Node).ownerDocument ?? (root as Document);
   const result: RenderAllResult = { rendered: 0, invalid: 0 };
-  const targets: Element[] = [];
+  const blocks: { target: Element; text: Element }[] = [];
   for (const el of root.querySelectorAll(opts.selector ?? DEFAULT_SELECTOR)) {
     // a <code> is replaced with its <pre>, so the page's code-block styling goes too
     const target = el.tagName === "CODE" ? (el.closest("pre") ?? el) : el;
     if (target.hasAttribute(DONE) || target.closest(`[${DONE}]`)) continue;
-    if (targets.some((t) => t.contains(target) || target.contains(t))) continue; // Jekyll's div holds the code
-    targets.push(target);
+    if (blocks.some((b) => b.target.contains(target) || target.contains(b.target))) continue; // Jekyll's div holds the code
+    // A wrapper (Jekyll, VitePress, Docusaurus) can hold a language label or a copy button next to
+    // the code: read the text from the code inside it, and replace the whole wrapper.
+    blocks.push({ target, text: el.tagName === "CODE" ? el : (el.querySelector("code") ?? el.querySelector("pre") ?? el) });
   }
-  if (targets.length) addStyles(doc);
-  for (const target of targets) {
-    const source = target.textContent ?? "";
+  if (blocks.length) addStyles(doc);
+  for (const { target, text } of blocks) {
+    const source = text.textContent ?? "";
     const replacement = await renderBlock(doc, source);
     replacement.setAttribute(DONE, "");
     target.replaceWith(replacement);
@@ -68,11 +70,10 @@ async function renderBlock(doc: Document, source: string): Promise<Element> {
     const svg = await renderWireframeSvg(spec, { skipValidation: true });
     const { width, height } = boardLayout(spec);
     const title = (spec.elements[spec.root]?.props as { title?: string } | undefined)?.title;
-    const win = doc.defaultView ?? globalThis;
     const figure = doc.createElement("figure");
     figure.className = "tsquare-board";
     const img = doc.createElement("img");
-    img.src = win.URL.createObjectURL(new win.Blob([svg], { type: "image/svg+xml" }));
+    img.src = svgDataUrl(svg);
     img.width = width;
     img.height = height;
     img.alt = title ? `Wireframe: ${title}` : "Wireframe";
@@ -81,6 +82,18 @@ async function renderBlock(doc: Document, source: string): Promise<Element> {
   } catch (err) {
     return problems(doc, [`tsquare couldn't render this board: ${err instanceof Error ? err.message : String(err)}`]);
   }
+}
+
+/**
+ * The SVG inside the URL itself. A blob: URL would stay in memory until the page closes, and
+ * pages that swap their content and call renderAll() again (single-page docs sites) would pile
+ * them up; a data: URL goes away with its <img>.
+ */
+function svgDataUrl(svg: string) {
+  const bytes = new TextEncoder().encode(svg);
+  let binary = "";
+  for (let i = 0; i < bytes.length; i += 0x8000) binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+  return `data:image/svg+xml;base64,${btoa(binary)}`;
 }
 
 function problems(doc: Document, lines: string[]) {

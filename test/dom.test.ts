@@ -1,14 +1,15 @@
 /**
  * renderAll() (src/dom.ts) in jsdom: the HTML markdown renderers make of a ```tsquare fence becomes
  * a board, problems are listed in place, and a second run changes nothing. Then the standalone
- * script (dist/tsquare.min.js, needs npm run build) in a page, from a <script> tag. jsdom has no
- * URL.createObjectURL, so it's stubbed.
+ * script (dist/tsquare.min.js, needs npm run build) in a page, from a <script> tag. Boards are
+ * data: URLs; URL.createObjectURL (which jsdom lacks anyway) throws, so a blob: URL would fail.
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { JSDOM } from "jsdom";
 import { renderAll } from "../src/dom.js";
+import { renderWireframe } from "../src/compile.js";
 import { read } from "./helpers.js";
 
 const BOARD = read("examples/sign-in.tsq");
@@ -16,10 +17,10 @@ const escape = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 
 function page(body: string, opts: ConstructorParameters<typeof JSDOM>[1] = {}) {
   const dom = new JSDOM(`<!doctype html><html><head></head><body>${body}</body></html>`, opts);
-  let n = 0;
-  dom.window.URL.createObjectURL = () => `blob:test/${++n}`;
+  dom.window.URL.createObjectURL = () => { throw new Error("boards are data: URLs; a blob: URL stays in memory until the page closes"); };
   return dom;
 }
+const svgOf = (src: string) => Buffer.from(src.replace(/^data:image\/svg\+xml;base64,/, ""), "base64").toString("utf8");
 
 test("renderAll draws the HTML that markdown renderers make of a ```tsquare fence", async () => {
   const dom = page(`
@@ -29,20 +30,25 @@ test("renderAll draws the HTML that markdown renderers make of a ```tsquare fenc
     <div class="highlight"><pre tabindex="0"><code class="language-tsquare" data-lang="tsquare">${escape(BOARD)}</code></pre></div>
     <pre class="tsquare">${escape(BOARD)}</pre>
     <div class="tsquare">${escape(BOARD)}</div>
+    <div class="language-tsquare vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang">tsquare</span><pre class="shiki vp-code" tabindex="0"><code>${escape(BOARD).split("\n").map((l) => `<span class="line"><span>${l}</span></span>`).join("\n")}</code></pre></div>
+    <div class="language-tsquare theme-code-block"><div class="codeBlockContent"><pre class="prism-code language-tsquare"><code class="codeBlockLines">${escape(BOARD)}</code></pre><div class="buttonGroup"><button type="button" aria-label="Copy code to clipboard">Copy</button></div></div></div>
     <pre><code class="language-js">const notAWireframe = 1;</code></pre>
     <p>after</p>`);
   const doc = dom.window.document;
-  assert.deepEqual(await renderAll({ root: doc }), { rendered: 5, invalid: 0 });
+  // VitePress (1.6.4's exact markup) and Docusaurus put a language label or a copy button next to the code
+  assert.deepEqual(await renderAll({ root: doc }), { rendered: 7, invalid: 0 });
 
+  const expected = await renderWireframe(BOARD);
   const boards = [...doc.querySelectorAll("figure.tsquare-board")];
-  assert.equal(boards.length, 5);
+  assert.equal(boards.length, 7);
   for (const figure of boards) {
     const img = figure.querySelector("img")!;
-    assert.match(img.src, /^blob:test\//);
+    assert.match(img.src, /^data:image\/svg\+xml;base64,/);
+    assert.equal(svgOf(img.src), expected, "the image is the board's SVG, exactly");
     assert.ok(img.width > 0 && img.height > 0, "the board's size, so the page doesn't jump when it loads");
     assert.match(img.alt, /^Wireframe/);
   }
-  assert.equal(doc.querySelectorAll("pre code.language-tsquare, .tsquare, .highlighter-rouge").length, 0, "the code blocks are gone");
+  assert.equal(doc.querySelectorAll("pre code.language-tsquare, .tsquare, .language-tsquare, .lang, button").length, 0, "the code blocks are gone, with their labels and copy buttons");
   assert.ok(doc.querySelector("code.language-js"), "other code blocks stay");
   assert.equal(doc.querySelectorAll("#tsquare-styles").length, 1);
   assert.deepEqual([...doc.body.querySelectorAll("p")].map((p) => p.textContent), ["before", "after"]);
@@ -78,7 +84,6 @@ test("the standalone script sets window.tsquare and draws the page's blocks on l
     new Promise<JSDOM>((done) => {
       const dom = page(`<pre><code class="language-tsquare">${escape(BOARD)}</code></pre><script ${attrs}>${script}</script>`, {
         runScripts: "dangerously",
-        beforeParse: (window) => { window.URL.createObjectURL = () => "blob:test/standalone"; },
       });
       dom.window.addEventListener("load", () => done(dom));
     });
