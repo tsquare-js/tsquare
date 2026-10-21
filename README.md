@@ -52,10 +52,29 @@ A wireframe can be embedded anywhere an image works (Notion, GitHub, docs sites)
 
 The playground's **Copy link** menu makes these; [Embedding](docs/embedding.md) has the steps for Notion, GitHub and your own site. The text is compressed into the URL, not encrypted, so anyone with the link can read it; see [privacy](https://tsquare.dev/privacy). `encodeWireframe` and `decodeWireframe` in the library produce and read the same links.
 
-## In your editor and notes
+## Use it with
+
+**With AI**
+
+- **Claude:** the [tsquare skill](https://tsquare.dev/docs/ai#the-claude-skill) teaches Claude the language and how to check its own wireframes.
+- **Any model:** the [system prompt](https://tsquare.dev/docs/ai#the-prompt), or the hosted [MCP server](https://tsquare.dev/docs/ai#connect-over-mcp) for Claude, ChatGPT, Cursor, VS Code and other tools that take a remote MCP URL.
+
+**In your docs**
+
+- **Docusaurus, Astro, MDX:** [`remark-tsquare`](https://tsquare.dev/docs/markdown-plugins#remark-tsquare) draws ```` ```tsquare ```` code blocks when the site is built.
+- **VitePress, Eleventy:** [`markdown-it-tsquare`](https://tsquare.dev/docs/markdown-plugins#markdown-it-tsquare), the same for sites built on markdown-it.
+- **Any web page:** [one script tag](https://tsquare.dev/docs/embedding#pages-written-in-markdown) draws the code blocks in the reader's browser, with no build step.
+- **Notion, GitHub and anywhere an image works:** [image links](#image-links).
+
+**In your app**
+
+- **React:** [`@tsquare-js/react`](https://tsquare.dev/docs/react) shows boards, a zoomable viewer, an editor and a playground, including boards in a model's reply while it's still streaming in.
+- **Node or the browser:** the [library](#library) itself.
+
+**In your editor and notes**
 
 - **VS Code** (and Cursor, VSCodium, Windsurf): the [tsquare extension](https://marketplace.visualstudio.com/items?itemName=tsquare-js.tsquare-vscode) gives `.tsq` files a live preview, problems as you type, highlighting and autocomplete. Also on [Open VSX](https://open-vsx.org/extension/tsquare-js/tsquare-vscode).
-- **Obsidian**: the [tsquare plugin](https://community.obsidian.md/plugins/tsquare) draws ```` ```tsquare ```` code blocks in your notes, on desktop and mobile. See [the Obsidian page](https://tsquare.dev/docs/obsidian).
+- **Obsidian:** the [tsquare plugin](https://community.obsidian.md/plugins/tsquare) draws ```` ```tsquare ```` code blocks in your notes, on desktop and mobile. See [the Obsidian page](https://tsquare.dev/docs/obsidian).
 
 ## The language
 
