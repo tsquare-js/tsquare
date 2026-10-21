@@ -1,6 +1,6 @@
 {
   "name": "tsquare",
-  "version": "0.12.1",
+  "version": "0.12.2",
   "description": "Wireframes in plain text: easy for LLMs to write, fast to render as SVG or PNG.",
   "keywords": [
     "wireframe",
@@ -106,6 +106,7 @@
     "@types/jsdom": "^30.0.0",
     "esbuild": "^0.28.2",
     "gpt-tokenizer": "^4.0.0",
+    "jiti": "1.21.7",
     "jsdom": "^29.1.1",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"

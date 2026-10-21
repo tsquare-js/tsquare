@@ -6,7 +6,7 @@
  * Problems come back as a result with isError, not a thrown error, so the model reads them and fixes
  * its text: the messages are the same line-numbered ones `tsquare check` prints.
  */
-import { z } from "zod";
+import * as z from "zod";
 import { compileWireframe, formatIssues } from "./compile.js";
 import { languageReference } from "./prompt.js";
 import { boardSize, renderWireframePng } from "./render.js";

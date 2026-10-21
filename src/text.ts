@@ -20,7 +20,7 @@
  *   # comment        → only on a line of its own; anywhere else # is text ([#1001, …], accent=#1a73e8)
  */
 import type { Spec } from "@json-render/core";
-import { z } from "zod";
+import * as z from "zod";
 import { ID_PATTERN, UNIVERSAL_PROPS, componentDefinitions, takesId, takesUniversalProps, universalPropMessage } from "./catalog.js";
 import { unknownComponentMessage } from "./suggest.js";
 
