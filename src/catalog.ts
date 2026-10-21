@@ -1,5 +1,5 @@
 import { defineCatalog } from "@json-render/core";
-import { z } from "zod";
+import * as z from "zod";
 import { ACCENTS, accentMessage, isAccent } from "./colors.js";
 import { isIcon, unknownIconMessage } from "./icons.js";
 import { wireframeSchema } from "./schema.js";

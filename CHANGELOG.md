@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.2
+
+The language and the renderer haven't changed: every wireframe renders exactly as in 0.12.1, and render URLs give the same images.
+
+- **Loads in Docusaurus:** Docusaurus loads its config, and the remark plugins in it, through jiti 1, which turned `import { z } from "zod"` into `undefined`, so importing tsquare there failed with "Cannot read properties of undefined (reading 'enum')". tsquare now imports zod as `import * as z from "zod"` (the form zod recommends), and a test loads the build through jiti 1.
+
 ## 0.12.1
 
 The language and the renderer haven't changed: every wireframe renders exactly as in 0.12.0, and render URLs give the same images.

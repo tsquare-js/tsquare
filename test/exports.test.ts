@@ -1,6 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
 import * as tsquare from "../src/index.js";
 import { list, read } from "./helpers.js";
 
@@ -44,4 +46,12 @@ test("the browser build (the \"browser\" condition) imports nothing from Node an
   }
   assert.throws(() => browser.encodeWireframe("board"), /need Node/);
   await assert.rejects(browser.renderWireframe("board\n  screen phone", { format: "png" }), /PNG rendering needs Node/);
+});
+
+test("the build loads through jiti 1, which Docusaurus uses for its config and the remark plugins in it (needs npm run build)", async () => {
+  // jiti 1 rewrites ESM into CommonJS and drops zod's `export * as z`, so `import { z } from "zod"` came back undefined
+  const jiti = createRequire(import.meta.url)("jiti")(fileURLToPath(import.meta.url), { interopDefault: true });
+  const built: typeof tsquare = jiti("../dist/index.js");
+  const text = read("examples/sign-in.tsq");
+  assert.equal(await built.renderWireframe(text), await tsquare.renderWireframe(text));
 });
