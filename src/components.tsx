@@ -68,6 +68,9 @@ function markRoot(root: ReactNode, color: string): ReactNode {
   return cloneElement(node as any, {}, ...kids, <Marker key="__marker" color={color} />);
 }
 
+/** Components that place their own marker: a screen's content frame, a modal's card, a drawer's panel (not the scrim). */
+const MARKS_ITSELF = new Set(["Screen", "Modal", "Drawer"]);
+
 /**
  * A registry for the measuring pass: an element whose props carry `__mark` (a color) gets a marker on
  * its outer box. Fields and screens place their own (`__markField`, Screen's frame), since an overlay
@@ -80,7 +83,7 @@ export function withMarkers(reg: typeof registry): typeof registry {
       (props: Props) => {
         const root = (C as any)(props);
         const color = props.element?.props?.__mark;
-        return color && name !== "Screen" ? markRoot(root, color) : root;
+        return color && !MARKS_ITSELF.has(name) ? markRoot(root, color) : root;
       },
     ]),
   ) as typeof registry;
@@ -1424,6 +1427,7 @@ function Modal({ element, children }: Props) {
       >
         {p.title ? <Box style={{ fontSize: 18, fontWeight: 600 }}>{p.title}</Box> : null}
         {withDir(children, "column")}
+        {p.__mark ? <Marker color={p.__mark} /> : null}
       </Box>
     </Scrim>
   );
@@ -1468,6 +1472,7 @@ function Drawer({ element, children }: Props) {
           </Box>
         ) : null}
         {withDir(children, "column")}
+        {p.__mark ? <Marker color={p.__mark} /> : null}
       </Box>
     </Scrim>
   );

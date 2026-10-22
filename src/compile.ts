@@ -8,6 +8,8 @@ export interface CompileResult {
   spec: Spec | null;
   /** Every problem, tied to a source line. Empty means the wireframe is valid. */
   issues: TextIssue[];
+  /** Each element's line in the text, by its key in the spec (for measureElements). */
+  lines: Record<string, number>;
 }
 
 /**
@@ -42,7 +44,7 @@ export function compileWireframe(source: string): CompileResult {
     return true;
   });
   unique.sort((a, b) => a.line - b.line);
-  return { spec: parsed.spec, issues: unique };
+  return { spec: parsed.spec, issues: unique, lines: parsed.lines };
 }
 
 /** One issue per line, e.g. for an error message or a model repair prompt. */

@@ -3,7 +3,7 @@ import { renderToSvg } from "@json-render/image/render";
 import { ID_PATTERN, UNIVERSAL_PROPS, catalog, componentDefinitions, listItemEnds, takesId, takesUniversalProps, universalPropMessage } from "./catalog.js";
 import { monthGrid, withMarkers, withPalette, withTopLayer } from "./components.js";
 import { findAnchors, overlayLayer, readMarkers, tagForMeasuring, type Anchor, type Rect } from "./anchors.js";
-import { flowLabelWidth, flowLayer, flowMargin, type FlowBoxes } from "./flows.js";
+import { flowLabelWidth, flowLayer, flowMargin, layoutFlows, type FlowBoxes } from "./flows.js";
 import { paletteFor } from "./colors.js";
 import { loadFonts } from "./fonts.js";
 import { closeMatches, unknownComponentMessage } from "./suggest.js";
@@ -364,11 +364,8 @@ export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOption
     if (issues.length) throw new SpecError(issues);
   }
   const flowsOn = opts.flows !== false;
-  const { width, height, gap } = boardLayout(spec, { flows: opts.flows });
-  // the board's gap may have grown to fit flow labels: the Board component reads it from its props
-  const board = spec.elements[spec.root];
-  if (((board.props ?? {}) as Record<string, any>).gap == null && gap !== BOARD_GAP)
-    spec = { ...spec, elements: { ...spec.elements, [spec.root]: { ...board, props: { ...board.props, gap } } } };
+  const { width, height } = boardLayout(spec, { flows: opts.flows });
+  spec = withBoardGap(spec, opts.flows);
   const palette = paletteFor((spec.elements[spec.root]?.props as any)?.accent);
   const registry = withPalette(palette);
   const draw = async (s: Spec, reg: typeof registry) =>
@@ -381,22 +378,28 @@ export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOption
   if (!anchors.length && !flows?.list.length) return draw(spec, registry);
   const layers = [];
   // flows first: open menus, pickers and tooltips are part of the screen's UI and stay on top
-  if (flows?.list.length) {
-    const resolved = flows.list
-      // an end that wasn't measured (not drawn) falls back to its screen rather than dropping the arrow
-      .map(({ key, from, to }) => ({ key, ends: { from: flows.box(from, boxes) ?? flows.screenBox(from), to: flows.box(to, boxes) ?? flows.screenBox(to), fromScreen: flows.screenBox(from), toScreen: flows.screenBox(to) } }))
-      .filter((f): f is { key: string; ends: FlowBoxes } => !!(f.ends.from && f.ends.to && f.ends.fromScreen && f.ends.toScreen));
-    layers.push(flowLayer(spec, resolved, flows.screens, flows.gap, palette, { width, height }));
-  }
+  if (flows?.list.length) layers.push(flowLayer(layoutFlows(spec, flows.resolve(boxes), flows.screens, flows.gap, palette), { width, height }));
   if (anchors.length) layers.push(overlayLayer(spec, anchors, boxes, palette, registry.Calendar as any));
   return draw(spec, withTopLayer(registry, layers));
 }
 
 /**
- * The flows on a board and how to find their ends: element ends are measured (`measure`), screen
- * ends come from the board layout. `box(key, boxes)` gives an end's box once measured.
+ * The spec as it's drawn: a labeled flow between neighboring screens can widen the board's gap
+ * (boardLayout), and the Board component reads the gap from its props.
  */
-function flowEnds(spec: Spec) {
+export function withBoardGap(spec: Spec, flows?: boolean): Spec {
+  const { gap } = boardLayout(spec, { flows });
+  const board = spec.elements[spec.root];
+  if (((board.props ?? {}) as Record<string, any>).gap == null && gap !== BOARD_GAP)
+    return { ...spec, elements: { ...spec.elements, [spec.root]: { ...board, props: { ...board.props, gap } } } };
+  return spec;
+}
+
+/**
+ * The flows on a board and how to find their ends: element ends are measured (`measure`), screen
+ * ends come from the board layout. `resolve(boxes)` gives each drawable flow's end boxes once measured.
+ */
+export function flowEnds(spec: Spec) {
   const els = spec.elements;
   const byId = new Map<string, string>(); // #id → element key
   for (const [key, el] of Object.entries(els)) if (typeof (el.props as any)?.id === "string") byId.set((el.props as any).id.toLowerCase(), key);
@@ -427,9 +430,15 @@ function flowEnds(spec: Spec) {
     list,
     measure,
     screens: [...screenRects.values()],
-    screenBox: (key: string) => screenRects.get(screenOf(key) ?? ""),
     gap: ((els[spec.root].props ?? {}) as Record<string, any>).gap ?? BOARD_GAP,
-    box: (key: string, boxes: Record<string, Rect>) => (els[key].type === "Screen" ? screenRects.get(key) : boxes[key]),
+    resolve(boxes: Record<string, Rect>) {
+      const box = (key: string) => (els[key].type === "Screen" ? screenRects.get(key) : boxes[key]);
+      const screenBox = (key: string) => screenRects.get(screenOf(key) ?? "");
+      return list
+        // an end that wasn't measured (not drawn) falls back to its screen rather than dropping the arrow
+        .map(({ key, from, to }) => ({ key, ends: { from: box(from) ?? screenBox(from), to: box(to) ?? screenBox(to), fromScreen: screenBox(from), toScreen: screenBox(to) } }))
+        .filter((f): f is { key: string; ends: FlowBoxes } => !!(f.ends.from && f.ends.to && f.ends.fromScreen && f.ends.toScreen));
+    },
   };
 }
 
