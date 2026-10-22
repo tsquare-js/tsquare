@@ -44,6 +44,8 @@ export interface MeasuredElement {
   labelBox?: MeasuredBox;
   /** Its open menu, option list or date picker, or its tooltip (sizes partly estimated from the text). */
   overlay?: MeasuredBox;
+  /** Modals and drawers: whether the screen behind is dimmed (on unless the text says no-scrim). */
+  scrim?: boolean;
 }
 
 export interface MeasuredFlow {
@@ -76,7 +78,7 @@ export interface MeasureOptions {
   skipValidation?: boolean;
 }
 
-/** Blocks the content of their screen while open: a click beside them is a click on the screen. */
+/** Dim their screen while open (unless no-scrim): a click on the dimmed part is a click on the screen. */
 const COVERS_SCREEN = new Set(["Modal", "Drawer"]);
 const OVERLAYS = new Set(["Modal", "Drawer", "Toast"]);
 
@@ -152,7 +154,7 @@ export async function measureElements(spec: Spec, lines: Record<string, number>,
       if (seen) {
         const o = overlays.get(k);
         const oSeen = o && (frame ? clip(o, frame) : o);
-        entry = { ...base, box: toBox(seen), ...(oSeen ? { overlay: toBox(oSeen) } : {}) };
+        entry = { ...base, box: toBox(seen), ...(oSeen ? { overlay: toBox(oSeen) } : {}), ...(COVERS_SCREEN.has(el.type) ? { scrim: p.scrim ?? true } : {}) };
       }
     }
     if (entry) out.push(entry);
@@ -212,20 +214,21 @@ const isContainer = (e: MeasuredElement) => e.type === "Board" || e.type === "Sc
  *   3. elements that hold no others (buttons, inputs, text, …), topmost first
  *   4. a flow's line, within `tolerance` px of it (default 6; pass more when the board is shown zoomed out)
  *   5. stacks, cards, modals and drawers, then the screen, then the board
- * An open modal or drawer covers its screen: inside it, nothing of the screen's content beneath is
- * returned; beside it, only the screen and the board.
+ * A modal, drawer or toast hides the screen's content under it. One that dims its screen (modals and
+ * drawers, unless no-scrim) hides all of it: on the dimmed part, only the screen and the board.
  */
 export function elementsAt(elements: Measured[], x: number, y: number, opts: { tolerance?: number } = {}): Measured[] {
   const tolerance = opts.tolerance ?? 6;
   const order = new Map(elements.map((e, i) => [e, i]));
   const topFirst = (a: Measured, b: Measured) => order.get(b)! - order.get(a)!;
 
-  // content covered by an open modal or drawer, by its screen's line: everything drawn before it on that screen
+  // a modal, drawer or toast hides what's drawn before it on its screen, under it, or anywhere on
+  // the screen when it dims it
   const covered = new Set<Measured>();
   for (const [i, m] of elements.entries()) {
-    if (isFlow(m) || !COVERS_SCREEN.has(m.type) || m.screenLine == null) continue;
+    if (isFlow(m) || !OVERLAYS.has(m.type) || m.screenLine == null) continue;
     const screen = elements.find((e): e is MeasuredElement => e.type === "Screen" && e.line === m.screenLine);
-    if (!inside(screen?.box, x, y)) continue;
+    if (!inside(m.box, x, y) && !(m.scrim && inside(screen?.box, x, y))) continue;
     for (const e of elements.slice(0, i)) if (!isFlow(e) && e.screenLine === m.screenLine) covered.add(e);
   }
 

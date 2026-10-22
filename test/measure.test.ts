@@ -98,12 +98,40 @@ test("what a click hits, most likely meant first", async () => {
   assert.deepEqual(hitLines(els, ...center(el(13, els).box)), [13, 12, 10, 1]);
   const modal = el(12, els).box;
   assert.deepEqual(hitLines(els, modal.x + modal.width - 10, modal.y + modal.height - 10), [12, 10, 1]);
-  // I: beside an open modal, its screen's content is covered
+  // I: on the dimmed part beside an open modal, its screen's content is covered
+  assert.equal(el(12, els).scrim, true);
   assert.deepEqual(hitLines(els, ...center(el(11, els).box)), [10, 1]);
   // J: a screen's name
   assert.deepEqual(hitLines(els, ...center(el(10, els).labelBox!)), [10, 1]);
   // K: the board
   assert.deepEqual(hitLines(els, 5, 5), [1]);
+});
+
+test("without a scrim, what shows beside a modal or drawer is hit as usual; what's under it isn't", async () => {
+  const modal = await measure(BOARD.replace('modal "Session expired"', 'modal "Session expired" no-scrim'));
+  assert.equal(el(12, modal).scrim, false);
+  assert.deepEqual(hitLines(modal, ...center(el(11, modal).box)), [11, 10, 1]);
+  assert.deepEqual(hitLines(modal, ...center(el(13, modal).box)), [13, 12, 10, 1]);
+
+  const drawer = await measure(BOARD.replace('modal "Session expired"', "drawer side=right no-scrim"));
+  const text = el(11, drawer).box, panel = el(12, drawer).box;
+  assert.ok(panel.x > text.x + 10 && panel.x < text.x + text.width); // the panel covers the text's right part
+  assert.deepEqual(hitLines(drawer, text.x + 5, text.y + text.height / 2), [11, 10, 1]);
+  assert.deepEqual(hitLines(drawer, panel.x + 5, text.y + text.height / 2), [12, 10, 1]);
+
+  // dimmed, the drawer covers its whole screen
+  const dimmed = await measure(BOARD.replace('modal "Session expired"', "drawer side=right"));
+  assert.equal(el(12, dimmed).scrim, true);
+  assert.deepEqual(hitLines(dimmed, text.x + 5, text.y + text.height / 2), [10, 1]);
+});
+
+test("a toast hides what's under it, and nothing else", async () => {
+  const els = await measure(['board', '  screen phone "Feed"', '    image "Photo" height=760', '    toast "Saved"'].join("\n"));
+  const toast = el(4, els).box, image = el(3, els).box;
+  assert.ok(toast.width < image.width / 2); // the pill, not the full-width row it's centered in
+  assert.ok(toast.y < image.y + image.height); // over the image
+  assert.deepEqual(hitLines(els, ...center(toast)), [4, 2, 1]);
+  assert.deepEqual(hitLines(els, toast.x - 10, toast.y + toast.height / 2), [3, 2, 1]);
 });
 
 test("a flow's line is hit within the tolerance, and only near the line", async () => {
