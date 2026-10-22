@@ -15,7 +15,7 @@ import { ACCENTS, type Palette } from "./colors.js";
 import { theme as t } from "./layout.js";
 import type { Rect } from "./anchors.js";
 
-type Pt = { x: number; y: number };
+export type Pt = { x: number; y: number };
 type Side = "left" | "right" | "top" | "bottom";
 const DIR: Record<Side, Pt> = { left: { x: -1, y: 0 }, right: { x: 1, y: 0 }, top: { x: 0, y: -1 }, bottom: { x: 0, y: 1 } };
 const port = (b: Rect, s: Side): Pt =>
@@ -196,10 +196,26 @@ export function flowColor(color: unknown, palette: Palette) {
   return (ACCENTS as Record<string, string>)[s] ?? s;
 }
 
-/** The top layer with every flow: one SVG for the lines and markers, labels as text pills. */
-export function flowLayer(spec: Spec, flows: { key: string; ends: FlowBoxes }[], screens: Rect[], gap: number, palette: Palette, size: { width: number; height: number }): ReactNode {
-  const shapes: ReactNode[] = [];
-  const labels: ReactNode[] = [];
+/** A flow laid out: its route, the drawn line, its ends and its label pill, all in board pixels. */
+export interface FlowLayout {
+  key: string;
+  route: Route;
+  /** The route's points with the ends pulled back for their markers: what the line is drawn through. */
+  points: Pt[];
+  d: string;
+  color: string;
+  start: End;
+  end: End;
+  line: string;
+  dashed: boolean;
+  label?: { text: string } & Rect;
+}
+
+/**
+ * Where every flow goes: routes (each in its own lane and gap track), the line through them, and
+ * each label's spot. flowLayer draws this; measureElements reads it for hit-testing.
+ */
+export function layoutFlows(spec: Spec, flows: { key: string; ends: FlowBoxes }[], screens: Rect[], gap: number, palette: Palette): FlowLayout[] {
   const placed: Rect[] = [];
   const drawn: { y: number; x1: number; x2: number }[] = []; // horizontal runs so far
   // line ends so far, starting with every element end (those can't move; a screen end can)
@@ -222,21 +238,17 @@ export function flowLayer(spec: Spec, flows: { key: string; ends: FlowBoxes }[],
     return r;
   });
   const ends = routes.flatMap((r) => [r.points[0], r.points[r.points.length - 1]]);
-  flows.forEach(({ key }, i) => {
+  return flows.map(({ key }, i) => {
     const r = routes[i];
     const p = (spec.elements[key].props ?? {}) as Record<string, any>;
-    const color = flowColor(p.color, palette);
     const start: End = p.start ?? "none", end: End = p.end ?? "arrow";
     // stop the line short of each element by its marker, so markers sit against the element
     const pts = [...r.points];
     pts[0] = add(pts[0], DIR[r.from], INSET[start]);
     pts[pts.length - 1] = add(pts[pts.length - 1], DIR[r.to], INSET[end]);
-    const { d, at } = linePath(r, pts, p.line ?? "rounded");
-    shapes.push(
-      <path key={`${key}-line`} d={d} fill="none" stroke={color} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" {...(p.dashed ? { strokeDasharray: "7 6" } : {})} />,
-      marker(start, r.points[0], DIR[r.from], color, `${key}-start`),
-      marker(end, r.points[r.points.length - 1], DIR[r.to], color, `${key}-end`),
-    );
+    const line = p.line ?? "rounded";
+    const { d, at } = linePath(r, pts, line);
+    const out: FlowLayout = { key, route: r, points: pts, d, color: flowColor(p.color, palette), start, end, line, dashed: !!p.dashed };
     if (p.label) {
       const w = flowLabelWidth(String(p.label));
       // the label sits on its line, as near the middle as it can without covering another label
@@ -250,15 +262,69 @@ export function flowLayer(spec: Spec, flows: { key: string; ends: FlowBoxes }[],
         const c = at(t), n = covers(c);
         if (n < best) [mid, best] = [c, n];
       }
-      const top = mid.y - 12;
-      placed.push({ x: mid.x - w / 2, y: top, w, h: 24 });
+      const box = { x: mid.x - w / 2, y: mid.y - 12, w, h: 24 };
+      placed.push(box);
+      out.label = { text: String(p.label), ...box };
+    }
+    return out;
+  });
+}
+
+/**
+ * The line a flow draws, as points close enough to the drawn curve for hit-testing (corners and
+ * curves sampled), from the tip of its start marker to the tip of its end marker.
+ */
+export function flowPolyline(f: FlowLayout): Pt[] {
+  const r = f.route, pts = f.points;
+  const s0 = pts[0], e0 = pts[pts.length - 1];
+  let out: Pt[];
+  if (r.lane == null && f.line === "straight") out = [s0, e0];
+  else if (r.lane == null && f.line === "curved") {
+    const { at } = linePath(r, pts, f.line);
+    out = Array.from({ length: 25 }, (_, i) => at(i / 24));
+  } else {
+    // as polylinePath draws it: straight runs, each corner a quadratic curve of radius `radius`
+    const radius = f.line === "curved" ? 40 : f.line === "rounded" ? 14 : 0;
+    const q = simplify(pts);
+    out = [q[0]];
+    for (let i = 1; i < q.length; i++) {
+      const p = q[i];
+      if (radius > 0 && i < q.length - 1) {
+        const prev = q[i - 1], next = q[i + 1];
+        const rr = Math.min(radius, Math.hypot(p.x - prev.x, p.y - prev.y) / 2, Math.hypot(next.x - p.x, next.y - p.y) / 2);
+        const into = { x: Math.sign(p.x - prev.x), y: Math.sign(p.y - prev.y) }, outd = { x: Math.sign(next.x - p.x), y: Math.sign(next.y - p.y) };
+        const a = { x: p.x - into.x * rr, y: p.y - into.y * rr }, b = { x: p.x + outd.x * rr, y: p.y + outd.y * rr };
+        for (let k = 0; k <= 6; k++) {
+          const t = k / 6;
+          out.push({ x: (1 - t) ** 2 * a.x + 2 * (1 - t) * t * p.x + t ** 2 * b.x, y: (1 - t) ** 2 * a.y + 2 * (1 - t) * t * p.y + t ** 2 * b.y });
+        }
+      } else out.push(p);
+    }
+  }
+  // the markers reach the ends' boxes, past where the line stops
+  const first = r.points[0], last = r.points[r.points.length - 1];
+  return simplify([first, ...out, last]);
+}
+
+/** The top layer with every flow: one SVG for the lines and markers, labels as text pills. */
+export function flowLayer(layout: FlowLayout[], size: { width: number; height: number }): ReactNode {
+  const shapes: ReactNode[] = [];
+  const labels: ReactNode[] = [];
+  for (const f of layout) {
+    const r = f.route, { key, color } = f;
+    shapes.push(
+      <path key={`${key}-line`} d={f.d} fill="none" stroke={color} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" {...(f.dashed ? { strokeDasharray: "7 6" } : {})} />,
+      marker(f.start, r.points[0], DIR[r.from], color, `${key}-start`),
+      marker(f.end, r.points[r.points.length - 1], DIR[r.to], color, `${key}-end`),
+    );
+    if (f.label) {
       labels.push(
-        <div key={`${key}-label`} style={{ position: "absolute", left: mid.x - w / 2, top, width: w, height: 24, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 12, backgroundColor: t.paper, border: `1.5px solid ${color}`, color, fontSize: 12, fontWeight: 600 }}>
-          {p.label}
+        <div key={`${key}-label`} style={{ position: "absolute", left: f.label.x, top: f.label.y, width: f.label.w, height: 24, display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 12, backgroundColor: t.paper, border: `1.5px solid ${color}`, color, fontSize: 12, fontWeight: 600 }}>
+          {f.label.text}
         </div>,
       );
     }
-  });
+  }
   return (
     <div key="__flows" style={{ position: "absolute", top: 0, left: 0, width: size.width, height: size.height, display: "flex" }}>
       <svg width={size.width} height={size.height} viewBox={`0 0 ${size.width} ${size.height}`} style={{ position: "absolute", top: 0, left: 0 }}>

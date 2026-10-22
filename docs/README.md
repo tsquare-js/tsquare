@@ -10,4 +10,5 @@ tsquare is a small text language for UI wireframes. A `.tsq` file describes a bo
 - [Icons](icons.md): where the icons come from, the common ones, and every name.
 - [Colors](colors.md): the accent color, badge tones, and input errors.
 - [Embedding](embedding.md): wireframes in Notion, GitHub and your own site.
+- [Element positions](element-positions.md): where each element is drawn, for making a board clickable.
 - [Using it with AI](ai.md): the MCP server, the model prompt, the repair loop, and the Claude skill.
