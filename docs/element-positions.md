@@ -29,7 +29,7 @@ Measuring renders the board once more, so it takes about as long as a render. Me
 
 ## What you get
 
-An array in drawing order (what's drawn later sits on top). The first entry is always the board, so `elements[0].box` is the board's size.
+An array of every element and flow, in drawing order: what's drawn later sits on top. The board is drawn first, underneath everything, so `elements[0]` is always the board and `elements[0].box` is its size. (This is the order of the measured list. What a click hits comes back in a different order: see below.)
 
 Each element:
 
@@ -45,6 +45,7 @@ Each element:
 | `box` | Where it's drawn: `{ x, y, width, height }`. |
 | `labelBox` | Screens only: the band above the frame with the screen's name. |
 | `overlay` | Its open menu, option list or date picker, or its tooltip. |
+| `scrim` | Modals and drawers only: whether the screen behind is dimmed. `true` unless the text says `no-scrim`. |
 
 Each flow arrow:
 
@@ -62,7 +63,8 @@ Some details:
 
 - **`line` is `0` when your `lines` map doesn't have the element**, for example in a spec you merged from several texts. Real lines start at 1, so `if (entry.line)` tells you whether you have one. `parentLine` and `screenLine` are `null` only when there's no parent or screen, never because a line is missing.
 - **Only what's drawn is measured.** Content entirely past the bottom of its screen, the children of a closed accordion, and elements squeezed to nothing aren't in the array. Content cut off by the screen's edge gets a box for the part that shows.
-- **A modal's box is its card**, and a drawer's is its panel, not the dimmed screen behind them.
+- **A modal's box is its card**, a drawer's is its panel, and a toast's is its pill, not the dimmed screen or the full-width row around them.
+- **Every element in the text is measured, `spacer` included.** A spacer stretches to fill empty space, so a click on blank space often hits one. Skip them with `hits.find((e) => e.type !== "Spacer")` if you don't want them.
 - **Overlay sizes are partly estimated.** Menus, option lists and tooltips are sized from their text, so the edge of an `overlay` box can be a few pixels off.
 
 ## What's under a point
@@ -86,7 +88,9 @@ The order:
 
 So a click on a button gets the button even where an arrow crosses it. A click on an arrow over empty space gets the arrow, and a click in the gap between screens gets the arrow before the board.
 
-An open modal or drawer covers its screen. Inside it, nothing of the screen's content beneath comes back. Beside it, on the dimmed part of the screen, you get only the screen and the board.
+A modal, drawer or toast hides the screen's content under it: a click inside one never returns what's beneath. A modal or drawer that dims its screen (`scrim: true`, the default) hides all of it: a click on the dimmed part returns only the screen and the board. With `no-scrim`, what shows beside it is hit as usual.
+
+The board comes last, after everything else under the point. It's first only when the click lands on empty board, outside every screen and arrow.
 
 On a page, convert the click to board pixels. Pass a tolerance in screen pixels divided by the scale, so arrows stay as easy to hit when the board is shown small:
 

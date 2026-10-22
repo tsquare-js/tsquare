@@ -68,8 +68,8 @@ function markRoot(root: ReactNode, color: string): ReactNode {
   return cloneElement(node as any, {}, ...kids, <Marker key="__marker" color={color} />);
 }
 
-/** Components that place their own marker: a screen's content frame, a modal's card, a drawer's panel (not the scrim). */
-const MARKS_ITSELF = new Set(["Screen", "Modal", "Drawer"]);
+/** Components that place their own marker: a screen's content frame, a modal's card, a drawer's panel (not the scrim), a toast's pill. */
+const MARKS_ITSELF = new Set(["Screen", "Modal", "Drawer", "Toast"]);
 
 /**
  * A registry for the measuring pass: an element whose props carry `__mark` (a color) gets a marker on
@@ -1463,6 +1463,7 @@ function Toast({ element, aboveTabBar }: Props & { aboveTabBar?: boolean }) {
         {p.icon ? <IconGlyph name={p.icon} size={18} color={t.onPrimary} /> : null}
         <Box style={{ flexShrink: 1 }}>{p.text ?? ""}</Box>
         {p.action ? <Box style={{ fontWeight: 700, marginLeft: 8, flexShrink: 0 }}>{p.action}</Box> : null}
+        {p.__mark ? <Marker color={p.__mark} /> : null}
       </Box>
     </Box>
   );
