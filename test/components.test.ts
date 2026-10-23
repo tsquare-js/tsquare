@@ -1,10 +1,12 @@
 /** Component behavior that isn't just drawing: calendar months, page lists, value checks, list items. */
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { renderWireframe } from "../src/compile.js";
+import { compileWireframe, renderWireframe } from "../src/compile.js";
 import { monthGrid, pageList } from "../src/components.js";
 import { EXAMPLES } from "../src/playground/reference.js";
+import { LABEL_H } from "../src/layout.js";
 import { printWireframeText } from "../src/print.js";
+import { boardLayout, measureAnchors } from "../src/render.js";
 import { parseWireframeText } from "../src/text.js";
 import { board, problems } from "./helpers.js";
 
@@ -24,6 +26,22 @@ test("the calendar lays out the named month", () => {
 test("toast is an overlay: a direct child of a Screen", () => {
   assert.deepEqual(problems(board('text "Saved"', 'toast "Saved" action="Undo"')), []);
   assert.match(problems(board("stack", '  toast "Saved"')).join("\n"), /Toast must be a direct child of a Screen/);
+});
+
+test("content taller than its screen is cut off; bars and overlays stay inside the screen", async () => {
+  // before 0.12.3 the screen's body grew with its content: toasts and tab bars ended up below the
+  // frame (not drawn), modals and bottom drawers too low
+  const outside: string[] = [];
+  for (const last of ['toast "Saved"', "tabbar items=[{label=Home icon=house}, {label=Search icon=search}] active=0", 'modal "Delete?"', "drawer side=bottom"]) {
+    const { spec } = compileWireframe(board('image "Photo" height=900', last));
+    const key = Object.keys(spec!.elements).find((k) => spec!.elements[k].type !== "Board" && spec!.elements[k].type !== "Screen" && spec!.elements[k].type !== "Image")!;
+    const { boxes } = await measureAnchors(spec!, [key]);
+    const [item] = boardLayout(spec!).items;
+    const frameBottom = item.y + item.height, frameTop = item.y + LABEL_H;
+    const b = boxes[key];
+    if (!(b && b.y > frameTop && b.y + b.h <= frameBottom)) outside.push(`${last.split(" ")[0]}: ${JSON.stringify(b)} not inside ${frameTop}–${frameBottom}`);
+  }
+  assert.deepEqual(outside, []);
 });
 
 test("pagination shows the ends and the current page's neighbours", () => {
