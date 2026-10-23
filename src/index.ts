@@ -10,7 +10,7 @@ export { upgradeWireframe, upgradeSpec, RENAMED_PROPS, type UpgradeOptions } fro
 export { renderAll, DEFAULT_SELECTOR, type RenderAllOptions, type RenderAllResult } from "./dom.js";
 
 // Lower level: the compiled spec and the pieces used to render it.
-export { renderWireframeSvg, renderWireframePng, checkSpec, boardSize, boardLayout, type BoardItem, type RenderWireframeOptions } from "./render.js";
+export { renderWireframeSvg, renderWireframePng, checkSpec, boardSize, boardLayout, measureAnchors, type BoardItem, type RenderWireframeOptions } from "./render.js";
 export { parseWireframeText, type TextIssue, type ParseResult } from "./text.js";
 export { catalog, componentDefinitions } from "./catalog.js";
 export { registry } from "./components.js";
