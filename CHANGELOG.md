@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.4
+
+The language hasn't changed. Boards whose screen names fit render exactly as in 0.12.3 (checked byte for byte on 438 boards); boards with a screen name wider than its screen are fixed:
+
+- **A screen name wider than its screen ends in "…"** instead of widening its column. The board's layout sizes each column by its screen, so a long name pushed the screens after it right of where the layout put them, and the last screen was cut off at the board's right edge. Only names that might not fit are truncated, judged by an upper bound on each character's width in the font, so every other name renders as before.
+
 ## 0.12.3
 
 The language hasn't changed. Screens whose content fits render exactly as in 0.12.2 (the same pixels; the SVG's internal mask ids differ). Screens whose content is taller than the screen are fixed:
