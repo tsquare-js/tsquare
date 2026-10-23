@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.13.0
+
+The language and the renderer haven't changed: every wireframe renders exactly as in 0.12.3, and render URLs give the same images.
+
+- **Element positions**, for making a board clickable (comment on an element, or ask a model to change it). `measureElements(spec, lines, { flows })` returns every element and flow arrow with where it's drawn, in board pixels, and its lines in the text: `line`, `endLine` (its whole block), `id`, `type`, `label`, `screenLine`, `parentLine` and `box`. Screens add the band with their name, and elements with an open menu or a tooltip add its box. Flows add `from`/`to` (the ids), `fromLine`/`toLine`, the drawn `path` and the label's box. `elementsAt(elements, x, y, { tolerance })` returns everything under a point, the most likely meant first: an open menu or tooltip's element, a flow's label, elements that hold no others, a flow's line, then stacks, screens and the board. A modal, drawer or toast hides what's under it; a modal or drawer that dims its screen hides all of it (entries carry `scrim`). `elementsAtLine(elements, line)` returns the element on a line and the blocks around it, for a code view that follows the caret. See [Element positions](docs/element-positions.md). Thanks to @timweeda for the use case (tsquare-js/tsquare#37).
+- **`compileWireframe` returns `lines`**: each element's line in the text, by its key in the spec.
+
 ## 0.12.3
 
 The language hasn't changed. Screens whose content fits render exactly as in 0.12.2 (the same pixels; the SVG's internal mask ids differ). Screens whose content is taller than the screen are fixed:
