@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.3
+
+The language hasn't changed. Screens whose content fits render exactly as in 0.12.2 (the same pixels; the SVG's internal mask ids differ). Screens whose content is taller than the screen are fixed:
+
+- **Content taller than its screen no longer pushes things out of it.** The screen's body grew with its content, so a toast or a tab bar ended up below the frame and wasn't drawn, a modal was centered too low, and a bottom drawer started too low with its end cut off. The content is now cut off at the bottom of the screen, as it already looked, and bars and overlays are placed in the visible screen. Of 438 boards in the examples and eval outputs, 434 render the same pixels; one modal moves up 18px to the middle of its screen, and three gain 4 to 8 pixels of the frame's bottom border that overflowing content used to cover.
+
 ## 0.12.2
 
 The language and the renderer haven't changed: every wireframe renders exactly as in 0.12.1, and render URLs give the same images.

@@ -287,18 +287,22 @@ function Screen({ element, children }: Props) {
       >
         {s.chrome && s.device === "phone" ? <StatusBar /> : null}
         {s.chrome && s.device === "desktop" ? <BrowserBar /> : null}
-        <Box style={{ position: "relative", flexGrow: 1, flexDirection: "column", overflow: "hidden" }}>
+        <Box style={{ position: "relative", flexGrow: 1, flexBasis: "0px", flexDirection: "column", overflow: "hidden" }}>
           {top}
-          <Box
-            style={{
-              flexGrow: 1,
-              flexDirection: "column",
-              padding: s.padding,
-              gap: p.gap ?? 14,
-              overflow: "hidden",
-            }}
-          >
-            {withDir(body, "column")}
+          {/* the content area takes the space between the bars; content taller than it is cut off at the
+              bottom (the wrapper keeps its natural height) instead of pushing the bars and overlays out */}
+          <Box style={{ flexGrow: 1, flexBasis: "0px", flexDirection: "column", overflow: "hidden" }}>
+            <Box
+              style={{
+                flexGrow: 1,
+                flexShrink: 0,
+                flexDirection: "column",
+                padding: s.padding,
+                gap: p.gap ?? 14,
+              }}
+            >
+              {withDir(body, "column")}
+            </Box>
           </Box>
           {bottom}
           {overlays.map((o) => (isValidElement(o) ? cloneElement(o as any, { aboveTabBar: bottom.length > 0 }) : o))}
