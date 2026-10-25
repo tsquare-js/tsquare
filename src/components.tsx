@@ -332,6 +332,7 @@ function Screen({ element, children }: Props) {
             >
               {withDir(body, "column")}
             </Box>
+            {p.__markBody ? <Marker color={p.__markBody} /> : null}
           </Box>
           {bottom}
           {overlays.map((o) => (isValidElement(o) ? cloneElement(o as any, { aboveTabBar: bottom.length > 0 }) : o))}

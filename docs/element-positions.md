@@ -42,9 +42,9 @@ Each element:
 | `label` | Its main text: a button's label, a screen's name, a heading's text. |
 | `screenLine` | The line of the screen it's on. `null` for the board, screens, and notes beside the screens. |
 | `parentLine` | The line of the element that contains it. `null` for the board. |
-| `box` | Where it's drawn: `{ x, y, width, height }`. |
+| `box` | Where it's drawn: `{ x, y, width, height }`, the part that shows. |
 | `labelBox` | Screens only: the band above the frame with the screen's name. |
-| `overlay` | Its open menu, option list or date picker, or its tooltip. |
+| `overlays` | Its open menu, option list or date picker, and its tooltip: one box each, in drawing order. |
 | `scrim` | Modals and drawers only: whether the screen behind is dimmed. `true` unless the text says `no-scrim`. |
 
 Each flow arrow:
@@ -62,10 +62,11 @@ Each flow arrow:
 Some details:
 
 - **`line` is `0` when your `lines` map doesn't have the element**, for example in a spec you merged from several texts. Real lines start at 1, so `if (entry.line)` tells you whether you have one. `parentLine` and `screenLine` are `null` only when there's no parent or screen, never because a line is missing.
-- **Only what's drawn is measured.** Content entirely past the bottom of its screen, the children of a closed accordion, and elements squeezed to nothing aren't in the array. Content cut off by the screen's edge gets a box for the part that shows.
+- **A box is the part that shows.** Content taller than its screen is cut off at the bottom, or at the top of a tab bar, and a drawer cuts off what doesn't fit its panel: those elements get a box for the part that shows. Elements that don't show at all (entirely cut off, or inside a closed accordion) aren't in the array.
+- **An element can have a box 0 tall or 0 wide.** A `spacer` in a row is 0 tall, and so is one in a screen with no room left. It's in the array (so `elementsAtLine` finds it), but `elementsAt` never returns it: there's nothing to click.
 - **A modal's box is its card**, a drawer's is its panel, and a toast's is its pill, not the dimmed screen or the full-width row around them.
-- **Every element in the text is measured, `spacer` included.** A spacer stretches to fill empty space, so a click on blank space often hits one. Skip them with `hits.find((e) => e.type !== "Spacer")` if you don't want them.
-- **Overlay sizes are partly estimated.** Menus, option lists and tooltips are sized from their text, so the edge of an `overlay` box can be a few pixels off.
+- **Spacers are clickable where they take up space.** A spacer stretches to fill empty space, so a click on blank space often hits one. Skip them with `hits.find((e) => e.type !== "Spacer")` if you don't want them.
+- **Overlay sizes are partly estimated.** Menus, option lists and tooltips are sized from their text, so the edge of an `overlays` box can be a few pixels off.
 
 ## What's under a point
 
@@ -129,7 +130,7 @@ while (up != null) {
 const block = text.split("\n").slice(hit.line - 1, hit.endLine).join("\n");
 ```
 
-`elementsAtLine` goes the other way: the element on a line and every block around it, innermost first. It's for a code view that follows the caret. A comment or blank line inside a block gives that block. A flow's line gives the flow, then the board.
+`elementsAtLine` goes the other way: the element on a line and every block around it, innermost first. It's for a code view that follows the caret. A comment or blank line between an element's children gives that element. A flow's line gives the flow, then the board.
 
 ```ts
 import { elementsAtLine } from "tsquare";

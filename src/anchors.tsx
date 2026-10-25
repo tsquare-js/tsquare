@@ -62,25 +62,27 @@ const MARK = (i: number) => `#fe${(i >> 8).toString(16).padStart(2, "0")}${(i & 
 
 /**
  * A copy of the spec whose anchored elements and screens carry marker colors in hidden props:
- * `__mark` on the outer box (menus, tooltips, screens), `__markField` on a field (options, calendar).
- * Box keys are the element id, or `<id>#field`.
+ * `__mark` on the outer box (menus, tooltips, screens), `__markField` on a field (options, calendar),
+ * `__markBody` on the content area of each screen in `bodies` (between its bars, where content is cut off).
+ * Box keys are the element id, `<id>#field` or `<id>#body`.
  */
-export function tagForMeasuring(spec: Spec, anchors: Anchor[]) {
+export function tagForMeasuring(spec: Spec, anchors: Anchor[], bodies: string[] = []) {
   const tagged = structuredClone(spec);
   const colors = new Map<string, string>();
   let n = 1;
-  const tag = (id: string, field: boolean) => {
-    const key = field ? `${id}#field` : id;
+  const tag = (id: string, part: "" | "field" | "body") => {
+    const key = part ? `${id}#${part}` : id;
     if (colors.has(key)) return;
     const color = MARK(n++);
     colors.set(key, color);
     const el = tagged.elements[id];
-    el.props = { ...(el.props ?? {}), [field ? "__markField" : "__mark"]: color };
+    el.props = { ...(el.props ?? {}), [part === "field" ? "__markField" : part === "body" ? "__markBody" : "__mark"]: color };
   };
   for (const a of anchors) {
-    tag(a.screen, false);
-    tag(a.id, a.field);
+    tag(a.screen, "");
+    tag(a.id, a.field ? "field" : "");
   }
+  for (const id of bodies) tag(id, "body");
   return { tagged, colors };
 }
 

@@ -59,9 +59,10 @@ test("every element and flow, in drawing order, tied to its lines", async () => 
   const screen = el(2, els);
   assert.equal(screen.labelBox!.y + screen.labelBox!.height, screen.box.y);
   assert.equal(screen.labelBox!.width, screen.box.width);
-  // a tooltip is the overlay of the element it belongs to, above it
+  // a tooltip is an overlay of the element it belongs to, above it
   const resend = el(9, els);
-  assert.ok(resend.overlay && resend.overlay.y + resend.overlay.height <= resend.box.y);
+  assert.equal(resend.overlays?.length, 1);
+  assert.ok(resend.overlays![0].y + resend.overlays![0].height <= resend.box.y);
   // a modal is its card, not the dimmed screen behind it
   const modal = el(12, els), expired = el(10, els);
   assert.ok(modal.box.width < expired.box.width && modal.box.height < expired.box.height / 2);
@@ -93,7 +94,7 @@ test("what a click hits, most likely meant first", async () => {
   // where the arrow crosses a button, the button first
   assert.deepEqual(hitLines(els, send.x + send.width - 3, y), [6, 14, 4, 2, 1]);
   // F: a tooltip is its element's, and comes first
-  assert.deepEqual(hitLines(els, ...center(el(9, els).overlay!)).slice(0, 1), [9]);
+  assert.deepEqual(hitLines(els, ...center(el(9, els).overlays![0])).slice(0, 1), [9]);
   // G, H: inside a modal
   assert.deepEqual(hitLines(els, ...center(el(13, els).box)), [13, 12, 10, 1]);
   const modal = el(12, els).box;
@@ -177,4 +178,65 @@ test("an element missing from lines gets line 0, which elementsAtLine never retu
   const els = await measureElements(spec!, {});
   assert.ok(els.every((e) => e.line === 0));
   assert.deepEqual(elementsAtLine(els, 0), []);
+});
+
+test("an element with an open menu and a tooltip has both overlays, and either finds it", async () => {
+  const els = await measure(['board', '  screen phone "Menu"', '    text "Top"', '    spacer size=80', '    button "More" open menu=[Edit, Delete] tooltip="More actions"'].join("\n"));
+  const more = el(5, els);
+  assert.equal(more.overlays?.length, 2);
+  const [menu, tip] = more.overlays!;
+  assert.ok(menu.y >= more.box.y + more.box.height && tip.y + tip.height <= more.box.y); // menu below, tooltip above
+  for (const o of more.overlays!) assert.deepEqual(hitLines(els, ...center(o)).slice(0, 1), [5]);
+});
+
+test("content is cut where its screen cuts it: above a tab bar, inside a drawer's panel", async () => {
+  const tabs = await measure(['board', '  screen phone "Feed"', '    image "Photo" height=900', '    tabbar items=[{label=Home icon=house}, {label=Search icon=search}] active=0'].join("\n"));
+  const image = el(3, tabs).box, tabbar = el(4, tabs).box;
+  // the image stops where the tab bar starts (a box sits up to 1.5px inside an element's border)
+  assert.ok(Math.abs(image.y + image.height - tabbar.y) <= 1.5, `${image.y + image.height} vs ${tabbar.y}`);
+  assert.deepEqual(hitLines(tabs, ...center(tabbar)), [4, 2, 1]);
+
+  const drawer = await measure(['board', '  screen phone "Menu"', '    drawer side=left no-scrim', ...Array.from({ length: 12 }, (_, i) => `      image "Photo ${i + 1}" height=120`)].join("\n"));
+  const panel = el(3, drawer).box;
+  const images = drawer.filter((e): e is MeasuredElement => e.type === "Image");
+  assert.ok(images.length > 3 && images.length < 12); // the ones past the panel's bottom aren't drawn
+  for (const i of images) assert.ok(i.box.y + i.box.height <= panel.y + panel.height && i.box.x + i.box.width <= panel.x + panel.width);
+  assert.ok(images.at(-1)!.box.height < 120); // the last one shown is cut by the panel
+});
+
+test("without lines, a click finds the same elements in the same order", async () => {
+  const { spec, lines } = compileWireframe(BOARD);
+  const withLines = await measureElements(structuredClone(spec!), lines);
+  const without = await measureElements(structuredClone(spec!), {});
+  const send = el(6, withLines).box, flow = at(14, withLines) as MeasuredFlow;
+  const points: (readonly [number, number])[] = [
+    center(send), // a button in a stack
+    [(send.x + send.width + flow.labelBox!.x) / 2, flow.path[0][1]], // the arrow over the stack's empty space
+    center(el(11, withLines).box), // content dimmed by the modal on the third screen
+    center(el(13, withLines).box), // the modal's button
+    center(el(8, withLines).box), // content on the second screen, untouched by that modal
+  ];
+  const shape = (hits: Measured[]) => hits.map((e) => `${e.type}${e.type === "Flow" ? "" : JSON.stringify((e as MeasuredElement).box)}`);
+  for (const [x, y] of points) assert.deepEqual(shape(elementsAt(without, x, y)), shape(elementsAt(withLines, x, y)), `${x},${y}`);
+});
+
+test("an element 0 tall or 0 wide (a spacer in a row) is listed but never hit", async () => {
+  const els = await measure(['board', '  screen phone "Row"', '    stack row', '      text "Left"', "      spacer", '      button "Right"'].join("\n"));
+  const spacer = el(5, els);
+  assert.equal(spacer.type, "Spacer");
+  assert.ok(spacer.box.width > 0 && spacer.box.height === 0);
+  assert.ok(els.every((e) => !elementsAt(els, spacer.box.x + spacer.box.width / 2, spacer.box.y).includes(spacer)));
+  assert.deepEqual(elementsAtLine(els, 5).map((e) => e.line), [5, 3, 2, 1]);
+});
+
+test("an arrow to a modal ends at its card; a tooltip on a toast sits over its pill", async () => {
+  // both are placed from the element's measured box: since 0.13.0 that's the card, panel or pill,
+  // not the dimmed screen or the full-width row around it
+  const els = await measure(['board', '  screen phone "From" #from', '    text "Go"', '  screen phone "To"', '    toast "Saved" tooltip="Undo for 5 s"', '    modal "Hello" #hello', '      text "Card"', "  flow from -> hello"].join("\n"));
+  const modal = el(6, els).box, flow = at(8, els) as MeasuredFlow;
+  const end = flow.path[flow.path.length - 1];
+  assert.equal(end[0], modal.x);
+  assert.ok(end[1] > modal.y && end[1] < modal.y + modal.height);
+  const toast = el(5, els), tip = toast.overlays![0];
+  assert.ok(Math.abs(tip.x + tip.width / 2 - (toast.box.x + toast.box.width / 2)) <= 1);
 });
