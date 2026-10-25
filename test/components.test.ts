@@ -44,6 +44,33 @@ test("content taller than its screen is cut off; bars and overlays stay inside t
   assert.deepEqual(outside, []);
 });
 
+/** Where each screen's first element sits, against where the board's layout puts that screen. */
+async function screenOffsets(names: string[]) {
+  const text = ["board", ...names.flatMap((n) => [`  screen phone "${n}"`, '    text "x"'])].join("\n");
+  const { spec } = compileWireframe(text);
+  const texts = Object.keys(spec!.elements).filter((k) => spec!.elements[k].type === "Text");
+  const { boxes } = await measureAnchors(spec!, texts);
+  const { items } = boardLayout(spec!);
+  return texts.map((k, i) => boxes[k].x - (items[i].x + 18)); // 18: the screen's padding
+}
+
+test("a screen name longer than its screen ends in … instead of widening its column", async () => {
+  // before 0.12.4 the name widened its column: the screens after it were drawn right of where the
+  // board's layout put them, and the last one was cut off at the board's edge
+  const names = ["Checkout, error state: the card was declined by the bank", "Done", "ÉCRAN D'ACCUEIL — ÉTAT VIDE, AUCUNE DONNÉE", "Last"];
+  assert.deepEqual(await screenOffsets(names), [0, 0, 0, 0]);
+});
+
+test("no name too wide for its screen is missed, whatever its characters", async () => {
+  // runs of the widest character of each kind, around the length where it stops fitting a phone (390px)
+  for (const ch of ["W", "Q", "+", "f", "Œ", "—", "a"]) {
+    for (let n = 20; n <= 60; n += 3) {
+      const [first, second] = await screenOffsets([ch.repeat(n), "Next"]);
+      assert.deepEqual([first, second], [0, 0], `${ch} × ${n}`);
+    }
+  }
+});
+
 test("pagination shows the ends and the current page's neighbours", () => {
   assert.deepEqual(pageList(5, 2), [1, 2, 3, 4, 5]);
   assert.deepEqual(pageList(12, 6), [1, "…", 5, 6, 7, "…", 12]);

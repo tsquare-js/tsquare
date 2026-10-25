@@ -253,6 +253,23 @@ function BrowserBar() {
   );
 }
 
+/**
+ * Whether a screen name might be wider than `width`. An upper bound: each character counts as the
+ * widest of its kind in Inter semibold at 16px (measured from the font file; Satori doesn't kern,
+ * so a name's width is the sum of its characters). A name that fits may be truncated "just in
+ * case" (it still shows whole); one that doesn't fit is never missed.
+ */
+function mayOverflow(name: string, width: number) {
+  let w = 0;
+  for (const ch of name) {
+    if (ch.charCodeAt(0) >= 128 || /[MWmw@%&]/.test(ch)) w += 16.5; // W 16.3, Œ 16.2
+    else if (/[A-Z]/.test(ch)) w += 12.5; // Q 12.4
+    else if (/[ .,:;'!|il1jft()[\]{}"`-]/.test(ch)) w += 8.5; // " 8.4
+    else w += 11; // + 10.8
+  }
+  return w > width;
+}
+
 function Screen({ element, children }: Props) {
   const p = element.props;
   const s = screenSize(p);
@@ -270,7 +287,16 @@ function Screen({ element, children }: Props) {
 
   return (
     <Box style={{ flexDirection: "column", flexShrink: 0 }}>
-      <Box style={{ height: LABEL_H, fontSize: 16, fontWeight: 600, color: t.text }}>{p.name ?? ""}</Box>
+      {mayOverflow(p.name ?? "", s.width) ? (
+        // the board's layout sizes each column by its screen, so a name that may be wider than the
+        // screen gets the screen's width and ends in "…" instead of widening the column. Only then:
+        // the clip changes how the text is antialiased, and names that fit should render as before.
+        <Box style={{ width: s.width, height: LABEL_H, fontSize: 16, fontWeight: 600, color: t.text }}>
+          <div style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>{p.name}</div>
+        </Box>
+      ) : (
+        <Box style={{ height: LABEL_H, fontSize: 16, fontWeight: 600, color: t.text }}>{p.name ?? ""}</Box>
+      )}
       <Box
         style={{
           width: s.width,
