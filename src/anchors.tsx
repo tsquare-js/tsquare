@@ -62,25 +62,27 @@ const MARK = (i: number) => `#fe${(i >> 8).toString(16).padStart(2, "0")}${(i & 
 
 /**
  * A copy of the spec whose anchored elements and screens carry marker colors in hidden props:
- * `__mark` on the outer box (menus, tooltips, screens), `__markField` on a field (options, calendar).
- * Box keys are the element id, or `<id>#field`.
+ * `__mark` on the outer box (menus, tooltips, screens), `__markField` on a field (options, calendar),
+ * `__markBody` on the content area of each screen in `bodies` (between its bars, where content is cut off).
+ * Box keys are the element id, `<id>#field` or `<id>#body`.
  */
-export function tagForMeasuring(spec: Spec, anchors: Anchor[]) {
+export function tagForMeasuring(spec: Spec, anchors: Anchor[], bodies: string[] = []) {
   const tagged = structuredClone(spec);
   const colors = new Map<string, string>();
   let n = 1;
-  const tag = (id: string, field: boolean) => {
-    const key = field ? `${id}#field` : id;
+  const tag = (id: string, part: "" | "field" | "body") => {
+    const key = part ? `${id}#${part}` : id;
     if (colors.has(key)) return;
     const color = MARK(n++);
     colors.set(key, color);
     const el = tagged.elements[id];
-    el.props = { ...(el.props ?? {}), [field ? "__markField" : "__mark"]: color };
+    el.props = { ...(el.props ?? {}), [part === "field" ? "__markField" : part === "body" ? "__markBody" : "__mark"]: color };
   };
   for (const a of anchors) {
-    tag(a.screen, false);
-    tag(a.id, a.field);
+    tag(a.screen, "");
+    tag(a.id, a.field ? "field" : "");
   }
+  for (const id of bodies) tag(id, "body");
   return { tagged, colors };
 }
 
@@ -175,42 +177,71 @@ function tooltipSize(text: string) {
 }
 
 /**
+ * Where an anchor's overlay goes and its size: `pos` relative to the screen (as place() returns it),
+ * or null when the anchor or its screen wasn't measured.
+ */
+function placeOverlay(spec: Spec, a: Anchor, boxes: Record<string, Rect>) {
+  const screen = boxes[a.screen];
+  const anchor = boxes[a.field ? `${a.id}#field` : a.id];
+  if (!screen || !anchor) return null;
+  const p = propsOf(spec.elements, a.id);
+  if (a.kind === "options") {
+    const options: string[] = p.options?.length ? p.options : [p.value ?? "Option 1", "Option 2", "Option 3"];
+    const size = { w: anchor.w, h: options.length * ROW + 8 };
+    return { screen, anchor, size, pos: place(anchor, size, screen, { prefer: "below", align: "start", gap: 4 }), options };
+  }
+  if (a.kind === "menu") {
+    const items = (p.menu as any[]).map((i) => (typeof i === "string" ? { label: i } : i));
+    const width = a.end ? 200 : Math.max(180, anchor.w);
+    const inRightHalf = anchor.x + anchor.w / 2 > screen.x + screen.w / 2;
+    const size = { w: width, h: items.length * ROW + 8 };
+    return { screen, anchor, size, pos: place(anchor, size, screen, { prefer: "below", align: a.end || inRightHalf ? "end" : "start", gap: a.end ? -6 : 4 }), items };
+  }
+  if (a.kind === "calendar") {
+    const date = parseDate(p.value);
+    const { start, days } = monthGrid(date?.month);
+    const weeks = Math.ceil((start + days) / 7); // as the Calendar draws it: 4, 5 or 6 rows
+    const size = { w: 296, h: 92 + weeks * 38 };
+    return { screen, anchor, size, pos: place(anchor, size, screen, { prefer: "below", align: "start", gap: 4 }), date };
+  }
+  const size = tooltipSize(p.tooltip);
+  return { screen, anchor, size, pos: place(anchor, size, screen, { prefer: "above", align: "center", gap: 4 }) };
+}
+
+/**
+ * Each anchored overlay's box on the board, by the id of the element it belongs to (an element with
+ * an open menu and a tooltip gets both). Menu, tooltip and option heights are estimates.
+ */
+export function overlayBoxes(spec: Spec, anchors: Anchor[], boxes: Record<string, Rect>): { id: string; box: Rect }[] {
+  return anchors.flatMap((a) => {
+    const o = placeOverlay(spec, a, boxes);
+    return o ? [{ id: a.id, box: { x: o.screen.x + o.pos.x, y: o.screen.y + o.pos.y, w: o.size.w, h: o.size.h } }] : [];
+  });
+}
+
+/**
  * The top layer: each overlay inside a box covering its screen (clipped to it), placed from the
  * measured boxes. `Calendar` is the board's own calendar component, reused for date pickers.
  */
 export function overlayLayer(spec: Spec, anchors: Anchor[], boxes: Record<string, Rect>, c: Palette, Calendar: (props: any) => ReactNode): ReactNode {
   const byScreen = new Map<string, ReactNode[]>();
   for (const a of anchors) {
-    const screen = boxes[a.screen];
-    const anchor = boxes[a.field ? `${a.id}#field` : a.id];
-    if (!screen || !anchor) continue;
+    const o = placeOverlay(spec, a, boxes);
+    if (!o) continue;
+    const { screen, anchor, size, pos } = o;
     const p = propsOf(spec.elements, a.id);
     let node: ReactNode = null;
-    let pos: { x: number; y: number; bottom: number; side: string } | null = null;
     if (a.kind === "options") {
-      const options: string[] = p.options?.length ? p.options : [p.value ?? "Option 1", "Option 2", "Option 3"];
-      const size = { w: anchor.w, h: options.length * ROW + 8 };
-      pos = place(anchor, size, screen, { prefer: "below", align: "start", gap: 4 });
-      node = <ListCard items={options.map((label) => ({ label }))} width={size.w} selected={p.value} c={c} />;
+      node = <ListCard items={o.options!.map((label) => ({ label }))} width={size.w} selected={p.value} c={c} />;
     } else if (a.kind === "menu") {
-      const items = (p.menu as any[]).map((i) => (typeof i === "string" ? { label: i } : i));
-      const width = a.end ? 200 : Math.max(180, anchor.w);
-      const inRightHalf = anchor.x + anchor.w / 2 > screen.x + screen.w / 2;
-      pos = place(anchor, { w: width, h: items.length * ROW + 8 }, screen, { prefer: "below", align: a.end || inRightHalf ? "end" : "start", gap: a.end ? -6 : 4 });
-      node = <ListCard items={items} width={width} c={c} />;
+      node = <ListCard items={o.items!} width={size.w} c={c} />;
     } else if (a.kind === "calendar") {
-      const date = parseDate(p.value);
-      const { start, days } = monthGrid(date?.month);
-      const weeks = Math.ceil((start + days) / 7); // as the Calendar draws it: 4, 5 or 6 rows
-      pos = place(anchor, { w: 296, h: 92 + weeks * 38 }, screen, { prefer: "below", align: "start", gap: 4 });
       node = (
         <div style={{ display: "flex", boxShadow: "0 8px 24px rgba(0,0,0,0.18)", borderRadius: 12 }}>
-          {Calendar({ element: { type: "Calendar", props: { month: date?.month ?? "Month", selected: date?.day } }, colors: c })}
+          {Calendar({ element: { type: "Calendar", props: { month: o.date?.month ?? "Month", selected: o.date?.day } }, colors: c })}
         </div>
       );
     } else {
-      const size = tooltipSize(p.tooltip);
-      pos = place(anchor, size, screen, { prefer: "above", align: "center", gap: 4 });
       node = <Tooltip text={p.tooltip} side={pos.side} width={size.w} arrowX={anchor.x + anchor.w / 2 - (screen.x + pos.x)} />;
     }
     const list = byScreen.get(a.screen) ?? [];

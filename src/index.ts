@@ -9,6 +9,9 @@ export { upgradeWireframe, upgradeSpec, RENAMED_PROPS, type UpgradeOptions } fro
 // In a browser: replace the page's ```tsquare code blocks with their boards (what the standalone script runs on load).
 export { renderAll, DEFAULT_SELECTOR, type RenderAllOptions, type RenderAllResult } from "./dom.js";
 
+// Where each element and flow is drawn, and what is under a point or a line (click an element of a board).
+export { measureElements, elementsAt, elementsAtLine, type Measured, type MeasuredElement, type MeasuredFlow, type MeasuredBox, type MeasureOptions } from "./measure.js";
+
 // Lower level: the compiled spec and the pieces used to render it.
 export { renderWireframeSvg, renderWireframePng, checkSpec, boardSize, boardLayout, type BoardItem, type RenderWireframeOptions } from "./render.js";
 export { parseWireframeText, type TextIssue, type ParseResult } from "./text.js";
