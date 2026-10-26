@@ -240,3 +240,21 @@ test("an arrow to a modal ends at its card; a tooltip on a toast sits over its p
   const toast = el(5, els), tip = toast.overlays![0];
   assert.ok(Math.abs(tip.x + tip.width / 2 - (toast.box.x + toast.box.width / 2)) <= 1);
 });
+
+test("a curved arrow between stacked elements keeps the part of the curve that doubles back", async () => {
+  const els = await measure(['board', '  screen phone "Stacked"', '    button "Next" #a', '    button "Next" #b', "  flow a -> b line=curved"].join("\n"));
+  const flow = at(5, els) as MeasuredFlow;
+  const [start, end] = [flow.path[0], flow.path[flow.path.length - 1]];
+  assert.equal(start[0], end[0]); // straight down from A to B
+  const ys = flow.path.map(([, y]) => y);
+  assert.ok(Math.min(...ys) < start[1] - 5, "the drawn curve doubles back into A, above where it starts");
+  assert.deepEqual(hitLines(els, start[0], Math.min(...ys) + 1).slice(0, 2), [3, 5]); // on A, where the curve crosses it
+});
+
+test("a menu is hit only where it's drawn: below the status bar, not over it", async () => {
+  const items = Array.from({ length: 25 }, (_, i) => `Item ${i + 1}`).join(", ");
+  const els = await measure(['board', '  screen phone "Tall menu"', "    spacer", `    button "More" open menu=[${items}]`].join("\n"));
+  const screen = el(2, els).box, menu = el(4, els).overlays![0];
+  assert.ok(menu.y >= screen.y + 34, `menu top ${menu.y}, status bar ends at ${screen.y + 34}`); // 34: the phone's status bar
+  assert.deepEqual(hitLines(els, screen.x + 100, screen.y + 10), [2, 1]); // a click on the status bar
+});

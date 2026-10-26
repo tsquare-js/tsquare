@@ -303,7 +303,9 @@ export function flowPolyline(f: FlowLayout): Pt[] {
   }
   // the markers reach the ends' boxes, past where the line stops
   const first = r.points[0], last = r.points[r.points.length - 1];
-  return simplify([first, ...out, last]);
+  // drop only repeated points: a curve can double back along one line (stacked elements), and
+  // simplify() would cut it to its ends
+  return [first, ...out, last].filter((p, i, all) => i === 0 || Math.hypot(p.x - all[i - 1].x, p.y - all[i - 1].y) >= 0.01);
 }
 
 /** The top layer with every flow: one SVG for the lines and markers, labels as text pills. */

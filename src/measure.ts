@@ -164,9 +164,9 @@ export async function measureElements(spec: Spec, lines: Record<string, number>,
       const r = boxes[k];
       const seen = r && clip(r, cut);
       if (seen) {
-        // menus and tooltips are drawn over the whole screen
-        const frame = screen ? frames.get(screen) : undefined;
-        const os = (overlays.get(k) ?? []).map((o) => clip(o, frame)).filter((o): o is Rect => !!o && o.w > 0 && o.h > 0);
+        // menus and tooltips are drawn over the screen below its status or browser bar, clipped there
+        const view = screen ? boxes[screen] ?? frames.get(screen) : undefined;
+        const os = (overlays.get(k) ?? []).map((o) => clip(o, view)).filter((o): o is Rect => !!o && o.w > 0 && o.h > 0);
         entry = { ...base, box: toBox(seen), ...(os.length ? { overlays: os.map(toBox) } : {}), ...(COVERS_SCREEN.has(el.type) ? { scrim: p.scrim ?? true } : {}) };
       }
     }
