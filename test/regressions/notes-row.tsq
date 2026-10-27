@@ -1,0 +1,14 @@
+# 0.13.2 (#44): notes are laid out at the height they're drawn at. In this grid the middle row
+# holds only notes, which wrap onto more lines than their length suggests. Look for: the board
+# tall enough for everything, the arrow's lane under the screens (not across "Below"), and in
+# the measured image, the boxes on the drawn frames.
+# measured
+board "Grid drift" layout=grid columns=2
+  screen phone "Top" #top
+    button "Next" primary #next
+  note "WARNING: MANDATORY REVIEW WINDOW MUST MATCH WORKFLOW WWW MMM QA APPROVAL WARNING: MANDATORY REVIEW WINDOW MUST MATCH WORKFLOW WWW MMM QA APPROVAL WARNING: MANDATORY REVIEW WINDOW MUST MATCH WORKFLOW WWW MMM QA APPROVAL"
+  note "WARNING: MANDATORY REVIEW WINDOW MUST MATCH WORKFLOW WWW MMM QA APPROVAL WARNING: MANDATORY REVIEW WINDOW MUST MATCH WORKFLOW WWW MMM QA APPROVAL WARNING: MANDATORY REVIEW WINDOW MUST MATCH WORKFLOW WWW MMM QA APPROVAL"
+  note "Short"
+  screen phone "Below" #below
+    button "Done" #done
+  flow next -> done "go"

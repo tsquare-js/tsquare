@@ -1,0 +1,9 @@
+# 0.12.4: a screen name wider than its screen ends in "…" and doesn't widen its column.
+# Look for: every screen in its own column, the last one whole, names cut with "…".
+board "Long names"
+  screen phone "Checkout, error state: the card was declined by the bank"
+    button "Pay" primary
+  screen phone "Done"
+    text "Thanks"
+  screen phone "Another screen with a name that is far too long for a phone"
+    text "Last"

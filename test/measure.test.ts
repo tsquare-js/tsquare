@@ -273,3 +273,11 @@ test("an open menu's box is the list as drawn, opening down or up (#43)", async 
   assert.ok(Math.abs(list.y + list.height - (button.y - 4)) <= 1.5, "pinned 4px above the button"); // a box sits up to 1.5px inside a border
   assert.deepEqual(hitLines(up, list.x + 20, list.y - 10), [3, 2, 1]); // just above the list: the spacer
 });
+
+test("measured screens sit on the drawn frames after a row of notes (#44)", async () => {
+  const wide = "WARNING: MANDATORY REVIEW WINDOW MUST MATCH WORKFLOW WWW MMM QA APPROVAL";
+  const els = await measure(["board layout=grid columns=2", '  screen phone "Top"', '    button "Go"', `  note "${wide}"`, `  note "${wide}"`, '  note "Short"', '  screen phone "Below"', '    button "Go"'].join("\n"));
+  const [top, below] = [2, 7].map((l) => el(l, els)), [a, b] = [3, 8].map((l) => el(l, els).box);
+  assert.equal(b.y - below.box.y, a.y - top.box.y); // each button is as far from its measured frame
+  assert.equal(below.labelBox!.y + below.labelBox!.height, below.box.y);
+});

@@ -32,6 +32,12 @@
 !/examples/*.tsq
 !/examples/*.png
 
+# visual regression boards and their reference renders (npm run regressions); a failed test's
+# <name>.actual.png stays out
+!/test/regressions/*.tsq
+!/test/regressions/*.png
+/test/regressions/*.actual.png
+
 # eval/renders/ is left out on purpose: `npm run eval:score` regenerates it
 !/eval/*.ts
 !/eval/*.md

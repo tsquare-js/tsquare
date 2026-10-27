@@ -1,6 +1,6 @@
 {
   "name": "tsquare",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "Wireframes in plain text: easy for LLMs to write, fast to render as SVG or PNG.",
   "keywords": [
     "wireframe",
@@ -77,6 +77,7 @@
     "examples": "for f in examples/*.tsq; do tsx src/cli.ts render $f -o ${f%.tsq}.png --scale 2; done",
     "eval:prompts": "tsx eval/prompts.ts",
     "eval:score": "tsx eval/score.ts",
+    "regressions": "tsx scripts/regressions.ts",
     "build": "tsx scripts/build.ts",
     "prepare": "npm run build",
     "test": "tsx --test test/*.test.ts"
