@@ -62,7 +62,7 @@ Each flow arrow:
 Some details:
 
 - **`line` is `0` when your `lines` map doesn't have the element**, for example in a spec you merged from several texts. Real lines start at 1, so `if (entry.line)` tells you whether you have one. `parentLine` and `screenLine` are `null` only when there's no parent or screen, never because a line is missing.
-- **A box is the part that shows.** Content taller than its screen is cut off at the bottom, or at the top of a tab bar, and a drawer cuts off what doesn't fit its panel: those elements get a box for the part that shows. Elements that don't show at all (entirely cut off, or inside a closed accordion) aren't in the array.
+- **A box is the part that shows.** Content taller than its screen is cut off at the bottom, or at the top of a tab bar; a modal taller than its screen is cut off below the status or browser bar; and a drawer cuts off what doesn't fit its panel. Those elements get a box for the part that shows. Elements that don't show at all (entirely cut off, or inside a closed accordion) aren't in the array.
 - **An element can have a box 0 tall or 0 wide.** A `spacer` in a row is 0 tall, and so is one in a screen with no room left. It's in the array (so `elementsAtLine` finds it), but `elementsAt` never returns it: there's nothing to click.
 - **A modal's box is its card**, a drawer's is its panel, and a toast's is its pill, not the dimmed screen or the full-width row around them.
 - **Spacers are clickable where they take up space.** A spacer stretches to fill empty space, so a click on blank space often hits one. Skip them with `hits.find((e) => e.type !== "Spacer")` if you don't want them.

@@ -39,8 +39,8 @@ export interface MeasuredElement {
   /** The line of the element containing it; null for the board. */
   parentLine: number | null;
   /**
-   * Where it's drawn: the part that shows, for content cut off by its screen (past the bottom, or
-   * under a tab bar) or by a drawer's panel. A screen's box is its frame. Can be 0 wide or 0 tall
+   * Where it's drawn: the part that shows, for content cut off by its screen (past the bottom, under
+   * a tab bar, or under the status or browser bar) or by a drawer's panel. A screen's box is its frame. Can be 0 wide or 0 tall
    * (a spacer in a row): such an element is listed, but never under a point.
    */
   box: MeasuredBox;
@@ -123,8 +123,11 @@ export async function measureElements(spec: Spec, lines: Record<string, number>,
   const every: Anchor[] = Object.keys(els)
     .filter((k) => !["Board", "Screen", "Flow"].includes(els[k].type))
     .map((id) => ({ id, screen: id, kind: "tooltip", field: false }));
+  // every screen is marked twice: below its status or browser bar (where its bars and overlays are
+  // clipped) and its content area between the bars (where its content is)
   const screens = Object.keys(els).filter((k) => els[k].type === "Screen");
-  const { tagged, colors } = tagForMeasuring(spec, [...anchors, ...every], screens);
+  const inners: Anchor[] = screens.map((id) => ({ id, screen: id, kind: "tooltip", field: false }));
+  const { tagged, colors } = tagForMeasuring(spec, [...anchors, ...every, ...inners], screens);
   const svg = await renderToSvg(tagged, { registry: withMarkers(withPalette(paletteFor())) as any, includeStandard: false, fonts: await loadFonts(), width, height });
   const boxes = readMarkers(svg, colors);
 
@@ -175,11 +178,12 @@ export async function measureElements(spec: Spec, lines: Record<string, number>,
     const inScreen = el.type === "Screen" ? k : screen;
     const kids = el.children ?? [];
     if (el.type === "Screen") {
-      // its bars and overlays are drawn over the frame; its content is cut off between the bars
+      // its bars and overlays are cut below its status or browser bar; its content between the bars
       const frame = frames.get(k) ?? null;
-      const body = clip(boxes[`${k}#body`] ?? frame!, frame);
+      const inner = clip(boxes[k] ?? frame!, frame);
+      const body = clip(boxes[`${k}#body`] ?? inner!, inner);
       const over = (c: string) => OVERLAYS.has(els[c]?.type);
-      for (const c of [...kids.filter((c) => !over(c)), ...kids.filter(over)]) visit(c, k, k, BARS.has(els[c]?.type) || over(c) ? frame : body);
+      for (const c of [...kids.filter((c) => !over(c)), ...kids.filter(over)]) visit(c, k, k, BARS.has(els[c]?.type) || over(c) ? inner : body);
     } else {
       // a drawer's panel clips what's in it
       const inner = el.type === "Drawer" && boxes[k] ? clip(boxes[k], cut) : cut;
