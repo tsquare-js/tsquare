@@ -143,3 +143,14 @@ test("the board is tall enough for a long note", async () => {
   assert.ok(n.y + n.height <= height, "the note fits on the board");
   assert.ok(n.height > boardLayout(spec!).items.find((i) => i.type === "Note")!.height, "taller than the estimate said");
 });
+
+test("notes are measured whatever their keys in a hand-built spec", async () => {
+  const wide = "WARNING: MANDATORY REVIEW WINDOW MUST MATCH WORKFLOW WWW MMM QA APPROVAL";
+  const { spec } = compileWireframe(["board layout=grid columns=2", '  screen phone "Top"', `  note "${wide}"`, `  note "${wide}"`, '  note "Short"', '  screen phone "Below"'].join("\n"));
+  // rename the notes' keys to the measuring pass's own root key
+  const rename: Record<string, string> = {};
+  Object.keys(spec!.elements).filter((k) => spec!.elements[k].type === "Note").forEach((k, i) => (rename[k] = i ? `__notes${"_".repeat(i)}x` : "__notes"));
+  const els = Object.fromEntries(Object.entries(spec!.elements).map(([k, el]) => [rename[k] ?? k, { ...el, children: el.children?.map((c) => rename[c] ?? c) }]));
+  const renamed = { root: spec!.root, elements: els };
+  assert.deepEqual((await measureBoardLayout(renamed)).items.map((i) => i.y), (await measureBoardLayout(spec!)).items.map((i) => i.y));
+});

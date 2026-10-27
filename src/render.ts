@@ -357,9 +357,11 @@ export async function withNoteHeights(spec: Spec): Promise<Spec> {
   const notes = (els[spec.root]?.children ?? []).filter((k) => els[k]?.type === "Note");
   if (!notes.length || notes.every((k) => typeof (els[k].props as any)?.__height === "number")) return spec;
   // the notes in one column, as the board draws them, each with a marker filling it
+  let root = "__notes";
+  while (root in els) root += "_"; // a spec built by hand could use the key
   const probe: Spec = {
-    root: "__notes",
-    elements: { __notes: { type: "Board", props: { layout: "grid", columns: 1, padding: 0, gap: 0 }, children: notes }, ...Object.fromEntries(notes.map((k) => [k, els[k]])) },
+    root,
+    elements: { [root]: { type: "Board", props: { layout: "grid", columns: 1, padding: 0, gap: 0 }, children: notes }, ...Object.fromEntries(notes.map((k) => [k, els[k]])) },
   };
   const { tagged, colors } = tagForMeasuring(probe, notes.map((id): Anchor => ({ id, screen: id, kind: "tooltip", field: false })));
   const props = (k: string) => (els[k].props ?? {}) as Record<string, any>;
