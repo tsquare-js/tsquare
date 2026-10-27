@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.1
+
+The language and the renderer haven't changed: every wireframe renders exactly as in 0.13.0.
+
+- **An open menu's or option list's box is the list as drawn** (#43). `measureElements` sized it from the estimate used to place the list (36px a row), but the list is drawn at 32px a row plus padding and a border, so a 10-item menu's box ran 37px past it, and a click just below an open menu returned the menu's owner. The box now has the drawn height, opening down or up.
+
 ## 0.13.0
 
 The language hasn't changed. Every wireframe renders exactly as in 0.12.4 except one kind: a flow arrow to a modal, drawer or toast now ends at its card, panel or pill, and a tooltip on one sits over it (they used to be placed against the dimmed screen or the full-width row around it). None of the 438 example and eval boards has either; they render byte for byte the same.

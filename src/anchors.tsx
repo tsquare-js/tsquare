@@ -118,6 +118,8 @@ export function place(anchor: Rect, size: { w: number; h: number }, screen: Rect
 // ── Overlays ───────────────────────────────────────────────────────────
 
 const ROW = 36;
+/** A ListCard's real height: rows of ROW - 4, 4px padding and a 1.5px border on each side (placement uses the rounder ROW). */
+const listHeight = (rows: number) => rows * (ROW - 4) + 2 * 4 + 2 * 1.5;
 
 function ListCard({ items, width, selected, c }: { items: { label: string; icon?: string | null }[]; width: number; selected?: string; c: Palette }) {
   return (
@@ -188,14 +190,14 @@ function placeOverlay(spec: Spec, a: Anchor, boxes: Record<string, Rect>) {
   if (a.kind === "options") {
     const options: string[] = p.options?.length ? p.options : [p.value ?? "Option 1", "Option 2", "Option 3"];
     const size = { w: anchor.w, h: options.length * ROW + 8 };
-    return { screen, anchor, size, pos: place(anchor, size, screen, { prefer: "below", align: "start", gap: 4 }), options };
+    return { screen, anchor, size, drawnH: listHeight(options.length), pos: place(anchor, size, screen, { prefer: "below", align: "start", gap: 4 }), options };
   }
   if (a.kind === "menu") {
     const items = (p.menu as any[]).map((i) => (typeof i === "string" ? { label: i } : i));
     const width = a.end ? 200 : Math.max(180, anchor.w);
     const inRightHalf = anchor.x + anchor.w / 2 > screen.x + screen.w / 2;
     const size = { w: width, h: items.length * ROW + 8 };
-    return { screen, anchor, size, pos: place(anchor, size, screen, { prefer: "below", align: a.end || inRightHalf ? "end" : "start", gap: a.end ? -6 : 4 }), items };
+    return { screen, anchor, size, drawnH: listHeight(items.length), pos: place(anchor, size, screen, { prefer: "below", align: a.end || inRightHalf ? "end" : "start", gap: a.end ? -6 : 4 }), items };
   }
   if (a.kind === "calendar") {
     const date = parseDate(p.value);
@@ -210,12 +212,17 @@ function placeOverlay(spec: Spec, a: Anchor, boxes: Record<string, Rect>) {
 
 /**
  * Each anchored overlay's box on the board, by the id of the element it belongs to (an element with
- * an open menu and a tooltip gets both). Menu, tooltip and option heights are estimates.
+ * an open menu and a tooltip gets both). Menus and option lists get the height they're drawn at; a
+ * tooltip's comes from its text and a date picker's from its weeks (within a few px).
  */
 export function overlayBoxes(spec: Spec, anchors: Anchor[], boxes: Record<string, Rect>): { id: string; box: Rect }[] {
   return anchors.flatMap((a) => {
     const o = placeOverlay(spec, a, boxes);
-    return o ? [{ id: a.id, box: { x: o.screen.x + o.pos.x, y: o.screen.y + o.pos.y, w: o.size.w, h: o.size.h } }] : [];
+    if (!o) return [];
+    const h = "drawnH" in o && o.drawnH != null ? o.drawnH : o.size.h;
+    // placed by its top below the element, by its bottom above it (overlayLayer pins it there)
+    const top = o.screen.y + o.pos.y + (o.pos.side === "above" ? o.size.h - h : 0);
+    return [{ id: a.id, box: { x: o.screen.x + o.pos.x, y: top, w: o.size.w, h } }];
   });
 }
 
