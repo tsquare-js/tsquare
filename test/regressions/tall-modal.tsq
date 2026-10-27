@@ -1,0 +1,24 @@
+# 0.13.2 (#45): a modal taller than its screen is drawn below the status bar, and its measured box
+# and its fields are cut there too. Look for, in the measured image: no red box over the status bar.
+# measured
+board "Tall modal"
+  screen phone "Sign up"
+    text "Behind the modal"
+    modal "Create your account"
+      input "Field 1"
+      input "Field 2"
+      input "Field 3"
+      input "Field 4"
+      input "Field 5"
+      input "Field 6"
+      input "Field 7"
+      input "Field 8"
+      input "Field 9"
+      input "Field 10"
+      input "Field 11"
+      input "Field 12"
+      input "Field 13"
+      input "Field 14"
+      input "Field 15"
+      input "Field 16"
+      button "Create account" primary fullWidth

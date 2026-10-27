@@ -281,3 +281,13 @@ test("measured screens sit on the drawn frames after a row of notes (#44)", asyn
   assert.equal(b.y - below.box.y, a.y - top.box.y); // each button is as far from its measured frame
   assert.equal(below.labelBox!.y + below.labelBox!.height, below.box.y);
 });
+
+test("a modal taller than its screen is cut below the status bar, as drawn (#45)", async () => {
+  const fields = Array.from({ length: 16 }, (_, i) => `      input "Field ${i + 1}"`);
+  const els = await measure(['board', '  screen phone "Sign up"', '    text "Behind"', '    modal "Create your account"', ...fields, '      button "Create account" primary fullWidth'].join("\n"));
+  const screen = el(2, els).box, modal = el(4, els).box;
+  const below = screen.y + 1.5 + 34; // the frame's border and the phone's status bar
+  assert.ok(Math.abs(modal.y - below) <= 1.5, `modal starts at ${modal.y}, the status bar ends at ${below}`);
+  for (const e of els) if (e.type !== "Flow" && e.type !== "Board" && e.type !== "Screen") assert.ok(e.box.y >= below - 1.5, `line ${e.line} reaches over the status bar`);
+  assert.deepEqual(hitLines(els, screen.x + 120, screen.y + 15), [2, 1]); // a click on the status bar: the screen
+});
