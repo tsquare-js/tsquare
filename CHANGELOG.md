@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.14.0
+
+The language and the renderer haven't changed: every wireframe renders exactly as in 0.13.2.
+
+- **Click elements in the viewer.** `tsquare/viewer` takes a board's `measureElements` entries (`setElements`) and reports clicks and hovers on elements (`onElementClick(hit, hits, event)`, `onElementHover(hit, hits)`), with `hits` in `elementsAt`'s order. A click is a press that hardly moves (dragging still pans), and a flow's line counts within 8 screen pixels at any zoom. `highlight(entries, { kind: "selected" | "hover" })` outlines elements and flows inside the zoomed board (`--tsquare-highlight`), `zoomTo(entry)` fits one, `layer` is an element over the board in board pixels for the host's own marks, and `toBoard(clientX, clientY)` turns a point on the page into board pixels. The viewer only hit-tests: it never renders or measures, so the host measures where it renders and hands the entries over. Without entries it works as before. It's 4.6 KB compressed (2.3 KB before). See [Element positions](docs/element-positions.md#in-the-viewer).
+- **The playground:** click an element on the board and the editor selects its line; move the caret and its element is outlined on the board; hovering outlines what's under the pointer. `/api/render?elements=1` returns the entries with the board.
+- **`tsquare/editor`: `onCursorLine(line)`**, called when the caret moves to another line.
+- `elementsAt` and `elementsAtLine` live in their own small module (`hit.ts`), so the viewer can use them without the renderer. The main package exports them as before.
+
 ## 0.13.2
 
 The language hasn't changed. Boards without notes on the board render exactly as in 0.13.1, and so do the 438 example and eval boards; boards where a note's height was misjudged are fixed.

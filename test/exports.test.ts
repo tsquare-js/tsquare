@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { gzipSync } from "node:zlib";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
@@ -16,8 +17,16 @@ test("languageData is exported, for editors", () => {
 test("tsquare/viewer points at the viewer and has no imports (it runs in a browser)", () => {
   const pkg = JSON.parse(readFileSync("package.json", "utf8"));
   assert.deepEqual(pkg.exports["./viewer"], { types: "./dist/playground/viewer.d.ts", import: "./dist/playground/viewer.js", default: "./dist/playground/viewer.js" });
+  // its source imports only the hit-testing module (bundled in), which itself imports only types
   const source = readFileSync("src/playground/viewer.ts", "utf8");
-  assert.deepEqual(source.match(/^import (?!type ).*$/gm) ?? [], [], "only type imports, which are erased");
+  assert.deepEqual(source.match(/^import (?!type ).*$/gm) ?? [], ['import { elementsAt, isFlow, type Measured, type MeasuredBox } from "../hit.js";']);
+  assert.deepEqual(readFileSync("src/hit.ts", "utf8").match(/^import (?!type ).*$/gm) ?? [], [], "hit.ts: only type imports, which are erased");
+});
+
+test("the built viewer (needs npm run build) imports nothing and stays small", () => {
+  const built = readFileSync("dist/playground/viewer.js", "utf8");
+  assert.deepEqual(built.match(/^\s*import\b.*$/gm) ?? [], []);
+  assert.ok(gzipSync(built).length < 8000, `${gzipSync(built).length} bytes compressed`);
 });
 
 test("every export has a default condition, so require() works too (Node's require of ESM; the VS Code extension is CommonJS)", () => {

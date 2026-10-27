@@ -9,14 +9,15 @@
 import { undo } from "@codemirror/commands";
 import { Code, Copy, Download, FileText, Image as ImageIcon, LayoutGrid, Link, Maximize, Minimize, Moon, Share2, Sun, X, ZoomIn, ZoomOut, createElement } from "lucide";
 import { createEditor, type Editor } from "./editor.js";
-import { createViewer, type BoardItem } from "./viewer.js";
+import { elementsAtLine } from "../hit.js";
+import { createViewer, type BoardItem, type Measured } from "./viewer.js";
 import type { LanguageData } from "./language-data.js";
 import { escapeAttr } from "../escape.js";
 import { LEGACY_LINK_PREFIX, LINK_PREFIX, isLinkData } from "../link-prefix.js";
 import { upgradeWireframe } from "../upgrade.js";
 
 interface Issue { line: number; message: string }
-interface RenderResult { issues: Issue[]; svg?: string; width?: number; height?: number; items?: BoardItem[] }
+interface RenderResult { issues: Issue[]; svg?: string; width?: number; height?: number; items?: BoardItem[]; elements?: Measured[] }
 
 /** Where share and image links point. A host page can set window.TSQUARE_BASE (tsquare.dev sets its own origin). */
 const BASE: string = (window as any).TSQUARE_BASE ?? "https://tsquare.dev";
@@ -138,7 +139,26 @@ document.querySelectorAll<HTMLElement>("nav button").forEach((b) =>
 const viewer = createViewer({
   stage: $("stage"), canvas: $("canvas"), screens: $("screens"), empty: $("empty"),
   zoomIn: $("zoom-in"), zoomOut: $("zoom-out"), zoomFit: $("zoom-fit"),
-}, { onScreenZoom: () => emit("zoomed_to_screen") });
+}, {
+  onScreenZoom: () => emit("zoomed_to_screen"),
+  // Click an element: its line in the editor (the board itself: nothing). Hover: a lighter outline.
+  onElementClick: (hit) => {
+    if (!hit || hit.type === "Board") return;
+    editor.goToLine(hit.line); // the caret's move highlights it (onCursorLine)
+    emit("element_clicked");
+  },
+  onElementHover: (hit) => viewer.highlight(hit && hit.type !== "Board" ? [hit] : [], { kind: "hover" }),
+});
+
+// The elements of the board on show, while it matches the text (none while the text has problems:
+// the board is the last valid one, and its lines no longer match)
+let elements: Measured[] = [];
+let caretLine = 0;
+/** Outlines the innermost element around the caret's line. */
+function highlightCaret() {
+  const [inner] = elementsAtLine(elements, caretLine);
+  viewer.highlight(inner && inner.type !== "Board" ? [inner] : []);
+}
 
 // Full screen preview
 $("fullscreen").addEventListener("click", () => {
@@ -238,13 +258,18 @@ async function render() {
   if (!text.trim()) { showIssues([]); setStatus("", "Empty"); return; }
   setStatus("", "Rendering…");
   try {
-    const res = await fetch(`/api/render${flowsQuery()}`, { method: "POST", body: text });
+    const query = new URLSearchParams({ ...(showFlows ? {} : { flows: "0" }), elements: "1" }); // the elements: clicks and caret outlines
+    const res = await fetch(`/api/render?${query}`, { method: "POST", body: text });
     const data: RenderResult = await res.json();
     if (mine !== seq) return; // a newer edit is already rendering
     if (!res.ok) throw new Error((data as any).error || res.statusText);
     showIssues(data.issues);
     const ok = !!data.svg;
     if (data.svg) { lastSvg = data.svg; viewer.show(data.svg, data.width!, data.height!, data.items ?? []); }
+    elements = ok ? data.elements ?? [] : [];
+    viewer.setElements(elements);
+    viewer.highlight([], { kind: "hover" });
+    highlightCaret();
     viewer.setStale(!ok && !!lastSvg);
     for (const id of ["copy-svg", "dl-svg", "dl-png", "share"]) $<HTMLButtonElement>(id).disabled = !ok;
     if (ok) setStatus("ok", "Valid");
@@ -479,7 +504,7 @@ async function start() {
     history.replaceState(null, "", location.pathname + location.search); // the link's job is done; don't keep a stale copy in the URL
   }
 
-  editor = createEditor($("code"), { doc, data, onChange: scheduleRender });
+  editor = createEditor($("code"), { doc, data, onChange: scheduleRender, onCursorLine: (line) => { caretLine = line; highlightCaret(); } });
   // A share link opened in a tab that already has the playground: only the hash changes, so no reload.
   addEventListener("hashchange", async () => {
     if (!isLinkData(location.hash.slice(1))) return;

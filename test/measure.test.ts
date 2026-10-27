@@ -291,3 +291,10 @@ test("a modal taller than its screen is cut below the status bar, as drawn (#45)
   for (const e of els) if (e.type !== "Flow" && e.type !== "Board" && e.type !== "Screen") assert.ok(e.box.y >= below - 1.5, `line ${e.line} reaches over the status bar`);
   assert.deepEqual(hitLines(els, screen.x + 120, screen.y + 15), [2, 1]); // a click on the status bar: the screen
 });
+
+test("the hit-testing module's containers are the catalog's components that hold others", async () => {
+  const { componentDefinitions } = await import("../src/catalog.js");
+  const { CONTAINERS } = await import("../src/hit.js");
+  const withSlots = Object.entries(componentDefinitions).filter(([, d]) => d.slots.length).map(([name]) => name);
+  assert.deepEqual([...CONTAINERS].sort(), withSlots.sort());
+});

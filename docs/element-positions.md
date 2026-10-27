@@ -122,6 +122,29 @@ while (up != null) {
 // trail: Board › Screen › Stack › Button
 ```
 
+## In the viewer
+
+`tsquare/viewer` (the playground's zoomable board) does the clicking for you: give it the board's entries, and it reports clicks and hovers, outlines elements and zooms to them. It never renders or measures itself, so it stays small: you measure where you render (a server, a VS Code extension, a worker) and hand the entries over, as plain JSON if need be. A viewer without entries works as before: clicks just pan.
+
+```ts
+import { createViewer } from "tsquare/viewer";
+
+const viewer = createViewer({ stage, canvas, screens }, {
+  onElementClick: (hit, hits) => { if (hit) select(hit); }, // hits: everything under the point, as elementsAt orders it
+  onElementHover: (hit) => viewer.highlight(hit ? [hit] : [], { kind: "hover" }),
+});
+const [svg, layout, elements] = await Promise.all([renderWireframeSvg(spec), measureBoardLayout(spec), measureElements(spec, lines)]);
+viewer.show(svg, layout.width, layout.height, layout.items);
+viewer.setElements(elements); // after each new board: entries describe one board
+```
+
+- **A click** is a press that hardly moves (dragging pans). It works zoomed in or out: the viewer turns the pointer into board pixels, and a flow's line counts within 8 screen pixels however small the board is shown.
+- **`highlight(entries, { kind })`** outlines entries inside the zoomed board: a box per element, the line and label of a flow. `"selected"` (the default) is solid, `"hover"` dashed; each kind replaces its own earlier outlines, and `[]` clears it. The color is the CSS variable `--tsquare-highlight` (default `#3B99FB`), and the outline stays about 2px on screen at any zoom.
+- **`zoomTo(entry)`** fits an entry (or any `{ x, y, width, height }` in board pixels) with a margin, and stays on it as the viewer resizes.
+- **`viewer.layer`** is an element over the board in board pixels, for your own marks (comment pins, an inline text field): it pans and zooms with the board. It ignores the pointer; give children that should be clickable `pointer-events: auto`. For marks that keep their size, place your own element over the stage with `toBoard(clientX, clientY)` and the viewer's `onZoom`.
+
+The playground uses all of it: click an element and the editor goes to its line; move the caret and the element is outlined on the board.
+
 ## An element's lines
 
 `line` and `endLine` are an element's whole block in the text. To hand a model exactly the part to change:
