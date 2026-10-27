@@ -24,7 +24,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { compileWireframe, formatIssues } from "../compile.js";
 import { componentDocs, wireframePrompt } from "../prompt.js";
-import { boardLayout, renderWireframePng, renderWireframeSvg } from "../render.js";
+import { measureBoardLayout, renderWireframePng, renderWireframeSvg } from "../render.js";
 import { languageData } from "./language-data.js";
 import { EXAMPLES, GROUPS } from "./reference.js";
 
@@ -157,7 +157,7 @@ export function createPlaygroundHandler() {
       const flows = url.searchParams.get("flows") !== "0";
       if (url.pathname === "/api/render") {
         if (!spec || issues.length) return json(res, 200, { issues });
-        const { width, height, items } = boardLayout(spec, { flows });
+        const { width, height, items } = await measureBoardLayout(spec, { flows });
         return json(res, 200, { issues, svg: await renderWireframeSvg(spec, { skipValidation: true, flows }), width, height, items });
       }
       if (!spec || issues.length) return json(res, 400, { issues });

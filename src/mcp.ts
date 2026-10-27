@@ -9,7 +9,7 @@
 import * as z from "zod";
 import { compileWireframe, formatIssues } from "./compile.js";
 import { languageReference } from "./prompt.js";
-import { boardSize, renderWireframePng } from "./render.js";
+import { measureBoardLayout, renderWireframePng } from "./render.js";
 import { escapeAttr } from "./escape.js";
 import { encodeWireframe, MAX_SHARED_TEXT } from "./share.js";
 
@@ -114,7 +114,7 @@ export async function renderWireframeTool(args: { text: string; flows?: boolean 
   const { spec, issues } = compileWireframe(args.text);
   if (!spec || issues.length) return problems(issues);
   const flows = args.flows !== false;
-  const { width, height } = boardSize(spec, { flows });
+  const { width, height } = await measureBoardLayout(spec, { flows });
   const scale = Math.min(1, MODEL_IMAGE_MAX / Math.max(width, height));
   const png = await renderWireframePng(spec, { skipValidation: true, flows, scale });
   const shown = scale < 1 ? `, shown at ${Math.round(width * scale)}×${Math.round(height * scale)}` : "";

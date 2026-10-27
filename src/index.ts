@@ -13,7 +13,7 @@ export { renderAll, DEFAULT_SELECTOR, type RenderAllOptions, type RenderAllResul
 export { measureElements, elementsAt, elementsAtLine, type Measured, type MeasuredElement, type MeasuredFlow, type MeasuredBox, type MeasureOptions } from "./measure.js";
 
 // Lower level: the compiled spec and the pieces used to render it.
-export { renderWireframeSvg, renderWireframePng, checkSpec, boardSize, boardLayout, type BoardItem, type RenderWireframeOptions } from "./render.js";
+export { renderWireframeSvg, renderWireframePng, checkSpec, boardSize, boardLayout, measureBoardLayout, type BoardItem, type RenderWireframeOptions } from "./render.js";
 export { parseWireframeText, type TextIssue, type ParseResult } from "./text.js";
 export { catalog, componentDefinitions } from "./catalog.js";
 export { registry } from "./components.js";

@@ -6,7 +6,7 @@ import { monthGrid, pageList } from "../src/components.js";
 import { EXAMPLES } from "../src/playground/reference.js";
 import { LABEL_H } from "../src/layout.js";
 import { printWireframeText } from "../src/print.js";
-import { boardLayout, measureAnchors } from "../src/render.js";
+import { boardLayout, measureAnchors, measureBoardLayout, renderWireframeSvg } from "../src/render.js";
 import { parseWireframeText } from "../src/text.js";
 import { board, problems } from "./helpers.js";
 
@@ -118,4 +118,28 @@ test("bullet items reject misspelled keys and unknown icons", () => {
   const p = problems(board("bullets items=[A, {label=B icn=x}, {label=C icon=chekc}]"));
   assert.ok(p.some((m) => /Unrecognized key: "icn"/.test(m)), p.join("\n"));
   assert.ok(p.some((m) => /unknown icon "chekc" \(did you mean check/.test(m)), p.join("\n"));
+});
+
+test("screens after a row of notes sit where the layout puts them (#44)", async () => {
+  // notes wrap for real when drawn; the layout used to estimate their height from the text's length
+  const wide = "WARNING: MANDATORY REVIEW WINDOW MUST MATCH WORKFLOW WWW MMM QA APPROVAL";
+  const text = ["board layout=grid columns=2", '  screen phone "Top"', '    text "top"', `  note "${wide}"`, `  note "${wide}"`, '  note "Short"', '  screen phone "Below"', '    text "below"'].join("\n");
+  const { spec } = compileWireframe(text);
+  const texts = Object.keys(spec!.elements).filter((k) => spec!.elements[k].type === "Text");
+  const { boxes } = await measureAnchors(spec!, texts); // drawn
+  const screens = (await measureBoardLayout(spec!)).items.filter((i) => i.type === "Screen");
+  const offset = texts.map((k, i) => boxes[k].y - screens[i].y);
+  assert.equal(offset[1], offset[0]); // the screen below the notes is as far from its layout as the one above
+  assert.notEqual(boardLayout(spec!).items.filter((i) => i.type === "Screen")[1].y, screens[1].y); // the estimate is off here
+});
+
+test("the board is tall enough for a long note", async () => {
+  const note = "MANDATORY REVIEW WINDOW: WWW MMM QA APPROVAL. ".repeat(30); // wide letters wrap onto more lines than estimated
+  const { spec } = compileWireframe(`board\n  screen phone "Home"\n    text "x"\n  note "${note}"`);
+  const { height, items } = await measureBoardLayout(spec!);
+  const svg = await renderWireframeSvg(spec!);
+  assert.match(svg, new RegExp(`^<svg width="\\d+" height="${height}"`));
+  const n = items.find((i) => i.type === "Note")!;
+  assert.ok(n.y + n.height <= height, "the note fits on the board");
+  assert.ok(n.height > boardLayout(spec!).items.find((i) => i.type === "Note")!.height, "taller than the estimate said");
 });

@@ -295,7 +295,9 @@ export function boardLayout(spec: Spec, opts: { flows?: boolean } = {}): { width
     }
     if (el.type === "Note") {
       const w = props.width ?? NOTE_WIDTH;
-      return { type: "Note" as const, name: String(props.text ?? ""), w, h: LABEL_H + estimateNoteHeight(props.text ?? "", w) };
+      // its drawn height when withNoteHeights measured it, otherwise estimated from the text's length
+      const h = typeof props.__height === "number" ? props.__height : estimateNoteHeight(props.text ?? "", w);
+      return { type: "Note" as const, name: String(props.text ?? ""), w, h: LABEL_H + h };
     }
     return null;
   });
@@ -344,6 +346,40 @@ function flowLabelGap(spec: Spec, laidOut: string[], perRow: number) {
   return widest ? widest + 32 : 0;
 }
 
+/**
+ * The spec with each note on the board carrying its drawn height (`__height`), measured by rendering
+ * the notes alone. boardLayout otherwise estimates a note's height from its text's length, but the
+ * board draws the real wrap: a notes-only row in a grid then moved every screen below it off its
+ * layout, and a long note could be cut off at the bottom (#44). No render when the board has no notes.
+ */
+export async function withNoteHeights(spec: Spec): Promise<Spec> {
+  const els = spec.elements;
+  const notes = (els[spec.root]?.children ?? []).filter((k) => els[k]?.type === "Note");
+  if (!notes.length || notes.every((k) => typeof (els[k].props as any)?.__height === "number")) return spec;
+  // the notes in one column, as the board draws them, each with a marker filling it
+  const probe: Spec = {
+    root: "__notes",
+    elements: { __notes: { type: "Board", props: { layout: "grid", columns: 1, padding: 0, gap: 0 }, children: notes }, ...Object.fromEntries(notes.map((k) => [k, els[k]])) },
+  };
+  const { tagged, colors } = tagForMeasuring(probe, notes.map((id): Anchor => ({ id, screen: id, kind: "tooltip", field: false })));
+  const props = (k: string) => (els[k].props ?? {}) as Record<string, any>;
+  const width = Math.max(...notes.map((k) => props(k).width ?? NOTE_WIDTH));
+  const height = notes.reduce((sum, k) => sum + LABEL_H + 3 * estimateNoteHeight(props(k).text ?? "", props(k).width ?? NOTE_WIDTH), 100);
+  const svg = await renderToSvg(tagged, { registry: withMarkers(withPalette(paletteFor())) as any, includeStandard: false, fonts: await loadFonts(), width, height });
+  const boxes = readMarkers(svg, colors);
+  const measured = notes.filter((k) => boxes[k]).map((k) => [k, { ...els[k], props: { ...props(k), __height: boxes[k].h } }]);
+  return { ...spec, elements: { ...els, ...Object.fromEntries(measured) } };
+}
+
+/**
+ * boardLayout with each note's drawn height, so the canvas size and every screen's position match
+ * the rendered board exactly. Use it to size the image and place screen chips; boardLayout is the
+ * synchronous estimate, off by a line or more when a note wraps differently than its length suggests.
+ */
+export async function measureBoardLayout(spec: Spec, opts: { flows?: boolean } = {}) {
+  return boardLayout(await withNoteHeights(spec), opts);
+}
+
 /** The canvas size for a board. */
 export function boardSize(spec: Spec, opts: { flows?: boolean } = {}) {
   const { width, height } = boardLayout(spec, opts);
@@ -363,6 +399,7 @@ export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOption
     const issues = checkSpec(spec);
     if (issues.length) throw new SpecError(issues);
   }
+  spec = await withNoteHeights(spec);
   const flowsOn = opts.flows !== false;
   const { width, height } = boardLayout(spec, { flows: opts.flows });
   spec = withBoardGap(spec, opts.flows);

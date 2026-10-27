@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.13.2
+
+The language hasn't changed. Boards without notes on the board render exactly as in 0.13.1, and so do the 438 example and eval boards; boards where a note's height was misjudged are fixed.
+
+- **Notes on the board get their real height** (#44). The layout estimated a note's height from its text's length, but the board draws the real wrap. In a grid, a row holding only notes could then be drawn a line or more taller or shorter than laid out, and every screen below it moved: flow arrows routed through the wrong place (an arrow's lane could cut across a screen), `measureElements` boxes missed the drawn screens, and a long note could be cut off at the bottom of the board, squeezing the title. Notes are now measured in a quick render of their own before the board is laid out (about 5 ms; none when a board has no notes).
+- **`measureBoardLayout(spec, { flows })`**: the board's size and each screen's position, exact (async, since it renders the notes). Use it to size the image and place screen chips. `boardLayout` is unchanged: synchronous, with the estimate. `renderAll`, the playground and the MCP render tool use the exact one now.
+- **Measuring works in DOMs without `structuredClone`** (jsdom): boards with notes, tooltips or flows failed there with "structuredClone is not defined".
+
 ## 0.13.1
 
 The language and the renderer haven't changed: every wireframe renders exactly as in 0.13.0.

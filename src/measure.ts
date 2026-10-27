@@ -16,7 +16,7 @@ import { flowPolyline, layoutFlows } from "./flows.js";
 import { loadFonts } from "./fonts.js";
 import { LABEL_H } from "./layout.js";
 import { componentDefinitions, type ComponentName } from "./catalog.js";
-import { boardLayout, checkSpec, flowEnds, SpecError, withBoardGap } from "./render.js";
+import { boardLayout, checkSpec, flowEnds, SpecError, withBoardGap, withNoteHeights } from "./render.js";
 import { PRIMARY_PROP } from "./text.js";
 import { upgradeSpec } from "./upgrade.js";
 
@@ -113,6 +113,7 @@ export async function measureElements(spec: Spec, lines: Record<string, number>,
     const issues = checkSpec(spec);
     if (issues.length) throw new SpecError(issues);
   }
+  spec = await withNoteHeights(spec);
   const { width, height } = boardLayout(spec, { flows: opts.flows });
   spec = withBoardGap(spec, opts.flows);
   const els = spec.elements;

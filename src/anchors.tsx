@@ -67,7 +67,9 @@ const MARK = (i: number) => `#fe${(i >> 8).toString(16).padStart(2, "0")}${(i & 
  * Box keys are the element id, `<id>#field` or `<id>#body`.
  */
 export function tagForMeasuring(spec: Spec, anchors: Anchor[], bodies: string[] = []) {
-  const tagged = structuredClone(spec);
+  // a copy of the element map (each tagged element gets new props below): not structuredClone, which
+  // some DOMs (jsdom) don't have
+  const tagged: Spec = { ...spec, elements: Object.fromEntries(Object.entries(spec.elements).map(([k, el]) => [k, { ...el }])) };
   const colors = new Map<string, string>();
   let n = 1;
   const tag = (id: string, part: "" | "field" | "body") => {

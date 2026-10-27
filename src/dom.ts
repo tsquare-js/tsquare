@@ -12,7 +12,7 @@
  * <div class="tsquare-problems"> listing them by line. Running it again skips what's done.
  */
 import { compileWireframe } from "./compile.js";
-import { boardLayout, renderWireframeSvg } from "./render.js";
+import { measureBoardLayout, renderWireframeSvg } from "./render.js";
 
 export const DEFAULT_SELECTOR = ".tsquare, .language-tsquare, [data-lang='tsquare']";
 
@@ -68,7 +68,7 @@ async function renderBlock(doc: Document, source: string): Promise<Element> {
   if (!spec || issues.length) return problems(doc, issues.map((i) => `line ${i.line}: ${i.message}`));
   try {
     const svg = await renderWireframeSvg(spec, { skipValidation: true });
-    const { width, height } = boardLayout(spec);
+    const { width, height } = await measureBoardLayout(spec);
     const title = (spec.elements[spec.root]?.props as { title?: string } | undefined)?.title;
     const figure = doc.createElement("figure");
     figure.className = "tsquare-board";
