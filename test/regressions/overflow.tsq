@@ -1,0 +1,18 @@
+# 0.12.3: content taller than its screen is cut off at the bottom, and doesn't push the
+# screen's bars and overlays out. Look for: the toast and the tab bar inside the frame, the
+# modal in the middle of the visible screen, the bottom drawer starting where it should.
+board
+  screen phone "Toast"
+    image "Photo" height=900
+    toast "Saved"
+  screen phone "Tabs"
+    image "Photo" height=900
+    tabbar items=[{label=Home icon=house}, {label=Search icon=search}] active=0
+  screen phone "Modal"
+    image "Photo" height=900
+    modal "Delete?"
+      button "Delete" primary
+  screen phone "Drawer"
+    image "Photo" height=900
+    drawer side=bottom
+      text "Sheet"

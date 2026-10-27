@@ -1,0 +1,10 @@
+# 0.13.1 (#43): an open menu's or option list's measured box is the list as drawn, opening down
+# or up. Look for, in the measured image: the green boxes on the drawn lists' edges.
+# measured
+board "Menus"
+  screen phone "Down"
+    button "More" open menu=[Edit, Share, Duplicate, Move, Archive, Delete]
+    image "Under" height=420
+  screen phone "Up"
+    spacer
+    select "Size" open options=[XS, S, M, L, XL, XXL] value=M
