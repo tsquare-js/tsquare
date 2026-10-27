@@ -46,7 +46,7 @@ export interface MeasuredElement {
   box: MeasuredBox;
   /** Screens: the band above the frame with the screen's name. */
   labelBox?: MeasuredBox;
-  /** Its open menu, option list or date picker, and its tooltip, in drawing order (sizes partly estimated from the text). */
+  /** Its open menu, option list or date picker, and its tooltip, in drawing order (a tooltip's and a date picker's size within a few px). */
   overlays?: MeasuredBox[];
   /** Modals and drawers: whether the screen behind is dimmed (on unless the text says no-scrim). */
   scrim?: boolean;

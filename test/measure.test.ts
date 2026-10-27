@@ -258,3 +258,18 @@ test("a menu is hit only where it's drawn: below the status bar, not over it", a
   assert.ok(menu.y >= screen.y + 34, `menu top ${menu.y}, status bar ends at ${screen.y + 34}`); // 34: the phone's status bar
   assert.deepEqual(hitLines(els, screen.x + 100, screen.y + 10), [2, 1]); // a click on the status bar
 });
+
+test("an open menu's box is the list as drawn, opening down or up (#43)", async () => {
+  // a list is drawn 32px a row plus 4px padding and a 1.5px border on each side
+  const items = Array.from({ length: 10 }, (_, i) => `Item ${i + 1}`).join(", ");
+  const down = await measure(['board', '  screen phone "Down"', `    button "More" open menu=[${items}]`, '    image "Under" height=500'].join("\n"));
+  const menu = el(3, down).overlays![0];
+  assert.equal(menu.height, 10 * 32 + 11);
+  assert.deepEqual(hitLines(down, menu.x + 20, menu.y + menu.height + 10), [4, 2, 1]); // just below the list: the image, not the button
+
+  const up = await measure(['board', '  screen phone "Up"', "    spacer", `    button "More" open menu=[${items}]`].join("\n"));
+  const button = el(4, up).box, list = el(4, up).overlays![0];
+  assert.equal(list.height, 10 * 32 + 11);
+  assert.ok(Math.abs(list.y + list.height - (button.y - 4)) <= 1.5, "pinned 4px above the button"); // a box sits up to 1.5px inside a border
+  assert.deepEqual(hitLines(up, list.x + 20, list.y - 10), [3, 2, 1]); // just above the list: the spacer
+});

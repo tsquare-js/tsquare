@@ -66,7 +66,7 @@ Some details:
 - **An element can have a box 0 tall or 0 wide.** A `spacer` in a row is 0 tall, and so is one in a screen with no room left. It's in the array (so `elementsAtLine` finds it), but `elementsAt` never returns it: there's nothing to click.
 - **A modal's box is its card**, a drawer's is its panel, and a toast's is its pill, not the dimmed screen or the full-width row around them.
 - **Spacers are clickable where they take up space.** A spacer stretches to fill empty space, so a click on blank space often hits one. Skip them with `hits.find((e) => e.type !== "Spacer")` if you don't want them.
-- **Overlay sizes are partly estimated.** Menus, option lists and tooltips are sized from their text, so the edge of an `overlays` box can be a few pixels off.
+- **Most overlay boxes are exact.** Open menus and option lists get the size they're drawn at. A tooltip is sized from its text and a date picker from its weeks, so their edges can be a few pixels off.
 
 ## What's under a point
 
