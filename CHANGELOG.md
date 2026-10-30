@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.14.1
+
+The language, the renderer and the library haven't changed: only the playground page.
+
+- **The playground's caret outline waits for the render after an edit.** After Enter, the caret's new line was matched against the board still on show, whose lines are the older text's, so for a moment the element that was on that line got the outline (Enter after `button ghost "Forgot?"` outlined the Sign in button below it). The outline now stays where it was until the board is rendered with the edit.
+- **Tests for the playground page itself** (`test/playground-page.test.ts`): the page's script runs in jsdom against the real handler; clicking an element moves the caret to its line, the caret's element is outlined, and after Enter the old board's line is never outlined.
+
 ## 0.14.0
 
 The language and the renderer haven't changed: every wireframe renders exactly as in 0.13.2.
