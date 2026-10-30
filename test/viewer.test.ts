@@ -7,7 +7,7 @@
 import { beforeEach, test } from "node:test";
 import assert from "node:assert/strict";
 import { JSDOM } from "jsdom";
-import { createViewer, type BoardItem, type Viewer } from "../src/playground/viewer.js";
+import { createViewer, type BoardItem, type Measured, type Viewer } from "../src/playground/viewer.js";
 
 const STAGE = { width: 800, height: 600 };
 const PAD = 16; // the viewer's margin around a fitted board
@@ -270,4 +270,187 @@ test("destroy() stops the viewer: its listeners go, the resize watch stops, the 
   $("stage").dispatchEvent(new dom.window.MouseEvent("dblclick"));
   chips()[2].click();
   assert.deepEqual(transform(), before, "zoom buttons, wheel, double-click and chips no longer do anything");
+});
+
+// Element clicks, hovers and highlights (0.14.0): entries as measureElements makes them, on the
+// test board (the "Home" screen at 700,100; a button in it; a flow from it to "Profile")
+const BOARD_ENTRY: Measured = { line: 1, endLine: 5, type: "Board", screenLine: null, parentLine: null, box: { x: 0, y: 0, ...BOARD } };
+const HOME: Measured = { line: 2, endLine: 3, type: "Screen", label: "Home", screenLine: null, parentLine: 1, box: { x: 700, y: 140, width: 400, height: 760 }, labelBox: { x: 700, y: 100, width: 400, height: 40 } };
+const BUTTON: Measured = { line: 3, endLine: 3, type: "Button", label: "Next", screenLine: 2, parentLine: 2, box: { x: 750, y: 200, width: 100, height: 40 } };
+const FLOW: Measured = { line: 5, endLine: 5, type: "Flow", from: "next", to: "profile", fromLine: 3, toLine: 4, path: [[850, 220], [1500, 220]], labelBox: { x: 1250, y: 208, width: 60, height: 24 } };
+const ENTRIES = [BOARD_ENTRY, HOME, BUTTON, FLOW];
+/** A point on the board, as the client coordinates where it is now. */
+function onScreen(bx: number, by: number) {
+  const [x, y, scale] = transform();
+  return [x + bx * scale, y + by * scale] as const;
+}
+const pointer = (type: string, [clientX, clientY]: readonly [number, number], extra: object = {}) =>
+  $("stage").dispatchEvent(new dom.window.PointerEvent(type, { pointerId: 1, clientX, clientY, bubbles: true, pointerType: "mouse", ...extra }));
+
+function eventsViewer() {
+  const clicks: { hit: number | null; hits: number[] }[] = [], hovers: (number | null)[] = [];
+  viewer.destroy();
+  viewer = createViewer(
+    { stage: $("stage"), canvas: $("canvas"), screens: $("screens") },
+    { onElementClick: (hit, hits) => clicks.push({ hit: hit?.line ?? null, hits: hits.map((h) => h.line) }), onElementHover: (hit) => hovers.push(hit?.line ?? null) },
+  );
+  viewer.show("<svg/>", BOARD.width, BOARD.height, ITEMS);
+  return { clicks, hovers };
+}
+
+test("a click on the board reports the element most likely meant and everything under it", () => {
+  const { clicks } = eventsViewer();
+  const at = onScreen(845, 220); // on the button, where the flow line leaves it
+  pointer("pointerdown", at); pointer("pointerup", at);
+  assert.deepEqual(clicks, [], "no elements set: clicks only pan, as before");
+  viewer.setElements(ENTRIES);
+  pointer("pointerdown", at); pointer("pointerup", at);
+  assert.deepEqual(clicks, [{ hit: 3, hits: [3, 5, 2, 1] }]); // the button, the flow line crossing it, the screen, the board
+  const empty = onScreen(400, 50);
+  pointer("pointerdown", empty); pointer("pointerup", empty);
+  assert.deepEqual(clicks.at(-1), { hit: 1, hits: [1] });
+});
+
+test("dragging pans and isn't a click; a few px of wobble still is", () => {
+  const { clicks } = eventsViewer();
+  viewer.setElements(ENTRIES);
+  const [x0] = transform();
+  const at = onScreen(800, 220);
+  pointer("pointerdown", at); pointer("pointermove", [at[0] + 40, at[1]]); pointer("pointerup", [at[0] + 40, at[1]]);
+  assert.deepEqual(clicks, []);
+  assert.ok(Math.abs(transform()[0] - (x0 + 40)) < 0.01, "it panned");
+  const again = onScreen(800, 220);
+  pointer("pointerdown", again); pointer("pointermove", [again[0] + 3, again[1]]); pointer("pointerup", [again[0] + 3, again[1]]);
+  assert.equal(clicks.length, 1);
+});
+
+test("a flow line is easy to hit however far the board is zoomed out (the tolerance is in screen px)", () => {
+  const { clicks } = eventsViewer();
+  viewer.setElements(ENTRIES);
+  const [, , scale] = transform();
+  assert.ok(scale < 0.5, "fitted: zoomed out");
+  const [cx, cy] = onScreen(1100, 220);
+  pointer("pointerdown", [cx, cy + 6]); pointer("pointerup", [cx, cy + 6]); // 6 screen px below the line
+  assert.equal(clicks.at(-1)?.hit, 5);
+});
+
+test("hovering reports the element under the pointer when it changes, null off every element", () => {
+  const { hovers } = eventsViewer();
+  viewer.setElements(ENTRIES);
+  pointer("pointermove", onScreen(800, 220));
+  pointer("pointermove", onScreen(805, 225)); // still the button: no new report
+  pointer("pointermove", onScreen(900, 600));
+  pointer("pointermove", [-50, -50]);
+  $("stage").dispatchEvent(new dom.window.PointerEvent("pointerleave", { pointerId: 1 }));
+  assert.deepEqual(hovers, [3, 2, null]);
+});
+
+test("highlights outline entries inside the zoomed canvas, one set per kind; [] clears", () => {
+  eventsViewer();
+  viewer.highlight([BUTTON]);
+  viewer.highlight([HOME], { kind: "hover" });
+  const marks = [...$("canvas").querySelectorAll(".tsquare-highlight")] as HTMLElement[];
+  assert.deepEqual(marks.map((m) => m.getAttribute("class")), ["tsquare-highlight tsquare-highlight-hover", "tsquare-highlight tsquare-highlight-selected"]);
+  const selected = marks[1];
+  assert.deepEqual([selected.style.left, selected.style.top, selected.style.width, selected.style.height], ["750px", "200px", "100px", "40px"]);
+  viewer.highlight([FLOW]);
+  const flow = $("canvas").querySelector(".tsquare-highlight-selected")!;
+  assert.equal(flow.tagName.toLowerCase(), "svg");
+  assert.equal(flow.querySelector("polyline")!.getAttribute("points"), "850,220 1500,220");
+  viewer.highlight([]);
+  viewer.highlight([], { kind: "hover" });
+  assert.equal($("canvas").querySelectorAll(".tsquare-highlight").length, 0);
+});
+
+test("zoomTo fits an entry with a margin and stays on it; a new board size fits the board again", () => {
+  eventsViewer();
+  viewer.zoomTo(HOME, { animate: false });
+  const target = fitted({ x: 700 - 24, y: 140 - 24, width: 400 + 48, height: 760 + 48 });
+  close(transform(), target);
+  viewer.refresh();
+  close(transform(), target);
+  viewer.zoomTo(FLOW, { animate: false }); // its line and label
+  close(transform(), fitted({ x: 850 - 24, y: 208 - 24, width: 650 + 48, height: 24 + 48 }));
+  viewer.show("<svg/>", 1000, 500, ITEMS);
+  close(transform(), fitted({ x: 0, y: 0, width: 1000, height: 500 }));
+});
+
+test("toBoard turns a point on the page into board pixels; layer sits over the board in board pixels", () => {
+  eventsViewer();
+  const [cx, cy] = onScreen(800, 220);
+  close(Object.values(viewer.toBoard(cx, cy)), [800, 220]);
+  const canvas = $("canvas");
+  assert.equal(viewer.layer.parentElement, canvas);
+  assert.equal(canvas.lastElementChild, viewer.layer, "over the image and the highlights");
+  assert.deepEqual([viewer.layer.style.width, viewer.layer.style.height, viewer.layer.style.pointerEvents], ["2000px", "1000px", "none"]);
+});
+
+test("with real measured entries: a click on a drawn button reports its line", async () => {
+  const { compileWireframe } = await import("../src/compile.js");
+  const { measureBoardLayout, renderWireframeSvg } = await import("../src/render.js");
+  const { measureElements } = await import("../src/measure.js");
+  const text = 'board\n  screen phone "Home"\n    heading "Welcome"\n    button "Next" primary';
+  const { spec, lines } = compileWireframe(text);
+  const [svg, layout, elements] = await Promise.all([renderWireframeSvg(structuredClone(spec!)), measureBoardLayout(structuredClone(spec!)), measureElements(structuredClone(spec!), lines)]);
+  const { clicks } = eventsViewer();
+  viewer.show(svg, layout.width, layout.height, layout.items);
+  viewer.setElements(elements);
+  const button = elements.find((e) => e.type === "Button")!;
+  const b = (button as { box: { x: number; y: number; width: number; height: number } }).box;
+  const at = onScreen(b.x + b.width / 2, b.y + b.height / 2);
+  pointer("pointerdown", at); pointer("pointerup", at);
+  assert.deepEqual(clicks.at(-1), { hit: 4, hits: [4, 2, 1] });
+});
+
+test("the host's controls in layer handle their own presses: no pan, no pointer capture, no click on the board", () => {
+  const { clicks } = eventsViewer();
+  viewer.setElements(ENTRIES);
+  let captured = 0;
+  $("stage").setPointerCapture = () => { captured++; };
+  const pin = dom.window.document.createElement("button");
+  pin.style.pointerEvents = "auto";
+  viewer.layer.append(pin);
+  const [x0, y0] = transform();
+  const press = (type: string, x: number) => pin.dispatchEvent(new dom.window.PointerEvent(type, { pointerId: 1, clientX: x, clientY: 100, bubbles: true }));
+  press("pointerdown", 100); press("pointermove", 160); press("pointerup", 160);
+  assert.equal(captured, 0);
+  assert.ok(!$("stage").classList.contains("panning"));
+  close(transform().slice(0, 2), [x0, y0]);
+  assert.deepEqual(clicks, []);
+  pin.dispatchEvent(new dom.window.MouseEvent("dblclick", { bubbles: true }));
+  close(transform().slice(0, 2), [x0, y0]);
+});
+
+test("replacing the entries under the pointer reports the hover as null, so a host's outline doesn't stay", () => {
+  const { hovers } = eventsViewer();
+  viewer.setElements(ENTRIES);
+  pointer("pointermove", onScreen(800, 220));
+  viewer.setElements(null);
+  viewer.setElements(ENTRIES); // nothing hovered now: no extra report
+  assert.deepEqual(hovers, [3, null]);
+});
+
+test("toBoard and clicks account for a border on the stage (the canvas starts inside it)", () => {
+  const { clicks } = eventsViewer();
+  viewer.setElements(ENTRIES);
+  Object.defineProperty($("stage"), "clientLeft", { value: 4, configurable: true });
+  Object.defineProperty($("stage"), "clientTop", { value: 4, configurable: true });
+  const [cx, cy] = onScreen(800, 220);
+  close(Object.values(viewer.toBoard(cx + 4, cy + 4)), [800, 220]); // drawn 4px further in
+  pointer("pointerdown", [cx + 4, cy + 4]); pointer("pointerup", [cx + 4, cy + 4]);
+  assert.equal(clicks.at(-1)?.hit, 3);
+});
+
+test("scrolling inside the host's layer scrolls it, not the board", () => {
+  eventsViewer();
+  const box = dom.window.document.createElement("div");
+  box.style.pointerEvents = "auto";
+  viewer.layer.append(box);
+  const before = transform();
+  const wheel = new dom.window.WheelEvent("wheel", { deltaY: 120, bubbles: true, cancelable: true });
+  box.dispatchEvent(wheel);
+  close(transform(), before);
+  assert.equal(wheel.defaultPrevented, false, "the layer's own scrolling isn't blocked");
+  $("stage").dispatchEvent(new dom.window.WheelEvent("wheel", { deltaY: 120, bubbles: true, cancelable: true }));
+  assert.notEqual(transform()[1], before[1], "on the board, the wheel still pans");
 });

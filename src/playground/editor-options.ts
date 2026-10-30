@@ -8,6 +8,8 @@ export interface EditorOptions {
   data?: LanguageData;
   /** Called with the whole text after every change. */
   onChange?: (text: string) => void;
+  /** Called with the caret's line (1 = the first) when it moves to another line. */
+  onCursorLine?: (line: number) => void;
   /** Line numbers in a gutter. Default true. */
   lineNumbers?: boolean;
   /** Wrap long lines instead of scrolling sideways; continuation rows are indented under their line. Default false. */

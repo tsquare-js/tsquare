@@ -51,6 +51,18 @@ test("POST /api/render: problems come back by line, with no SVG", async () => {
   assert.match(data.issues[0].message, /button/);
 });
 
+test("POST /api/render?elements=1 adds measureElements' entries; without it, none", async () => {
+  const text = example("sign-up-flow");
+  const plain = await (await post("/api/render", text)).json();
+  assert.equal(plain.elements, undefined);
+  const data = await (await post("/api/render?elements=1", text)).json();
+  assert.equal(data.elements[0].type, "Board");
+  const button = data.elements.find((e: { type: string; label?: string }) => e.type === "Button" && e.label === "Continue");
+  assert.match(text.split("\n")[button.line - 1], /^\s*button .*"Continue"/, "its line is the button's line");
+  assert.ok(data.elements.some((e: { type: string }) => e.type === "Flow"));
+  assert.deepEqual(data.svg, plain.svg);
+});
+
 test("POST /api/render?flows=0 leaves the flow arrows out", async () => {
   const text = 'board "F"\n  screen phone "A" #a\n    button "Go" #go\n  screen phone "B" #b\n  flow go -> b "Tap"\n';
   const on = await (await post("/api/render", text)).json();

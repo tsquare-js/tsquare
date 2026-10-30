@@ -24,6 +24,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { compileWireframe, formatIssues } from "../compile.js";
 import { componentDocs, wireframePrompt } from "../prompt.js";
+import { measureElements } from "../measure.js";
 import { measureBoardLayout, renderWireframePng, renderWireframeSvg } from "../render.js";
 import { languageData } from "./language-data.js";
 import { EXAMPLES, GROUPS } from "./reference.js";
@@ -153,12 +154,17 @@ export function createPlaygroundHandler() {
       return true;
     }
     if (req.method === "POST" && (url.pathname === "/api/render" || url.pathname === "/api/png")) {
-      const { spec, issues } = compileWireframe(await readBody(req));
+      const { spec, issues, lines } = compileWireframe(await readBody(req));
       const flows = url.searchParams.get("flows") !== "0";
       if (url.pathname === "/api/render") {
         if (!spec || issues.length) return json(res, 200, { issues });
-        const { width, height, items } = await measureBoardLayout(spec, { flows });
-        return json(res, 200, { issues, svg: await renderWireframeSvg(spec, { skipValidation: true, flows }), width, height, items });
+        // ?elements=1: also measureElements' entries, for clicking elements on the board (not for thumbnails)
+        const [svg, { width, height, items }, elements] = await Promise.all([
+          renderWireframeSvg(spec, { skipValidation: true, flows }),
+          measureBoardLayout(spec, { flows }),
+          url.searchParams.get("elements") === "1" ? measureElements(spec, lines, { skipValidation: true, flows }) : undefined,
+        ]);
+        return json(res, 200, { issues, svg, width, height, items, ...(elements ? { elements } : {}) });
       }
       if (!spec || issues.length) return json(res, 400, { issues });
       const scale = Math.min(4, Math.max(1, Number(url.searchParams.get("scale") ?? 2)));

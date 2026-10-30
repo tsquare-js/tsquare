@@ -78,6 +78,18 @@ test("lineWrapping wraps long lines, continuation rows indented 4 past their lin
   editor.destroy();
 });
 
+test("onCursorLine reports the caret's line when it moves to another line", async () => {
+  const createEditor = await load();
+  const lines: number[] = [];
+  const editor = createEditor(host(), { doc: 'board\n  screen phone\n    button "Go"', onCursorLine: (l) => lines.push(l) });
+  editor.goToLine(3);
+  editor.goToLine(3); // the same line again: no report
+  editor.goToLine(2);
+  editor.setText("board\n  screen phone"); // the caret goes to the start
+  assert.deepEqual(lines, [3, 2, 1]);
+  editor.destroy();
+});
+
 test("destroy removes the editor from the page", async () => {
   const createEditor = await load();
   const el = host();

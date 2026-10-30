@@ -225,6 +225,16 @@ const hangingIndent = ViewPlugin.fromClass(
 );
 const wrapping = [EditorView.lineWrapping, hangingIndent];
 
+/** Reports the caret's line when it moves to another one (or the text under it changes lines). */
+function cursorLine(report: (line: number) => void): Extension {
+  let last = 0;
+  return EditorView.updateListener.of((u) => {
+    if (!u.selectionSet && !u.docChanged) return;
+    const line = u.state.doc.lineAt(u.state.selection.main.head).number;
+    if (line !== last) report((last = line));
+  });
+}
+
 export interface Editor {
   view: EditorView;
   getText(): string;
@@ -258,6 +268,7 @@ export function createEditor(parent: HTMLElement, opts: EditorOptions = {}): Edi
     opts.lineWrapping ? wrapping : [],
     EditorView.contentAttributes.of({ "aria-label": opts.ariaLabel ?? "Wireframe text", spellcheck: "false", autocapitalize: "off" }),
     EditorView.updateListener.of((u) => { if (u.docChanged) opts.onChange?.(u.state.doc.toString()); }),
+    opts.onCursorLine ? cursorLine(opts.onCursorLine) : [],
   ];
   const view = new EditorView({ parent, state: EditorState.create({ doc: opts.doc ?? "", extensions }) });
 
