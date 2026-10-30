@@ -401,3 +401,31 @@ test("with real measured entries: a click on a drawn button reports its line", a
   pointer("pointerdown", at); pointer("pointerup", at);
   assert.deepEqual(clicks.at(-1), { hit: 4, hits: [4, 2, 1] });
 });
+
+test("the host's controls in layer handle their own presses: no pan, no pointer capture, no click on the board", () => {
+  const { clicks } = eventsViewer();
+  viewer.setElements(ENTRIES);
+  let captured = 0;
+  $("stage").setPointerCapture = () => { captured++; };
+  const pin = dom.window.document.createElement("button");
+  pin.style.pointerEvents = "auto";
+  viewer.layer.append(pin);
+  const [x0, y0] = transform();
+  const press = (type: string, x: number) => pin.dispatchEvent(new dom.window.PointerEvent(type, { pointerId: 1, clientX: x, clientY: 100, bubbles: true }));
+  press("pointerdown", 100); press("pointermove", 160); press("pointerup", 160);
+  assert.equal(captured, 0);
+  assert.ok(!$("stage").classList.contains("panning"));
+  close(transform().slice(0, 2), [x0, y0]);
+  assert.deepEqual(clicks, []);
+  pin.dispatchEvent(new dom.window.MouseEvent("dblclick", { bubbles: true }));
+  close(transform().slice(0, 2), [x0, y0]);
+});
+
+test("replacing the entries under the pointer reports the hover as null, so a host's outline doesn't stay", () => {
+  const { hovers } = eventsViewer();
+  viewer.setElements(ENTRIES);
+  pointer("pointermove", onScreen(800, 220));
+  viewer.setElements(null);
+  viewer.setElements(ENTRIES); // nothing hovered now: no extra report
+  assert.deepEqual(hovers, [3, null]);
+});

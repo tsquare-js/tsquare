@@ -241,7 +241,11 @@ export function createViewer(el: ViewerElements, opts: ViewerOptions = {}): View
     hovered = hit;
     opts.onElementHover?.(hit, hits);
   };
+  // The host's own controls in the layer (a pin's button, a text field) handle their own presses:
+  // capturing the pointer on the stage would take their click, and dragging in them would pan
+  const inLayer = (e: Event) => e.target !== layer && layer.contains(e.target as Node | null);
   stage.addEventListener("pointerdown", (e) => {
+    if (inLayer(e)) return;
     stage.setPointerCapture(e.pointerId);
     press = pointers.size ? null : { id: e.pointerId, x: e.clientX, y: e.clientY, moved: false };
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -288,7 +292,7 @@ export function createViewer(el: ViewerElements, opts: ViewerOptions = {}): View
   stage.addEventListener("pointerup", release, { signal });
   stage.addEventListener("pointercancel", release, { signal });
   stage.addEventListener("pointerleave", () => { if (!pointers.size) hover(null, []); }, { signal });
-  stage.addEventListener("dblclick", fit, { signal });
+  stage.addEventListener("dblclick", (e) => { if (!inLayer(e)) fit(); }, { signal });
   const resize = new ResizeObserver(() => refresh());
   resize.observe(stage);
 
@@ -354,7 +358,8 @@ export function createViewer(el: ViewerElements, opts: ViewerOptions = {}): View
     zoomOut: () => zoomAt(0.8),
     setElements(list) {
       elements = list ?? [];
-      if (hovered && !elements.includes(hovered)) hovered = null;
+      // the hovered element is gone: say so, so a host's hover outline doesn't stay behind
+      if (hovered && !elements.includes(hovered)) hover(null, []);
     },
     highlight(entries, o = {}) {
       const kind = o.kind ?? "selected";

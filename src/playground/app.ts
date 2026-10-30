@@ -154,6 +154,13 @@ const viewer = createViewer({
 // the board is the last valid one, and its lines no longer match)
 let elements: Measured[] = [];
 let caretLine = 0;
+/** No elements (no board for this text): clicks and outlines off until a render matches it again. */
+function clearElements() {
+  elements = [];
+  viewer.setElements([]);
+  viewer.highlight([]);
+  viewer.highlight([], { kind: "hover" });
+}
 /** Outlines the innermost element around the caret's line. */
 function highlightCaret() {
   const [inner] = elementsAtLine(elements, caretLine);
@@ -255,7 +262,7 @@ async function render() {
   store.set("wf.source", text);
   $("flows").hidden = !hasFlows(text);
   $("doc-title").textContent = boardTitle(text) || "Untitled";
-  if (!text.trim()) { showIssues([]); setStatus("", "Empty"); return; }
+  if (!text.trim()) { showIssues([]); setStatus("", "Empty"); clearElements(); return; }
   setStatus("", "Rendering…");
   try {
     const query = new URLSearchParams({ ...(showFlows ? {} : { flows: "0" }), elements: "1" }); // the elements: clicks and caret outlines
@@ -278,6 +285,7 @@ async function render() {
     lastOk = ok;
   } catch (err) {
     if (mine !== seq) return;
+    clearElements();
     setStatus("bad", `Render failed: ${(err as Error).message}`);
   }
 }
