@@ -210,8 +210,13 @@ export function createViewer(el: ViewerElements, opts: ViewerOptions = {}): View
   }
 
   // Wheel: pinch (ctrl/⌘ + wheel) zooms around the pointer; plain scroll pans.
+  // The host's own controls in the layer (a pin's button, a text field, a scrolling popover) handle
+  // their own presses and scrolling: capturing the pointer on the stage would take their click, and
+  // dragging or scrolling in them would move the board
+  const inLayer = (e: Event) => e.target !== layer && layer.contains(e.target as Node | null);
+
   stage.addEventListener("wheel", (e) => {
-    if (!size.width) return;
+    if (!size.width || inLayer(e)) return;
     e.preventDefault();
     const r = stage.getBoundingClientRect();
     if (e.ctrlKey || e.metaKey) zoomAt(Math.exp(-e.deltaY * 0.01), e.clientX - r.left, e.clientY - r.top);
@@ -241,9 +246,6 @@ export function createViewer(el: ViewerElements, opts: ViewerOptions = {}): View
     hovered = hit;
     opts.onElementHover?.(hit, hits);
   };
-  // The host's own controls in the layer (a pin's button, a text field) handle their own presses:
-  // capturing the pointer on the stage would take their click, and dragging in them would pan
-  const inLayer = (e: Event) => e.target !== layer && layer.contains(e.target as Node | null);
   stage.addEventListener("pointerdown", (e) => {
     if (inLayer(e)) return;
     stage.setPointerCapture(e.pointerId);
@@ -301,8 +303,9 @@ export function createViewer(el: ViewerElements, opts: ViewerOptions = {}): View
   el.zoomFit?.addEventListener("click", fit, { signal });
 
   function toBoard(clientX: number, clientY: number) {
+    // the canvas sits inside the stage's border (clientLeft/Top), not at its outer edge
     const r = stage.getBoundingClientRect();
-    return { x: (clientX - r.left - x) / scale, y: (clientY - r.top - y) / scale };
+    return { x: (clientX - r.left - stage.clientLeft - x) / scale, y: (clientY - r.top - stage.clientTop - y) / scale };
   }
 
   /** The box an entry is drawn in (a flow: around its line and label). */

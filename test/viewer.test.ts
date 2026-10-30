@@ -429,3 +429,28 @@ test("replacing the entries under the pointer reports the hover as null, so a ho
   viewer.setElements(ENTRIES); // nothing hovered now: no extra report
   assert.deepEqual(hovers, [3, null]);
 });
+
+test("toBoard and clicks account for a border on the stage (the canvas starts inside it)", () => {
+  const { clicks } = eventsViewer();
+  viewer.setElements(ENTRIES);
+  Object.defineProperty($("stage"), "clientLeft", { value: 4, configurable: true });
+  Object.defineProperty($("stage"), "clientTop", { value: 4, configurable: true });
+  const [cx, cy] = onScreen(800, 220);
+  close(Object.values(viewer.toBoard(cx + 4, cy + 4)), [800, 220]); // drawn 4px further in
+  pointer("pointerdown", [cx + 4, cy + 4]); pointer("pointerup", [cx + 4, cy + 4]);
+  assert.equal(clicks.at(-1)?.hit, 3);
+});
+
+test("scrolling inside the host's layer scrolls it, not the board", () => {
+  eventsViewer();
+  const box = dom.window.document.createElement("div");
+  box.style.pointerEvents = "auto";
+  viewer.layer.append(box);
+  const before = transform();
+  const wheel = new dom.window.WheelEvent("wheel", { deltaY: 120, bubbles: true, cancelable: true });
+  box.dispatchEvent(wheel);
+  close(transform(), before);
+  assert.equal(wheel.defaultPrevented, false, "the layer's own scrolling isn't blocked");
+  $("stage").dispatchEvent(new dom.window.WheelEvent("wheel", { deltaY: 120, bubbles: true, cancelable: true }));
+  assert.notEqual(transform()[1], before[1], "on the board, the wheel still pans");
+});
