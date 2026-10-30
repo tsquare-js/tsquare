@@ -47,10 +47,12 @@ async function openPage(text: string) {
     runScripts: "dangerously",
     pretendToBeVisual: true,
     beforeParse(w: any) {
-      w.fetch = (url: string, init: RequestInit) => {
-        const response = fetch(new URL(url, base), init);
+      w.fetch = async (url: string, init: RequestInit) => {
+        const response = await fetch(new URL(url, base), init);
         if (!holding || !url.startsWith("/api/render")) return response;
-        return new Promise((resolve) => held.push(() => resolve(response)));
+        // queued once the whole body is in, so `held` counts responses that are ready, however slow the render
+        const body = await response.arrayBuffer();
+        return new Promise((resolve) => held.push(() => resolve(new Response(body, response))));
       };
       w.ResizeObserver = class { observe() {} unobserve() {} disconnect() {} };
       w.HTMLElement.prototype.setPointerCapture = () => {};
@@ -157,7 +159,7 @@ test("a render that lands after another edit clears the outline instead of leavi
   page.hold(true);
   page.editor.dispatch({ changes: { from: doc().line(3).from, insert: '    text "Hi"\n' } });
   assert.equal(page.caretLine(), 11, "the caret moved down with its line");
-  await until(() => page.held.length === 1, "the render for edit 1");
+  await until(() => page.held.length === 1, "edit 1's board, ready and held");
   const edit1 = doc().toString();
   // edit 2 before that render lands: its own render waits 250 ms, and is held too
   page.editor.dispatch({ changes: { from: doc().length, insert: "\n" } });
