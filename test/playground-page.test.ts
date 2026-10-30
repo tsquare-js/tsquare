@@ -39,12 +39,19 @@ const STAGE = { width: 800, height: 600 };
 
 /** The page with `text` in the editor (as if saved from a visit before), once its board is shown. */
 async function openPage(text: string) {
+  // render responses can be held, to land one while the text has changed since (the next render not started yet)
+  let holding = false;
+  const held: (() => void)[] = [];
   const dom = new JSDOM(html, {
     url: base + "/",
     runScripts: "dangerously",
     pretendToBeVisual: true,
     beforeParse(w: any) {
-      w.fetch = (url: string, init: RequestInit) => fetch(new URL(url, base), init);
+      w.fetch = (url: string, init: RequestInit) => {
+        const response = fetch(new URL(url, base), init);
+        if (!holding || !url.startsWith("/api/render")) return response;
+        return new Promise((resolve) => held.push(() => resolve(response)));
+      };
       w.ResizeObserver = class { observe() {} unobserve() {} disconnect() {} };
       w.HTMLElement.prototype.setPointerCapture = () => {};
       w.matchMedia = () => ({ matches: false, addEventListener() {}, removeEventListener() {} });
@@ -68,6 +75,9 @@ async function openPage(text: string) {
   return {
     w, stage, canvas, editor,
     close: () => w.close(),
+    hold: (on: boolean) => { holding = on; },
+    held,
+    image: () => ($("#canvas img") as HTMLImageElement | null)?.src,
     caretLine: () => editor.state.doc.lineAt(editor.state.selection.main.head).number,
     outlined: () => [...w.document.querySelectorAll(".tsquare-highlight-selected")].map((d: HTMLElement) => styleKey(d.style)),
     /** Board pixels → the stage's client pixels, from the canvas' transform. */
@@ -133,5 +143,35 @@ test("after Enter, the outline waits for the render instead of matching the new 
   const stale = boxKey((await elementOn(SIGN_IN, 11)).box); // line 11 of the board still on show: the Sign in button
   assert.notEqual(expected, stale);
   assert.ok(!seen.includes(stale), `never the old board's line 11: saw ${JSON.stringify(seen)}`);
+  page.close();
+});
+
+test("a render that lands after another edit clears the outline instead of leaving the last board's over it", async () => {
+  const page = await openPage(SIGN_IN);
+  const doc = () => page.editor.state.doc;
+  page.editor.dispatch({ selection: { anchor: doc().line(10).to } }); // button ghost sm "Forgot?"
+  const before = boxKey((await elementOn(SIGN_IN, 10)).box);
+  assert.deepEqual(page.outlined(), [before]);
+
+  // edit 1 moves everything down; its render starts and is held
+  page.hold(true);
+  page.editor.dispatch({ changes: { from: doc().line(3).from, insert: '    text "Hi"\n' } });
+  assert.equal(page.caretLine(), 11, "the caret moved down with its line");
+  await until(() => page.held.length === 1, "the render for edit 1");
+  const edit1 = doc().toString();
+  // edit 2 before that render lands: its own render waits 250 ms, and is held too
+  page.editor.dispatch({ changes: { from: doc().length, insert: "\n" } });
+
+  const shown = page.image();
+  page.held[0]();
+  await until(() => page.image() !== shown, "edit 1's board, shown while the text is edit 2's");
+  assert.notEqual(boxKey((await elementOn(edit1, 11)).box), before, "the button moved on the new board");
+  assert.deepEqual(page.outlined(), [], "no outline from the board before over this one");
+
+  await until(() => page.held.length === 2, "the render for edit 2");
+  page.hold(false);
+  page.held[1]();
+  const final = boxKey((await elementOn(doc().toString(), 11)).box);
+  await until(() => page.outlined()[0] === final, "the button outlined again once the board matches the text");
   page.close();
 });

@@ -284,7 +284,10 @@ async function render() {
     elementsText = text;
     viewer.setElements(elements);
     viewer.highlight([], { kind: "hover" });
-    highlightCaret();
+    // a board for text edited since (the next render hasn't started): the outline drawn on the board
+    // before doesn't fit this one, and the caret's line can't be matched until the next render
+    if (text === editor.getText()) highlightCaret();
+    else viewer.highlight([]);
     viewer.setStale(!ok && !!lastSvg);
     for (const id of ["copy-svg", "dl-svg", "dl-png", "share"]) $<HTMLButtonElement>(id).disabled = !ok;
     if (ok) setStatus("ok", "Valid");
