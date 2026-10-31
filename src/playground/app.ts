@@ -231,6 +231,7 @@ function fileName(ext: string) {
 function setStatus(kind: "" | "ok" | "bad", text: string) {
   $("status").className = `status ${kind}`;
   $("status-text").textContent = text;
+  $("status").title = text; // the whole of it, when a narrow toolbar shortens it
 }
 
 function showIssues(issues: Issue[]) {
@@ -263,6 +264,19 @@ $("flows").addEventListener("click", () => {
   render();
 });
 
+// Sync Selection: click an element to go to its line, and the caret's element is outlined. Off: neither,
+// and the board isn't measured (the elements cost about one more render each time).
+let syncSelection = store.get("wf.sync") !== "off";
+$("sync").setAttribute("aria-checked", String(syncSelection));
+$("sync").addEventListener("click", () => {
+  syncSelection = !syncSelection;
+  $("sync").setAttribute("aria-checked", String(syncSelection));
+  store.set("wf.sync", syncSelection ? "on" : "off");
+  emit("sync_toggled", { on: syncSelection });
+  if (syncSelection) render(); // for the elements
+  else clearElements();
+});
+
 async function render() {
   const mine = ++seq;
   const text = editor.getText();
@@ -272,7 +286,7 @@ async function render() {
   if (!text.trim()) { showIssues([]); setStatus("", "Empty"); clearElements(); return; }
   setStatus("", "Rendering…");
   try {
-    const query = new URLSearchParams({ ...(showFlows ? {} : { flows: "0" }), elements: "1" }); // the elements: clicks and caret outlines
+    const query = new URLSearchParams({ ...(showFlows ? {} : { flows: "0" }), ...(syncSelection ? { elements: "1" } : {}) }); // the elements: clicks and caret outlines
     const res = await fetch(`/api/render?${query}`, { method: "POST", body: text });
     const data: RenderResult = await res.json();
     if (mine !== seq) return; // a newer edit is already rendering
@@ -280,7 +294,7 @@ async function render() {
     showIssues(data.issues);
     const ok = !!data.svg;
     if (data.svg) { lastSvg = data.svg; viewer.show(data.svg, data.width!, data.height!, data.items ?? []); }
-    elements = ok ? data.elements ?? [] : [];
+    elements = ok && syncSelection ? data.elements ?? [] : [];
     elementsText = text;
     viewer.setElements(elements);
     viewer.highlight([], { kind: "hover" });

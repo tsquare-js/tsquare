@@ -142,7 +142,7 @@
   .splitter:hover::after, .splitter.dragging::after { background: var(--primary); }
   .toolbar { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-bottom: 1px solid var(--line); flex-shrink: 0; background: var(--panel); min-height: 47px; min-width: 0; }
   .toolbar .grow { flex: 1; }
-  .doc-title { font-weight: 600; font-size: 13px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .doc-title { font-weight: 600; font-size: 13px; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; flex: 1 1 0; } /* the space left over: it gives way before the status */
   .code { flex: 1; min-height: 0; overflow: hidden; }
   .issues { border-top: 1px solid var(--line); max-height: 30%; overflow: auto; flex-shrink: 0; background: var(--panel); }
   .issues:empty { display: none; }
@@ -154,7 +154,8 @@
   /* Narrow preview: long button labels collapse to their icons (SVG/PNG keep their text) */
   @container (max-width: 620px) { .label-wide { display: none; } .btn:has(.label-wide) { padding: 5px 7px; } }
   @container (max-width: 470px) { .zoom-level { display: none; } }
-  .status { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .status { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; white-space: nowrap; min-width: 0; }
+  #status-text { overflow: hidden; text-overflow: ellipsis; }
   .status .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
   .status.ok .dot { background: var(--ok); }
   .status.bad { color: var(--error); }
@@ -276,7 +277,7 @@
       <div class="toolbar">
         <button class="btn" id="open-examples" type="button"><span data-icon="layout-grid"></span>Examples</button>
         <span class="doc-title" id="doc-title" title="The board's title"></span>
-        <span class="grow"></span>
+        <button class="switch" id="sync" type="button" role="switch" aria-checked="true" title="Click an element to go to its line, and outline the element at the caret"><span class="track"><span class="knob"></span></span>Sync Selection</button>
         <span class="status" id="status"><span class="dot"></span><span id="status-text">Loading…</span></span>
       </div>
       <div class="code" id="code"></div>

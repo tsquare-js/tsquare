@@ -37,17 +37,19 @@ after(() => server.close());
 const SIGN_IN = readFileSync("examples/sign-in.tsq", "utf8");
 const STAGE = { width: 800, height: 600 };
 
-/** The page with `text` in the editor (as if saved from a visit before), once its board is shown. */
-async function openPage(text: string) {
+/** The page with `text` in the editor (as if saved from a visit before), once its board is shown; `saved`: other settings kept from that visit. */
+async function openPage(text: string, saved: Record<string, string> = {}) {
   // render responses can be held, to land one while the text has changed since (the next render not started yet)
   let holding = false;
   const held: (() => void)[] = [];
+  const renders: string[] = []; // each /api/render request's query
   const dom = new JSDOM(html, {
     url: base + "/",
     runScripts: "dangerously",
     pretendToBeVisual: true,
     beforeParse(w: any) {
       w.fetch = async (url: string, init: RequestInit) => {
+        if (url.startsWith("/api/render")) renders.push(new URL(url, base).search);
         const response = await fetch(new URL(url, base), init);
         if (!holding || !url.startsWith("/api/render")) return response;
         // queued once the whole body is in, so `held` counts responses that are ready, however slow the render
@@ -62,6 +64,7 @@ async function openPage(text: string) {
       w.URL.createObjectURL = () => `blob:test/${++blobs}`;
       w.URL.revokeObjectURL = () => {};
       w.localStorage.setItem("wf.source", text);
+      for (const [key, value] of Object.entries(saved)) w.localStorage.setItem(key, value);
     },
   });
   const w = dom.window as any;
@@ -79,6 +82,7 @@ async function openPage(text: string) {
     close: () => w.close(),
     hold: (on: boolean) => { holding = on; },
     held,
+    renders,
     image: () => ($("#canvas img") as HTMLImageElement | null)?.src,
     caretLine: () => editor.state.doc.lineAt(editor.state.selection.main.head).number,
     outlined: () => [...w.document.querySelectorAll(".tsquare-highlight-selected")].map((d: HTMLElement) => styleKey(d.style)),
@@ -176,4 +180,58 @@ test("a render that lands after another edit clears the outline instead of leavi
   const final = boxKey((await elementOn(doc().toString(), 11)).box);
   await until(() => page.outlined()[0] === final, "the button outlined again once the board matches the text");
   page.close();
+});
+
+test("Sync Selection off: no outlines, clicks don't move the caret, and the board isn't measured; remembered for the next visit", async () => {
+  const page = await openPage(SIGN_IN);
+  const sync = page.w.document.getElementById("sync") as HTMLButtonElement;
+  assert.equal(sync.getAttribute("aria-checked"), "true", "on by default");
+  assert.match(page.renders.at(-1)!, /elements=1/);
+  const button = await elementOn(SIGN_IN, 11); // button primary lg "Sign in"
+  const center = () => page.at(button.box.x + button.box.width / 2, button.box.y + button.box.height / 2);
+  page.press(center());
+  assert.deepEqual(page.outlined(), [boxKey(button.box)]);
+
+  sync.click();
+  assert.equal(sync.getAttribute("aria-checked"), "false");
+  assert.equal(page.w.localStorage.getItem("wf.sync"), "off");
+  assert.deepEqual(page.outlined(), [], "turning it off clears the outline");
+  page.editor.dispatch({ selection: { anchor: page.editor.state.doc.line(6).from } });
+  assert.deepEqual(page.outlined(), [], "moving the caret outlines nothing");
+  page.press(center());
+  assert.equal(page.caretLine(), 6, "a click on the board doesn't move the caret");
+  page.editor.dispatch({ changes: { from: page.editor.state.doc.length, insert: "\n" } });
+  await until(() => page.renders.length === 2 && page.w.document.getElementById("status-text").textContent === "Valid", "the render after an edit");
+  assert.doesNotMatch(page.renders[1], /elements/, "the board isn't measured");
+
+  // turned off while a measured render is on its way: its elements aren't used
+  const status = () => page.w.document.getElementById("status-text").textContent;
+  sync.click();
+  await until(() => page.renders.length === 3 && status() === "Valid", "the render with the elements");
+  page.hold(true);
+  page.editor.dispatch({ changes: { from: page.editor.state.doc.length, insert: "\n" } });
+  await until(() => page.held.length === 1, "a measured render, ready and held");
+  sync.click();
+  page.hold(false);
+  page.held[0]();
+  await until(() => status() === "Valid", "that render landing");
+  page.press(center());
+  assert.equal(page.caretLine(), 6, "still no clicks");
+  assert.deepEqual(page.outlined(), []);
+  page.close();
+
+  // the next visit starts with it off; turning it on measures the board again
+  const again = await openPage(SIGN_IN, { "wf.sync": "off" });
+  const sync2 = again.w.document.getElementById("sync") as HTMLButtonElement;
+  assert.equal(sync2.getAttribute("aria-checked"), "false");
+  assert.doesNotMatch(again.renders[0], /elements/);
+  again.press(again.at(button.box.x + button.box.width / 2, button.box.y + button.box.height / 2));
+  assert.equal(again.caretLine(), 1);
+  sync2.click();
+  await until(() => again.renders.length === 2 && again.w.document.getElementById("status-text").textContent === "Valid", "the render with the elements");
+  assert.match(again.renders[1], /elements=1/);
+  again.press(again.at(button.box.x + button.box.width / 2, button.box.y + button.box.height / 2));
+  await until(() => again.caretLine() === 11, "the click going to the button's line");
+  assert.deepEqual(again.outlined(), [boxKey(button.box)]);
+  again.close();
 });
