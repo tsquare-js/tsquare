@@ -153,16 +153,23 @@ const viewer = createViewer({
 // The elements of the board on show, while it matches the text (none while the text has problems:
 // the board is the last valid one, and its lines no longer match)
 let elements: Measured[] = [];
+let elementsText: string | null = null; // the text they were measured from
 let caretLine = 0;
 /** No elements (no board for this text): clicks and outlines off until a render matches it again. */
 function clearElements() {
   elements = [];
+  elementsText = null;
   viewer.setElements([]);
   viewer.highlight([]);
   viewer.highlight([], { kind: "hover" });
 }
-/** Outlines the innermost element around the caret's line. */
+/**
+ * Outlines the innermost element around the caret's line. While the board is behind the text (an
+ * edit not rendered yet), its lines are the older text's: after Enter, the caret's new line would
+ * name a neighbor, so the outline stays until the render catches up (render() calls this again).
+ */
 function highlightCaret() {
+  if (elementsText !== null && elementsText !== editor.getText()) return;
   const [inner] = elementsAtLine(elements, caretLine);
   viewer.highlight(inner && inner.type !== "Board" ? [inner] : []);
 }
@@ -274,9 +281,13 @@ async function render() {
     const ok = !!data.svg;
     if (data.svg) { lastSvg = data.svg; viewer.show(data.svg, data.width!, data.height!, data.items ?? []); }
     elements = ok ? data.elements ?? [] : [];
+    elementsText = text;
     viewer.setElements(elements);
     viewer.highlight([], { kind: "hover" });
-    highlightCaret();
+    // a board for text edited since (the next render hasn't started): the outline drawn on the board
+    // before doesn't fit this one, and the caret's line can't be matched until the next render
+    if (text === editor.getText()) highlightCaret();
+    else viewer.highlight([]);
     viewer.setStale(!ok && !!lastSvg);
     for (const id of ["copy-svg", "dl-svg", "dl-png", "share"]) $<HTMLButtonElement>(id).disabled = !ok;
     if (ok) setStatus("ok", "Valid");
