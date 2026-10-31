@@ -143,7 +143,7 @@ viewer.setElements(elements); // after each new board: entries describe one boar
 - **`zoomTo(entry)`** fits an entry (or any `{ x, y, width, height }` in board pixels) with a margin, and stays on it as the viewer resizes.
 - **`viewer.layer`** is an element over the board in board pixels, for your own marks (comment pins, an inline text field): it pans and zooms with the board. It ignores the pointer; give children that should be clickable `pointer-events: auto`. For marks that keep their size, place your own element over the stage with `toBoard(clientX, clientY)` and the viewer's `onZoom`.
 
-The playground uses all of it: click an element and the editor goes to its line; move the caret and the element is outlined on the board.
+The playground uses all of it: click an element and the editor goes to its line; move the caret and the element is outlined on the board. Its Sync Selection switch turns both off, and then it doesn't ask for the entries at all.
 
 ## An element's lines
 
