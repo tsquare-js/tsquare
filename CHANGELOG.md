@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.14.2
+
+The language, the renderer and the library haven't changed: only the playground page.
+
+- **A Sync Selection switch in the playground's editor toolbar.** On (the default), clicking an element on the board puts the caret on its line and the caret's element is outlined, as in 0.14.0. Off, neither happens: no outlines, clicks on the board only pan, and the board isn't measured, so each render does a little less work. The setting is remembered in the browser, like the theme.
+- **The editor toolbar fits narrow windows:** the board's title takes the space that's left and gives way first, and a long status ("2 problems · showing the last valid render") ends in "…" instead of running past the edge, with the whole of it on hover.
+
 ## 0.14.1
 
 The language, the renderer and the library haven't changed: only the playground page.
