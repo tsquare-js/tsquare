@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- **The npm page links to https://tsquare.dev** (package.json `homepage`), which has the docs, the playground and the component pages. The source stays linked as the repository.
+
 ## 0.14.2
 
 The language, the renderer and the library haven't changed: only the playground page.
