@@ -2,6 +2,9 @@
 
 # tsquare
 
+[![CI](https://github.com/tsquare-js/tsquare/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/tsquare-js/tsquare/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/tsquare)](https://www.npmjs.com/package/tsquare)
+
 Wireframes in plain text: easy for LLMs to write, fast to render as SVG or PNG. A small text language for low-fidelity screens, with several devices side by side and notes beside them. Built for LLMs to write: the prompt comes from the component catalog, and errors come back with line numbers so a model can fix its own output.
 
 ```tsquare
