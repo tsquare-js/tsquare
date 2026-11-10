@@ -805,6 +805,15 @@ function Button({ element, dir, aligned, colors: c = GRAY }: Props) {
 }
 
 /** Fields fill a column; in a row they take the given width or share the space. */
+/**
+ * In a row with no explicit align, a field with a label sits at the top, so labels and boxes line up when
+ * one field is taller than its neighbor (helper text, an error message, multiline). A field without a label
+ * stays centered, like other leaves: a comment box beside an avatar.
+ */
+function fieldTop(label: unknown, inRow?: boolean): CSSProperties {
+  return label ? fillRow(inRow, false) : {};
+}
+
 function fieldWidth(width: unknown, dir?: Dir): CSSProperties {
   if (width != null) return { width: width as number, flexShrink: 0 };
   return dir === "row" ? { flexGrow: 1, flexBasis: "0px", minWidth: 120 } : {};
@@ -859,11 +868,11 @@ function CodeBoxes({ digits, value, c = GRAY }: { digits: number; value: string;
   );
 }
 
-function Input({ element, dir, colors }: Props) {
+function Input({ element, dir, stretch, colors }: Props) {
   const p = element.props;
   if (p.type === "code") {
     return (
-      <Box style={{ flexDirection: "column", gap: 6, ...hug(dir) }}>
+      <Box style={{ flexDirection: "column", gap: 6, ...hug(dir), ...fieldTop(p.label, stretch) }}>
         <FieldLabel text={p.label} />
         <CodeBoxes digits={p.digits ?? 6} value={String(p.value ?? "").slice(0, p.digits ?? 6)} c={colors} />
         {p.helper ? <Box style={{ fontSize: 12, color: p.error ? TONES.danger : t.muted }}>{p.helper}</Box> : null}
@@ -876,7 +885,7 @@ function Input({ element, dir, colors }: Props) {
   const content =
     isPassword && shown ? "•".repeat(Math.min(shown.length, 12)) : shown;
   return (
-    <Box style={{ flexDirection: "column", gap: 6, ...fieldWidth(p.width, dir), ...(p.grow ? { flexGrow: 1 } : {}) }}>
+    <Box style={{ flexDirection: "column", gap: 6, ...fieldWidth(p.width, dir), ...(p.grow ? { flexGrow: 1 } : {}), ...fieldTop(p.label, stretch) }}>
       <FieldLabel text={p.label} />
       <Field height={rows > 1 ? rows * 22 + 20 : 42} top={rows > 1} error={!!p.error} mark={p.__markField}>
         {p.type === "search" ? <IconGlyph name="search" size={18} color={t.muted} /> : null}
@@ -891,10 +900,10 @@ function Input({ element, dir, colors }: Props) {
   );
 }
 
-function Select({ element, dir }: Props) {
+function Select({ element, dir, stretch }: Props) {
   const p = element.props;
   return (
-    <Box style={{ flexDirection: "column", gap: 6, ...fieldWidth(p.width, dir), ...(p.grow ? { flexGrow: 1 } : {}) }}>
+    <Box style={{ flexDirection: "column", gap: 6, ...fieldWidth(p.width, dir), ...(p.grow ? { flexGrow: 1 } : {}), ...fieldTop(p.label, stretch) }}>
       <FieldLabel text={p.label} />
       <Field mark={p.__markField}>
         <Box style={{ flexGrow: 1, color: p.value ? t.ink : t.muted }}>{p.value ?? p.placeholder ?? "Select…"}</Box>
