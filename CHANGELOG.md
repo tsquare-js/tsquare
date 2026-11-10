@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.14.4
+
+One renderer fix. The language hasn't changed, and a board renders differently only if it has a row of labeled fields of different heights.
 
 - **Labeled fields side by side line up at the top.** In a row with no `align`, an input or select that is shorter than its neighbor (which has helper text, an error message, several lines, or code boxes) was centered against it, so its label and box sat a few pixels lower. Inputs and selects with a label now start at the top of such a row. A field without a label stays centered (a comment box beside an avatar), a row with an explicit `align` is drawn as before, and so is every row whose fields are the same height.
 
