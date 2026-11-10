@@ -298,3 +298,31 @@ test("the hit-testing module's containers are the catalog's components that hold
   const withSlots = Object.entries(componentDefinitions).filter(([, d]) => d.slots.length).map(([name]) => name);
   assert.deepEqual([...CONTAINERS].sort(), withSlots.sort());
 });
+
+test("fields side by side start at the same height, whatever their own height", async () => {
+  // A row with no align centered its fields, so the one without helper text sat lower than its neighbor.
+  const row = (align: string, a: string, b: string) => ['board "B"', '  screen "S" desktop', `    stack row${align}`, `      ${a}`, `      ${b}`].join("\n");
+  const tops = async (text: string) => {
+    const els = await measure(text);
+    return [4, 5].map((line) => (at(line, els) as MeasuredElement).box.y);
+  };
+  const pairs = [
+    ['input "Limit" value="$600" helper="She stops and asks." grow', 'select "Resets" value="Never" grow'],
+    ['select "Country"', 'input "Postal code" error helper="Five digits."'],
+    ['input "Notes" multiline=3', 'input "Reference"'],
+    ['input "Code" type=code digits=4 helper="Sent by text."', 'input "Phone"'],
+  ];
+  for (const [a, b] of pairs) {
+    const [ya, yb] = await tops(row("", a, b));
+    assert.equal(ya, yb, `${a} | ${b}`);
+  }
+  // a field without a label stays centered beside something taller
+  for (const field of ['input placeholder="Write a comment"', 'select placeholder="Album"']) {
+    const els = await measure(row("", 'avatar "Ana Torres" size=72', field));
+    const [avatar, box] = [4, 5].map((line) => (at(line, els) as MeasuredElement).box);
+    assert.ok(Math.abs(avatar.y + avatar.height / 2 - (box.y + box.height / 2)) <= 1, field);
+  }
+  // an explicit align is still followed
+  const [top, centered] = await tops(row(" align=center", pairs[0][0], pairs[0][1]));
+  assert.ok(centered > top + 5, `align=center: ${top} vs ${centered}`);
+});

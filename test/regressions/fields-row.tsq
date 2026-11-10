@@ -1,0 +1,35 @@
+# Fields side by side in a row with no align: labels and boxes line up at the top
+# when one field is taller than its neighbor (helper text, multiline, a code input).
+# Before, the row centered them, so the shorter field sat lower.
+# A field without a label stays centered (beside an avatar or an image).
+# measured
+board "Fields in a row"
+  screen "Fields" width=720 height=1040
+    stack padding=24 gap=20
+      stack row gap=12
+        input "Spending limit" value="$600" helper="She stops and asks when it's reached." grow
+        select "Resets" value="Never: one-time limit" grow
+      stack row gap=12
+        select "Country" value="Mexico"
+        input "Postal code" value="0610" error helper="Postal codes have five digits."
+      stack row gap=12
+        input "Notes" multiline=3 placeholder="Anything else?"
+        input "Reference" value="PO-1182"
+        select "Team"
+      stack row gap=12
+        input "Code" type=code digits=4 helper="Sent by text message."
+        input "Phone" value="55 1234 5678"
+      text "Without a label, a field stays centered:" muted
+      stack row gap=12
+        avatar "Ana Torres" size=72
+        input placeholder="Write a comment"
+      stack row gap=12
+        image "Photo" width=96 height=96
+        select placeholder="Album"
+      text "On purpose: a row's own align is followed, so these two are uneven:" muted
+      stack row gap=12 align=center
+        input "align=center" value="a" helper="Helper text"
+        select "align=center" value="b"
+      stack row gap=12 align=end
+        input "align=end" value="a" helper="Helper text"
+        select "align=end" value="b"

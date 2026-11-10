@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- **Labeled fields side by side line up at the top.** In a row with no `align`, an input or select that is shorter than its neighbor (which has helper text, an error message, several lines, or code boxes) was centered against it, so its label and box sat a few pixels lower. Inputs and selects with a label now start at the top of such a row. A field without a label stays centered (a comment box beside an avatar), a row with an explicit `align` is drawn as before, and so is every row whose fields are the same height.
+
 ## 0.14.3
 
 The language and the renderer haven't changed: only the MCP tools' descriptions and annotations, the docs and the npm page.
