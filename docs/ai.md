@@ -12,7 +12,7 @@ https://tsquare.dev/mcp
 
 Add it as a remote MCP server (Streamable HTTP, no sign-in):
 
-- **Claude** (claude.ai and the desktop app): Settings → Connectors → Add custom connector, and paste the URL.
+- **Claude** (claude.ai, the desktop and mobile apps): tsquare is in [Claude's connector directory](https://claude.ai/directory/tsquare), so you can connect it from there. Or add it yourself: Settings → Connectors → Add custom connector, and paste the URL.
 - **Claude Code:** `claude mcp add --transport http tsquare https://tsquare.dev/mcp`
 - **Cursor:** in `~/.cursor/mcp.json`, add `{ "mcpServers": { "tsquare": { "url": "https://tsquare.dev/mcp" } } }`.
 - **VS Code:** in `.vscode/mcp.json`, add `{ "servers": { "tsquare": { "type": "http", "url": "https://tsquare.dev/mcp" } } }`.
