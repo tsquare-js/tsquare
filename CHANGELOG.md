@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- **MCP tool descriptions say what each tool does and returns, with no instructions to the model** ("Call it once before…", "Fix every problem and call it again", "Ask only for the links the user needs" are gone). Connector directories reject descriptions that tell the model how to behave. The order of the tools is still in the server instructions (`MCP_INSTRUCTIONS`) and in the guide's text.
+- **Every MCP tool states `destructiveHint: false` and its title in `annotations`**, next to `readOnlyHint: true` and `openWorldHint: false`. Directories check these: OpenAI's wants all three hints as booleans, and Anthropic's looks for the title in `annotations`.
 - **The npm page links to https://tsquare.dev** (package.json `homepage`), which has the docs, the playground and the component pages. The source stays linked as the repository.
 
 ## 0.14.2

@@ -60,7 +60,7 @@ const linksInput = z
   .min(1)
   .optional()
   .describe(
-    "Which links to return; ask only for what the user needs, since each link is long. share: open and edit it in the playground. svg: an image link to view or embed (Notion, GitHub, docs). png: an image link for tools that don't show SVG. markdown: an image for READMEs and docs. html: an <img> tag for web pages. Default [svg, share].",
+    "Which links to return. Each link is long, since it carries the whole wireframe. share: open and edit it in the playground. svg: an image link to view or embed (Notion, GitHub, docs). png: an image link for tools that don't show SVG. markdown: an image for READMEs and docs. html: an <img> tag for web pages. Default [svg, share].",
   );
 
 const GUIDE_HEADER = `# Writing tsquare wireframes
@@ -72,27 +72,39 @@ Workflow:
 4. Call share_wireframe with only the links the user needs (links=[…]; by default an image link and the share link to edit it), and give them to the user exactly as returned: each link carries the whole wireframe, so one changed character breaks it. Show the wireframe text too, in a \`\`\`tsquare code block, so they can keep it.
 `;
 
+/**
+ * Every tool only computes (it changes nothing and reaches no outside system), so all three hints
+ * are set explicitly: directories check them (OpenAI wants readOnly/destructive/openWorld as
+ * booleans), and Anthropic's looks for the title inside `annotations` as well as at the top level.
+ */
+const hints = (title: string) => ({ title, readOnlyHint: true, destructiveHint: false, openWorldHint: false });
+
+/**
+ * Descriptions say what each tool does and returns, never how the model should behave: directory
+ * reviews (Anthropic's and OpenAI's) reject instructions in descriptions. The order of the tools is
+ * in MCP_INSTRUCTIONS and in the guide's text, where it belongs.
+ */
 export const mcpTools = {
   wireframe_guide: {
     title: "tsquare language guide",
     description:
-      "How to write a tsquare wireframe: the text format, the rules, a worked example and every component with its props. Call it once before writing your first wireframe.",
+      "The tsquare language reference: the text format, the rules, a worked example and every component with its props. Meant to be read once, before the first wireframe; it returns the same text every time.",
     inputSchema: z.object({}),
-    annotations: { readOnlyHint: true, openWorldHint: false },
+    annotations: hints("tsquare language guide"),
   },
   render_wireframe: {
     title: "Render a wireframe",
     description:
-      "Check tsquare wireframe text and render it. Returns a PNG of the board so you can see it, or the problems by line number (with the valid options) if the text isn't valid. Fix every problem and call it again.",
+      "Checks tsquare wireframe text and renders it. Returns a PNG of the board, or, if the text isn't valid, each problem with its line number and the valid options.",
     inputSchema: z.object({ text: textInput, flows: flowsInput }),
-    annotations: { readOnlyHint: true, openWorldHint: false },
+    annotations: hints("Render a wireframe"),
   },
   share_wireframe: {
     title: "Share a wireframe",
     description:
-      "Links for valid tsquare wireframe text, the same kinds as the playground's Copy link menu: a share link to edit it in the playground, image links (SVG, PNG), Markdown and HTML. Ask only for the links the user needs (default: an SVG image link and the share link). Each link contains the whole wireframe text (compressed), so anyone with a link can read it.",
+      "Links for valid tsquare wireframe text, the same kinds as the playground's Copy link menu: a share link that opens it in the playground for editing, SVG and PNG image links, Markdown and HTML. Returns an SVG image link and the share link unless `links` asks for others. Each link contains the whole wireframe text (compressed), so anyone with a link can read it.",
     inputSchema: z.object({ text: textInput, flows: flowsInput, links: linksInput }),
-    annotations: { readOnlyHint: true, openWorldHint: false },
+    annotations: hints("Share a wireframe"),
   },
 } as const;
 
