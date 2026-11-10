@@ -3,11 +3,28 @@
  */
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { callMcpTool, decodeWireframe, renderWireframeTool, shareWireframeTool, wireframeGuide } from "../src/index.js";
+import { callMcpTool, decodeWireframe, mcpTools, renderWireframeTool, shareWireframeTool, wireframeGuide } from "../src/index.js";
 import { board } from "./helpers.js";
 
 const valid = ['board "Sign in"', '  screen phone "Sign in"', '    button primary "Sign in"'].join("\n");
 const textOf = (r: { content: { type: string; text?: string }[] }) => r.content.filter((c) => c.type === "text").map((c) => c.text).join("\n");
+
+test("every tool states all three hints and its title in its annotations, as directories check", () => {
+  for (const [name, tool] of Object.entries(mcpTools)) {
+    assert.deepEqual(tool.annotations, { title: tool.title, readOnlyHint: true, destructiveHint: false, openWorldHint: false }, name);
+  }
+});
+
+test("tool descriptions describe the tool and give the model no instructions", () => {
+  // directory reviews reject descriptions that tell the model how to behave; the order lives in MCP_INSTRUCTIONS
+  const imperative = /(^|[.;:]\s+)(call|fix|ask|use|always|never|don't|do not|make sure)\b/i;
+  for (const [name, tool] of Object.entries(mcpTools)) {
+    assert.doesNotMatch(tool.description, imperative, name);
+    for (const [prop, schema] of Object.entries(tool.inputSchema.shape)) {
+      assert.doesNotMatch((schema as { description?: string }).description ?? "", imperative, `${name}.${prop}`);
+    }
+  }
+});
 
 test("the guide has the workflow and the whole language", () => {
   const t = textOf(wireframeGuide());
