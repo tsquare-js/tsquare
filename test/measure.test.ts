@@ -322,6 +322,17 @@ test("fields side by side start at the same height, whatever their own height", 
     const [avatar, box] = [4, 5].map((line) => (at(line, els) as MeasuredElement).box);
     assert.ok(Math.abs(avatar.y + avatar.height / 2 - (box.y + box.height / 2)) <= 1, field);
   }
+  // a button or an unlabeled field beside a labeled field lines up with its box, which starts 22px down
+  // (the label and the gap under it); small and large buttons are centered on the 42px box
+  for (const [control, offset] of [['button "Go"', 22], ['input placeholder="No label"', 22], ['select placeholder="Pick"', 22], ['button "Go" size=sm', 27], ['button "Go" size=lg', 18]] as const) {
+    for (const field of ['select "Role" value="Member" width=160', 'input "Email" helper="We send an invite."']) {
+      const [fieldTop, controlTop] = await tops(row("", field, control));
+      assert.equal(controlTop - fieldTop, offset, `${field} | ${control}`);
+    }
+  }
+  // ...but only without an explicit align: a centered row centers the button on the label and box
+  const [roleTop, goTop] = await tops(row(" align=center", 'select "Role" value="Member" width=160', 'button "Go"'));
+  assert.equal(goTop - roleTop, 11);
   // an explicit align is still followed
   const [top, centered] = await tops(row(" align=center", pairs[0][0], pairs[0][1]));
   assert.ok(centered > top + 5, `align=center: ${top} vs ${centered}`);

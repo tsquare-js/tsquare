@@ -21,7 +21,7 @@ import {
  */
 
 type Dir = "row" | "column";
-type Props<P = Record<string, any>> = ComponentRenderProps<P> & { dir?: Dir; stretch?: boolean; aligned?: boolean; colors?: Palette };
+type Props<P = Record<string, any>> = ComponentRenderProps<P> & { dir?: Dir; stretch?: boolean; aligned?: boolean; boxTop?: number; colors?: Palette };
 
 /** The board's colors, passed to every component by `withPalette`. Grayscale when there's no accent. */
 const GRAY = paletteFor();
@@ -103,8 +103,32 @@ export function withTopLayer(reg: typeof registry, layer: ReactNode): typeof reg
 
 /** Tell each child which way its parent lays out, so leaves can avoid stretching. */
 /** `aligned`: the parent column sets align=start/center/end, so leaves follow it instead of hugging the left edge. */
-function withDir(children: ReactNode, dir: Dir, stretch = false, aligned = false) {
-  return Children.toArray(children).map((c) => (isValidElement(c) ? cloneElement(c as any, { dir, stretch, aligned }) : c));
+/** `boxTop`: the row has a labeled field, whose box starts this far down (see `besideField`). */
+function withDir(children: ReactNode, dir: Dir, stretch = false, aligned = false, boxTop?: number) {
+  return Children.toArray(children).map((c) => (isValidElement(c) ? cloneElement(c as any, { dir, stretch, aligned, boxTop }) : c));
+}
+
+/** A field's label and the gap under it (13px text + 6), and the height of a one-line field's box. */
+const FIELD_LABEL = 22;
+const FIELD_BOX = 42;
+
+/** Whether one of a row's children is an input or select with a label. */
+function hasLabeledField(children: ReactNode): boolean {
+  return Children.toArray(children).some((c) => {
+    const el = isValidElement(c) ? (c.props as any).element : undefined;
+    return (el?.type === "Input" || el?.type === "Select") && !!el.props?.label;
+  });
+}
+
+/**
+ * A button or a field without a label, in a row with a labeled field (and no explicit align), lines up
+ * with that field's box, not with the middle of its label and box: a "..." button beside a labeled
+ * select sat 11px above the select. `height` is the control's own; shorter and taller ones (small and
+ * large buttons) are centered on a one-line box.
+ */
+function besideField(boxTop: number | undefined, height = FIELD_BOX): CSSProperties {
+  if (boxTop == null) return {};
+  return { alignSelf: "flex-start", marginTop: boxTop + (FIELD_BOX - height) / 2 };
 }
 
 /**
@@ -402,7 +426,13 @@ function Stack({ element, children, dir: parentDir, stretch }: Props) {
         ...fillRow(stretch, p.width != null || !!p.fill || (!!p.border && p.border !== "none")),
       }}
     >
-      {withDir(children, dir, dir === "row" && p.align == null, dir === "column" && p.align != null && p.align !== "stretch")}
+      {withDir(
+        children,
+        dir,
+        dir === "row" && p.align == null,
+        dir === "column" && p.align != null && p.align !== "stretch",
+        dir === "row" && p.align == null && hasLabeledField(children) ? FIELD_LABEL : undefined,
+      )}
     </Box>
   );
 }
@@ -774,7 +804,7 @@ function Badge({ element, dir, aligned, colors }: Props) {
 
 // ── Controls ────────────────────────────────────────────────────────────
 
-function Button({ element, dir, aligned, colors: c = GRAY }: Props) {
+function Button({ element, dir, aligned, boxTop, colors: c = GRAY }: Props) {
   const p = element.props;
   const variant = p.variant ?? "primary";
   const h = { sm: 32, md: 42, lg: 50 }[(p.size ?? "md") as "sm" | "md" | "lg"] ?? 42;
@@ -794,7 +824,7 @@ function Button({ element, dir, aligned, colors: c = GRAY }: Props) {
         color: fg,
         backgroundColor: variant === "primary" ? c.accent : "transparent",
         border: variant === "secondary" ? `1.5px solid ${t.lineStrong}` : "none",
-        ...(p.fullWidth ? { alignSelf: "stretch" } : hug(dir, aligned)),
+        ...(p.fullWidth ? { alignSelf: "stretch" } : { ...hug(dir, aligned), ...besideField(boxTop, h) }),
       }}
     >
       {p.leadingIcon ? <IconGlyph name={p.leadingIcon} size={h < 36 ? 16 : 18} color={fg} /> : null}
@@ -868,11 +898,11 @@ function CodeBoxes({ digits, value, c = GRAY }: { digits: number; value: string;
   );
 }
 
-function Input({ element, dir, stretch, colors }: Props) {
+function Input({ element, dir, stretch, boxTop, colors }: Props) {
   const p = element.props;
   if (p.type === "code") {
     return (
-      <Box style={{ flexDirection: "column", gap: 6, ...hug(dir), ...fieldTop(p.label, stretch) }}>
+      <Box style={{ flexDirection: "column", gap: 6, ...hug(dir), ...(p.label ? fieldTop(p.label, stretch) : besideField(boxTop, 52)) }}>
         <FieldLabel text={p.label} />
         <CodeBoxes digits={p.digits ?? 6} value={String(p.value ?? "").slice(0, p.digits ?? 6)} c={colors} />
         {p.helper ? <Box style={{ fontSize: 12, color: p.error ? TONES.danger : t.muted }}>{p.helper}</Box> : null}
@@ -885,7 +915,7 @@ function Input({ element, dir, stretch, colors }: Props) {
   const content =
     isPassword && shown ? "•".repeat(Math.min(shown.length, 12)) : shown;
   return (
-    <Box style={{ flexDirection: "column", gap: 6, ...fieldWidth(p.width, dir), ...(p.grow ? { flexGrow: 1 } : {}), ...fieldTop(p.label, stretch) }}>
+    <Box style={{ flexDirection: "column", gap: 6, ...fieldWidth(p.width, dir), ...(p.grow ? { flexGrow: 1 } : {}), ...(p.label ? fieldTop(p.label, stretch) : besideField(boxTop)) }}>
       <FieldLabel text={p.label} />
       <Field height={rows > 1 ? rows * 22 + 20 : 42} top={rows > 1} error={!!p.error} mark={p.__markField}>
         {p.type === "search" ? <IconGlyph name="search" size={18} color={t.muted} /> : null}
@@ -900,10 +930,10 @@ function Input({ element, dir, stretch, colors }: Props) {
   );
 }
 
-function Select({ element, dir, stretch }: Props) {
+function Select({ element, dir, stretch, boxTop }: Props) {
   const p = element.props;
   return (
-    <Box style={{ flexDirection: "column", gap: 6, ...fieldWidth(p.width, dir), ...(p.grow ? { flexGrow: 1 } : {}), ...fieldTop(p.label, stretch) }}>
+    <Box style={{ flexDirection: "column", gap: 6, ...fieldWidth(p.width, dir), ...(p.grow ? { flexGrow: 1 } : {}), ...(p.label ? fieldTop(p.label, stretch) : besideField(boxTop)) }}>
       <FieldLabel text={p.label} />
       <Field mark={p.__markField}>
         <Box style={{ flexGrow: 1, color: p.value ? t.ink : t.muted }}>{p.value ?? p.placeholder ?? "Select…"}</Box>

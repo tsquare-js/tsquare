@@ -2,9 +2,11 @@
 # when one field is taller than its neighbor (helper text, multiline, a code input).
 # Before, the row centered them, so the shorter field sat lower.
 # A field without a label stays centered (beside an avatar or an image).
+# A button or an unlabeled field beside a labeled one lines up with that field's box, not with the
+# middle of its label and box (it sat 11px above the box).
 # measured
 board "Fields in a row"
-  screen "Fields" width=720 height=1040
+  screen "Fields" width=720 height=1500
     stack padding=24 gap=20
       stack row gap=12
         input "Spending limit" value="$600" helper="She stops and asks when it's reached." grow
@@ -26,6 +28,26 @@ board "Fields in a row"
       stack row gap=12
         image "Photo" width=96 height=96
         select placeholder="Album"
+      text "Beside a labeled field, buttons and unlabeled fields line up with its box:" muted
+      stack row gap=12
+        stack gap=2 grow
+          heading "Sam Kim" level=2
+          text sm "sam@example.com · joined Oct 30" muted
+        select "Account role" value="Member" width=160
+        button secondary "..."
+      stack row gap=12
+        input "Email" value="ana@example.com" helper="We'll send an invite."
+        input placeholder="No label"
+        button "Invite" primary
+      stack row gap=12
+        select "Size" value="M" width=160
+        button "Small" size=sm
+        button "Medium"
+        button "Large" size=lg
+      stack row gap=12
+        avatar "Ana Torres" size=72
+        input "Name" value="Ana Torres"
+        button "Save" primary
       text "On purpose: a row's own align is followed, so these two are uneven:" muted
       stack row gap=12 align=center
         input "align=center" value="a" helper="Helper text"
