@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.14.5
+
+One renderer fix. The language hasn't changed, and a board renders differently only if it has a row with a labeled field beside a button or an unlabeled field.
 
 - **A button or an unlabeled field beside a labeled field lines up with that field's box.** In a row with no `align`, it was centered on the field's label and box together, so it sat 11px above the box (a "..." button beside a labeled select). Small and large buttons are centered on the box. A row with an explicit `align` is drawn as before, and so is every row without a labeled input or select.
 
