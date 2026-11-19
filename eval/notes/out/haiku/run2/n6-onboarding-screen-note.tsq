@@ -1,0 +1,27 @@
+```tsquare
+board "Onboarding"
+  screen phone "Welcome"
+    navbar leading=logo
+    image "Illustration" height=260
+    heading "Welcome to Notes" level=1 align=center
+    text "Capture ideas in one place." align=center muted
+    button primary "Get started" fullWidth
+  screen phone "Choose interests"
+    navbar "Step 2 of 3" leading=back
+    heading "What are you into?" level=2
+    text "Pick at least 3." muted
+    checkbox "Design"
+    checkbox "Engineering"
+    checkbox "Marketing"
+    checkbox "Music"
+    button primary "Continue" fullWidth
+      note "Stays disabled until at least 3 interests are selected."
+  screen phone "Notifications"
+    note "This whole screen is skipped when the user has already granted notification permission."
+    navbar "Step 3 of 3" leading=back
+    icon "bell" size=48
+    heading "Turn on notifications" level=2 align=center
+    text "Get reminders when a shared note changes." align=center muted
+    button primary "Allow notifications" fullWidth
+    button ghost "Not now" fullWidth
+```

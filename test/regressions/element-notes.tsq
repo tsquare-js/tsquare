@@ -1,0 +1,36 @@
+# 0.15.0: notes are about what they're indented under. Notes about a screen and its elements are
+# listed under the screen, numbered, with a marker on what they're about (after the name for the
+# screen itself). Look for: no note inside a screen; the second row starting below the first
+# row's notes; the arrows to the second row in lanes under every note; markers on the field's box
+# (not its label), on the radios (not the stack's far corner) and clear of the arrow leaving the
+# help icon; a note under "Review" with no marker (its button is cut off); and in the measured
+# image, the boxes on the drawn notes and markers.
+# measured
+board "Notes" layout=grid columns=2
+  screen phone "Start" height=430 #start
+    note "Opens after sign-up" color=blue
+    stack row
+      heading "Welcome" level=2
+      spacer
+      icon circle-help #help
+        note "Opens the help center"
+    input email "Email"
+      note "Checked for typos like gmial.com"
+    stack gap=10
+      radio "Daily" checked
+      radio "Weekly"
+      note "Daily is the default" color=pink
+    button primary "Next" fullWidth #next
+  screen phone "Help" height=430 #helpscreen
+    navbar "Help" leading=back
+    text lines=3
+  screen phone "Review" height=430 #review
+    text "Check your choices"
+    spacer size=600
+    button "Below the fold"
+      note "Its button is cut off, so it has no marker"
+  screen phone "Done" height=430 #done
+    heading "Done" level=2
+  flow help -> helpscreen "Help"
+  flow next -> review
+  flow next -> done "Skip review"

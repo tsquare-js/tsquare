@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+Notes are about what they're indented under. A board renders differently only if it has a note inside a screen: that note is now listed under the screen with a numbered marker, instead of taking space in the screen like part of the UI.
+
+- **A note is about what it's indented under.** Under the board, it's about the whole board and sits beside the screens, as before. Under a screen, it's about that screen. Under any other element (a button, a field, a stack), it's about that element: indent it under the element. Notes about a screen and its elements are listed under the screen, numbered in the order they're written across the board, and a numbered marker sits on what each one is about (just outside the element's top-right corner, or after the screen's name). A note never takes space inside a screen.
+- **Choose how notes are drawn:** `notes: "on" | "markers" | "off"` (`renderWireframeSvg`/`Png`, `renderWireframe`, `measureBoardLayout`, `boardLayout`, `measureElements`), `tsquare render --notes markers`, `?notes=markers` on the playground's image links, and a Notes picker in the playground (shown when the board has notes). "markers" draws only the numbered markers, for a doc that lists the notes in its own text; notes on the board are left out too. "off" draws no notes, exactly as if the board had no note lines. The numbers are the same in every mode.
+- **Arrows that skip a screen run below the notes under the screens**, so they never cross one. On a board with several rows, a row's notes push the next row down.
+- **`measureElements` lists each note about a screen or an element** with its `number`, its `marker` box and `parentLine` on what it's about; its `box` is the note under the screen (the marker with `notes: "markers"`). An element's `endLine` includes the notes under it, and in `elementsAt` a click on a marker gives the note first.
+- **The model prompt has a rule for notes** (rule 12): indent a note under what it's about, wrap a group of elements in a stack to note them together, and use `tooltip` only for text the product itself shows. In `eval/notes/` (7 tasks, Sonnet and Haiku, 2 runs each, 28 wireframes), every targeted note landed where it should (40/40), and notes and tooltips stayed apart. Directional: most tasks named the element to note.
+- A note under a flow line is an error that says where notes go.
+- `BoardItem.height` includes the notes under a screen, so zooming to a screen shows its notes.
+
 ## 0.14.5
 
 One renderer fix. The language hasn't changed, and a board renders differently only if it has a row with a labeled field beside a button or an unlabeled field.

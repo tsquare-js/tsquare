@@ -1,0 +1,23 @@
+```tsquare
+board "Notes list: phone and desktop"
+  screen phone "Notes"
+    navbar "Notes" actions=[plus]
+    input search placeholder="Search notes"
+    list dividers
+      listitem "Meeting notes" subtitle="Yesterday" leadingIcon=file-text
+      listitem "Grocery list" subtitle="Monday" leadingIcon=file-text
+      listitem "Trip ideas" subtitle="Last week" leadingIcon=file-text
+    tabbar items=[{label=Notes icon=file-text}, {label=Tasks icon=check}, {label=Profile icon=user}] active=0
+  screen desktop "Notes"
+    stack row grow
+      stack column width=280 border=right padding=12 gap=8
+        input search placeholder="Search notes"
+        list dividers
+          listitem "Meeting notes" subtitle="Yesterday" leadingIcon=file-text
+          listitem "Grocery list" subtitle="Monday" leadingIcon=file-text
+          listitem "Trip ideas" subtitle="Last week" leadingIcon=file-text
+      stack column grow padding=24 gap=12
+        heading "Meeting notes" level=2
+        text lines=6
+  note color=yellow "Phone: the list fills the screen and the tab bar switches sections. Desktop: the list moves into a sidebar and the open note sits beside it."
+```

@@ -256,13 +256,29 @@ function showIssues(issues: Issue[]) {
 // Flow arrows: drawn by default; the toggle (shown only when the board has flow lines) leaves them out
 let showFlows = true;
 const hasFlows = (text: string) => /^[ \t]*flow\b/im.test(text); // component names ignore case
-const flowsQuery = () => (showFlows ? "" : "?flows=0");
 $("flows").addEventListener("click", () => {
   showFlows = !showFlows;
   $("flows").setAttribute("aria-checked", String(showFlows));
   emit("flows_toggled", { on: showFlows });
   render();
 });
+
+// Notes: drawn by default; the picker (shown only when the board has notes) draws only their numbered
+// markers, or no notes at all
+let notesMode = "on";
+const hasNotes = (text: string) => /^[ \t]*note\b/im.test(text);
+$<HTMLSelectElement>("notes").addEventListener("change", () => {
+  notesMode = $<HTMLSelectElement>("notes").value;
+  emit("notes_changed", { mode: notesMode });
+  render();
+});
+
+/** The render options that differ from the defaults, as query parameters: image links match what's shown. */
+const viewParams = (): Record<string, string> => ({ ...(showFlows ? {} : { flows: "0" }), ...(notesMode === "on" ? {} : { notes: notesMode }) });
+const viewQuery = () => {
+  const q = new URLSearchParams(viewParams()).toString();
+  return q ? `?${q}` : "";
+};
 
 // Sync Selection: click an element to go to its line, and the caret's element is outlined. Off: neither,
 // and the board isn't measured (the elements cost about one more render each time).
@@ -282,11 +298,12 @@ async function render() {
   const text = editor.getText();
   store.set("wf.source", text);
   $("flows").hidden = !hasFlows(text);
+  $("notes-pick").hidden = !hasNotes(text);
   $("doc-title").textContent = boardTitle(text) || "Untitled";
   if (!text.trim()) { showIssues([]); setStatus("", "Empty"); clearElements(); return; }
   setStatus("", "Rendering…");
   try {
-    const query = new URLSearchParams({ ...(showFlows ? {} : { flows: "0" }), ...(syncSelection ? { elements: "1" } : {}) }); // the elements: clicks and caret outlines
+    const query = new URLSearchParams({ ...viewParams(), ...(syncSelection ? { elements: "1" } : {}) }); // the elements: clicks and caret outlines
     const res = await fetch(`/api/render?${query}`, { method: "POST", body: text });
     const data: RenderResult = await res.json();
     if (mine !== seq) return; // a newer edit is already rendering
@@ -335,7 +352,7 @@ $("dl-svg").addEventListener("click", () => {
   emit("downloaded", { format: "svg" });
 });
 $("dl-png").addEventListener("click", async () => {
-  const res = await fetch(`/api/png?scale=2${showFlows ? "" : "&flows=0"}`, { method: "POST", body: editor.getText() });
+  const res = await fetch(`/api/png?${new URLSearchParams({ scale: "2", ...viewParams() })}`, { method: "POST", body: editor.getText() });
   if (!res.ok) return toast("Fix the problems first");
   download(await res.blob(), fileName("png"));
   emit("downloaded", { format: "png" });
@@ -357,13 +374,13 @@ menu.querySelectorAll<HTMLButtonElement>("button[data-copy]").forEach((b) =>
     closeMenu();
     const data = await encode(editor.getText());
     const title = boardTitle(editor.getText()) || "Wireframe";
-    // image links match what's shown: without flow arrows when they're switched off
-    const svgUrl = `${BASE}/svg/${data}${flowsQuery()}`;
+    // image links match what's shown: without flow arrows when they're switched off, notes as chosen
+    const svgUrl = `${BASE}/svg/${data}${viewQuery()}`;
     const kind = b.dataset.copy!;
     const text = {
       share: `${BASE}/playground#${data}`,
       svg: svgUrl,
-      png: `${BASE}/png/${data}${flowsQuery()}`,
+      png: `${BASE}/png/${data}${viewQuery()}`,
       markdown: `![${title.replace(/[[\]]/g, "")}](${svgUrl})`,
       html: `<img src="${svgUrl}" alt="${escapeAttr(title)}">`,
     }[kind]!;

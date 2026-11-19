@@ -1,0 +1,27 @@
+```tsquare
+board "Onboarding"
+  screen phone "Welcome"
+    image height=220
+    heading "Welcome to Tally" level=1 align=center
+    text "Track your spending in one place." align=center
+    button primary "Get started" fullWidth
+    button ghost "I already have an account"
+  screen phone "Interests"
+    navbar "Your interests" leading=back
+    text "Pick at least three."
+    checkbox "Design"
+    checkbox "Engineering"
+    checkbox "Marketing"
+    checkbox "Product"
+    checkbox "Data"
+    button primary "Continue" fullWidth
+      note "Stays disabled until at least 3 interests are selected."
+  screen phone "Notifications"
+    navbar "Notifications" leading=back
+    icon bell size=64
+    heading "Stay in the loop" level=2 align=center
+    text "Get reminders when a bill is due." align=center
+    button primary "Allow notifications" fullWidth
+    button ghost "Not now"
+    note "This screen is skipped when the user has already granted notification permission."
+```

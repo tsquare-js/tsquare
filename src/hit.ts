@@ -35,6 +35,10 @@ export interface MeasuredElement {
   overlays?: MeasuredBox[];
   /** Modals and drawers: whether the screen behind is dimmed (on unless the text says no-scrim). */
   scrim?: boolean;
+  /** Notes about a screen or an element: the numbered marker on what they're about (`box` is the note under the screen, or the marker when only markers are drawn). */
+  marker?: MeasuredBox;
+  /** Notes about a screen or an element: their number on the board, in the order they're written. */
+  number?: number;
 }
 
 export interface MeasuredFlow {
@@ -88,7 +92,7 @@ const isContainer = (e: MeasuredElement) => CONTAINERS.has(e.type);
 
 /**
  * Everything under a point (board pixels), most likely meant first:
- *   1. an open menu, option list, date picker or tooltip: the element it belongs to
+ *   1. an open menu, option list, date picker or tooltip: the element it belongs to; a note's marker: the note
  *   2. a flow's label
  *   3. elements that hold no others (buttons, inputs, text, …), topmost first
  *   4. a flow's line, within `tolerance` px of it (default 6; pass more when the board is shown zoomed out)
@@ -119,7 +123,7 @@ export function elementsAt(elements: Measured[], x: number, y: number, opts: { t
     if (isFlow(e)) {
       if (inside(e.labelBox, x, y)) labels.push(e);
       else if (distanceToPath(e.path, x, y) <= tolerance) lines.push(e);
-    } else if (e.overlays?.some((o) => inside(o, x, y))) owners.push(e);
+    } else if (e.overlays?.some((o) => inside(o, x, y)) || inside(e.marker, x, y)) owners.push(e);
     else if (!covered.has(e) && (inside(e.box, x, y) || inside(e.labelBox, x, y))) (isContainer(e) ? containers : leaves).push(e);
   }
   return [owners, labels, leaves, lines, containers].flatMap((g) => g.sort(topFirst));

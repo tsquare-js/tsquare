@@ -1,0 +1,25 @@
+```tsquare
+board "Notes list, responsive"
+  screen phone "Phone"
+    navbar "Notes" leading=menu actions=[search]
+    list dividers
+      listitem "Meeting notes" subtitle="Today" trailing=chevron
+      listitem "Ideas" subtitle="Yesterday" trailing=chevron
+      listitem "Groceries" subtitle="Mon" trailing=chevron
+  screen desktop "Desktop"
+    stack row grow
+      stack width=220 border=right padding=16 gap=8
+        heading "Notes" level=3
+        text "All notes"
+        text "Pinned"
+        text "Shared"
+      stack width=300 border=right
+        list dividers
+          listitem "Meeting notes" subtitle="Today"
+          listitem "Ideas" subtitle="Yesterday"
+          listitem "Groceries" subtitle="Mon"
+      stack grow padding=24 gap=12
+        heading "Meeting notes" level=1
+        text lines=6
+  note "On desktop the list sits beside a sidebar and a reading pane; on phone it is a single full-width list, and tapping a row opens the note." color=yellow
+```

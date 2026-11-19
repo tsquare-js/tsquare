@@ -1,0 +1,16 @@
+```tsquare
+board "Checkout"
+  screen phone "Checkout"
+    navbar "Checkout" leading=back
+    list dividers
+      listitem "Wireless headphones" subtitle="Qty 1" trailingText="$89.00"
+      listitem "USB-C cable" subtitle="Qty 2" trailingText="$24.00"
+    stack row justify=between
+      text "Total" bold
+      text "$113.00" bold
+    input "Promo code" placeholder="Enter code"
+      note "Accepts one promo code per order."
+    input "Card number" placeholder="1234 5678 9012 3456"
+    button primary "Pay $113.00" fullWidth
+      note "Stays disabled until the card number is valid."
+```

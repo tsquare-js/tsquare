@@ -1,0 +1,31 @@
+```tsquare
+board "Onboarding"
+  screen phone "Welcome"
+    spacer
+    image "Logo" height=120 rounded
+    heading "Welcome" level=1 align=center
+    text "A short line about what the app does." muted align=center
+    spacer
+    button primary "Get started" fullWidth
+  screen phone "Interests"
+    heading "Choose your interests" level=1
+    text "Pick at least 3." muted
+    stack gap=8
+      checkbox "Cooking"
+      checkbox "Travel"
+      checkbox "Music"
+      checkbox "Sports"
+      checkbox "Art"
+    spacer
+    button primary "Continue" fullWidth
+      note "Stays disabled until at least 3 interests are selected."
+  screen phone "Notifications"
+    spacer
+    icon "bell" size=64
+    heading "Enable notifications" level=1 align=center
+    text "Get updates about what you care about." muted align=center
+    spacer
+    button primary "Enable" fullWidth
+    button ghost "Not now" fullWidth
+    note "This screen is skipped when the user has already granted permission."
+```

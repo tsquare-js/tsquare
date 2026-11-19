@@ -129,6 +129,11 @@
   .switch .knob { position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.25); transition: transform .15s; }
   .switch[aria-checked="true"] .track { background: var(--primary); }
   .switch[aria-checked="true"] .knob { transform: translateX(12px); }
+  .pick { display: inline-flex; align-items: center; gap: 6px; margin-left: 6px; font-size: 13px; font-weight: 500; white-space: nowrap; }
+  .pick[hidden] { display: none; }
+  .pick select { border: 1px solid var(--line-strong); background: var(--panel); border-radius: 6px; padding: 3px 6px; font-size: 13px; cursor: pointer; }
+  .pick select:hover { border-color: var(--muted); }
+  .pick select:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
 
   main { flex: 1; min-height: 0; display: flex; }
   .view { flex: 1; min-width: 0; display: none; }
@@ -290,6 +295,7 @@
         <button class="btn zoom-level" id="zoom-fit" type="button" title="Fit to the window">100%</button>
         <button class="btn icon-only" id="zoom-in" type="button" aria-label="Zoom in" title="Zoom in"><span data-icon="zoom-in"></span></button>
         <button class="switch" id="flows" type="button" role="switch" aria-checked="true" title="Show or hide the flow arrows" hidden><span class="track"><span class="knob"></span></span>Flows</button>
+        <label class="pick" id="notes-pick" title="Show the notes, only their numbered markers, or none" hidden>Notes<select id="notes"><option value="on">On</option><option value="markers">Markers</option><option value="off">Off</option></select></label>
         <span class="grow"></span>
         <div class="menu-wrap">
           <button class="btn" id="share" type="button" aria-haspopup="menu" aria-expanded="false" title="Copy a link" disabled><span data-icon="link"></span><span class="label-wide">Copy link</span></button>

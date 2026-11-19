@@ -1,6 +1,6 @@
 # The language
 
-A tsquare file (`.tsq`) describes one **board**: a canvas with one or more **screens** side by side, and optional **notes** beside them. This page covers how to write it. For what each component does, see [Components](components/README.md).
+A tsquare file (`.tsq`) describes one **board**: a canvas with one or more **screens** side by side, and optional **notes** about the board, a screen or an element. This page covers how to write it. For what each component does, see [Components](components/README.md).
 
 ```tsquare
 board "Sign-up flow"
@@ -112,7 +112,8 @@ Lines starting with ```` ``` ```` are ignored, so a model's reply in a code bloc
 
 ## Structure
 
-- The **board** is the root. Its children are **screens**, plus **notes** beside them.
+- The **board** is the root. Its children are **screens**, plus **notes** about the whole board.
+- A **note** is about what it's indented under, and never takes space in a screen; see [Notes](#notes).
 - A **screen** is one view of the product. Its children stack vertically. Use several screens to show several views, states or steps.
 - A **navbar** is pinned to the top of its screen, and a **tabbar** to the bottom.
 - **modal** and **drawer** are overlays, drawn over the screen. They must be direct children of a screen, listed last.
@@ -188,6 +189,36 @@ A flow goes from one element or screen to another, with an optional label. Lines
 | `color=` | an accent name, a hex color, or `accent` for the board's | gray |
 
 To show the same board without arrows, switch off **Flows** in the playground, or use `tsquare render --no-flows`, the `{ flows: false }` option, or `?flows=0` on an image link.
+
+## Notes
+
+A note is for the people reading the wireframe, and it's about what it's indented under:
+
+- under the **board**, it's about the whole board and sits beside the screens;
+- under a **screen**, it's about that screen: a numbered marker follows the screen's name;
+- under any other **element**, it's about that element: a numbered marker sits on the element's top-right corner.
+
+Notes about a screen and its elements are listed under the screen, each with its number. They never take space inside the screen, so the screen looks as it would in the app.
+
+```tsquare
+board "Sign in"
+  screen phone "Sign in" height=520
+    note "Shown when a session expires" color=blue
+    input email "Email"
+      note "Suggest a fix for common typos like gmial.com"
+    stack gap=10
+      radio "Remember me for 30 days" checked
+      radio "Ask every time"
+      note "Ask every time is the default on shared computers"
+    button primary "Sign in" fullWidth
+  note "Copy is a draft" color=pink
+```
+
+![Notes under a screen, with numbered markers on the screen's name, a field and a group of radios](notes.png)
+
+Numbers follow the order the notes are written in, across the whole board. To note a group of elements, wrap them in a stack and indent the note under the stack, as with the two radios above. The four colors (`yellow`, the default, `blue`, `pink`, `green`) are yours to give meaning to, for example pink for open questions. For text the product itself shows its users, use a [tooltip](#tooltips-and-open-states) instead.
+
+The same board can be shown with only the numbered markers (for a doc that lists the notes in its own text), or with no notes at all: choose **Notes** in the playground, or use `tsquare render --notes markers` (or `off`), the `{ notes: "markers" }` (or `"off"`) option, or `?notes=markers` (or `off`) on an image link. With markers only, notes on the board are left out too. With notes off, the board looks exactly as if it had no notes. The numbers are the same either way.
 
 ## Checking and errors
 

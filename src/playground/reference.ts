@@ -37,13 +37,13 @@ export const EXAMPLES: Record<string, string> = {
     text "device=custom with width and height" muted`,
 
   Note: `board gap=32
-  screen custom width=320 height=220
-    text lines=4
-    note "Notes can also sit inside a screen" color=blue
-  note "yellow (default)" width=130
-  note "blue" color=blue width=130
-  note "pink" color=pink width=130
-  note "green" color=green width=130`,
+  screen custom "Sign in" width=300 height=210
+    note "Shown when a session expires" color=blue
+    input email "Email"
+    button primary "Sign in" fullWidth
+      note "Disabled until the email is valid"
+  note "A note about the whole board" width=150
+  note "pink, for an open question" color=pink width=150`,
 
   Flow: `board "Sign-in flow"
   screen custom "Sign in" width=260 height=300 #signin

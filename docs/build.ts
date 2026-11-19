@@ -69,6 +69,26 @@ const OVERLAYS_EXAMPLE = `board "Tooltips and open states"
         listitem "Notes.txt" leadingIcon=file
 `;
 
+/** The notes example on docs/language.md (keep the two the same). */
+const NOTES_EXAMPLE = `board "Sign in"
+  screen phone "Sign in" height=520
+    note "Shown when a session expires" color=blue
+    input email "Email"
+      note "Suggest a fix for common typos like gmial.com"
+    stack gap=10
+      radio "Remember me for 30 days" checked
+      radio "Ask every time"
+      note "Ask every time is the default on shared computers"
+    button primary "Sign in" fullWidth
+  note "Copy is a draft" color=pink
+`;
+
+async function writeNotesImage() {
+  const { spec, issues } = compileWireframe(NOTES_EXAMPLE);
+  if (!spec || issues.length) throw new Error(`notes example:\n${formatIssues(issues)}`);
+  writeFileSync(path.join(docsDir, "notes.png"), await renderWireframePng(spec, { skipValidation: true, scale: 1.5 }));
+}
+
 async function writeOverlaysImage() {
   const { spec, issues } = compileWireframe(OVERLAYS_EXAMPLE);
   if (!spec || issues.length) throw new Error(`overlays example:\n${formatIssues(issues)}`);
@@ -225,6 +245,7 @@ ${g.components.map((n) => `| [${slug(n)}](${slug(n)}.md) | ${docs.find((d) => d.
   writeFileSync(path.join(out, "README.md"), index);
   await writeIconsPage();
   await writeOverlaysImage();
+  await writeNotesImage();
   console.log(`wrote ${docs.length} component pages to ${path.relative(process.cwd(), out)}`);
 }
 

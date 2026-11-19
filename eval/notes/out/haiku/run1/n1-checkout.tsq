@@ -1,0 +1,21 @@
+```tsquare
+board "Checkout"
+  screen phone "Checkout"
+    navbar "Checkout" leading=back
+    text "Order summary" bold
+    stack row justify=between
+      text "Wireless headphones"
+      text "$89.00"
+    stack row justify=between
+      text "USB-C cable"
+      text "$12.00"
+    divider
+    stack row justify=between
+      heading "Total" level=3
+      text "$101.00" bold
+    input promo label="Promo code" placeholder="Enter code"
+      note "Accepts one promo code per order."
+    input card label="Card number" placeholder="1234 5678 9012 3456"
+    button primary "Pay $101.00" fullWidth
+      note "Stays disabled until the card number is valid."
+```

@@ -1,0 +1,22 @@
+```tsquare
+board "Checkout"
+  screen phone "Checkout"
+    navbar "Checkout" leading=back
+    heading "Order summary" level=2
+    card padding=12 gap=10
+      stack row justify=between
+        text "Canvas tote bag"
+        text "$24.00"
+      stack row justify=between
+        text "Ceramic mug"
+        text "$16.00"
+      divider
+      stack row justify=between
+        text "Total" bold
+        text "$40.00" bold
+    input "Promo code" placeholder="Enter code"
+      note "Accepts one promo code per order."
+    input "Card number" placeholder="1234 5678 9012 3456"
+    button primary "Pay $40.00" fullWidth
+      note "Stays disabled until the card number is valid."
+```

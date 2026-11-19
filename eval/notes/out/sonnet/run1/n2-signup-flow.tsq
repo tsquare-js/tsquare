@@ -1,0 +1,21 @@
+```tsquare
+board "Sign-up flow"
+  screen phone "Create account" #create
+    heading "Create your account" level=1
+    input "Email" type=email placeholder="you@example.com"
+    input "Password" type=password
+    button primary "Create account" fullWidth #createbtn
+  screen phone "Verify email" #verify
+    heading "Verify your email" level=1
+    text "Enter the 6-digit code we sent you." muted
+    input type=code digits=6
+      note "The code expires after 10 minutes."
+    button primary "Verify" fullWidth #verifybtn
+  screen phone "Welcome" #welcome
+    icon "check-circle" size=48
+    heading "Welcome aboard" level=1 align=center
+    button primary "Get started" fullWidth
+  flow createbtn -> verify "Tap Create account"
+  flow verifybtn -> welcome "Code accepted"
+  note "All copy is a draft."
+```

@@ -1,4 +1,5 @@
 import type { Spec } from "@json-render/core";
+import type { NotesMode } from "./notes.js";
 import { checkSpec, renderWireframePng, renderWireframeSvg } from "./render.js";
 import { parseWireframeText, type TextIssue } from "./text.js";
 import { upgradeWireframe } from "./upgrade.js";
@@ -59,10 +60,10 @@ export class WireframeError extends Error {
 }
 
 /** Compile and render wireframe text. Throws WireframeError (with line-numbered issues) if it's invalid. */
-export async function renderWireframe(source: string, opts: { format?: "svg" | "png"; scale?: number; flows?: boolean } = {}) {
+export async function renderWireframe(source: string, opts: { format?: "svg" | "png"; scale?: number; flows?: boolean; notes?: NotesMode } = {}) {
   const { spec, issues } = compileWireframe(source);
   if (!spec || issues.length) throw new WireframeError(issues);
   return opts.format === "png"
-    ? renderWireframePng(spec, { skipValidation: true, scale: opts.scale, flows: opts.flows })
-    : renderWireframeSvg(spec, { skipValidation: true, flows: opts.flows });
+    ? renderWireframePng(spec, { skipValidation: true, scale: opts.scale, flows: opts.flows, notes: opts.notes })
+    : renderWireframeSvg(spec, { skipValidation: true, flows: opts.flows, notes: opts.notes });
 }

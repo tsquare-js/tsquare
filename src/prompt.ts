@@ -67,7 +67,7 @@ export function componentReference() {
 }
 
 export const RULES = `## Rules
-1. The top element is a Board. The Board's children are Screens, plus optional Notes beside them and Flow lines after them (rule 10).
+1. The top element is a Board. The Board's children are Screens, plus optional Notes (rule 12) and Flow lines after them (rule 10).
 2. Each Screen is one view of the product. Use several Screens to show several views or states.
 3. A Screen lays out its children top to bottom. Use Stack (direction row or column) and Grid to arrange content.
 4. NavBar is pinned to the top of its Screen and TabBar to the bottom.
@@ -77,7 +77,11 @@ export const RULES = `## Rules
 8. Wireframes are grayscale. The only UI colors: Board accent (one color for primary buttons, checked controls, toggles, active tabs and ghost buttons), Badge tone (success, warning, danger), Input error and Flow color. Only add an accent if the request asks for color or a brand.
 9. Any element except Board, Screen, Note and Flow can take tooltip="text" to show a tooltip next to it. Select (with options), Input type=date, and Button, ListItem or NavBar (with menu) take open to show their list, calendar or menu over the screen.
 10. To show how screens connect, name elements or screens by writing #name after them (button primary "Sign in" #signin, screen phone "Home" #home), then write each flow on its own line after the screens, indented like a screen (not inside one): flow signin -> home "Tap Sign in".
-11. Icons are Lucide names, plus brand logos named brand-…: brand-google, brand-apple, brand-github, brand-facebook, brand-x, brand-notion, brand-stripe (button "Continue with Google" leadingIcon=brand-google). Plain apple is a fruit and x is a close icon.`;
+11. Icons are Lucide names, plus brand logos named brand-…: brand-google, brand-apple, brand-github, brand-facebook, brand-x, brand-notion, brand-stripe (button "Continue with Google" leadingIcon=brand-google). Plain apple is a fruit and x is a close icon.
+12. Notes are for the people reading the wireframe, not part of the product's UI. Indent a note under what it's about: under the Board for the whole board, under a Screen for that screen, under any other element for that element. To note a group of elements, wrap them in a stack and indent the note under the stack. A note is drawn outside the screen with a numbered marker on what it's about, so it never takes space in the layout:
+    input email "Email"
+      note "Suggest a fix for common typos like gmial.com"
+Use tooltip="…" only for a tooltip the product itself shows to its users.`;
 
 export const TEXT_FORMAT = `## Output format: wireframe text
 One element per line. Indent children two spaces under their parent. The first line is the board.

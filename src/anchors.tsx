@@ -63,28 +63,30 @@ const MARK = (i: number) => `#fe${(i >> 8).toString(16).padStart(2, "0")}${(i & 
 /**
  * A copy of the spec whose anchored elements and screens carry marker colors in hidden props:
  * `__mark` on the outer box (menus, tooltips, screens), `__markField` on a field (options, calendar),
- * `__markBody` on the content area of each screen in `bodies` (between its bars, where content is cut off).
- * Box keys are the element id, `<id>#field` or `<id>#body`.
+ * `__markBody` on the content area of each screen in `bodies` (between its bars, where content is cut off),
+ * `__markLabel` on the markers after the name of each screen in `labels` (its notes about itself).
+ * Box keys are the element id, `<id>#field`, `<id>#body` or `<id>#label`.
  */
-export function tagForMeasuring(spec: Spec, anchors: Anchor[], bodies: string[] = []) {
+export function tagForMeasuring(spec: Spec, anchors: Anchor[], bodies: string[] = [], labels: string[] = []) {
   // a copy of the element map (each tagged element gets new props below): not structuredClone, which
   // some DOMs (jsdom) don't have
   const tagged: Spec = { ...spec, elements: Object.fromEntries(Object.entries(spec.elements).map(([k, el]) => [k, { ...el }])) };
   const colors = new Map<string, string>();
   let n = 1;
-  const tag = (id: string, part: "" | "field" | "body") => {
+  const tag = (id: string, part: "" | "field" | "body" | "label") => {
     const key = part ? `${id}#${part}` : id;
     if (colors.has(key)) return;
     const color = MARK(n++);
     colors.set(key, color);
     const el = tagged.elements[id];
-    el.props = { ...(el.props ?? {}), [part === "field" ? "__markField" : part === "body" ? "__markBody" : "__mark"]: color };
+    el.props = { ...(el.props ?? {}), [part === "field" ? "__markField" : part === "body" ? "__markBody" : part === "label" ? "__markLabel" : "__mark"]: color };
   };
   for (const a of anchors) {
     tag(a.screen, "");
     tag(a.id, a.field ? "field" : "");
   }
   for (const id of bodies) tag(id, "body");
+  for (const id of labels) tag(id, "label");
   return { tagged, colors };
 }
 

@@ -1,0 +1,22 @@
+```tsquare
+board "Notes list, responsive"
+  screen phone "Phone"
+    navbar "Notes" leading=menu actions=[search]
+    list dividers
+      listitem "Meeting notes" subtitle="Today" trailing=chevron
+      listitem "Ideas" subtitle="Yesterday" trailing=chevron
+      listitem "Groceries" subtitle="Mon" trailing=chevron
+    tabbar items=[{label=Notes icon=file-text}, {label=Pinned icon=pin}, {label=Settings icon=settings}] active=0
+  screen desktop "Desktop"
+    stack row grow
+      stack width=240 border=right padding=12 gap=8
+        input search placeholder="Search notes"
+        list dividers
+          listitem "Meeting notes" subtitle="Today"
+          listitem "Ideas" subtitle="Yesterday"
+          listitem "Groceries" subtitle="Mon"
+      stack grow padding=24 gap=12
+        heading "Meeting notes" level=1
+        text lines=6
+  note "On phone, the list fills the screen and a tab bar replaces the sidebar; tapping a note opens it full screen. On desktop, the list becomes a sidebar with the open note beside it."
+```

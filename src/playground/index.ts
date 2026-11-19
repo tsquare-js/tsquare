@@ -16,7 +16,7 @@
  *   GET  /api/prompt         the model prompt
  *   POST /api/render         wireframe text → { issues, svg?, width?, height?, items? } (items: where each screen sits)
  *   POST /api/png?scale=2    wireframe text → image/png
- *   (both take ?flows=0 to leave out flow arrows)
+ *   (both take ?flows=0 to leave out flow arrows, and ?notes=markers or ?notes=off to draw only notes' markers or no notes)
  */
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { readFile, readdir } from "node:fs/promises";
@@ -25,6 +25,7 @@ import { fileURLToPath } from "node:url";
 import { compileWireframe, formatIssues } from "../compile.js";
 import { componentDocs, wireframePrompt } from "../prompt.js";
 import { measureElements } from "../measure.js";
+import { NOTES_MODES, type NotesMode } from "../notes.js";
 import { measureBoardLayout, renderWireframePng, renderWireframeSvg } from "../render.js";
 import { languageData } from "./language-data.js";
 import { EXAMPLES, GROUPS } from "./reference.js";
@@ -156,20 +157,22 @@ export function createPlaygroundHandler() {
     if (req.method === "POST" && (url.pathname === "/api/render" || url.pathname === "/api/png")) {
       const { spec, issues, lines } = compileWireframe(await readBody(req));
       const flows = url.searchParams.get("flows") !== "0";
+      const asked = url.searchParams.get("notes") as NotesMode;
+      const notes: NotesMode = NOTES_MODES.includes(asked) ? asked : "on";
       if (url.pathname === "/api/render") {
         if (!spec || issues.length) return json(res, 200, { issues });
         // ?elements=1: also measureElements' entries, for clicking elements on the board (not for thumbnails)
         const [svg, { width, height, items }, elements] = await Promise.all([
-          renderWireframeSvg(spec, { skipValidation: true, flows }),
-          measureBoardLayout(spec, { flows }),
-          url.searchParams.get("elements") === "1" ? measureElements(spec, lines, { skipValidation: true, flows }) : undefined,
+          renderWireframeSvg(spec, { skipValidation: true, flows, notes }),
+          measureBoardLayout(spec, { flows, notes }),
+          url.searchParams.get("elements") === "1" ? measureElements(spec, lines, { skipValidation: true, flows, notes }) : undefined,
         ]);
         return json(res, 200, { issues, svg, width, height, items, ...(elements ? { elements } : {}) });
       }
       if (!spec || issues.length) return json(res, 400, { issues });
       const scale = Math.min(4, Math.max(1, Number(url.searchParams.get("scale") ?? 2)));
       res.writeHead(200, { "content-type": "image/png" });
-      res.end(await renderWireframePng(spec, { skipValidation: true, scale, flows }));
+      res.end(await renderWireframePng(spec, { skipValidation: true, scale, flows, notes }));
       return true;
     }
     return false;
