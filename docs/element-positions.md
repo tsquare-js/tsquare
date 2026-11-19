@@ -118,7 +118,8 @@ const byLine = new Map(elements.map((e) => [e.line, e]));
 const trail = [hit];
 let up = hit.type === "Flow" ? null : hit.parentLine;
 while (up != null) {
-  const parent = byLine.get(up)!;
+  const parent = byLine.get(up);
+  if (!parent) break; // a note about an element that isn't drawn (cut off, or in a closed accordion)
   trail.unshift(parent);
   up = parent.type === "Flow" ? null : parent.parentLine;
 }

@@ -35,7 +35,7 @@ const EXPECT: Record<string, Expect[]> = {
     { what: "5 MB note → avatar", text: /5 ?MB|upload/i, want: { type: ["Avatar", "Image"] } },
   ],
   "n5-responsive-board-note": [
-    { what: "comparison note → board", text: /./, want: { type: "Board" } },
+    { what: "comparison note → board", text: /phone|mobile|desktop/i, want: { type: "Board" } },
   ],
   "n6-onboarding-screen-note": [
     { what: "skip note → notifications screen", text: /skip|already|granted|permission/i, want: { type: "Screen", label: /notif/i } },
@@ -66,11 +66,18 @@ for (const model of MODELS) {
   for (const run of RUNS) {
     for (const task of Object.keys(EXPECT)) {
       const file = `${DIR}/out/${model}/${run}/${task}.tsq`;
-      if (!existsSync(file)) { rows.push({ model, run, task, missing: true }); continue; }
+      // a missing or unparseable file fails its checks instead of dropping out of the totals
+      const unscored = (why: string) => {
+        for (const x of EXPECT[task]) {
+          totals[model].n++;
+          totals[model].misplaced.push(`${run} ${task}: ${x.what}: ${why}`);
+        }
+      };
+      if (!existsSync(file)) { rows.push({ model, run, task, missing: true }); unscored("missing file"); continue; }
       const { spec, issues } = compileWireframe(body(readFileSync(file, "utf8")));
       totals[model].files++;
       if (!issues.length) totals[model].valid++;
-      if (!spec) { rows.push({ model, run, task, issues }); continue; }
+      if (!spec) { rows.push({ model, run, task, issues }); unscored("doesn't parse"); continue; }
       const els = spec.elements as Record<string, El>;
       const parent: Record<string, string> = {};
       for (const [id, e] of Object.entries(els)) for (const c of e.children ?? []) parent[c] = id;

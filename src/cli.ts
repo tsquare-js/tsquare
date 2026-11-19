@@ -71,8 +71,9 @@ async function main(argv: string[]) {
 
   const out = flag("-o") ?? (file === "-" ? "wireframe.svg" : file.replace(/\.(tsq|wf)$/, "") + ".svg");
   const png = out.endsWith(".png");
-  const notes = flag("--notes") ?? "on";
-  if (!NOTES_MODES.includes(notes as NotesMode)) throw new Error(`--notes ${notes} isn't an option; use one of ${NOTES_MODES.join(", ")}`);
+  // the default only when --notes isn't there; written without a mode, it's an error
+  const notes = rest.includes("--notes") ? flag("--notes") : "on";
+  if (!notes || !NOTES_MODES.includes(notes as NotesMode)) throw new Error(`${notes ? `--notes ${notes} isn't an option` : "--notes needs a mode"}; use one of ${NOTES_MODES.join(", ")}`);
   const data = await renderWireframe(source, { format: png ? "png" : "svg", scale: Number(flag("--scale") ?? 1), flows: !rest.includes("--no-flows"), notes: notes as NotesMode });
   await writeFile(out, data);
   console.log(`✓ wrote ${path.relative(process.cwd(), out)}`);
