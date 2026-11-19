@@ -57,9 +57,14 @@ test("a note can go under any element, and the text prints back the same", () =>
   assert.match(printed, /input password "Password"\n {6}note "At least 8 characters"/);
 });
 
-test("a note under a flow line is an error that says where notes go", () => {
+test("a note under a flow line is an error that says where notes go (one message)", () => {
   const text = 'board\n  screen phone "A" #a\n  screen phone "B" #b\n  flow a -> b\n    note "Why"';
-  assert.ok(problems(text).some((p) => /a note can't go under a flow line; indent it under the element or screen it's about/.test(p)), problems(text).join("\n"));
+  assert.deepEqual(problems(text), ["line 5: Note: a note can't go under a flow line; indent it under the element or screen it's about"]);
+});
+
+test("a note under a note isn't drawn, and says so", () => {
+  const text = 'board\n  screen phone "A"\n    button "Go"\n      note "Why"\n        note "Because"';
+  assert.match(problems(text).join("\n"), /^line 5: Note inside the Note on line 4 isn't drawn: a Note can't contain other elements/);
 });
 
 test("notes leave the layout and are numbered in the order they're written, across the board", () => {

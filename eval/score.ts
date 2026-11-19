@@ -27,7 +27,7 @@ function extractBlock(reply: string) {
 function category(msg: string) {
   if (/does not exist/.test(msg)) return "dangling child id";
   if (/unknown component/.test(msg)) return "unknown component";
-  if (/must be a direct child|root must be|only one top-level/.test(msg)) return "structure";
+  if (/must be a direct child|root must be|only one top-level|can't contain other elements/.test(msg)) return "structure";
   // "Too small|Too big|Invalid option" are Zod's own wording (before 0.7.1); the rest is ours
   if (/Too small|Too big|Invalid option|expected|unknown icon|only shows with|isn't an option|isn't a valid value|should be an? |needs at (least|most)|is too (small|large)/.test(msg)) return "invalid prop";
   if (/\.props|has no prop|don't know what| (prop|option), not an? |takes no text|more than one text/.test(msg)) return "invalid prop";

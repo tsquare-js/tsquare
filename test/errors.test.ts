@@ -4,7 +4,9 @@
  */
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { componentDefinitions } from "../src/catalog.js";
 import { suggestIcons } from "../src/icons.js";
+import { checkSpec } from "../src/render.js";
 import { board, problems } from "./helpers.js";
 
 const only = (text: string) => {
@@ -93,4 +95,39 @@ test("brand logos are icons named brand-…, and a bare brand name points at the
   assert.equal(only(board("icon brand-slack")), 'line 3: Icon: unknown icon "brand-slack"; the brand logos are brand-apple, brand-facebook, brand-github, brand-google, brand-notion, brand-stripe, brand-x');
   // apple and x stay Lucide's fruit and close icon
   assert.deepEqual(problems(board("icon apple", "icon x")), []);
+});
+
+test("an element under a component that holds none is reported on its own line, with the fix", () => {
+  // the renderer drew nothing for these and check said the board was valid
+  // (a note is the exception: it's about what it's indented under, see notes.test.ts)
+  assert.deepEqual(problems(board('button "Pay"', '  note "x"', '  text "y"')), [
+    "line 5: Text inside the Button on line 3 isn't drawn: a Button can't contain other elements; indent this line at the Button's level to put it after the Button, or put both in a stack row to show them side by side",
+  ]);
+  // a child with lines of its own: they move with it
+  assert.match(only(board('input "Message"', "  stack row", '    button "Send"')), /^line 4: Stack inside the Input on line 3 isn't drawn: an Input can't contain other elements; indent this line and the ones under it at the Input's level/);
+  // only the direct child is reported: the button is fine inside the stack, wherever the stack goes
+  assert.deepEqual(problems(board("stack row", '  input "Message"', '  button "Send"')), []);
+});
+
+test("screens, flows and overlays under a leaf get only their own placement message", () => {
+  assert.deepEqual(problems(board('button "Delete"', '  modal "Delete note?"')), ["line 4: Modal must be a direct child of a Screen (found in the Button on line 3)"]);
+  assert.deepEqual(problems(board('text "Saved"', '  toast "Saved"')), ["line 4: Toast must be a direct child of a Screen (found in the Text on line 3)"]);
+  assert.deepEqual(problems(board('button "Go" #go', "  flow go -> go")).filter((p) => /isn't drawn/.test(p)), []);
+});
+
+test("every component without slots rejects children, every one with slots takes them", () => {
+  for (const [type, def] of Object.entries(componentDefinitions)) {
+    const spec = {
+      root: "b",
+      elements: {
+        b: { type: "Board", props: {}, children: ["s"] },
+        s: { type: "Screen", props: { device: "phone" }, children: ["p"] },
+        p: { type, props: { ...(def as any).example }, children: ["c"] },
+        c: { type: "Text", props: { text: "y" }, children: [] },
+      },
+    };
+    const undrawn = checkSpec(spec as any).filter((i) => /isn't drawn/.test(i));
+    if (def.slots.length) assert.deepEqual(undrawn, [], type);
+    else assert.deepEqual(undrawn.map((i) => i.replace(/:.*$/, "")), ["c"], type);
+  }
 });

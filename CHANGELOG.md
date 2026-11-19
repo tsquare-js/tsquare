@@ -11,6 +11,7 @@ Notes are about what they're indented under. A board renders differently only if
 - **The model prompt has a rule for notes** (rule 12): indent a note under what it's about, wrap a group of elements in a stack to note them together, and use `tooltip` only for text the product itself shows. In `eval/notes/` (7 tasks, Sonnet and Haiku, 2 runs each, 28 wireframes), every targeted note landed where it should (40/40), and notes and tooltips stayed apart. Directional: most tasks named the element to note.
 - A note under a flow line is an error that says where notes go.
 - `BoardItem.height` includes the notes under a screen, so zooming to a screen shows its notes.
+- **An element indented under one that can't hold others is a problem now, not a silent drop.** Only board, screen, stack, grid, card, accordion, list, modal and drawer draw their children. A `text` under a `button` (or under any other element) was left out of the render while `check` said the board was valid. Each such line is now reported (except a `note`, which is about what it's indented under, above), with the fix: indent it at the parent's level, or put both in a `stack row`. Screens, flows and overlays in the wrong place keep their own message. Every example, docs snippet and stored eval board that was valid stays valid.
 
 ## 0.14.5
 

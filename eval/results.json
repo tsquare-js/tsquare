@@ -7254,10 +7254,12 @@
     "issues": [
       "line 3: NavBar: unknown icon \"call\" (did you mean phone, phone-call?)",
       "line 9: Stack: don't know what \"12\" is (bare words it accepts: row, column, stretch, between, around, none, right, left, top, bottom, all, wrap, grow, fill)",
-      "line 15: Stack: don't know what \"12\" is (bare words it accepts: row, column, stretch, between, around, none, right, left, top, bottom, all, wrap, grow, fill)"
+      "line 15: Stack: don't know what \"12\" is (bare words it accepts: row, column, stretch, between, around, none, right, left, top, bottom, all, wrap, grow, fill)",
+      "line 19: Button inside the Input on line 18 isn't drawn: an Input can't contain other elements; indent this line at the Input's level to put it after the Input, or put both in a stack row to show them side by side"
     ],
     "categories": [
-      "invalid prop"
+      "invalid prop",
+      "structure"
     ],
     "checksPassed": 3,
     "checksTotal": 3,

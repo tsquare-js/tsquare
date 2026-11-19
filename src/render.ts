@@ -87,6 +87,26 @@ function propIssueMessage(props: Record<string, unknown>, issue: any): string {
   }
 }
 
+/** Children with a placement rule of their own in checkSpec, which says where they go instead. */
+const PLACED_ELSEWHERE = new Set(["Screen", "Flow", "Modal", "Drawer", "Toast"]);
+
+/**
+ * Why `parent` won't draw `child`, or undefined if it will. Only components with slots (stack, card,
+ * screen…) render children: anything under a button, a text or a note would vanish without a word.
+ * Screens, flows and overlays get their own placement message instead, so a line never gets two
+ * fixes that disagree. Rules about what may sit inside what belong here. A note is about what it's
+ * indented under, so it may go under any element but another note (under a flow line it gets its
+ * own message).
+ */
+function undrawnChild(parentKey: string, parent: Spec["elements"][string], child: Spec["elements"][string]): string | undefined {
+  const slots = (componentDefinitions as Record<string, { slots: string[] }>)[parent.type]?.slots;
+  if (!slots || slots.length || PLACED_ELSEWHERE.has(child.type)) return undefined;
+  if (child.type === "Note" && parent.type !== "Note") return undefined;
+  const a = /^[AEIOU]/.test(parent.type) ? "an" : "a";
+  const lines = child.children?.length ? "this line and the ones under it" : "this line";
+  return `${child.type} inside ${parent.type} "${parentKey}" isn't drawn: ${a} ${parent.type} can't contain other elements; indent ${lines} at the ${parent.type}'s level to put it after the ${parent.type}, or put both in a stack row to show them side by side`;
+}
+
 /** Catalog validation plus the structural rules the renderer depends on. */
 export function checkSpec(spec: Spec): string[] {
   upgradeSpec(spec as any); // older JSON is fine (icon → leadingIcon); see upgrade.ts
@@ -151,6 +171,10 @@ export function checkSpec(spec: Spec): string[] {
     }
     for (const child of el.children ?? []) {
       if (!spec.elements[child]) issues.push(`${id}: child "${child}" does not exist`);
+      else {
+        const why = undrawnChild(id, el, spec.elements[child]);
+        if (why) issues.push(`${child}: ${why}`);
+      }
     }
     if (el.type === "Screen" && !(root.children ?? []).includes(id)) {
       issues.push(`${id}: Screen must be a direct child of the Board`);
