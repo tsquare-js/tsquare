@@ -117,6 +117,7 @@ Lines starting with ```` ``` ```` are ignored, so a model's reply in a code bloc
 - A **navbar** is pinned to the top of its screen, and a **tabbar** to the bottom.
 - **modal** and **drawer** are overlays, drawn over the screen. They must be direct children of a screen, listed last.
 - **stack** arranges its children in a `row` or a column; **grid** makes equal-width columns that wrap; **card** groups content in a box.
+- Only **board**, **screen**, **stack**, **grid**, **card**, **accordion**, **list**, **modal** and **drawer** hold other elements. A line indented under anything else (a button, a text, a note) is a problem: indent it at that element's level, or put the two in a `stack row` to show them side by side.
 - **spacer** without a size pushes what comes after it to the end: put one before a button to pin the button to the bottom of the screen.
 
 ## Screens and devices

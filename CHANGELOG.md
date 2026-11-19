@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- **An element indented under one that can't hold others is a problem now, not a silent drop.** Only board, screen, stack, grid, card, accordion, list, modal and drawer draw their children. A `note` or `text` under a `button` (or under any other element) was left out of the render while `check` said the board was valid. Each such line is now reported, with the fix: indent it at the parent's level, or put both in a `stack row`. Screens, flows and overlays in the wrong place keep their own message. Every example, docs snippet and stored eval board that was valid stays valid.
+
 ## 0.14.5
 
 One renderer fix. The language hasn't changed, and a board renders differently only if it has a row with a labeled field beside a button or an unlabeled field.
