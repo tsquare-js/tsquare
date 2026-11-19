@@ -91,7 +91,10 @@ for (const model of MODELS) {
       }));
       const tooltips = Object.entries(els).filter(([, e]) => typeof e.props?.tooltip === "string").map(([, e]) => ({ type: e.type, label: label(e), tooltip: e.props!.tooltip }));
       const checks = EXPECT[task].map((x) => {
-        const note = notes.find((n) => x.text.test(n.text));
+        // every note whose text fits: one in the right place wins, so a word shared by two notes
+        // ("valid" in a promo note and the Pay note) doesn't score the wrong one
+        const fits = notes.filter((n) => x.text.test(n.text));
+        const note = fits.find((n) => matches(x.want, n.parentEl, n.screen)) ?? fits.find((n) => x.accept && matches(x.accept, n.parentEl, n.screen)) ?? fits[0];
         let result = "no note";
         if (note) result = matches(x.want, note.parentEl, note.screen) ? "ok" : x.accept && matches(x.accept, note.parentEl, note.screen) ? "partial" : `under ${note.parentType} "${note.parentLabel}"`;
         totals[model].n++;
