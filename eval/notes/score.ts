@@ -35,7 +35,8 @@ const EXPECT: Record<string, Expect[]> = {
     { what: "5 MB note → avatar", text: /5 ?MB|upload/i, want: { type: ["Avatar", "Image"] } },
   ],
   "n5-responsive-board-note": [
-    { what: "comparison note → board", text: /phone|mobile|desktop/i, want: { type: "Board" } },
+    // a comparison names both: "Phone copy is a draft" isn't one
+    { what: "comparison note → board", text: /(phone|mobile)[\s\S]*desktop|desktop[\s\S]*(phone|mobile)/i, want: { type: "Board" } },
   ],
   "n6-onboarding-screen-note": [
     { what: "skip note → notifications screen", text: /skip|already|granted|permission/i, want: { type: "Screen", label: /notif/i } },
