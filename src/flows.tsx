@@ -39,10 +39,10 @@ const overlapsY = (a: Rect, b: Rect) => a.y < b.y + b.h && b.y < a.y + a.h;
  *   - same screen: right/left or top/bottom between the two elements
  *   - a neighboring screen: across the gap between the two screens
  *   - skipping over a screen: down the gap beside the source screen, along a lane under all the
- *     screens, and up the gap beside the target
+ *     screens (and the notes under them: `floor`, the lowest of their bottoms), and up the gap beside the target
  * `lane` and `track` count the flows already using lanes and gaps, so each gets its own.
  */
-export function route(ends: FlowBoxes, screens: Rect[], gap: number, lane = 0, track = 0, nudge = 0): Route {
+export function route(ends: FlowBoxes, screens: Rect[], gap: number, lane = 0, track = 0, nudge = 0, floor?: number): Route {
   const { from: a, to: b, fromScreen: sa, toScreen: sb } = ends;
   if (same(sa, sb)) {
     if (b.x >= a.x + a.w - 1) {
@@ -74,7 +74,7 @@ export function route(ends: FlowBoxes, screens: Rect[], gap: number, lane = 0, t
     return { from, to, points: [s, { x: mx, y: s.y }, { x: mx, y: e.y }, e] };
   }
   // through a lane under all the screens
-  const below = Math.max(...screens.map((r) => r.y + r.h)) + 24 + lane * LANE_GAP;
+  const below = Math.max(floor ?? -Infinity, ...screens.map((r) => r.y + r.h)) + 24 + lane * LANE_GAP;
   const gx1 = right ? sa.x + sa.w + gap / 2 + shift : sa.x - gap / 2 + shift;
   const gx2 = right ? sb.x - gap / 2 + shift : sb.x + sb.w + gap / 2 + shift;
   return { from, to, lane: below, points: [s, { x: gx1, y: s.y }, { x: gx1, y: below }, { x: gx2, y: below }, { x: gx2, y: e.y }, e] };
@@ -215,22 +215,22 @@ export interface FlowLayout {
  * Where every flow goes: routes (each in its own lane and gap track), the line through them, and
  * each label's spot. flowLayer draws this; measureElements reads it for hit-testing.
  */
-export function layoutFlows(spec: Spec, flows: { key: string; ends: FlowBoxes }[], screens: Rect[], gap: number, palette: Palette): FlowLayout[] {
+export function layoutFlows(spec: Spec, flows: { key: string; ends: FlowBoxes }[], screens: Rect[], gap: number, palette: Palette, floor?: number): FlowLayout[] {
   const placed: Rect[] = [];
   const drawn: { y: number; x1: number; x2: number }[] = []; // horizontal runs so far
   // line ends so far, starting with every element end (those can't move; a screen end can)
   const tips: Pt[] = flows.flatMap(({ ends }) => {
-    const r = route(ends, screens, gap);
+    const r = route(ends, screens, gap, 0, 0, 0, floor);
     return [...(same(ends.from, ends.fromScreen) ? [] : [r.points[0]]), ...(same(ends.to, ends.toScreen) ? [] : [r.points[r.points.length - 1]])];
   });
   // route every flow first, so labels can keep clear of all the line ends
   let lanes = 0, tracks = 0;
   const routes = flows.map(({ ends }) => {
-    let r = route(ends, screens, gap, lanes, tracks);
+    let r = route(ends, screens, gap, lanes, tracks, 0, floor);
     const clash = (r: Route) =>
       runs(r).some((h) => drawn.some((g) => Math.abs(g.y - h.y) < 8 && g.x1 < h.x2 && h.x1 < g.x2)) ||
       [r.points[0], r.points[r.points.length - 1]].some((p) => tips.some((q) => q !== p && Math.hypot(p.x - q.x, p.y - q.y) > 0.5 && Math.hypot(p.x - q.x, p.y - q.y) < 24));
-    for (let k = 1; k <= 4 && clash(r); k++) r = route(ends, screens, gap, lanes, tracks, 48 * k);
+    for (let k = 1; k <= 4 && clash(r); k++) r = route(ends, screens, gap, lanes, tracks, 48 * k, floor);
     drawn.push(...runs(r));
     tips.push(r.points[0], r.points[r.points.length - 1]);
     if (r.lane != null) lanes++;

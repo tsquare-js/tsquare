@@ -1,0 +1,11 @@
+```tsquare
+board "Profile"
+  screen phone "Profile"
+    navbar "Profile" leading=back
+    stack column align=center gap=8 padding=16
+      avatar initials="JL" size=80
+        note "Avatar uploads are limited to 5 MB."
+      heading "Jordan Lee" level=2 align=center
+      text "jordan@example.com" muted align=center
+    button secondary "Edit profile" fullWidth tooltip="Opens the profile editor"
+```

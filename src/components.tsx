@@ -6,12 +6,19 @@ import type { ComponentRenderProps } from "@json-render/image";
 import {
   BOARD_GAP,
   BOARD_PADDING,
+  FIELD_LABEL,
   LABEL_H,
+  NOTE_MARKER,
+  NOTE_NUMBER,
+  NOTE_NUMBER_GAP,
   NOTE_WIDTH,
+  NOTES_GAP,
+  NOTES_TOP,
   TITLE_H,
   screenSize,
   theme as t,
 } from "./layout.js";
+import { numberStyle, type ScreenNote } from "./notes.js";
 
 /**
  * Satori renders a subset of CSS. Rules followed here:
@@ -108,8 +115,7 @@ function withDir(children: ReactNode, dir: Dir, stretch = false, aligned = false
   return Children.toArray(children).map((c) => (isValidElement(c) ? cloneElement(c as any, { dir, stretch, aligned, boxTop }) : c));
 }
 
-/** A field's label and the gap under it (13px text + 6), and the height of a one-line field's box. */
-const FIELD_LABEL = 22;
+/** The height of a one-line field's box (FIELD_LABEL, in layout.ts, is the label above it). */
 const FIELD_BOX = 42;
 
 /** Whether one of a row's children is an input or select with a label. */
@@ -297,9 +303,25 @@ function mayOverflow(name: string, width: number) {
   return w > width;
 }
 
+/** The numbered marker after a screen's name, for a note about the screen itself (notes.tsx). */
+function LabelMarker({ n }: { n: number }) {
+  return <div style={numberStyle(NOTE_MARKER, true)}>{String(n)}</div>;
+}
+
 function Screen({ element, children }: Props) {
   const p = element.props;
   const s = screenSize(p);
+  // notes about this screen and its elements (notes.tsx): numbered under the frame, and a marker
+  // after the name for each note about the screen itself
+  const marks: ScreenNote[] = p.__marks ?? [];
+  const mine = marks.filter((m) => m.onScreen);
+  // in one box, so the measuring pass can find them (`__markLabel`)
+  const own = mine.length ? [
+    <Box key="__own" style={{ gap: 8, position: "relative", marginTop: -2 }}>
+      {mine.map((m) => <LabelMarker key={m.key} n={m.n} />)}
+      {p.__markLabel ? <Marker color={p.__markLabel} /> : null}
+    </Box>,
+  ] : [];
   const top: ReactNode[] = [];
   const body: ReactNode[] = [];
   const bottom: ReactNode[] = [];
@@ -314,12 +336,18 @@ function Screen({ element, children }: Props) {
 
   return (
     <Box style={{ flexDirection: "column", flexShrink: 0 }}>
-      {mayOverflow(p.name ?? "", s.width) ? (
+      {mayOverflow(p.name ?? "", s.width - mine.length * (NOTE_MARKER + 8)) ? (
         // the board's layout sizes each column by its screen, so a name that may be wider than the
         // screen gets the screen's width and ends in "…" instead of widening the column. Only then:
         // the clip changes how the text is antialiased, and names that fit should render as before.
-        <Box style={{ width: s.width, height: LABEL_H, fontSize: 16, fontWeight: 600, color: t.text }}>
-          <div style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>{p.name}</div>
+        <Box style={{ width: s.width, height: LABEL_H, fontSize: 16, fontWeight: 600, color: t.text, ...(own.length ? { gap: 8 } : {}) }}>
+          <div style={{ overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", ...(own.length ? { flexShrink: 1, minWidth: 0 } : {}) }}>{p.name}</div>
+          {own}
+        </Box>
+      ) : own.length ? (
+        <Box style={{ height: LABEL_H, fontSize: 16, fontWeight: 600, color: t.text, gap: 8 }}>
+          <div>{p.name ?? ""}</div>
+          {own}
         </Box>
       ) : (
         <Box style={{ height: LABEL_H, fontSize: 16, fontWeight: 600, color: t.text }}>{p.name ?? ""}</Box>
@@ -363,12 +391,41 @@ function Screen({ element, children }: Props) {
           {p.__mark ? <Marker color={p.__mark} /> : null}
         </Box>
       </Box>
+      {p.__notesBand && marks.length ? (
+        <Box style={{ flexDirection: "column", width: s.width, marginTop: NOTES_TOP, gap: NOTES_GAP }}>
+          {marks.map((m) => <NumberedNote key={m.key} text={m.text} color={m.color} n={m.n} />)}
+        </Box>
+      ) : null}
+    </Box>
+  );
+}
+
+/** A note under a screen: its number, then its text. Measured the same way (`__n` on a Note, see withNoteHeights). */
+function NumberedNote({ text, color, n, width }: { text: string; color?: string; n: number; width?: number }) {
+  return (
+    <Box
+      style={{
+        width,
+        flexShrink: 0,
+        gap: NOTE_NUMBER_GAP,
+        alignItems: "flex-start",
+        padding: 14,
+        backgroundColor: t.notes[(color ?? "yellow") as keyof typeof t.notes] ?? t.notes.yellow,
+        boxShadow: "0 2px 6px rgba(0,0,0,0.12)",
+        fontSize: 14,
+        lineHeight: 1.5,
+        color: t.ink,
+      }}
+    >
+      <div style={numberStyle(NOTE_NUMBER, false)}>{String(n)}</div>
+      <div style={{ display: "flex", flexGrow: 1, flexShrink: 1, flexBasis: "0px" }}>{text}</div>
     </Box>
   );
 }
 
 function Note({ element, dir, aligned }: Props) {
   const p = element.props;
+  if (typeof p.__n === "number") return <NumberedNote text={p.text ?? ""} color={p.color} n={p.__n} width={p.width} />;
   const onBoard = dir === undefined; // Board children don't get a dir
   return (
     <Box

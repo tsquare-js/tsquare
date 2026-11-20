@@ -1,0 +1,12 @@
+```tsquare
+board "Orders"
+  screen desktop "Orders"
+    stack padding=24 gap=16
+      heading "Orders" level=1
+      stack row gap=12
+        input search placeholder="Search orders" grow
+        button secondary "Export" leadingIcon=download
+          note "Export downloads only the filtered rows."
+      table columns=[Order, Customer, Status, Total] data=[[#1001, Ana Torres, Shipped, "$120.00"], [#1002, Ben Lee, Pending, "$48.50"], [#1003, Chen Wu, Delivered, "$310.00"]]
+        note "The Status column is sortable."
+```

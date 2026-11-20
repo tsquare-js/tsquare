@@ -2,12 +2,13 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { compileWireframe, formatIssues, renderWireframe, WireframeError } from "./compile.js";
+import { NOTES_MODES, type NotesMode } from "./notes.js";
 import { printWireframeText } from "./print.js";
 import { wireframePrompt } from "./prompt.js";
 
 const USAGE = `tsquare — render wireframe text to SVG or PNG
 
-  tsquare render <file.tsq|-> [-o out.svg|out.png] [--scale 2] [--no-flows]
+  tsquare render <file.tsq|-> [-o out.svg|out.png] [--scale 2] [--no-flows] [--notes on|markers|off]
   tsquare check  <file.tsq|->      report problems by line number
   tsquare fmt    <file.tsq|-> [-w] print in canonical form (-w rewrites the file; drops comments)
   tsquare prompt                   print the system prompt for models
@@ -29,7 +30,7 @@ async function main(argv: string[]) {
     const i = rest.indexOf(name);
     return i >= 0 ? rest[i + 1] : undefined;
   };
-  const file = rest.find((a, i) => (a === "-" || !a.startsWith("-")) && !["-o", "--scale"].includes(rest[i - 1]));
+  const file = rest.find((a, i) => (a === "-" || !a.startsWith("-")) && !["-o", "--scale", "--notes"].includes(rest[i - 1]));
 
   if (cmd === "playground") {
     const { startPlayground } = await import("./playground/index.js");
@@ -70,7 +71,10 @@ async function main(argv: string[]) {
 
   const out = flag("-o") ?? (file === "-" ? "wireframe.svg" : file.replace(/\.(tsq|wf)$/, "") + ".svg");
   const png = out.endsWith(".png");
-  const data = await renderWireframe(source, { format: png ? "png" : "svg", scale: Number(flag("--scale") ?? 1), flows: !rest.includes("--no-flows") });
+  // the default only when --notes isn't there; written without a mode, it's an error
+  const notes = rest.includes("--notes") ? flag("--notes") : "on";
+  if (!notes || !NOTES_MODES.includes(notes as NotesMode)) throw new Error(`${notes ? `--notes ${notes} isn't an option` : "--notes needs a mode"}; use one of ${NOTES_MODES.join(", ")}`);
+  const data = await renderWireframe(source, { format: png ? "png" : "svg", scale: Number(flag("--scale") ?? 1), flows: !rest.includes("--no-flows"), notes: notes as NotesMode });
   await writeFile(out, data);
   console.log(`✓ wrote ${path.relative(process.cwd(), out)}`);
 }

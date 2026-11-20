@@ -1,0 +1,27 @@
+```tsquare
+board "Project settings"
+  screen desktop "Settings"
+    stack row grow
+      stack width=220 border=right padding=16 gap=8 fill
+        heading "Settings" level=3
+        list
+          listitem "General" leadingIcon=settings
+          listitem "Members" leadingIcon=users
+          listitem "Billing" leadingIcon=credit-card
+          listitem "Integrations" leadingIcon=plug
+        note "Sections live in a persistent sidebar so users can jump between settings without losing their place."
+      stack grow padding=24 gap=16
+        heading "General" level=1
+        card title="Project details" padding=16 gap=12
+          input "Project name" value="My project"
+          stack gap=8
+            text "Visibility" bold
+            radio "Public" checked
+            radio "Private"
+            note "Visibility is a radio choice, not a toggle, so both options are always visible and spelled out."
+          button primary "Save changes"
+        card title="Danger zone" padding=16 gap=12
+          text "Deleting a project cannot be undone." muted
+          button secondary "Delete project"
+          note "Destructive action is isolated at the bottom and kept visually quiet; a confirmation modal should follow."
+```

@@ -18,7 +18,7 @@ const elements = await measureElements(spec, lines);
 
 Positions are in board pixels, the same coordinates as the SVG. If you show the board at another size, divide click coordinates by the scale before looking them up (see below).
 
-`measureElements` takes the same `flows` option as `renderWireframeSvg` (on by default). Flow labels can widen the gaps between screens, so the boxes only match a board rendered with the same setting:
+`measureElements` takes the same `flows` and `notes` options as `renderWireframeSvg` (flows on and notes `"on"` by default). Flow labels can widen the gaps between screens, and notes under screens make the board taller, so the boxes only match a board rendered with the same settings:
 
 ```ts
 const svg = await renderWireframeSvg(spec, { flows: false });
@@ -36,16 +36,18 @@ Each element:
 | Field | |
 |---|---|
 | `line` | The element's line in the text. |
-| `endLine` | The last line of its block, children included. The same as `line` when it has no children. |
+| `endLine` | The last line of its block, children included (and the notes under it). The same as `line` when it has no children. |
 | `id` | Its `#id`, when the text gives one. |
 | `type` | `"Button"`, `"Screen"`, … |
 | `label` | Its main text: a button's label, a screen's name, a heading's text. |
-| `screenLine` | The line of the screen it's on. `null` for the board, screens, and notes beside the screens. |
+| `screenLine` | The line of the screen it's on. `null` for the board, screens, and notes on the board. |
 | `parentLine` | The line of the element that contains it. `null` for the board. |
 | `box` | Where it's drawn: `{ x, y, width, height }`, the part that shows. |
 | `labelBox` | Screens only: the band above the frame with the screen's name. |
 | `overlays` | Its open menu, option list or date picker, and its tooltip: one box each, in drawing order. |
 | `scrim` | Modals and drawers only: whether the screen behind is dimmed. `true` unless the text says `no-scrim`. |
+| `number` | Notes about a screen or an element: their number, in the order they're written across the board. |
+| `marker` | Notes about a screen or an element: the numbered marker on what they're about, or after the screen's name. Left out when what they're about isn't drawn. |
 
 Each flow arrow:
 
@@ -66,6 +68,7 @@ Some details:
 - **An element can have a box 0 tall or 0 wide.** A `spacer` in a row is 0 tall, and so is one in a screen with no room left. It's in the array (so `elementsAtLine` finds it), but `elementsAt` never returns it: there's nothing to click.
 - **A modal's box is its card**, a drawer's is its panel, and a toast's is its pill, not the dimmed screen or the full-width row around them.
 - **Spacers are clickable where they take up space.** A spacer stretches to fill empty space, so a click on blank space often hits one. Skip them with `hits.find((e) => e.type !== "Spacer")` if you don't want them.
+- **A note about a screen or an element** has its `parentLine` on what it's about, and its `box` is the note drawn under the screen. With `notes: "markers"`, its box is its marker (the only part drawn); with `notes: "off"`, notes aren't in the array. Notes on the board are measured like any element.
 - **Most overlay boxes are exact.** Open menus and option lists get the size they're drawn at. A tooltip is sized from its text and a date picker from its weeks, so their edges can be a few pixels off.
 
 ## What's under a point
@@ -81,7 +84,7 @@ const hit = hits[0];
 
 The order:
 
-1. An open menu, option list, date picker or tooltip. You get the element it belongs to, since the items are part of that element's line.
+1. An open menu, option list, date picker or tooltip. You get the element it belongs to, since the items are part of that element's line. A note's marker gives the note.
 2. A flow arrow's label.
 3. Elements that hold no others (buttons, inputs, text, images, …), topmost first.
 4. A flow arrow's line, within `tolerance` pixels of it (6 by default).
@@ -115,7 +118,8 @@ const byLine = new Map(elements.map((e) => [e.line, e]));
 const trail = [hit];
 let up = hit.type === "Flow" ? null : hit.parentLine;
 while (up != null) {
-  const parent = byLine.get(up)!;
+  const parent = byLine.get(up);
+  if (!parent) break; // a note about an element that isn't drawn (cut off, or in a closed accordion)
   trail.unshift(parent);
   up = parent.type === "Flow" ? null : parent.parentLine;
 }

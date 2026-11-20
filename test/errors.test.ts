@@ -99,8 +99,8 @@ test("brand logos are icons named brand-…, and a bare brand name points at the
 
 test("an element under a component that holds none is reported on its own line, with the fix", () => {
   // the renderer drew nothing for these and check said the board was valid
+  // (a note is the exception: it's about what it's indented under, see notes.test.ts)
   assert.deepEqual(problems(board('button "Pay"', '  note "x"', '  text "y"')), [
-    "line 4: Note inside the Button on line 3 isn't drawn: a Button can't contain other elements; indent this line at the Button's level to put it after the Button, or put both in a stack row to show them side by side",
     "line 5: Text inside the Button on line 3 isn't drawn: a Button can't contain other elements; indent this line at the Button's level to put it after the Button, or put both in a stack row to show them side by side",
   ]);
   // a child with lines of its own: they move with it

@@ -1,0 +1,27 @@
+```tsquare
+board "Project settings"
+  screen desktop "Project settings"
+    stack row grow
+      stack column width=220 fill border=right padding=16 gap=4
+        text "Project" sm muted
+        list
+          listitem "General"
+          listitem "Members"
+          listitem "Integrations"
+          listitem "Billing"
+        note "Sections are ordered by how often the team changes them."
+      stack column grow padding=32 gap=20
+        heading "General" level=2
+        input name label="Project name" value="Wireframe kit"
+          note "Shown in invitations and in the project URL."
+        stack column gap=8
+          text "Visibility" bold
+          radio "Public"
+          radio "Private" checked
+            note "Private is the default. Only invited members can see the project."
+        button primary "Save changes"
+        card title="Danger zone" padding=16
+          text "Deleting a project removes all its boards. This cannot be undone."
+          button secondary "Delete project"
+            note "Asks for confirmation first. Only owners see this card."
+```

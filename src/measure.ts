@@ -14,8 +14,9 @@ import { paletteFor } from "./colors.js";
 import { withMarkers, withPalette } from "./components.js";
 import { flowPolyline, layoutFlows } from "./flows.js";
 import { loadFonts } from "./fonts.js";
-import { LABEL_H } from "./layout.js";
-import { boardLayout, checkSpec, flowEnds, SpecError, withBoardGap, withNoteHeights } from "./render.js";
+import { LABEL_H, NOTE_MARKER, NOTES_GAP, NOTES_TOP, estimateNoteHeight } from "./layout.js";
+import { noteMarkers, noteTargets, prepareNotes, screenMarks, type NotesMode } from "./notes.js";
+import { boardLayout, checkSpec, flowEnds, screenFrames, SpecError, withBoardGap, withNoteHeights } from "./render.js";
 import { PRIMARY_PROP } from "./text.js";
 import { upgradeSpec } from "./upgrade.js";
 import { COVERS_SCREEN, OVERLAYS, type Measured, type MeasuredBox, type MeasuredElement } from "./hit.js";
@@ -27,6 +28,8 @@ export interface MeasureOptions {
   flows?: boolean;
   /** Skip validation (as renderWireframeSvg). */
   skipValidation?: boolean;
+  /** As passed to renderWireframeSvg (default "on"): notes under screens make the board taller, so the boxes only match a render with the same setting. */
+  notes?: NotesMode;
 }
 
 /** A screen's bars: drawn over its whole frame, not cut off with its content. */
@@ -54,7 +57,9 @@ export async function measureElements(spec: Spec, lines: Record<string, number>,
     const issues = checkSpec(spec);
     if (issues.length) throw new SpecError(issues);
   }
-  spec = await withNoteHeights(spec);
+  // blocks as written: an element's block includes the notes under it, though they're drawn elsewhere
+  const written = spec.elements;
+  spec = await withNoteHeights(prepareNotes(spec, opts.notes));
   const { width, height } = boardLayout(spec, { flows: opts.flows });
   spec = withBoardGap(spec, opts.flows);
   const els = spec.elements;
@@ -68,25 +73,26 @@ export async function measureElements(spec: Spec, lines: Record<string, number>,
   // clipped) and its content area between the bars (where its content is)
   const screens = Object.keys(els).filter((k) => els[k].type === "Screen");
   const inners: Anchor[] = screens.map((id) => ({ id, screen: id, kind: "tooltip", field: false }));
-  const { tagged, colors } = tagForMeasuring(spec, [...anchors, ...every, ...inners], screens);
+  const own = screens.filter((k) => screenMarks(els[k]).some((m) => m.onScreen));
+  const { tagged, colors } = tagForMeasuring(spec, [...anchors, ...every, ...inners], screens, own);
   const svg = await renderToSvg(tagged, { registry: withMarkers(withPalette(paletteFor())) as any, includeStandard: false, fonts: await loadFonts(), width, height });
   const boxes = readMarkers(svg, colors);
 
-  // screens from the layout: the frame below the name band
-  const { items } = boardLayout(spec, { flows: opts.flows });
-  const laidOut = (els[spec.root].children ?? []).filter((k) => els[k]?.type === "Screen" || els[k]?.type === "Note");
-  const frames = new Map<string, Rect>(), bands = new Map<string, Rect>();
-  laidOut.forEach((k, i) => {
-    const it = items[i];
-    if (!it || els[k].type !== "Screen") return;
-    frames.set(k, { x: it.x, y: it.y + LABEL_H, w: it.width, h: it.height - LABEL_H });
-    bands.set(k, { x: it.x, y: it.y, w: it.width, h: LABEL_H });
-  });
+  // screens from the layout: the frame below the name band (and above the screen's notes)
+  const frames = screenFrames(spec, { flows: opts.flows }), bands = new Map<string, Rect>();
+  for (const [k, f] of frames) bands.set(k, { x: f.x, y: f.y - LABEL_H, w: f.w, h: LABEL_H });
+  // the numbered markers of notes: on elements (as drawn) and after a screen's name (measured)
+  const markerBox = new Map<string, Rect>();
+  for (const m of noteTargets(spec).length ? noteMarkers(spec, boxes, frames) : []) markerBox.set(m.key, { x: m.x - NOTE_MARKER / 2, y: m.y - NOTE_MARKER / 2, w: NOTE_MARKER, h: NOTE_MARKER });
+  for (const k of own) {
+    const row = boxes[`${k}#label`];
+    if (row) screenMarks(els[k]).filter((m) => m.onScreen).forEach((m, i) => markerBox.set(m.key, { x: row.x + i * (NOTE_MARKER + 8), y: row.y, w: NOTE_MARKER, h: NOTE_MARKER }));
+  }
   const overlays = new Map<string, Rect[]>();
   for (const o of overlayBoxes(spec, anchors, boxes)) overlays.set(o.id, [...(overlays.get(o.id) ?? []), o.box]);
 
   const lineOf = (k: string | null) => (k == null ? null : lines[k] ?? 0);
-  const endLine = (k: string): number => Math.max(lines[k] ?? 0, ...(els[k].children ?? []).filter((c) => els[c]).map(endLine));
+  const endLine = (k: string): number => Math.max(lines[k] ?? 0, ...(written[k]?.children ?? []).filter((c) => written[c]).map(endLine));
   const labelOf = (k: string) => {
     const p = (els[k].props ?? {}) as Record<string, any>;
     const v = p[PRIMARY_PROP[els[k].type] ?? ""];
@@ -125,12 +131,28 @@ export async function measureElements(spec: Spec, lines: Record<string, number>,
       const body = clip(boxes[`${k}#body`] ?? inner!, inner);
       const over = (c: string) => OVERLAYS.has(els[c]?.type);
       for (const c of [...kids.filter((c) => !over(c)), ...kids.filter(over)]) visit(c, k, k, BARS.has(els[c]?.type) || over(c) ? inner : body);
+      notesOf(k, frame);
     } else {
       // a drawer's panel clips what's in it
       const inner = el.type === "Drawer" && boxes[k] ? clip(boxes[k], cut) : cut;
       for (const c of kids) visit(c, k, inScreen, inner);
     }
   };
+  // the notes about a screen and its elements: under its frame when their text is drawn (in order,
+  // as the screen stacks them), otherwise only their markers; a note with nothing drawn is left out
+  function notesOf(k: string, frame: Rect | null) {
+    const p = (els[k].props ?? {}) as Record<string, any>;
+    let y = frame ? frame.y + frame.h + NOTES_TOP : 0;
+    for (const m of screenMarks(els[k])) {
+      const h = m.h ?? estimateNoteHeight(m.text, (frame?.w ?? 0) - 30);
+      const marker = markerBox.get(m.key);
+      const card = p.__notesBand && frame ? { x: frame.x, y, w: frame.w, h } : null;
+      if (card) y += h + NOTES_GAP;
+      const box = card ?? marker;
+      if (!box) continue;
+      out.push({ line: lineOf(m.key)!, endLine: lineOf(m.key)!, type: "Note", label: m.text, screenLine: lineOf(k), parentLine: lineOf(m.target), box: toBox(box), ...(marker ? { marker: toBox(marker) } : {}), number: m.n });
+    }
+  }
   visit(spec.root, null, null, null);
 
   // flows, drawn over the screens
@@ -138,7 +160,7 @@ export async function measureElements(spec: Spec, lines: Record<string, number>,
     const flows = flowEnds(spec);
     const resolved = flows.resolve(boxes);
     const ends = new Map(flows.list.map((f) => [f.key, f]));
-    layoutFlows(spec, resolved, flows.screens, flows.gap, paletteFor()).forEach((f) => {
+    layoutFlows(spec, resolved, flows.screens, flows.gap, paletteFor(), flows.floor).forEach((f) => {
       const p = (els[f.key].props ?? {}) as Record<string, any>;
       const e = ends.get(f.key)!;
       out.push({

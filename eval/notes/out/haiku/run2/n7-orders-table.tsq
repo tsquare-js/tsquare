@@ -1,0 +1,16 @@
+```tsquare
+board "Orders"
+  screen desktop "Orders"
+    stack row
+      stack column width=220 padding=12 border=right gap=4
+        listitem "Orders" leadingIcon=shopping-bag
+        listitem "Customers" leadingIcon=users
+        listitem "Products" leadingIcon=package
+      stack column grow padding=24 gap=16
+        stack row align=end gap=12
+          input search placeholder="Search orders" grow
+          button secondary "Export" leadingIcon=download
+            note "Downloads only the rows that match the current search and filters."
+        table columns=[Order, Customer, Status, Total] data=[[#1001, Ana Torres, Paid, $120.00], [#1002, Ben Carter, Pending, $45.50], [#1003, Chloe Kim, Shipped, $310.00]]
+          note "The Status column is sortable."
+```

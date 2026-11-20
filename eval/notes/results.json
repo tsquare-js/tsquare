@@ -1,0 +1,895 @@
+{
+ "totals": {
+  "sonnet": {
+   "ok": 20,
+   "partial": 0,
+   "n": 20,
+   "valid": 14,
+   "files": 14,
+   "misplaced": []
+  },
+  "haiku": {
+   "ok": 20,
+   "partial": 0,
+   "n": 20,
+   "valid": 11,
+   "files": 14,
+   "misplaced": []
+  }
+ },
+ "rows": [
+  {
+   "model": "sonnet",
+   "run": "run1",
+   "task": "n1-checkout",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-17",
+     "text": "Accepts one promo code per order.",
+     "parentType": "Input",
+     "parentLabel": "Promo code / Enter code",
+     "screen": "Checkout"
+    },
+    {
+     "id": "note-20",
+     "text": "Stays disabled until the card number is valid.",
+     "parentType": "Button",
+     "parentLabel": "Pay $40.00",
+     "screen": "Checkout"
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "promo note → promo input",
+     "result": "ok"
+    },
+    {
+     "what": "pay note → Pay button",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "sonnet",
+   "run": "run1",
+   "task": "n2-signup-flow",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-11",
+     "text": "The code expires after 10 minutes.",
+     "parentType": "Input",
+     "parentLabel": "",
+     "screen": "Verify email"
+    },
+    {
+     "id": "note-19",
+     "text": "All copy is a draft.",
+     "parentType": "Board",
+     "parentLabel": "Sign-up flow",
+     "screen": ""
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "expiry note → code input",
+     "result": "ok"
+    },
+    {
+     "what": "draft note → board",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "sonnet",
+   "run": "run1",
+   "task": "n3-settings-decisions",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-11",
+     "text": "Sections stay in a fixed sidebar so users can jump between settings without losing their place.",
+     "parentType": "Stack",
+     "parentLabel": "",
+     "screen": "Settings"
+    },
+    {
+     "id": "note-19",
+     "text": "Visibility is a radio choice, not a toggle, so both states are always visible.",
+     "parentType": "Stack",
+     "parentLabel": "",
+     "screen": "Settings"
+    },
+    {
+     "id": "note-24",
+     "text": "Delete sits apart in its own card, away from the save actions, to prevent accidental clicks.",
+     "parentType": "Card",
+     "parentLabel": "Danger zone",
+     "screen": "Settings"
+    },
+    {
+     "id": "note-25",
+     "text": "Settings are grouped by topic, with the destructive action last.",
+     "parentType": "Board",
+     "parentLabel": "Project settings",
+     "screen": ""
+    }
+   ],
+   "tooltips": [],
+   "checks": []
+  },
+  {
+   "model": "sonnet",
+   "run": "run1",
+   "task": "n4-profile-tooltip",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-6",
+     "text": "Avatar uploads are limited to 5 MB.",
+     "parentType": "Avatar",
+     "parentLabel": "AT",
+     "screen": "Profile"
+    }
+   ],
+   "tooltips": [
+    {
+     "type": "Button",
+     "label": "Edit profile",
+     "tooltip": "Opens the profile editor"
+    }
+   ],
+   "checks": [
+    {
+     "what": "5 MB note → avatar",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "sonnet",
+   "run": "run1",
+   "task": "n5-responsive-board-note",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-23",
+     "text": "On desktop the list sits beside a sidebar and a reading pane; on phone it is a single full-width list, and tapping a row opens the note.",
+     "parentType": "Board",
+     "parentLabel": "Notes list, responsive",
+     "screen": ""
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "comparison note → board",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "sonnet",
+   "run": "run1",
+   "task": "n6-onboarding-screen-note",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-20",
+     "text": "Stays disabled until at least 3 interests are selected.",
+     "parentType": "Button",
+     "parentLabel": "Continue",
+     "screen": "Interests"
+    },
+    {
+     "id": "note-29",
+     "text": "This screen is skipped when the user has already granted permission.",
+     "parentType": "Screen",
+     "parentLabel": "Notifications",
+     "screen": "Notifications"
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "skip note → notifications screen",
+     "result": "ok"
+    },
+    {
+     "what": "3 interests note → Continue button",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "sonnet",
+   "run": "run1",
+   "task": "n7-orders-table",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-8",
+     "text": "Export downloads only the filtered rows.",
+     "parentType": "Button",
+     "parentLabel": "Export",
+     "screen": "Orders"
+    },
+    {
+     "id": "note-10",
+     "text": "The Status column is sortable.",
+     "parentType": "Table",
+     "parentLabel": "",
+     "screen": "Orders"
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "sortable note → table",
+     "result": "ok"
+    },
+    {
+     "what": "export note → Export button",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "sonnet",
+   "run": "run2",
+   "task": "n1-checkout",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-17",
+     "text": "Accepts one promo code per order.",
+     "parentType": "Input",
+     "parentLabel": "Promo code / Enter code",
+     "screen": "Checkout"
+    },
+    {
+     "id": "note-20",
+     "text": "Stays disabled until the card number is valid.",
+     "parentType": "Button",
+     "parentLabel": "Pay $40.00",
+     "screen": "Checkout"
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "promo note → promo input",
+     "result": "ok"
+    },
+    {
+     "what": "pay note → Pay button",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "sonnet",
+   "run": "run2",
+   "task": "n2-signup-flow",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-12",
+     "text": "The code expires after 10 minutes.",
+     "parentType": "Input",
+     "parentLabel": "",
+     "screen": "Verify email"
+    },
+    {
+     "id": "note-22",
+     "text": "All copy is a draft.",
+     "parentType": "Board",
+     "parentLabel": "Sign-up flow",
+     "screen": ""
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "expiry note → code input",
+     "result": "ok"
+    },
+    {
+     "what": "draft note → board",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "sonnet",
+   "run": "run2",
+   "task": "n3-settings-decisions",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-11",
+     "text": "Sections live in a persistent sidebar so users can jump between settings without losing their place.",
+     "parentType": "Stack",
+     "parentLabel": "",
+     "screen": "Settings"
+    },
+    {
+     "id": "note-20",
+     "text": "Visibility is a radio choice, not a toggle, so both options are always visible and spelled out.",
+     "parentType": "Stack",
+     "parentLabel": "",
+     "screen": "Settings"
+    },
+    {
+     "id": "note-25",
+     "text": "Destructive action is isolated at the bottom and kept visually quiet; a confirmation modal should follow.",
+     "parentType": "Card",
+     "parentLabel": "Danger zone",
+     "screen": "Settings"
+    }
+   ],
+   "tooltips": [],
+   "checks": []
+  },
+  {
+   "model": "sonnet",
+   "run": "run2",
+   "task": "n4-profile-tooltip",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-6",
+     "text": "Avatar uploads are limited to 5 MB.",
+     "parentType": "Avatar",
+     "parentLabel": "AB",
+     "screen": "Profile"
+    }
+   ],
+   "tooltips": [
+    {
+     "type": "Button",
+     "label": "Edit profile",
+     "tooltip": "Opens the profile editor"
+    }
+   ],
+   "checks": [
+    {
+     "what": "5 MB note → avatar",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "sonnet",
+   "run": "run2",
+   "task": "n5-responsive-board-note",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-20",
+     "text": "On phone, the list fills the screen and a tab bar replaces the sidebar; tapping a note opens it full screen. On desktop, the list becomes a sidebar with the open note beside it.",
+     "parentType": "Board",
+     "parentLabel": "Notes list, responsive",
+     "screen": ""
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "comparison note → board",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "sonnet",
+   "run": "run2",
+   "task": "n6-onboarding-screen-note",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-20",
+     "text": "Stays disabled until at least 3 interests are selected.",
+     "parentType": "Button",
+     "parentLabel": "Continue",
+     "screen": "Interests"
+    },
+    {
+     "id": "note-28",
+     "text": "This screen is skipped when the user has already granted notification permission.",
+     "parentType": "Screen",
+     "parentLabel": "Notifications",
+     "screen": "Notifications"
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "skip note → notifications screen",
+     "result": "ok"
+    },
+    {
+     "what": "3 interests note → Continue button",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "sonnet",
+   "run": "run2",
+   "task": "n7-orders-table",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-8",
+     "text": "Export downloads only the filtered rows.",
+     "parentType": "Button",
+     "parentLabel": "Export",
+     "screen": "Orders"
+    },
+    {
+     "id": "note-10",
+     "text": "The Status column is sortable.",
+     "parentType": "Table",
+     "parentLabel": "",
+     "screen": "Orders"
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "sortable note → table",
+     "result": "ok"
+    },
+    {
+     "what": "export note → Export button",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "run": "run1",
+   "task": "n1-checkout",
+   "issues": [
+    "15: Input: don't know what \"promo\" is (bare words it accepts: text, password, search, email, date, code, open, error, grow); quote text like \"promo\"",
+    "17: Input: don't know what \"card\" is (bare words it accepts: text, password, search, email, date, code, open, error, grow); quote text like \"card\""
+   ],
+   "notes": [
+    {
+     "id": "note-16",
+     "text": "Accepts one promo code per order.",
+     "parentType": "Input",
+     "parentLabel": "Promo code / Enter code",
+     "screen": "Checkout"
+    },
+    {
+     "id": "note-19",
+     "text": "Stays disabled until the card number is valid.",
+     "parentType": "Button",
+     "parentLabel": "Pay $101.00",
+     "screen": "Checkout"
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "promo note → promo input",
+     "result": "ok"
+    },
+    {
+     "what": "pay note → Pay button",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "run": "run1",
+   "task": "n2-signup-flow",
+   "issues": [
+    "4: Input: don't know what \"name\" is (bare words it accepts: text, password, search, email, date, code, open, error, grow); quote text like \"name\""
+   ],
+   "notes": [
+    {
+     "id": "note-13",
+     "text": "The code expires after 10 minutes.",
+     "parentType": "Input",
+     "parentLabel": "Code",
+     "screen": "Verify email"
+    },
+    {
+     "id": "note-21",
+     "text": "All copy is a draft.",
+     "parentType": "Board",
+     "parentLabel": "Sign-up flow",
+     "screen": ""
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "expiry note → code input",
+     "result": "ok"
+    },
+    {
+     "what": "draft note → board",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "run": "run1",
+   "task": "n3-settings-decisions",
+   "issues": [
+    "14: Input: don't know what \"name\" is (bare words it accepts: text, password, search, email, date, code, open, error, grow); quote text like \"name\""
+   ],
+   "notes": [
+    {
+     "id": "note-11",
+     "text": "Sections are ordered by how often the team changes them.",
+     "parentType": "Stack",
+     "parentLabel": "",
+     "screen": "Project settings"
+    },
+    {
+     "id": "note-15",
+     "text": "Shown in invitations and in the project URL.",
+     "parentType": "Input",
+     "parentLabel": "Project name / Wireframe kit",
+     "screen": "Project settings"
+    },
+    {
+     "id": "note-20",
+     "text": "Private is the default. Only invited members can see the project.",
+     "parentType": "Radio",
+     "parentLabel": "Private",
+     "screen": "Project settings"
+    },
+    {
+     "id": "note-25",
+     "text": "Asks for confirmation first. Only owners see this card.",
+     "parentType": "Button",
+     "parentLabel": "Delete project",
+     "screen": "Project settings"
+    }
+   ],
+   "tooltips": [],
+   "checks": []
+  },
+  {
+   "model": "haiku",
+   "run": "run1",
+   "task": "n4-profile-tooltip",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-6",
+     "text": "Avatar uploads are limited to 5 MB.",
+     "parentType": "Avatar",
+     "parentLabel": "JL",
+     "screen": "Profile"
+    }
+   ],
+   "tooltips": [
+    {
+     "type": "Button",
+     "label": "Edit profile",
+     "tooltip": "Opens the profile editor"
+    }
+   ],
+   "checks": [
+    {
+     "what": "5 MB note → avatar",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "run": "run1",
+   "task": "n5-responsive-board-note",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-21",
+     "text": "Phone: the list fills the screen and the tab bar switches sections. Desktop: the list moves into a sidebar and the open note sits beside it.",
+     "parentType": "Board",
+     "parentLabel": "Notes list: phone and desktop",
+     "screen": ""
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "comparison note → board",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "run": "run1",
+   "task": "n6-onboarding-screen-note",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-17",
+     "text": "Stays disabled until at least 3 interests are selected.",
+     "parentType": "Button",
+     "parentLabel": "Continue",
+     "screen": "Interests"
+    },
+    {
+     "id": "note-25",
+     "text": "This screen is skipped when the user has already granted notification permission.",
+     "parentType": "Screen",
+     "parentLabel": "Notifications",
+     "screen": "Notifications"
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "skip note → notifications screen",
+     "result": "ok"
+    },
+    {
+     "what": "3 interests note → Continue button",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "run": "run1",
+   "task": "n7-orders-table",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-8",
+     "text": "Downloads only the rows that match the current search.",
+     "parentType": "Button",
+     "parentLabel": "Export",
+     "screen": "Orders"
+    },
+    {
+     "id": "note-10",
+     "text": "The status column is sortable.",
+     "parentType": "Table",
+     "parentLabel": "",
+     "screen": "Orders"
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "sortable note → table",
+     "result": "ok"
+    },
+    {
+     "what": "export note → Export button",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "run": "run2",
+   "task": "n1-checkout",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-11",
+     "text": "Accepts one promo code per order.",
+     "parentType": "Input",
+     "parentLabel": "Promo code / Enter code",
+     "screen": "Checkout"
+    },
+    {
+     "id": "note-14",
+     "text": "Stays disabled until the card number is valid.",
+     "parentType": "Button",
+     "parentLabel": "Pay $113.00",
+     "screen": "Checkout"
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "promo note → promo input",
+     "result": "ok"
+    },
+    {
+     "what": "pay note → Pay button",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "run": "run2",
+   "task": "n2-signup-flow",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-12",
+     "text": "The code expires after 10 minutes.",
+     "parentType": "Input",
+     "parentLabel": "Verification code",
+     "screen": "Verify email"
+    },
+    {
+     "id": "note-20",
+     "text": "All copy is a draft.",
+     "parentType": "Board",
+     "parentLabel": "Sign-up flow",
+     "screen": ""
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "expiry note → code input",
+     "result": "ok"
+    },
+    {
+     "what": "draft note → board",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "run": "run2",
+   "task": "n3-settings-decisions",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-11",
+     "text": "The sidebar lists sections instead of tabs, so each section can grow without changing the layout.",
+     "parentType": "Text",
+     "parentLabel": "Sections are kept to a short list, so the sidebar stays scannable.",
+     "screen": "Project settings"
+    },
+    {
+     "id": "note-19",
+     "text": "Visibility uses radios, not a toggle, so both options and their meaning are visible at once.",
+     "parentType": "Radio",
+     "parentLabel": "Private",
+     "screen": "Project settings"
+    },
+    {
+     "id": "note-23",
+     "text": "Kept apart from the form at the bottom, so it is not clicked by accident.",
+     "parentType": "Button",
+     "parentLabel": "Delete project",
+     "screen": "Project settings"
+    }
+   ],
+   "tooltips": [],
+   "checks": []
+  },
+  {
+   "model": "haiku",
+   "run": "run2",
+   "task": "n4-profile-tooltip",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-6",
+     "text": "Avatar uploads are limited to 5 MB.",
+     "parentType": "Avatar",
+     "parentLabel": "AL",
+     "screen": "Profile"
+    }
+   ],
+   "tooltips": [
+    {
+     "type": "Button",
+     "label": "Edit profile",
+     "tooltip": "Opens the profile editor"
+    }
+   ],
+   "checks": [
+    {
+     "what": "5 MB note → avatar",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "run": "run2",
+   "task": "n5-responsive-board-note",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-19",
+     "text": "On phone the list is one column with a bottom tab bar. On desktop the same notes become a table next to a sidebar of folders.",
+     "parentType": "Board",
+     "parentLabel": "Notes list",
+     "screen": ""
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "comparison note → board",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "run": "run2",
+   "task": "n6-onboarding-screen-note",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-17",
+     "text": "Stays disabled until at least 3 interests are selected.",
+     "parentType": "Button",
+     "parentLabel": "Continue",
+     "screen": "Choose interests"
+    },
+    {
+     "id": "note-19",
+     "text": "This whole screen is skipped when the user has already granted notification permission.",
+     "parentType": "Screen",
+     "parentLabel": "Notifications",
+     "screen": "Notifications"
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "skip note → notifications screen",
+     "result": "ok"
+    },
+    {
+     "what": "3 interests note → Continue button",
+     "result": "ok"
+    }
+   ]
+  },
+  {
+   "model": "haiku",
+   "run": "run2",
+   "task": "n7-orders-table",
+   "issues": [],
+   "notes": [
+    {
+     "id": "note-12",
+     "text": "Downloads only the rows that match the current search and filters.",
+     "parentType": "Button",
+     "parentLabel": "Export",
+     "screen": "Orders"
+    },
+    {
+     "id": "note-14",
+     "text": "The Status column is sortable.",
+     "parentType": "Table",
+     "parentLabel": "",
+     "screen": "Orders"
+    }
+   ],
+   "tooltips": [],
+   "checks": [
+    {
+     "what": "sortable note → table",
+     "result": "ok"
+    },
+    {
+     "what": "export note → Export button",
+     "result": "ok"
+    }
+   ]
+  }
+ ]
+}

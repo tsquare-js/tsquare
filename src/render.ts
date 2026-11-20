@@ -4,6 +4,7 @@ import { ID_PATTERN, UNIVERSAL_PROPS, catalog, componentDefinitions, listItemEnd
 import { monthGrid, withMarkers, withPalette, withTopLayer } from "./components.js";
 import { findAnchors, overlayLayer, readMarkers, tagForMeasuring, type Anchor, type Rect } from "./anchors.js";
 import { flowLabelWidth, flowLayer, flowMargin, layoutFlows, type FlowBoxes } from "./flows.js";
+import { markerMeasures, noteMarkerLayer, noteMarkers, prepareNotes, screenMarks, type NotesMode, type ScreenNote } from "./notes.js";
 import { paletteFor } from "./colors.js";
 import { loadFonts } from "./fonts.js";
 import { closeMatches, unknownComponentMessage } from "./suggest.js";
@@ -13,7 +14,11 @@ import {
   BOARD_GAP,
   BOARD_PADDING,
   LABEL_H,
+  NOTE_NUMBER,
+  NOTE_NUMBER_GAP,
   NOTE_WIDTH,
+  NOTES_GAP,
+  NOTES_TOP,
   TITLE_H,
   estimateNoteHeight,
   screenSize,
@@ -89,12 +94,14 @@ const PLACED_ELSEWHERE = new Set(["Screen", "Flow", "Modal", "Drawer", "Toast"])
  * Why `parent` won't draw `child`, or undefined if it will. Only components with slots (stack, card,
  * screen…) render children: anything under a button, a text or a note would vanish without a word.
  * Screens, flows and overlays get their own placement message instead, so a line never gets two
- * fixes that disagree. Rules about what may sit inside what belong here (an exception, such as a
- * note annotating the element it's under, is one more condition).
+ * fixes that disagree. Rules about what may sit inside what belong here. A note is about what it's
+ * indented under, so it may go under any element but another note (under a flow line it gets its
+ * own message).
  */
 function undrawnChild(parentKey: string, parent: Spec["elements"][string], child: Spec["elements"][string]): string | undefined {
   const slots = (componentDefinitions as Record<string, { slots: string[] }>)[parent.type]?.slots;
   if (!slots || slots.length || PLACED_ELSEWHERE.has(child.type)) return undefined;
+  if (child.type === "Note" && parent.type !== "Note") return undefined;
   const a = /^[AEIOU]/.test(parent.type) ? "an" : "a";
   const lines = child.children?.length ? "this line and the ones under it" : "this line";
   return `${child.type} inside ${parent.type} "${parentKey}" isn't drawn: ${a} ${parent.type} can't contain other elements; indent ${lines} at the ${parent.type}'s level to put it after the ${parent.type}, or put both in a stack row to show them side by side`;
@@ -257,6 +264,7 @@ export function checkSpec(spec: Spec): string[] {
   for (const [key, el] of Object.entries(spec.elements)) {
     if (el.type !== "Flow") continue;
     if (!(root.children ?? []).includes(key)) issues.push(`${key}: write each flow on its own line after the screens, indented like a screen (not inside one)`);
+    for (const c of el.children ?? []) if (spec.elements[c]?.type === "Note") issues.push(`${c}: a note can't go under a flow line; indent it under the element or screen it's about`);
     const p = (el.props ?? {}) as Record<string, any>;
     for (const end of ["from", "to"] as const) {
       if (typeof p[end] !== "string") continue;
@@ -287,11 +295,29 @@ export interface BoardItem {
   type: "Screen" | "Note";
   /** Screen name or note text, for labels in tools like the playground. */
   name: string;
-  /** Box on the board in px, including the screen's name label above its frame. */
+  /** Box on the board in px, including the screen's name label above its frame and, when their text is drawn (notes "on"), its notes below it. */
   x: number;
   y: number;
   width: number;
   height: number;
+}
+
+/** Layout options shared by boardLayout, measureBoardLayout and boardSize: as passed to renderWireframeSvg. */
+export interface LayoutOptions {
+  flows?: boolean;
+  notes?: NotesMode;
+}
+
+/**
+ * The height of the notes drawn under a screen (0 when there are none): measured by withNoteHeights,
+ * otherwise estimated from each note's length.
+ */
+function notesHeight(props: Record<string, any>, width: number) {
+  const marks: ScreenNote[] = props.__notesBand ? props.__marks ?? [] : [];
+  if (!marks.length) return 0;
+  if (typeof props.__notesHeight === "number") return props.__notesHeight;
+  const text = width - NOTE_NUMBER - NOTE_NUMBER_GAP; // the text starts after the number
+  return NOTES_TOP + marks.reduce((sum, m) => sum + estimateNoteHeight(m.text, text), 0) + NOTES_GAP * (marks.length - 1);
 }
 
 /**
@@ -299,7 +325,8 @@ export interface BoardItem {
  * front) and each screen's and note's box, laid out in rows exactly as the
  * Board component does.
  */
-export function boardLayout(spec: Spec, opts: { flows?: boolean } = {}): { width: number; height: number; items: BoardItem[]; gap: number } {
+export function boardLayout(spec: Spec, opts: LayoutOptions = {}): { width: number; height: number; items: BoardItem[]; gap: number } {
+  spec = prepareNotes(spec, opts.notes);
   const board = spec.elements[spec.root];
   const p = (board.props ?? {}) as Record<string, any>;
   const pad = p.padding ?? BOARD_PADDING;
@@ -313,7 +340,7 @@ export function boardLayout(spec: Spec, opts: { flows?: boolean } = {}): { width
     const props = (el.props ?? {}) as Record<string, any>;
     if (el.type === "Screen") {
       const s = screenSize(props);
-      return { type: "Screen" as const, name: String(props.name ?? ""), w: s.width, h: s.height + LABEL_H };
+      return { type: "Screen" as const, name: String(props.name ?? ""), w: s.width, h: s.height + LABEL_H + notesHeight(props, s.width) };
     }
     if (el.type === "Note") {
       const w = props.width ?? NOTE_WIDTH;
@@ -369,30 +396,45 @@ function flowLabelGap(spec: Spec, laidOut: string[], perRow: number) {
 }
 
 /**
- * The spec with each note on the board carrying its drawn height (`__height`), measured by rendering
- * the notes alone. boardLayout otherwise estimates a note's height from its text's length, but the
- * board draws the real wrap: a notes-only row in a grid then moved every screen below it off its
+ * The spec with every note's drawn height, measured by rendering the notes alone: each note on the
+ * board carries `__height`, and each screen with notes under it carries `__notesHeight` (and each of
+ * its `__marks` an `h`). boardLayout otherwise estimates a note's height from its text's length, but
+ * the board draws the real wrap: a notes-only row in a grid then moved every screen below it off its
  * layout, and a long note could be cut off at the bottom (#44). No render when the board has no notes.
+ * Expects a prepared spec (prepareNotes): notes under screens and elements are found on their screens.
  */
 export async function withNoteHeights(spec: Spec): Promise<Spec> {
   const els = spec.elements;
-  const notes = (els[spec.root]?.children ?? []).filter((k) => els[k]?.type === "Note");
-  if (!notes.length || notes.every((k) => typeof (els[k].props as any)?.__height === "number")) return spec;
-  // the notes in one column, as the board draws them, each with a marker filling it
+  const props = (k: string) => (els[k].props ?? {}) as Record<string, any>;
+  const notes = (els[spec.root]?.children ?? []).filter((k) => els[k]?.type === "Note" && typeof props(k).__height !== "number");
+  const screens = (els[spec.root]?.children ?? []).filter((k) => els[k]?.type === "Screen" && props(k).__notesBand && screenMarks(els[k]).length && typeof props(k).__notesHeight !== "number");
+  if (!notes.length && !screens.length) return spec;
+  // the notes in one column, as the board draws them, each with a marker filling it; a note under a
+  // screen is drawn at the screen's width, its number first (`__n`)
+  const probes: Record<string, Spec["elements"][string]> = Object.fromEntries(notes.map((k) => [k, els[k]]));
+  for (const k of screens) {
+    const width = screenSize(props(k)).width;
+    for (const m of screenMarks(els[k])) probes[m.key] = { type: "Note", props: { text: m.text, ...(m.color ? { color: m.color } : {}), width, __n: m.n }, children: [] };
+  }
+  const keys = Object.keys(probes);
   let root = "__notes";
   while (root in els) root += "_"; // a spec built by hand could use the key
-  const probe: Spec = {
-    root,
-    elements: { [root]: { type: "Board", props: { layout: "grid", columns: 1, padding: 0, gap: 0 }, children: notes }, ...Object.fromEntries(notes.map((k) => [k, els[k]])) },
-  };
-  const { tagged, colors } = tagForMeasuring(probe, notes.map((id): Anchor => ({ id, screen: id, kind: "tooltip", field: false })));
-  const props = (k: string) => (els[k].props ?? {}) as Record<string, any>;
-  const width = Math.max(...notes.map((k) => props(k).width ?? NOTE_WIDTH));
-  const height = notes.reduce((sum, k) => sum + LABEL_H + 3 * estimateNoteHeight(props(k).text ?? "", props(k).width ?? NOTE_WIDTH), 100);
+  const probe: Spec = { root, elements: { [root]: { type: "Board", props: { layout: "grid", columns: 1, padding: 0, gap: 0 }, children: keys }, ...probes } };
+  const { tagged, colors } = tagForMeasuring(probe, keys.map((id): Anchor => ({ id, screen: id, kind: "tooltip", field: false })));
+  const pp = (k: string) => (probes[k].props ?? {}) as Record<string, any>;
+  const width = Math.max(...keys.map((k) => pp(k).width ?? NOTE_WIDTH));
+  const height = keys.reduce((sum, k) => sum + LABEL_H + 3 * estimateNoteHeight(pp(k).text ?? "", pp(k).width ?? NOTE_WIDTH), 100);
   const svg = await renderToSvg(tagged, { registry: withMarkers(withPalette(paletteFor())) as any, includeStandard: false, fonts: await loadFonts(), width, height });
   const boxes = readMarkers(svg, colors);
-  const measured = notes.filter((k) => boxes[k]).map((k) => [k, { ...els[k], props: { ...props(k), __height: boxes[k].h } }]);
-  return { ...spec, elements: { ...els, ...Object.fromEntries(measured) } };
+  const measured: Spec["elements"] = {};
+  for (const k of notes) if (boxes[k]) measured[k] = { ...els[k], props: { ...props(k), __height: boxes[k].h } };
+  for (const k of screens) {
+    const marks = screenMarks(els[k]).map((m) => (boxes[m.key] ? { ...m, h: boxes[m.key].h } : m));
+    if (marks.some((m) => m.h == null)) continue; // not measured: boardLayout estimates
+    const total = NOTES_TOP + marks.reduce((sum, m) => sum + m.h!, 0) + NOTES_GAP * (marks.length - 1);
+    measured[k] = { ...els[k], props: { ...props(k), __marks: marks, __notesHeight: total } };
+  }
+  return { ...spec, elements: { ...els, ...measured } };
 }
 
 /**
@@ -400,12 +442,12 @@ export async function withNoteHeights(spec: Spec): Promise<Spec> {
  * the rendered board exactly. Use it to size the image and place screen chips; boardLayout is the
  * synchronous estimate, off by a line or more when a note wraps differently than its length suggests.
  */
-export async function measureBoardLayout(spec: Spec, opts: { flows?: boolean } = {}) {
-  return boardLayout(await withNoteHeights(spec), opts);
+export async function measureBoardLayout(spec: Spec, opts: LayoutOptions = {}) {
+  return boardLayout(await withNoteHeights(prepareNotes(spec, opts.notes)), opts);
 }
 
 /** The canvas size for a board. */
-export function boardSize(spec: Spec, opts: { flows?: boolean } = {}) {
+export function boardSize(spec: Spec, opts: LayoutOptions = {}) {
   const { width, height } = boardLayout(spec, opts);
   return { width, height };
 }
@@ -415,6 +457,25 @@ export interface RenderWireframeOptions {
   skipValidation?: boolean;
   /** Draw flow arrows (default true). Off, the board looks exactly as if it had no flow lines. */
   flows?: boolean;
+  /**
+   * How notes are drawn (default "on"): "on" draws notes under their screens with numbered markers on
+   * what they're about; "markers" draws only the numbered markers (no note text, board notes included);
+   * "off" draws no notes, exactly as if the board had no note lines. Numbers are the same in every mode.
+   */
+  notes?: NotesMode;
+}
+
+/** Each screen's frame on the board (below its name, above its notes), from the layout. */
+export function screenFrames(spec: Spec, opts: LayoutOptions = {}): Map<string, Rect> {
+  const els = spec.elements;
+  const { items } = boardLayout(spec, opts);
+  const laidOut = (els[spec.root].children ?? []).filter((k) => els[k]?.type === "Screen" || els[k]?.type === "Note");
+  const frames = new Map<string, Rect>();
+  laidOut.forEach((k, i) => {
+    const it = items[i];
+    if (it && els[k].type === "Screen") frames.set(k, { x: it.x, y: it.y + LABEL_H, w: it.width, h: screenSize((els[k].props ?? {}) as Record<string, any>).height });
+  });
+  return frames;
 }
 
 export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOptions = {}) {
@@ -423,7 +484,7 @@ export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOption
     const issues = checkSpec(spec);
     if (issues.length) throw new SpecError(issues);
   }
-  spec = await withNoteHeights(spec);
+  spec = await withNoteHeights(prepareNotes(spec, opts.notes));
   const flowsOn = opts.flows !== false;
   const { width, height } = boardLayout(spec, { flows: opts.flows });
   spec = withBoardGap(spec, opts.flows);
@@ -432,15 +493,20 @@ export async function renderWireframeSvg(spec: Spec, opts: RenderWireframeOption
   const draw = async (s: Spec, reg: typeof registry) =>
     renderToSvg(s, { registry: reg as any, includeStandard: false, fonts: await loadFonts(), width, height });
 
-  // Anchored overlays (open selects and date pickers, menus, tooltips) and flow arrows need element
-  // positions, which Satori doesn't report: measure in a first pass, then draw them on top.
+  // Anchored overlays (open selects and date pickers, menus, tooltips), flow arrows and the markers of
+  // notes on elements need element positions, which Satori doesn't report: measure in a first pass,
+  // then draw them on top.
   const flows = flowsOn ? flowEnds(spec) : null;
-  const { anchors, boxes } = await measureAnchors(spec, flows?.measure ?? []);
-  if (!anchors.length && !flows?.list.length) return draw(spec, registry);
+  const targets = markerMeasures(spec);
+  const { anchors, boxes } = await measureAnchors(spec, [...new Set([...(flows?.measure ?? []), ...targets])]);
+  const markers = targets.length ? noteMarkers(spec, boxes, screenFrames(spec, { flows: opts.flows })) : [];
+  if (!anchors.length && !flows?.list.length && !markers.length) return draw(spec, registry);
   const layers = [];
-  // flows first: open menus, pickers and tooltips are part of the screen's UI and stay on top
-  if (flows?.list.length) layers.push(flowLayer(layoutFlows(spec, flows.resolve(boxes), flows.screens, flows.gap, palette), { width, height }));
+  // flows first: open menus, pickers and tooltips are part of the screen's UI and stay on top;
+  // note markers annotate the drawing, so they go over everything
+  if (flows?.list.length) layers.push(flowLayer(layoutFlows(spec, flows.resolve(boxes), flows.screens, flows.gap, palette, flows.floor), { width, height }));
   if (anchors.length) layers.push(overlayLayer(spec, anchors, boxes, palette, registry.Calendar as any));
+  if (markers.length) layers.push(noteMarkerLayer(markers, { width, height }));
   return draw(spec, withTopLayer(registry, layers));
 }
 
@@ -472,13 +538,10 @@ export function flowEnds(spec: Spec) {
     return k;
   };
   // screen frames, from the layout (screens and notes are laid out in board order)
-  const { items } = boardLayout(spec);
-  const laidOut = (els[spec.root].children ?? []).filter((k) => els[k]?.type === "Screen" || els[k]?.type === "Note");
-  const screenRects = new Map<string, Rect>();
-  laidOut.forEach((k, i) => {
-    const it = items[i];
-    if (it && els[k].type === "Screen") screenRects.set(k, { x: it.x, y: it.y + LABEL_H, w: it.width, h: it.height - LABEL_H });
-  });
+  const screenRects = screenFrames(spec);
+  // arrows that skip a screen run in lanes below everything under the screens, their notes included
+  const bottoms = boardLayout(spec).items.filter((it) => it.type === "Screen").map((it) => it.y + it.height);
+  const floor = bottoms.length ? Math.max(...bottoms) : undefined;
   const list = (els[spec.root].children ?? [])
     .filter((k) => els[k]?.type === "Flow")
     .map((key) => {
@@ -491,6 +554,7 @@ export function flowEnds(spec: Spec) {
     list,
     measure,
     screens: [...screenRects.values()],
+    floor,
     gap: ((els[spec.root].props ?? {}) as Record<string, any>).gap ?? BOARD_GAP,
     resolve(boxes: Record<string, Rect>) {
       const box = (key: string) => (els[key].type === "Screen" ? screenRects.get(key) : boxes[key]);

@@ -89,7 +89,7 @@ export const componentDefinitions = {
       width: o(z.number()),
     }),
     slots: [],
-    description: "Sticky-note annotation. Put it on the Board beside screens, or inside a Screen next to what it explains.",
+    description: "A note for the reader about what it's indented under: the board, a screen, or any element (rule 12). Drawn outside the screen, never in the layout.",
     example: { text: "Empty state TBD", color: "yellow" },
   },
   Flow: {

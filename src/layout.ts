@@ -38,6 +38,17 @@ export const TITLE_H = 64;
 export const BOARD_PADDING = 56;
 export const BOARD_GAP = 64;
 export const NOTE_WIDTH = 220;
+/** A field's label and the gap under it (13px text + 6), above its box: change with FieldLabel/Field in components.tsx. */
+export const FIELD_LABEL = 22;
+/** Notes about a screen or its elements, drawn under its frame: the space above the first and between them. */
+export const NOTES_TOP = 24;
+export const NOTES_GAP = 12;
+/** A note's number at the start of its text (a 21px circle and the space after it). */
+export const NOTE_NUMBER = 21;
+export const NOTE_NUMBER_GAP = 9;
+/** The numbered marker on what a note is about, and how far it sits up and out from the top-right corner. */
+export const NOTE_MARKER = 22;
+export const NOTE_MARKER_OUT = 6;
 
 export function screenSize(props: Record<string, any> = {}) {
   const device: Device = props.device ?? "phone";

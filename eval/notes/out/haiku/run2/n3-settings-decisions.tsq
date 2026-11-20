@@ -1,0 +1,25 @@
+```tsquare
+board "Project settings"
+  screen desktop "Project settings"
+    stack row
+      stack column width=240 padding=16 border=right gap=4
+        text "Settings" bold
+        list
+          listitem "General" leadingIcon=settings
+          listitem "Members" leadingIcon=users
+          listitem "Integrations" leadingIcon=plug
+        text "Sections are kept to a short list, so the sidebar stays scannable." muted
+          note "The sidebar lists sections instead of tabs, so each section can grow without changing the layout."
+      stack column grow padding=24 gap=16
+        heading "General" level=2
+        input "Project name" value="Wireframe"
+        stack column gap=8
+          text "Visibility" bold
+          radio "Public" checked
+          radio "Private"
+            note "Visibility uses radios, not a toggle, so both options and their meaning are visible at once."
+        card "Danger zone"
+          text "Deleting a project removes all of its data. This cannot be undone."
+          button secondary "Delete project" leadingIcon=trash-2
+            note "Kept apart from the form at the bottom, so it is not clicked by accident."
+```

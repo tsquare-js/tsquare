@@ -22,7 +22,7 @@ One view of the product in a device frame. Children stack vertically.
 - gap: number
 
 ### Note
-Sticky-note annotation. Put it on the Board beside screens, or inside a Screen next to what it explains.
+A note for the reader about what it's indented under: the board, a screen, or any element (rule 12). Drawn outside the screen, never in the layout.
 - text (required): string (main text)
 - color: "yellow" | "blue" | "pink" | "green"
 - width: number
