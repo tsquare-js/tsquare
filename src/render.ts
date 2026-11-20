@@ -295,7 +295,7 @@ export interface BoardItem {
   type: "Screen" | "Note";
   /** Screen name or note text, for labels in tools like the playground. */
   name: string;
-  /** Box on the board in px, including the screen's name label above its frame and its notes below it. */
+  /** Box on the board in px, including the screen's name label above its frame and, when their text is drawn (notes "on"), its notes below it. */
   x: number;
   y: number;
   width: number;
